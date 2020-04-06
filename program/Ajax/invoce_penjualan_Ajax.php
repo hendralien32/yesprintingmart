@@ -210,7 +210,7 @@
                         }
                     }
                     
-                    $check_invoice = "<span style='background-color:green; padding:3px 10px; margin-left:10px; color:white; border-radius:5px; box-sizing:border-box; cursor:pointer; user-select: none;'>Cek Invoice</span>";
+                    $check_invoice = "<span style='background-color:green; padding:3px 10px; margin-left:10px; color:white; border-radius:5px; box-sizing:border-box; cursor:pointer; user-select: none;' onclick='check_invoice_form(\"". $d['no_invoice'] ."\")'>Cek Invoice</span>";
                     
 
                     $edit = "LaodForm(\"setter_penjualan\", \"". $oid['0'] ."\", \"". $Akses_Edit ."\")";

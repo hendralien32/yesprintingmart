@@ -728,3 +728,7 @@ function submitInvoice(type) {
         }
     }); 
 }
+
+function check_invoice_form(no_invoice) {
+    alert(no_invoice);
+}

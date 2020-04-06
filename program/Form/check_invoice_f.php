@@ -2,25 +2,63 @@
     session_start();
     require_once "../../function.php";
 
+    $sql_query = 
+    "SELECT
+        penjualan.oid,
+        customer.client
+    FROM
+        penjualan
+    WHERE
+        penjualan.no_invoice = $_POST[data]
+    LEFT JOIN 
+        (select customer.cid, customer.nama_client from customer) customer
+    ON
+        penjualan.client = customer.cid  
+    GROUP BY
+        penjualan.no_invoice
+    ORDER BY
+        penjualan.oid
+    DESC
+    ";
+
+    $result = mysqli_query($conn, $sql_query);
+            
+    if( mysqli_num_rows($result) === 1 ) {
+        $row = mysqli_fetch_assoc($result);
+
+        $oid = explode("," , "$row[oid]");
+        $count_oid = count($oid);
+    }
+
 ?>
 
 <h3 class='title_form'>Check Invoice Penjualan No. Invoice #<?= $_POST['data'] ?></h3>
 
-<table>
+<table class='table_checkInv'>
     <thead>
         <tr>
             <th>#</th>
             <th>OID</th>
+            <th>Client</th>
             <th>Deskripsi</th>
             <th>Harga</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>107491</td>
-            <td>Bahan : TIC 260gr<br>Sisi : 1<br>Qty : 10 Lembar</td>
-            <td>Harga @ : 2.500</td>
-        </tr>
+        <?php
+            for($i=0;$i<$count_oid ;$i++){
+                $n = $i+1;
+                
+                echo "
+                <tr>
+                    <td>$n</td>
+                    <td>$row[oid][$i]</td>
+                    <td>$row[client]</td>
+                    <td>Bahan : TIC 260gr<br>Sisi : 1<br>Qty : 10 Lembar</td>
+                    <td>Harga @ : 2.500</td>
+                </tr>
+                ";
+            }
+        ?>
     </tbody>
 </table>

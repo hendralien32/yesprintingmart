@@ -625,11 +625,11 @@ a:hover {
 
 /*==================================================================
 [ Form Style ]*/
-.table_log {
+.table_log, .table_checkInv {
     width: 100%;
 }
 
-.table_log tr th {
+.table_log tr th, .table_checkInv tr th {
     background-color:#4683de;
     color: #ffffff;
     padding : 5px 3px;
@@ -640,7 +640,7 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
-.table_log tr td {
+.table_log tr td, .table_checkInv tr td {
     padding:10px;
     border-bottom:1px solid #d9d9d9;
     vertical-align: middle;

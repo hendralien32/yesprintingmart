@@ -730,5 +730,14 @@ function submitInvoice(type) {
 }
 
 function check_invoice_form(no_invoice) {
-    alert(no_invoice);
+    $.ajax({
+        type: "POST",
+        data: {data:no_invoice},
+        url: "Form/check_invoice_f.php",
+ 
+        success: function(data){
+            showBox();
+            $("#bagDetail").html(data);
+        }
+    });
 }

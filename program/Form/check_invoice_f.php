@@ -5,15 +5,15 @@
     $sql_query = 
     "SELECT
         penjualan.oid,
-        customer.client
+        customer.nama_client
     FROM
         penjualan
-    WHERE
-        penjualan.no_invoice = $_POST[data]
     LEFT JOIN 
         (select customer.cid, customer.nama_client from customer) customer
     ON
         penjualan.client = customer.cid  
+    WHERE
+        penjualan.no_invoice = $_POST[data]
     GROUP BY
         penjualan.no_invoice
     ORDER BY
@@ -52,8 +52,8 @@
                 echo "
                 <tr>
                     <td>$n</td>
-                    <td>$row[oid][$i]</td>
-                    <td>$row[client]</td>
+                    <td>$row[oid]</td>
+                    <td>$row[nama_client]</td>
                     <td>Bahan : TIC 260gr<br>Sisi : 1<br>Qty : 10 Lembar</td>
                     <td>Harga @ : 2.500</td>
                 </tr>
@@ -62,3 +62,5 @@
         ?>
     </tbody>
 </table>
+
+<?= $sql_query; ?>

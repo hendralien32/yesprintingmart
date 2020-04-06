@@ -1,0 +1,807 @@
+.clear:after { 
+   content: "."; 
+   visibility: hidden; 
+   display: block; 
+   height: 0; 
+   font-size: 0;
+   clear: both;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    z-index: 1000;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ui-autocomplete > li {
+    padding: 3px 10px;
+    background: transparent;
+    border:5px;
+}
+
+.ui-autocomplete > li:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#cancel_container {
+    width: 100%;
+    padding:10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#cancel_container .cancel_left {
+    margin-right:30px;
+    font-weight: bold;
+}
+
+#cancel_container .cancel_right {
+
+}
+
+#cancel_container .cancel_right textarea {
+    width: 80px;
+}
+
+/*==================================================================
+[ Duotone Fontawesome Check Box ]*/
+.fa-file-alt {
+    --fa-primary-color: green;
+    --fa-secondary-color: dimgray;
+    --fa-secondary-opacity: 0.3;
+    cursor: pointer;
+}
+
+.fa-check-square {
+    --fa-primary-color: orange;
+    --fa-secondary-color: dimgray;
+    --fa-secondary-opacity: 0.10;
+    font-size: 1.2vw;
+}
+
+.fa-times-square {
+    --fa-primary-color: red;
+    --fa-secondary-color: dimgray;
+    --fa-secondary-opacity: 0.10;
+    font-size: 1.2vw;
+}
+
+.checkbox-fa { 
+    padding-left:10px;
+}
+
+.fa-lock-open-alt, .fa-print {
+    --fa-primary-color: rgb(2, 168, 2);
+    --fa-secondary-color: rgb(102, 202, 102);
+}
+
+.fa-lock-alt {
+    --fa-primary-color: red;
+    --fa-secondary-color: dimgray;
+}
+
+
+/*==================================================================
+[ Icon Active ]*/
+.fa-trash-alt {
+    cursor: pointer;
+}
+
+.icon_status {
+    padding: 3px;
+}
+
+.active {
+    color : #0eb31b;
+} 
+
+.deactive {
+    color : #AEAEAE;
+} 
+
+
+/*==================================================================
+[ radio ]*/ 
+
+.sisi_radio {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin: 8px 10px 0px 5px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    float: left;
+}
+
+/* Hide the browser's default radio button */
+.sisi_radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.sisi_radio:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.sisi_radio input:checked ~ .checkmark {
+    background-color: #ff7200;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.sisi_radio input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.sisi_radio .checkmark:after {
+  top: 4px;
+  left: 4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: white;
+}
+
+/*==================================================================
+[ lightbox ]*/
+
+#blackout {
+	width:100%;
+	height:100%;
+	background-color:black;
+	position:fixed;
+	opacity:0.7;
+	top:0;
+	left:0;
+	color:white;
+	display:block;
+	visibility:hidden;
+}
+
+#blackout_sub {
+	width:100%;
+	height:100%;
+	background-color:black;
+	position:fixed;
+	opacity:0.7;
+	top:0;
+	left:0;
+	color:white;
+    display:block;
+    z-index:1;
+    visibility:hidden;
+}
+
+#isidetail {
+	height:100%;
+	margin-top:0px;
+	position:fixed;
+	display:block;
+	z-index:1;
+	visibility:hidden;
+	background:white;
+    overflow:scroll;
+	box-shadow:0 0 15px Black;
+}
+
+#isidetail_sub {
+    width: 45%;
+    margin:10% 28%;
+    position: fixed;
+    text-align: center;
+	display:inline-block;
+	z-index:2;
+	visibility:hidden;
+	background:white;
+    overflow:scroll;
+	box-shadow:0 0 15px Black;
+}
+
+#isidetail .close, #isidetail_sub .close {
+    width: 100%;
+    background-color: #353942;
+    opacity:1;
+    color:white;
+}
+
+#isidetail .close .icon-close, #isidetail_sub .close .icon-close {
+    float: right;
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
+    font-size: 1.3rem;
+}
+
+#isidetail .close .icon-close:hover, #isidetail_sub .close .icon-close:hover {
+    background-color:red;
+}
+
+#bagDetail, #bagDetail_sub {
+    padding: 10px;
+}
+
+#bagDetail_sub #image_preview {
+    width: 100%;
+}
+
+/*==================================================================
+[ Restyle Input Type File ]*/
+
+
+
+
+/*==================================================================
+[ Restyle button ]*/
+
+input[type=button], button {
+    padding: 6px 10px;
+    border-top:none;
+    border-right:none;
+    border-bottom: none;
+    border-left:4px solid #000000;
+    background-color:#353942;
+    color :#ffffff;
+    outline: none;
+    border-radius:5px;
+}
+
+input[type=button]:hover, button:hover {
+    border-left:4px solid #8a370e;
+    background-color:#f86e2b;
+}
+
+input[type=button]:active,
+input[type=button]:focus,
+input[type=button]:focus:active,
+button:active,
+button:focus,
+button:focus:active {
+  background-image: none;
+  outline: 0;
+  box-shadow: none;
+}
+
+
+/*==================================================================
+[ Restyle input ]*/
+
+input[type=text], input[type=date] {
+    padding: 5px 8px;
+    border-top: 1px solid #aeaeae;
+    border-left: 1px solid #aeaeae;
+    border-right: 1px solid #aeaeae;
+    border-bottom:2px solid #f1592a;
+    outline:none;
+    background-color:#f6f6f6;
+    color :#353942;
+}
+
+input[type=text].data {
+    width: 50vh;
+}
+
+input[type=text].client {
+    width: 20vh;
+}
+
+input[type=date]::before { 
+    content: attr(data-placeholder);
+    width: 29%;
+    color: #aaa;
+    font-weight: normal;
+  }
+
+/*==================================================================
+[ Restyle Checkbox ]*/
+
+.contact100-form-checkbox {
+    color :#353942;
+}
+
+.input-checkbox100 {
+    display: none;
+    color :#353942;
+}
+  
+.label-checkbox100 {
+    color: #353942;
+    line-height: 1.4;
+    display: block;
+    position: relative;
+    padding-left: 26px;
+    cursor: pointer;
+}
+  
+.label-checkbox100::before {
+    content: "\f00c";
+    font-family: FontAwesome;
+    font-size: 13px;
+    color: transparent;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid #aeaeae;
+    left: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+  
+.input-checkbox100:checked + .label-checkbox100::before {
+    color: #ff7200;
+}
+
+
+body {
+	margin:0px;
+    /* background:url(../../images/light-grey-terrazzo.png) repeat; */
+    background-color: #f8f8f8;
+    color :#353942;
+}
+
+a {
+    color :#353942;
+}
+
+a:hover {
+    color :#ff7200;
+    text-decoration: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#wrapper {
+	width:100%;
+    margin:0px auto;
+    font-family: 'Maven Pro', 'Quicksand', sans-serif;
+}
+
+#header {
+    height: 100%;
+    background : #FFFFFF;
+    color : #353942;
+    margin:0px;
+}
+
+#header .logo {
+    float: left;
+}
+
+#header .logo img{
+    width: 50%;
+    padding: 15px 0px 0px 20px;
+}
+
+#header .header_right {
+    float: right;
+    color:#282828;
+    text-decoration: none;
+    padding :10px;
+}
+
+#header .header_right .jam {
+    float:left;
+    text-align: right;
+    padding-right: 10px;
+    border-right:3px solid #f86e2b;
+}
+
+#header .header_right .user_logout {
+    padding-left: 10px;
+    float:right;
+}
+
+#header .header_right .user_logout a {
+    font-weight:100;
+    color :#00a651;
+}
+
+#menu, #sub_menu {
+    height: 100%;
+    margin: 0px;
+}
+
+#menu ul {
+    background : #353942;
+    margin-left:-40px;
+    margin-bottom: 0px;
+}
+
+#menu ul li {
+	float:left;
+	color:#FFF;
+    list-style:none;
+    margin:0px;
+    padding:10px 20px;
+}
+
+#menu ul li:hover {
+	background-color:#f86e2b;
+    cursor:pointer;
+}
+
+#menu ul li.active {
+	background-color:#f86e2b;
+}
+
+#sub_menu ul {
+    background : #f86e2b;
+    margin-left:-40px;
+    margin-bottom: 0px;
+}
+
+#sub_menu ul li {
+	float:left;
+	color:#FFF;
+    list-style:none;
+    margin:0px;
+    padding:10px 20px;
+}
+
+#sub_menu ul li:hover {
+	background-color:#39b54a;
+    cursor:pointer;
+}
+
+#sub_menu ul li.active {
+	background-color:#39b54a;
+}
+
+
+#content .left_content {
+    width: 98%;
+    padding: 20px;
+    background-color:#f5f5f5;
+    height:100%;
+}
+
+#content .left_content ul {
+    margin-left:-20px;
+    margin-bottom: 0px;
+}
+
+#content .left_content ul li {
+    color:#FFF;
+    float: left;
+    list-style:none;
+    margin:0px 5px;
+    padding:2px 2px;
+
+}
+
+#content .left_content input[type=text], input[type=date], button {
+    /* width:100%; */
+    margin-right: 12px;
+}
+
+#content .right_content {
+    margin: 0px auto;
+    width: 98%;
+    padding :10px;
+}
+
+.container-fluid {
+    margin-top: 15px;
+}
+
+.container-fluid .myinput {
+    margin-top:10px;
+}
+
+
+#content .right_content table, table.form_table {
+    border-collapse: collapse;
+}
+
+#content .right_content table tr:hover {
+    background-color: #AEAEAE;
+}
+
+#content .right_content table tr th, table.form_table tr th {
+    background-color:#4683de;
+    color: #ffffff;
+    padding : 5px 3px;
+    font-weight: normal;
+    /* border-right:1px solid #ffffff; */
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#content .right_content table tr th select {
+    background-color:#4683de;
+    color: #ffffff;
+    padding : 5px 3px;
+    font-weight: normal;
+    border:none;
+    /* border-right:1px solid #ffffff; */
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#content .right_content table tr th select option {
+    background-color:#FFFFFF;
+    color :#353942;
+    font-weight: normal;
+}
+
+
+#content .right_content table tr td, table.form_table tr td {
+    border-bottom:1px solid #d9d9d9;
+    vertical-align: middle;
+    padding : 8px;
+    background-color:rgba(255,255,255,0.7);
+}
+
+#content .right_content table tr.cancel td {
+    background-color:#ffe1e1;
+}
+
+#content .right_content .KodeProject, .form_table .KodeProject {
+    padding:0.2rem 0.4rem;
+    color:white;
+    border-radius:0.3rem;
+    font-weight: bold;
+    font-size: 0.7rem;
+}
+
+#content .right_content .digital, .dua, .form_table .digital {
+    background-color:#2b599e;
+}
+
+#content .right_content .large_format, .form_table .large_format {
+    background-color:#b91789;
+}
+
+.satu {
+    background-color:orange;
+}
+
+#content .right_content .indoor, .form_table .indoor {
+    background-color:#751f9c;
+}
+
+#content .right_content .offset, .form_table .offset {
+    background-color:#078a62;
+}
+
+#content .right_content .Xuli, .form_table .Xuli {
+    background-color:#ff0000;
+}
+
+#content .right_content .etc, .form_table .etc {
+    background-color:#747474;
+}
+
+
+/*==================================================================
+[ Form Style ]*/
+.table_log {
+    width: 100%;
+}
+
+.table_log tr th {
+    background-color:#4683de;
+    color: #ffffff;
+    padding : 5px 3px;
+    font-weight: normal;
+    /* border-right:1px solid #ffffff; */
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.table_log tr td {
+    padding:10px;
+    border-bottom:1px solid #d9d9d9;
+    vertical-align: middle;
+    background-color:rgba(255,255,255,0.7);
+}
+
+.table_log tr td:nth-child(1) {
+    vertical-align: top;
+    width: 20%;
+    border-right:1px solid #d9d9d9;
+}
+
+.table_log tr td:nth-child(2) {
+    vertical-align:right;
+    vertical-align:top;
+    width: 15%;
+}
+
+.table_log tr td:nth-child(3) {
+    width: 65%;
+}
+
+.title_form {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+table.table-form tr td:nth-child(1) {
+    font-weight: bold;
+}
+
+table.table-form tr td:nth-child(3), table.table-form tr td:nth-child(4) {
+    padding-left: 20px;
+}
+
+textarea.form {
+    padding: 5px 8px;
+    outline: none;
+    width: 18vw;
+    height: 100px;
+}
+
+#perhitungan_meter{
+    padding-left:20px;
+    font-weight: bold;
+}
+
+#bagDetail SELECT {
+    padding: 5px 8px;
+    border: 1px solid #aeaeae;
+    outline:none;
+    background-color:white;
+    color :#353942;
+    cursor: pointer;
+}
+
+#submit_menu {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+    user-select: none;
+}
+
+
+@media (min-width: 1366px) {
+    #wrapper {
+        font-size: 0.89vw;
+    }
+
+    #isidetail {
+        width:85%;
+        margin-left:-40%;
+        left:48%; top:0;
+    }
+
+    table.table-form tr td {
+        padding : 6px 5px;
+    }
+
+    table.table-form tr td:nth-child(1) {
+        width: 35%;
+    }
+
+    input[type=text].form, input[type=number].form {
+        padding: 3px 8px;
+        border: 1px solid #aeaeae;
+        background-color: white;
+        outline:none;
+        color :#353942;
+    }
+    
+    input[type=number].form:disabled {
+        background-color: #eeeeee;
+    }
+
+    .ui-menu, .ui-menu .ui-menu-item {
+        font-size: 0.85vw;
+    }
+
+    .sd {
+        width: 5vw;
+    }
+    
+    .md {
+        width: 15vw;
+    }
+    
+    .ld {
+        width: 20vw;
+    }
+
+}
+
+@media (min-width: 1920px) {
+    #wrapper {
+        font-size: 0.65vw;
+    }
+
+    #isidetail {
+        width:75%;
+        margin-left:-33%;
+        left:50%; top:0;
+    }
+
+    table.table-form tr td {
+        padding : 10px 5px;
+    }
+
+    table.table-form tr td:nth-child(1) {
+        width: 35%;
+    }
+
+    input[type=text].form, input[type=number].form {
+        padding: 5px 8px;
+        border: 1px solid #aeaeae;
+        outline:none;
+        background-color:white;
+        color :#353942;
+    }
+
+    input[type=number].form:disabled {
+        background-color: #eeeeee;
+    }
+
+    .ui-menu, .ui-menu .ui-menu-item {
+        font-size: 0.65vw;
+    }
+
+    .sd {
+        width: 4vw;
+    }
+    
+    .md {
+        width: 13vw;
+    }
+    
+    .ld {
+        width: 18vw;
+    }
+
+}
+
+

@@ -1,0 +1,165 @@
+@media print {
+    @page {
+        margin-top: -2.2cm;
+    }
+
+    #container #container_1 .left img {
+        height: 4.3em;
+    }
+
+    #container #container_1 .right h3 {
+        font-size: 1.8em;
+    }
+    
+}
+
+@page {
+    size: auto;
+}
+
+@font-face {
+    font-family: roboto_Black;
+    src: url(../../fonts/roboto/Roboto-Black.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Regular;
+    src: url(../../fonts/roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url(../../fonts/roboto/Roboto-Bold.ttf);
+}
+
+
+@font-face {
+    font-family: KG Broken Vessels Sketch;
+    src: url(../../fonts/KGBrokenVesselsSketch/KGBrokenVesselsSketch.ttf);
+}
+
+#container {
+    width: 23.9cm;
+    height:10.5cm;
+    font-size: 1em;
+    padding: 10px;
+    user-select: none;
+}
+
+#container_1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+#container #container_1 .left {
+    /* background-color: aqua; */
+    flex : 1;
+    display: flex;
+    align-items: center; 
+}
+
+#container #container_1 .left img {
+    height: 4em;
+    /* background-color: purple; */
+    align-items: center; 
+}
+
+#container #container_1 .middle {
+    /* background-color: purple; */
+    flex : 2;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    font-family: KG Broken Vessels Sketch;
+    color:red;
+    margin: 0px;
+}
+
+#container #container_1 .middle .status_lunas, #container #container_1 .middle .Tgl_lunas {
+    /* background-color: orange; */
+    font-size: 2.3em; 
+}
+
+#container #container_1 .middle .Tgl_lunas {
+    font-size: 1.5em; 
+    margin-top: -0.4em;
+}
+
+#container #container_1 .right {
+    /* background-color: orange; */
+    text-align: right;
+    flex : 2;
+    box-sizing: border-box;
+}
+
+#container #container_1 .right h3 {
+    font-family: roboto_Black;
+    margin: 0px 2px 5px 10px;
+    font-size: 1.5em;
+}
+
+#container #container_1 .right table {
+    font-family: roboto_Black;
+    font-size: 1em;
+}
+
+#container #container_1 .right table, #container #container_1 .right table tr td, #container #container_1 .right table tr th {
+    border:1px solid #000;
+    text-align: center;
+    padding: 0.2em;
+    box-sizing: border-box;
+}
+
+#container #container_1 .right table tr th {
+    background-color: #939598;
+    font-weight: bolder;
+}
+
+#container #container_2 {
+    /* background-color: seagreen; */
+    font-size: 1em;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    margin:10px 0px 10px 0px;
+}
+
+#container #container_2 #left {
+    /* background-color: red; */
+    align-self: flex-start;
+}
+
+#container #container_2 #right {
+    /* background-color: hotpink; */
+    align-self: flex-end;
+}
+
+#container #container_3 table.table_print {
+    width: 100%;
+}
+
+#container #container_3 table.table_print tr {
+    border: 1px solid #a3a3a3;
+}
+
+#container #container_3 table.table_print tr td:nth-child(4), #container #container_3 table.table_print tr td:nth-child(5) {
+    text-align: right;
+    padding-right: 0.3em;
+}
+
+#container #container_3 table.table_print tr th {
+    font-size: 0.85em;
+    font-family: roboto_Black;
+    letter-spacing: 0.05em;
+    background-color: #353942;
+    color:white;
+    padding: 0.4em;
+}
+
+#container #container_3 table.table_print tr td {
+    font-size: 0.85em;
+    font-family: Roboto-Regular;
+    padding:0.4em;
+    border: 1px solid #a3a3a3;
+}

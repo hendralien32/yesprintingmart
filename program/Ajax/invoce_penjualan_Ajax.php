@@ -31,7 +31,7 @@
     <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
 
     <table>
-         <tbody>
+        <tbody>
             <tr>
                 <th width="1%">#</th>
                 <th width="8%">Tanggal</th>

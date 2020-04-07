@@ -62,5 +62,3 @@
         ?>
     </tbody>
 </table>
-
-<?= $sql_query; ?>

@@ -625,6 +625,24 @@ a:hover {
 
 /*==================================================================
 [ Form Style ]*/
+.table_checkInv tr td table.detail_checkInv {
+    width: auto;
+    margin: 0px;
+    /* border: 1px solid #000; */
+}
+
+.table_checkInv tr td table.detail_checkInv tr td {
+    margin:0px;
+    border:none;
+    padding:2px;
+    vertical-align: top;
+}
+
+.table_checkInv tr td table.detail_checkInv tr td:nth-child(2) {
+    padding-left:10px;
+}
+
+
 .table_log, .table_checkInv {
     width: 100%;
 }
@@ -640,11 +658,19 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
-.table_log tr td, .table_checkInv tr td {
+.table_log tr td {
     padding:10px;
     border-bottom:1px solid #d9d9d9;
     vertical-align: middle;
     background-color:rgba(255,255,255,0.7);
+}
+
+.table_checkInv tr td {
+    padding:10px;
+    border-bottom:1px solid #d9d9d9;
+    vertical-align: middle;
+    background-color:rgba(255,255,255,0.7);
+    vertical-align: top;
 }
 
 .table_log tr td:nth-child(1) {

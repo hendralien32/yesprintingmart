@@ -91,7 +91,11 @@
                     penjualan.cancel,
                     penjualan.pembayaran,
                     sum((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)*penjualan.qty) as Total_keseluruhan,
-                    pelunasan.total_bayar
+                    pelunasan.total_bayar,
+                    (CASE
+                        WHEN penjualan.inv_check = 'Y' THEN 'Y'
+                        ELSE 'N'
+                    END) as inv_check
                 from
                     penjualan
                 LEFT JOIN 
@@ -210,9 +214,14 @@
                         }
                     }
                     
-                    $check_invoice = "<span style='background-color:green; padding:3px 10px; margin-left:10px; color:white; border-radius:5px; box-sizing:border-box; cursor:pointer; user-select: none;' onclick='check_invoice_form(\"". $d['no_invoice'] ."\")'>Cek Invoice</span>";
+                    if($d['inv_check'] == "N") {
+                        $check_invoice = "<span style='background-color:green; padding:3px 10px; margin-left:10px; color:white; border-radius:5px; box-sizing:border-box; cursor:pointer; user-select: none;' onclick='check_invoice_form(\"". $d['no_invoice'] ."\")'>Cek Invoice</span>";
+                        $print_invoice = "";
+                    } else {
+                        $check_invoice = "";
+                        $print_invoice = "<a href='print.php?type=sales_invoice&no_invoice=$d[no_invoice]' target='_blank' class='pointer'><i class='fad fa-print'></i></a>";
+                    }
                     
-
                     $edit = "LaodForm(\"setter_penjualan\", \"". $oid['0'] ."\", \"". $Akses_Edit ."\")";
 
                     echo "
@@ -234,7 +243,7 @@
                             <td style='text-align:right'>". number_format($harga_satuan['0']) ."</td>
                             <td style='text-align:right'>". number_format($discount['0']) ."</td>
                             <td style='text-align:right'>". number_format($total['0']) ."</td>
-                            <td rowspan='$count_oid' style='vertical-align:top'><a href='print.php?type=sales_invoice&no_invoice=$d[no_invoice]' target='_blank' class='pointer'><i class='fad fa-print'></i></a></td>
+                            <td rowspan='$count_oid' style='vertical-align:top'>$print_invoice</td>
                         </tr>
                     ";
 

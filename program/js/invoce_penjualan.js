@@ -59,6 +59,26 @@ function force_paid(ID_Order) {
     }); 
 }
 
+function check_invoice(ID_Order, Sales) {
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        data: {
+            ID_Order        : ID_Order,
+            jenis_submit    : "check_invoice"
+        },
+        success: function(data){
+            alert("Sales Invoice No # " + ID_Order + " Sudah di check oleh " + Sales);
+            hideBox();
+            onload();
+            return false;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
+}
+
 function AksesEdit() {
     var kode_barang = $('#kode_barng').val().split('.');
     var AksesEdit;        if($('#akses_edit').prop("checked") == true) { AksesEdit = "Y"; } else { AksesEdit = "N"; }

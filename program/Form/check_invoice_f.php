@@ -4,8 +4,14 @@
 
     $sql_query = 
     "SELECT
-        penjualan.oid,
-        customer.nama_client
+        GROUP_CONCAT(penjualan.oid) as oid,
+        customer.nama_client,
+        GROUP_CONCAT(penjualan.description SEPARATOR '◘') as description,
+        GROUP_CONCAT((CASE
+            WHEN penjualan.panjang > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+            WHEN penjualan.lebar > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+            ELSE ''
+        END)) as ukuran
     FROM
         penjualan
     LEFT JOIN 
@@ -54,7 +60,7 @@
                     <td>$n</td>
                     <td>$row[oid]</td>
                     <td>$row[nama_client]</td>
-                    <td>Bahan : TIC 260gr<br>Sisi : 1<br>Qty : 10 Lembar</td>
+                    <td>Deskripsi : $row[description] <br> Bahan : TIC 260gr<br>Sisi : 1<br>Qty : 10 Lembar</td>
                     <td>Harga @ : 2.500</td>
                 </tr>
                 ";

@@ -5,7 +5,7 @@
 
 <h3 class='title_form'><?php echo $_POST['judul_form']; ?></h3>
     <?php
-        if(isset($_POST['ID_Order']) && $_SESSION['level']=="setter" && $_POST['AksesEdit']=="N") {
+        if(isset($_POST['ID_Order']) && ( $_SESSION['level']=="setter" || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting") && $_POST['AksesEdit']=="N") {
             $ID_Order = "$_POST[ID_Order]";
 
             $sql = 
@@ -101,41 +101,41 @@
         <div class="row">
             <div class="col-6">
                 <table class='table-form'>
-                    <tr><td style='width:55%'>Kode Barang</td><td><?php echo $row['kode']; ?></td> </tr>
-                    <tr><td style='width:55%'>Client</td><td><?php echo ucwords($row['nama_client']); ?></td> </tr>
-                    <tr><td style='width:55%'>Deskripsi</td><td><?php echo ucfirst($row['description']); ?></td> </tr>
-                    <tr><td style='width:55%'>Ukuran</td><td><?php echo $row['ukuran']; ?></td> </tr>
-                    <tr><td style='width:55%'>sisi</td><td><?php echo $row['sisi']; ?></td> </tr>
-                    <tr><td style='width:55%'>Bahan</td><td><?php echo $row['bahan']; ?></td> </tr>
-                    <tr><td style='width:55%'>Notes / Finishing LF</td><td><?php echo ucfirst($row['keterangan']); ?></td> </tr>
+                    <tr><td style='width:50.5%'>Kode Barang</td><td><?php echo $row['kode']; ?></td> </tr>
+                    <tr><td style='width:50.5%'>Client</td><td><?php echo ucwords($row['nama_client']); ?></td> </tr>
+                    <tr><td style='width:50.5%'>Deskripsi</td><td><?php echo ucfirst($row['description']); ?></td> </tr>
+                    <tr><td style='width:50.5%'>Ukuran</td><td><?php echo $row['ukuran']; ?></td> </tr>
+                    <tr><td style='width:50.5%'>sisi</td><td><?php echo $row['sisi']; ?></td> </tr>
+                    <tr><td style='width:50.5%'>Bahan</td><td><?php echo $row['bahan']; ?></td> </tr>
+                    <tr><td style='width:50.5%'>Notes / Finishing LF</td><td><?php echo ucfirst($row['keterangan']); ?></td> </tr>
                     <?php
-                        if($row['kode']=="Digital Printing") {
+                        if($row['kode']=="Digital Printing" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) {
                     ?>
-                        <tr><td style='width:55%'>Biaya Digital</td><td><?php echo "Rp. ". number_format($row['b_digital']) .""; ?></td> </tr>
-                        <tr><td style='width:55%'>Biaya Kotak</td><td><?php echo "Rp. ". number_format($row['b_kotak']) .""; ?></td> </tr>
-                        <tr><td style='width:55%'>Biaya Finishing</td><td><?php echo "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
-                        <tr><td style='width:55%'>Biaya Laminating</td><td><?php echo "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Digital</td><td><?php echo "Rp. ". number_format($row['b_digital']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Kotak</td><td><?php echo "Rp. ". number_format($row['b_kotak']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Finishing</td><td><?php echo "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
+                        <tr><td style='width:50.5%'>Biaya Laminating</td><td><?php echo "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
                     <?php
-                        } elseif($row['kode']=="Large Format") { 
+                        } elseif($row['kode']=="Large Format" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:55%'>Biaya Large Format</td><td><?php echo "Rp. ". number_format($row['b_large']) .""; ?></td> </tr> 
-                        <tr><td style='width:55%'>Biaya Xbanner</td><td><?php echo "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr> 
-                        <tr><td style='width:55%'>Biaya Laminating</td><td><?php echo "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Large Format</td><td><?php echo "Rp. ". number_format($row['b_large']) .""; ?></td> </tr> 
+                        <tr><td style='width:50.5%'>Biaya Xbanner</td><td><?php echo "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr> 
+                        <tr><td style='width:50.5%'>Biaya Laminating</td><td><?php echo "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
                     <?php
-                        } elseif($row['kode']=="Indoor HP Latex" or $row['kode']=="Indoor Xuli") { 
+                        } elseif($row['kode']=="Indoor HP Latex" or $row['kode']=="Indoor Xuli" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:55%'>Biaya Indoor</td><td><?php echo "Rp. ". number_format($row['b_indoor']) .""; ?></td> </tr>  
-                        <tr><td style='width:55%'>Biaya Xbanner</td><td><?php echo "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr>
-                        <tr><td style='width:55%'>Biaya Laminating</td><td><?php echo "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Indoor</td><td><?php echo "Rp. ". number_format($row['b_indoor']) .""; ?></td> </tr>  
+                        <tr><td style='width:50.5%'>Biaya Xbanner</td><td><?php echo "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Laminating</td><td><?php echo "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
                     <?php        
-                        } elseif($row['kode']=="Offset Printing") { 
+                        } elseif($row['kode']=="Offset Printing" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:55%'>Biaya Offset</td><td><?php echo "Rp. ". number_format($row['b_offset']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Offset</td><td><?php echo "Rp. ". number_format($row['b_offset']) .""; ?></td> </tr>
                     <?php
-                        } elseif($row['kode']=="ETC") { 
+                        } elseif($row['kode']=="ETC" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:55%'>Biaya Lain</td><td><?php echo "Rp. ". number_format($row['b_lain']) .""; ?></td> </tr>
-                        <tr><td style='width:55%'>Biaya Finishing</td><td><?php echo "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
+                        <tr><td style='width:50.5%'>Biaya Lain</td><td><?php echo "Rp. ". number_format($row['b_lain']) .""; ?></td> </tr>
+                        <tr><td style='width:50.5%'>Biaya Finishing</td><td><?php echo "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
                     <?php
                         }
                     ?>
@@ -228,14 +228,18 @@
                             </div>
                         </td>
                     </tr>
+                    <?php
+                        if($row['kode']=="Digital Printing" && ($_SESSION['level']=="admin" || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting")) :
+                    ?>
                     <tr><td>Biaya Design</td><td><?php echo "Rp. ". number_format($row['b_design']) .""; ?></td> </tr>
                     <tr><td>Biaya Delivery</td><td><?php echo "Rp. ". number_format($row['b_delivery']) .""; ?></td> </tr>
                     <tr><td>Biaya Discounts</td><td style="color:red; font-weight:bold"><?php echo "Rp. ". number_format($row['discount']) .""; ?></td> </tr>
+                        <?php else : endif; ?>
                 </table>
             </div>
         </div>
     <?php
-        } elseif(isset($_POST['ID_Order']) && ( $_SESSION['level']=="admin" || $_SESSION['level']=="setter" ) && $_POST['AksesEdit']=="Y") { // Update
+        } elseif(isset($_POST['ID_Order']) && ( $_SESSION['level']=="admin" || $_SESSION['level']=="setter"  || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting" ) && $_POST['AksesEdit']=="Y") { // Update
 
         if(isset($_POST['ID_Order'])!="") {
             $ID_Order = "$_POST[ID_Order]";
@@ -286,7 +290,12 @@
                     WHEN penjualan.akses_edit = 'Y' THEN 'Y'
                     WHEN penjualan.akses_edit = 'N' THEN 'N'
                     ELSE 'N'
-                END) as akses_edit
+                END) as akses_edit,
+                (CASE
+                    WHEN penjualan.inv_check = 'Y' THEN 'Y'
+                    WHEN penjualan.inv_check = 'N' THEN 'N'
+                    ELSE 'N'
+                END) as inv_check
             FROM
                 penjualan
             LEFT JOIN 
@@ -328,6 +337,7 @@
                 <input type="hidden" id="id_user" value="<?php echo $_SESSION['uid']; ?>">
                 <input type="hidden" id="id_order" value="<?php echo $_POST['ID_Order']; ?>">
                 <input type="hidden" id="no_invoice" value="<?php echo $row['no_invoice']; ?>">
+                <input type="hidden" id="inv_check" value="<?php echo $row['inv_check']; ?>">
                 <table class='table-form'>
                     <tr>
                         <td>Kode Barang</td>
@@ -628,11 +638,11 @@
                 </table>
             </div>
             <div id="submit_menu">
-                <?php if($row['no_invoice']!="0") {?>
+                <?php if($row['no_invoice']!="0") :?>
                     <button onclick="submit('Update_SO_Invoice')">Update Order Invoice</button>
-                <?php } else { ?>
+                <?php else : ?>
                     <button onclick="submit('Update')">Update Order</button>
-                <?php } ?>
+                <?php endif; ?>
             </div>
             <div id="Result">
             

@@ -96,6 +96,7 @@
             "Proffing"                  => "$_POST[Proffing]",
             "Ditunggu"                  => "$_POST[Ditunggu]",
             "Design"                    => "$_POST[Design]",
+            "Akses Edit"                => "Y",
             "Nama File"                 => "$Log_file",
             "Nama Image"                => "$Log_image"
             
@@ -152,6 +153,7 @@
             Proffing,
             ditunggu,
             Design,
+            akses_edit,
             $mysql_FileName
             $mysql_ImgName
             history
@@ -181,6 +183,7 @@
             '$_POST[Proffing]', 
             '$_POST[Ditunggu]', 
             '$_POST[Design]',
+            'Y',
             $mysql_FileValue
             $mysql_ImgValue
             '$Final_log'
@@ -1228,8 +1231,12 @@
                         <td>". $_SESSION['username'] ." Mengubah data</td>
                         <td>$log</td>
                     </tr>
-                ";  
-                if($_POST[akses_edit]=="Y") { $akses_edit = "N"; } else { $akses_edit = "$_POST[akses_edit]"; } /* new update */
+                ";
+                if($_POST['inv_check']=="Y") {
+                    if($_POST['akses_edit']=="Y") { $akses_edit = "N"; } else { $akses_edit = "$_POST[akses_edit]"; } /* new update */
+                } else {
+                    $akses_edit = "$_POST[akses_edit]";
+                }
             } else {
                 $Final_log = "";
                 $akses_edit = "$_POST[akses_edit]"; /* new update */
@@ -2069,6 +2076,31 @@
             history         =  CONCAT('$Final_log', history)
         WHERE
             oid				= '$_POST[ID_Order]'
+        ";
+    } elseif($_POST['jenis_submit']=='check_invoice') {
+
+        $Final_log = "
+            <tr>
+                <td>$hr, $timestamps</td>
+                <td>". $_SESSION['username'] ." mengubah data</td>
+                <td><b>Invoice Check</b> : Y<br>
+                    <b>Akses Edit Check</b> : N<br>
+                    <b>Sales</b> : ". $_SESSION['username'] ."
+                </td>
+            </tr>
+        ";
+        
+        // Attempt Update Cancel query execution
+        $sql = 
+        "UPDATE
+            penjualan
+        SET
+            inv_check	    = 'Y',
+            sales	        = '$_SESSION[uid]',
+            akses_edit	    = 'N',
+            history         =  CONCAT('$Final_log', history)
+        WHERE
+            no_invoice		= '$_POST[ID_Order]'
         ";
     }
 

@@ -520,7 +520,8 @@ function submit(id) {
     var b_delivery        = $('#b_delivery').val();
     var discount          = $('#discount').val();
     var Auto_Calc;        if($('#Auto_Calc').prop("checked") == true) { Auto_Calc = "Y"; } else { Auto_Calc = "N"; }
-    var akses_edit;        if($('#akses_edit').prop("checked") == true) { akses_edit = "Y"; } else { akses_edit = "N"; }
+    var akses_edit;       if($('#akses_edit').prop("checked") == true) { akses_edit = "Y"; } else { akses_edit = "N"; }
+    var inv_check         = $('#inv_check').val();
 
     var fdata = new FormData()
     
@@ -573,6 +574,7 @@ function submit(id) {
     fdata.append("discount", discount);
     fdata.append("Auto_Calc", Auto_Calc);
     fdata.append("akses_edit", akses_edit);
+    fdata.append("inv_check", inv_check);
 
     $('.progress_table').show();
 

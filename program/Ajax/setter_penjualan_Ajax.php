@@ -2,12 +2,15 @@
     session_start();
     include '../../function.php';
 
-    $test = false;
-    if(isset($_POST['Setter_Sort'])){
-        $test = $_POST['Setter_Sort'];
-    } else {
-        $test = "$_SESSION[filter_ID_Penjualan]";
-    }
+    $test = "";
+
+    $Setter_Sort = isset($_POST['Setter_Sort']) ? $_POST['Setter_Sort'] : ' ';
+
+    if(isset($Setter_Sort)) :
+        $test .= $Setter_Sort;
+    else :
+        $test .= "$_SESSION[filter_ID_Penjualan]";
+    endif;
 
     $_SESSION['filter_ID_Penjualan'] = "$test";
 
@@ -29,11 +32,11 @@
         $Add_date = "";
     }
 
-    if($_SESSION['filter_ID_Penjualan'] != '' ) {
+    if($_SESSION['filter_ID_Penjualan'] != '' ) :
         $Add_Setter = "and penjualan.setter='$_SESSION[filter_ID_Penjualan]'";
-    } else {
+    else :
         $Add_Setter = "";
-    }
+    endif;
 
     $cari_keyword = $_POST['data'];
     $bold_cari_keyword = "<strong style='text-decoration:underline'>".$_POST['data']."</strong>";
@@ -91,7 +94,7 @@
                             while($row = mysqli_fetch_array($Query_data)) {
 
                                 $Nama_Setter=ucwords($row['nama']);
-                                if($row[setter]=="$_POST[Setter_Sort]") { $pilih = "selected"; } else { $pilih = ""; }
+                                if($row[setter]=="$test") { $pilih = "selected"; } else { $pilih = ""; }
                                 echo "<option value='$row[setter]' $pilih>$Nama_Setter ($row[Qty])</option>"; 
 
                             }

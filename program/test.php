@@ -1,1 +1,1 @@
-asdasda
+https://stackoverflow.com/questions/46256631/pass-value-from-ajax-return-to-input-field

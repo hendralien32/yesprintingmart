@@ -21,6 +21,63 @@ function toggle(pilih) {
     }
 }
 
+function autoCalc() {
+    var Kode_Brg        = $('#kode_barng').val().split('.');
+    var Panjang         = $('#panjang').val();
+    var Lebar           = $('#lebar').val();
+    var Sisi;           if($('#satu_sisi').prop("checked") == true) { Sisi = "1"; } else { Sisi = "2"; }
+    var ID_Bahan        = $('#id_bahan').val();
+    var Laminating      = $('#laminating').val().split('.');
+    var alat_tambahan   = $('#alat_tambahan').val().split('.');
+    var Ptg_Pts;        if($('#Ptg_Pts').prop("checked") == true) { Ptg_Pts = "Y"; } else { Ptg_Pts = "N"; }
+    var Ptg_Gantung;    if($('#Ptg_Gantung').prop("checked") == true) { Ptg_Gantung = "Y"; } else { Ptg_Gantung = "N"; }
+    var Pon_Garis;      if($('#Pon_Garis').prop("checked") == true) { Pon_Garis = "Y"; } else { Pon_Garis = "N"; }
+    var Perporasi;      if($('#Perporasi').prop("checked") == true) { Perporasi = "Y"; } else { Perporasi = "N"; }
+    var CuttingSticker; if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "Y"; } else { CuttingSticker = "N"; }
+    var Qty             = $('#qty').val();
+    var Satuan          = $('#satuan').val();
+
+    var fdata = new FormData()
+    
+    fdata.append("Kode_Brg", Kode_Brg[0]); 
+    fdata.append("Panjang", Panjang);
+    fdata.append("Lebar", Lebar);
+    fdata.append("Sisi", Sisi);
+    fdata.append("ID_Bahan", ID_Bahan);
+    fdata.append("Laminating", Laminating[0]);
+    fdata.append("alat_tambahan", alat_tambahan[0]);
+    fdata.append("Ptg_Pts", Ptg_Pts);
+    fdata.append("Ptg_Gantung", Ptg_Gantung);
+    fdata.append("Pon_Garis", Pon_Garis);
+    fdata.append("Perporasi", Perporasi);
+    fdata.append("CuttingSticker", CuttingSticker);
+    fdata.append("Qty", Qty);
+    fdata.append("Satuan", Satuan);
+    fdata.append("tipe_validasi", 'AutoCalc_Price');
+
+    $.ajax({
+        type: "POST",
+        url: "progress/validasi_progress.php",
+        cache: false,
+		processData : false,
+		contentType : false,
+        data: fdata,
+        success: function(data){
+            var obj=$.parseJSON(data);
+            $('#b_digital').val(obj.b_digital);
+            $('#b_kotak').val(obj.b_kotak);
+            $('#b_finishing').val(obj.b_finishing);
+            $('#b_large').val(obj.b_large);
+            $('#b_indoor').val(obj.b_indoor);
+            $('#b_xbanner').val(obj.b_xbanner);
+            $('#b_laminate').val(obj.b_laminate);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
+}
+
 function akses(a,ID_Order) {
     $.ajax({
         type: "POST",
@@ -81,22 +138,30 @@ function check_invoice(ID_Order, Sales) {
 
 function AksesEdit() {
     var kode_barang = $('#kode_barng').val().split('.');
+    var level_user = $('#level_user').val()
     var AksesEdit;        if($('#akses_edit').prop("checked") == true) { AksesEdit = "Y"; } else { AksesEdit = "N"; }
     var AutoCalc;        if($('#Auto_Calc').prop("checked") == true) { AutoCalc = "Y"; } else { AutoCalc = "N"; }
     var Akses = ["b_digital", "b_kotak", "b_finishing", "b_large", "b_indoor", "b_xbanner", "b_laminate"];
 
     if(AksesEdit === "Y") {
         for (i = 0; i < Akses.length; i++) {
-            $('#'+Akses[i]+'').prop("disabled", false);
-            $('#'+Akses[i]+'').prop("readonly", false);
-        }
-        if( kode_barang[0] == "offset" || kode_barang[0] == "etc") {
-            $('#Auto_Calc').prop("checked", false);
-            $('#Auto_Calc').prop("disabled", true);
-        } else {
-            $('#Auto_Calc').prop("checked", false);
-            $('#Auto_Calc').prop("disabled", true);
-        }
+            if(level_user != "admin") {
+                $('#'+Akses[i]+'').prop("disabled", true);
+                $('#'+Akses[i]+'').prop("readonly", true);
+                $('#Auto_Calc').prop("checked", true);
+                $('#Auto_Calc').prop("disabled", true);
+            } else {
+                $('#'+Akses[i]+'').prop("disabled", false);
+                $('#'+Akses[i]+'').prop("readonly", false);
+                if( kode_barang[0] == "offset" || kode_barang[0] == "etc") {
+                    $('#Auto_Calc').prop("checked", false);
+                    $('#Auto_Calc').prop("disabled", true);
+                } else {
+                    $('#Auto_Calc').prop("checked", false);
+                    $('#Auto_Calc').prop("disabled", true);
+                }
+            }
+        }  
     } else {
         for (i = 0; i < Akses.length; i++) {
             $('#'+Akses[i]+'').prop("disabled", true);

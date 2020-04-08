@@ -244,70 +244,70 @@
         if(isset($_POST['ID_Order'])!="") {
             $ID_Order = "$_POST[ID_Order]";
             $sql = 
-            "SELECT
-                penjualan.no_invoice,
-                penjualan.description,
-                penjualan.kode,
-                customer.nama_client,
-                customer.cid as ID_Client,
-                penjualan.ukuran,
-                penjualan.panjang,
-                penjualan.lebar,
-                penjualan.sisi,
-                penjualan.ID_Bahan,
-                Bahan.nama_barang,
-                penjualan.keterangan,
-                penjualan.qty,
-                penjualan.satuan,
-                penjualan.laminate,
-                penjualan.alat_tambahan,
-                penjualan.potong,
-                penjualan.potong_gantung,
-                penjualan.pon,
-                penjualan.perporasi,
-                penjualan.CuttingSticker,
-                penjualan.Hekter_Tengah,
-                penjualan.Blok,
-                penjualan.Spiral,
-                penjualan.ditunggu,
-                penjualan.Proffing,
-                penjualan.Design,
-                penjualan.img_design,
-                penjualan.file_design,
-                penjualan.b_digital,
-                penjualan.b_xbanner,
-                penjualan.b_lain,
-                penjualan.b_offset,
-                penjualan.b_large,
-                penjualan.b_kotak,
-                penjualan.b_laminate,
-                penjualan.b_potong,
-                penjualan.b_design,
-                penjualan.b_indoor,
-                penjualan.b_delivery,
-                penjualan.discount,
-                (CASE
-                    WHEN penjualan.akses_edit = 'Y' THEN 'Y'
-                    WHEN penjualan.akses_edit = 'N' THEN 'N'
-                    ELSE 'N'
-                END) as akses_edit,
-                (CASE
-                    WHEN penjualan.inv_check = 'Y' THEN 'Y'
-                    WHEN penjualan.inv_check = 'N' THEN 'N'
-                    ELSE 'N'
-                END) as inv_check
-            FROM
-                penjualan
-            LEFT JOIN 
-                (select customer.cid, customer.nama_client from customer) customer
-            ON
-                penjualan.client = customer.cid  
-            LEFT JOIN 
-                (select barang.id_barang, barang.nama_barang from barang) Bahan
-            ON
-                penjualan.ID_Bahan = Bahan.id_barang  
-            WHERE
-                penjualan.oid = '$ID_Order'
+                "SELECT
+                    penjualan.no_invoice,
+                    penjualan.description,
+                    penjualan.kode,
+                    customer.nama_client,
+                    customer.cid as ID_Client,
+                    penjualan.ukuran,
+                    penjualan.panjang,
+                    penjualan.lebar,
+                    penjualan.sisi,
+                    penjualan.ID_Bahan,
+                    Bahan.nama_barang,
+                    penjualan.keterangan,
+                    penjualan.qty,
+                    penjualan.satuan,
+                    penjualan.laminate,
+                    penjualan.alat_tambahan,
+                    penjualan.potong,
+                    penjualan.potong_gantung,
+                    penjualan.pon,
+                    penjualan.perporasi,
+                    penjualan.CuttingSticker,
+                    penjualan.Hekter_Tengah,
+                    penjualan.Blok,
+                    penjualan.Spiral,
+                    penjualan.ditunggu,
+                    penjualan.Proffing,
+                    penjualan.Design,
+                    penjualan.img_design,
+                    penjualan.file_design,
+                    penjualan.b_digital,
+                    penjualan.b_xbanner,
+                    penjualan.b_lain,
+                    penjualan.b_offset,
+                    penjualan.b_large,
+                    penjualan.b_kotak,
+                    penjualan.b_laminate,
+                    penjualan.b_potong,
+                    penjualan.b_design,
+                    penjualan.b_indoor,
+                    penjualan.b_delivery,
+                    penjualan.discount,
+                    (CASE
+                        WHEN penjualan.akses_edit = 'Y' THEN 'Y'
+                        WHEN penjualan.akses_edit = 'N' THEN 'N'
+                        ELSE 'N'
+                    END) as akses_edit,
+                    (CASE
+                        WHEN penjualan.inv_check = 'Y' THEN 'Y'
+                        WHEN penjualan.inv_check = 'N' THEN 'N'
+                        ELSE 'N'
+                    END) as inv_check
+                FROM
+                    penjualan
+                LEFT JOIN 
+                    (select customer.cid, customer.nama_client from customer) customer
+                ON
+                    penjualan.client = customer.cid  
+                LEFT JOIN 
+                    (select barang.id_barang, barang.nama_barang from barang) Bahan
+                ON
+                    penjualan.ID_Bahan = Bahan.id_barang  
+                WHERE
+                    penjualan.oid = '$ID_Order'
             ";
 
             $result = mysqli_query($conn, $sql);
@@ -338,6 +338,7 @@
                 <input type="hidden" id="id_order" value="<?php echo $_POST['ID_Order']; ?>">
                 <input type="hidden" id="no_invoice" value="<?php echo $row['no_invoice']; ?>">
                 <input type="hidden" id="inv_check" value="<?php echo $row['inv_check']; ?>">
+                <input type="hidden" id="level_user" value="<?php echo $_SESSION['level'] ; ?>">
                 <table class='table-form'>
                     <tr>
                         <td>Kode Barang</td>
@@ -371,22 +372,22 @@
                         </td>
                     </tr>
                     <tr><td>Deskripsi</td><td><input type='text' id="deskripsi" autocomplete="off" class='form ld' value="<?php echo $row['description']; ?>"></td></tr>
-                    <tr><td>Ukuran</td><td><input type='text' class='form' id='ukuran' value="<?php echo $row['ukuran']; ?>"> <span id="ukuran_LF"><input type='number' class='form sd' id='panjang' value="<?php echo $row['panjang']; ?>" onkeyup="calc_meter()"> x <input type='number' class='form sd' id='lebar' onkeyup="calc_meter()" value="<?php echo $row['lebar']; ?>"></span><span id="perhitungan_meter"></span></td></tr>
+                    <tr><td>Ukuran</td><td><input type='text' class='form' id='ukuran' value="<?php echo $row['ukuran']; ?>"> <span id="ukuran_LF"><input type='number' class='form sd' id='panjang' value="<?php echo $row['panjang']; ?>" onkeyup="autoCalc()" onkeyup="calc_meter()"> x <input type='number' class='form sd' id='lebar' onkeyup="calc_meter()" onkeyup="autoCalc()" value="<?php echo $row['lebar']; ?>"></span><span id="perhitungan_meter"></span></td></tr>
                     <tr>
                         <td>sisi</td>
                         <td>
                             <label class="sisi_radio">1 Sisi
-                                <input type="radio" name="radio" id="satu_sisi" value="1" <?php echo $satu; ?>>
+                                <input type="radio" name="radio" id="satu_sisi" value="1" onclick="autoCalc()" <?php echo $satu; ?>>
                                 <span class="checkmark"></span>
                             </label>
                             <label class="sisi_radio">2 Sisi
-                                <input type="radio" name="radio" id="dua_sisi" value="2" <?php echo $dua; ?>>
+                                <input type="radio" name="radio" id="dua_sisi" value="2" onclick="autoCalc()" <?php echo $dua; ?>>
                                 <span class="checkmark"></span>
                             </label>
                         </td>
                     </tr>
                     <tr><td>Bahan</td><td>
-                        <input type='text' class='form md' id="bahan" value="<?php echo $row['nama_barang']; ?>" autocomplete="off" onkeyup="test('bahan')" onchange="validasi('bahan')">
+                            <input type='text' class='form md' id="bahan" value="<?php echo $row['nama_barang']; ?>" onchange="autoCalc()" autocomplete="off" onkeyup="test('bahan')" onchange="validasi('bahan')">
                             <input type='text' id='id_bahan' value="<?php echo $row['ID_Bahan']; ?>" class='form sd' readonly disabled  style="display:none">
                             <input type='text' id='validasi_bahan' class='form sd' readonly disabled
                             style="display:none">
@@ -400,8 +401,8 @@
                     <tr>
                         <td>Qty</td>
                         <td colspan="3">
-                            <input type='number' class='form sd' id="qty" value="<?php echo $row['qty']; ?>">
-                            <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onkeyup="satuan_val()" value="<?php echo $row['satuan']; ?>">
+                            <input type='number' class='form sd' id="qty" onkeyup="autoCalc()" value="<?php echo $row['qty']; ?>">
+                            <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onkeyup="autoCalc()" onkeyup="satuan_val()" value="<?php echo $row['satuan']; ?>">
                             <datalist id="list_satuan">
                                 <?php
                                         $array_kode = array( "Kotak", "Lembar", "Rim", "Blok", "Pcs" );
@@ -413,7 +414,7 @@
                     <tr>
                         <td>Laminating</td>
                         <td colspan="3">
-                            <select class="myselect" id="laminating">
+                            <select class="myselect" id="laminating" onchange="autoCalc()">
                                 <option value=".">Pilih Laminating</option>
                                 <?php
                                     $array_kode = array(
@@ -437,7 +438,7 @@
                     <tr>
                         <td>Alat Tambahan</td>
                         <td colspan="3">
-                            <select class="myselect" id="alat_tambahan">
+                            <select class="myselect" id="alat_tambahan" onchange="autoCalc()">
                                 <option value=".">Pilih Alat Tambahan</option>
                                 <?php
                                     $array_kode = array(
@@ -461,15 +462,15 @@
                         <td>Finishing</td>
                         <td style='vertical-align:top'>
                             <div class="contact100-form-checkbox Ptg_Pts">
-                                <input class="input-checkbox100" id="Ptg_Pts" type="checkbox" name="remember" <?php echo $potong; ?>>
+                                <input class="input-checkbox100" id="Ptg_Pts" type="checkbox" name="remember" onchange="autoCalc()" <?php echo $potong; ?>>
                                 <label class="label-checkbox100" for="Ptg_Pts"> Ptg Putus </label>
                             </div>
                             <div class="contact100-form-checkbox Ptg_Gantung">
-                                <input class="input-checkbox100" id="Ptg_Gantung" type="checkbox" name="remember" <?php echo $potong_gantung; ?>>
+                                <input class="input-checkbox100" id="Ptg_Gantung" type="checkbox" name="remember" onchange="autoCalc()" <?php echo $potong_gantung; ?>>
                                 <label class="label-checkbox100" for="Ptg_Gantung"> Ptg Gantung </label>
                             </div>
                             <div class="contact100-form-checkbox CuttingSticker">
-                                <input class="input-checkbox100" id="CuttingSticker" type="checkbox" name="remember" <?php echo $CuttingSticker; ?>>
+                                <input class="input-checkbox100" id="CuttingSticker" type="checkbox" name="remember" onchange="autoCalc()" <?php echo $CuttingSticker; ?>>
                                 <label class="label-checkbox100" for="CuttingSticker"> Cutting Sticker </label>
                             </div>
                             <div class="contact100-form-checkbox Hekter_Tengah">
@@ -479,11 +480,11 @@
                         </td>
                         <td colspan="2" style='vertical-align:top'>
                             <div class="contact100-form-checkbox Pon_Garis">
-                                <input class="input-checkbox100" id="Pon_Garis" type="checkbox" name="remember" <?php echo $pon; ?>>
+                                <input class="input-checkbox100" id="Pon_Garis" type="checkbox" name="remember" onchange="autoCalc()" <?php echo $pon; ?>>
                                 <label class="label-checkbox100" for="Pon_Garis"> Pon Garis</label>
                             </div>
                             <div class="contact100-form-checkbox Perporasi">
-                                <input class="input-checkbox100" id="Perporasi" type="checkbox" name="remember" <?php echo $perporasi; ?>>
+                                <input class="input-checkbox100" id="Perporasi" type="checkbox" name="remember" onchange="autoCalc()" <?php echo $perporasi; ?>>
                                 <label class="label-checkbox100" for="Perporasi"> Perporasi </label>
                             </div>
                             <div class="contact100-form-checkbox Blok">

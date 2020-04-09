@@ -49,13 +49,100 @@
             echo json_encode($json);
         }
     } elseif($tipe_validasi=="AutoCalc_Price") {
-        $arr_data['b_digital']= "888";
-        $arr_data['b_kotak']= "888";
-        $arr_data['b_finishing']= "888";
-        $arr_data['b_large']= "888";
-        $arr_data['b_indoor']= "888";
-        $arr_data['b_xbanner']= "888";
-        $arr_data['b_laminate']= "888";
+
+        $sql_query =
+            "SELECT
+                bahan as ID_Bahan,
+                Qty_Invoice,
+                Qty_Sekarang
+            FROM
+                (   
+                    SELECT
+                        pricelist.bahan,
+                        pricelist.sisi,
+                        pricelist.jenis,
+                        pricelist.1_lembar,
+                        pricelist.2_lembar,
+                        pricelist.3sd5_lembar,
+                        pricelist.6sd9_lembar,
+                        pricelist.10_lembar,
+                        pricelist.20_lembar,
+                        pricelist.50_lembar,
+                        pricelist.100_lembar,
+                        pricelist.250_lembar,
+                        pricelist.500_lembar,
+                        pricelist.1sd2m,
+                        pricelist.3sd9m,
+                        pricelist.10m,
+                        pricelist.50m,
+                        pricelist.20_kotak,
+                        pricelist.2sd19_kotak,
+                        pricelist.1_kotak,
+                        COALESCE(test.Qty_Invoice,0) as Qty_Invoice,
+                        COALESCE(test.Qty_Invoice,0) + $_POST[Qty] as Qty_Sekarang,
+                        total_laminate.leminating_kilat,
+                        total_laminate.leminating_doff
+                    FROM
+                        pricelist
+                    LEFT JOIN
+                        (
+                            SELECT
+                                penjualan.oid,
+                                sum(penjualan.qty) as Qty_Invoice,
+                                penjualan.ID_Bahan
+                            FROM
+                                penjualan
+                            WHERE
+                                penjualan.no_invoice = $_POST[no_invoice] and
+                                penjualan.ID_Bahan = $_POST[ID_Bahan] and
+                                penjualan.oid != '$_POST[ID_Order]'
+                            GROUP BY
+                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan
+                        ) test
+                    ON
+                        pricelist.bahan = test.ID_Bahan
+                    LEFT JOIN
+                        (SELECT
+                            penjualan.ID_Bahan,
+                            SUM(CASE 
+                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
+                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
+                                ELSE 0 
+                            END) AS leminating_kilat,
+                            SUM(CASE 
+                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
+                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
+                                ELSE 0 
+                            END) AS leminating_doff
+                        FROM
+                            penjualan
+                        WHERE
+                            penjualan.no_invoice = $_POST[no_invoice] and
+                            penjualan.oid != '$_POST[ID_Order]'
+                        GROUP BY
+                            penjualan.ID_Bahan
+                        ) total_laminate
+                    ON
+                        pricelist.bahan = total_laminate.ID_Bahan
+                    WHERE
+                        pricelist.bahan  = $_POST[ID_Bahan] and
+                        pricelist.sisi   = $_POST[Sisi]
+                ) auto_check
+        ";
+  
+        $arr_data['notes']= $sql_query;
+
+        // $arr_data['b_digital']= "888";
+        // $arr_data['b_kotak']= "888";
+        // $arr_data['b_finishing']= "888";
+        // $arr_data['b_large']= "888";
+        // $arr_data['b_indoor']= "888";
+        // $arr_data['b_xbanner']= "888";
+        // $arr_data['b_laminate']= "888";
     
         echo json_encode($arr_data);
     }

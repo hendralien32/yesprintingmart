@@ -22,6 +22,8 @@ function toggle(pilih) {
 }
 
 function autoCalc() {
+    var ID_Order        = $('#id_order').val();
+    var no_invoice      = $('#no_invoice').val();
     var Kode_Brg        = $('#kode_barng').val().split('.');
     var Panjang         = $('#panjang').val();
     var Lebar           = $('#lebar').val();
@@ -39,6 +41,8 @@ function autoCalc() {
 
     var fdata = new FormData()
     
+    fdata.append("ID_Order", ID_Order);
+    fdata.append("no_invoice", no_invoice);
     fdata.append("Kode_Brg", Kode_Brg[0]); 
     fdata.append("Panjang", Panjang);
     fdata.append("Lebar", Lebar);
@@ -64,13 +68,15 @@ function autoCalc() {
         data: fdata,
         success: function(data){
             var obj=$.parseJSON(data);
-            $('#b_digital').val(obj.b_digital);
-            $('#b_kotak').val(obj.b_kotak);
-            $('#b_finishing').val(obj.b_finishing);
-            $('#b_large').val(obj.b_large);
-            $('#b_indoor').val(obj.b_indoor);
-            $('#b_xbanner').val(obj.b_xbanner);
-            $('#b_laminate').val(obj.b_laminate);
+            $('#notes').val(obj.notes);
+
+            // $('#b_digital').val(obj.b_digital);
+            // $('#b_kotak').val(obj.b_kotak);
+            // $('#b_finishing').val(obj.b_finishing);
+            // $('#b_large').val(obj.b_large);
+            // $('#b_indoor').val(obj.b_indoor);
+            // $('#b_xbanner').val(obj.b_xbanner);
+            // $('#b_laminate').val(obj.b_laminate);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);

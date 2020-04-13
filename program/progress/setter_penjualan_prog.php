@@ -616,18 +616,18 @@
                     ELSE '0'
                 END) as b_digital,
                 (CASE
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * qty ) / test
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * qty ) / test
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * qty ) / test
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * qty ) / test
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
                     ELSE '0'
                 END) as b_lf,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 50 THEN ( 50m * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * qty ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
                     ELSE '0'
                 END) as indoor,
@@ -702,6 +702,7 @@
                     barang.nama_barang,
                     penjualan.sisi,
                     penjualan.laminate,
+                    ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
                     penjualan.qty AS test,
                     barang.qty,
                     pricelist.1_lembar,
@@ -1313,18 +1314,18 @@
                     ELSE '0'
                 END) as b_digital,
                 (CASE
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * qty ) / test
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * qty ) / test
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * qty ) / test
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * qty ) / test
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
                     ELSE '0'
                 END) as b_lf,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 50 THEN ( 50m * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * qty ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
                     ELSE '0'
                 END) as indoor,
@@ -1399,6 +1400,7 @@
                     barang.nama_barang,
                     penjualan.sisi,
                     penjualan.laminate,
+                    ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
                     penjualan.qty AS test,
                     barang.qty,
                     pricelist.1_lembar,
@@ -1518,7 +1520,7 @@
                         ) total_qty
                     ON
                         barang.id_barang = total_qty.ID_Bahan
-                        LEFT JOIN
+                    LEFT JOIN
                         (SELECT
                             penjualan.ID_Bahan,
                             SUM(CASE 

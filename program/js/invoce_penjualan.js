@@ -35,7 +35,7 @@ function autoCalc() {
     var Ptg_Gantung;    if($('#Ptg_Gantung').prop("checked") == true) { Ptg_Gantung = "Y"; } else { Ptg_Gantung = "N"; }
     var Pon_Garis;      if($('#Pon_Garis').prop("checked") == true) { Pon_Garis = "Y"; } else { Pon_Garis = "N"; }
     var Perporasi;      if($('#Perporasi').prop("checked") == true) { Perporasi = "Y"; } else { Perporasi = "N"; }
-    var CuttingSticker; if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "Y"; } else { CuttingSticker = "N"; }
+    var CuttingSticker; if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "71"; } else { CuttingSticker = ""; }
     var Qty             = $('#qty').val();
     var Satuan          = $('#satuan').val();
 
@@ -54,7 +54,7 @@ function autoCalc() {
     fdata.append("Ptg_Gantung", Ptg_Gantung);
     fdata.append("Pon_Garis", Pon_Garis);
     fdata.append("Perporasi", Perporasi);
-    fdata.append("CuttingSticker", CuttingSticker);
+    fdata.append("ID_CuttingStiker", CuttingSticker);
     fdata.append("Qty", Qty);
     fdata.append("Satuan", Satuan);
     fdata.append("tipe_validasi", 'AutoCalc_Price');

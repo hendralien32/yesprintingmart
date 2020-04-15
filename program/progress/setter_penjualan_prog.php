@@ -645,23 +645,23 @@
                     ELSE '0'
                 END) as b_kotak,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 500 THEN 500_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 250 THEN 250_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 100 THEN 100_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 50 THEN 50_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 20 THEN 20_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 10 THEN 10_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 3 THEN 3sd5_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 2 THEN 2_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '32' and test >= 1 THEN 1_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 500 THEN 500_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 250 THEN 250_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 100 THEN 100_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 50 THEN 50_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
                     ELSE '0'
                 END) as b_AlatTambahan,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 50 THEN ( 50m_Cutting * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 10 THEN ( 10m_Cutting * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 3 THEN ( 3sd9m_Cutting * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 1 THEN ( 1sd2m_Cutting * qty ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 50 THEN ( 50m_Cutting * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 10 THEN ( 10m_Cutting * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 3 THEN ( 3sd9m_Cutting * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 1 THEN ( 1sd2m_Cutting * Uk_PxL )
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 500 THEN 500_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 250 THEN 250_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 100 THEN 100_lembar_Cutting + potong
@@ -679,14 +679,18 @@
                     WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'lembar' THEN 1500
                     WHEN laminate = 'kilat1'and leminating_kilat >=20 and satuan = 'kotak' THEN 750*4
                     WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'kotak' THEN 1500*4
-                    WHEN ( laminate = 'kilat1' or laminate = 'kilat2' ) and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
-                    WHEN ( laminate = 'kilat1' or laminate = 'kilat2' ) and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
+                    WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
+                    WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2),0)
+                    WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
+                    WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2)*4,0)
                     WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'lembar' THEN 750
                     WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'lembar' THEN 1500
                     WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'kotak' THEN 750*4
                     WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'kotak' THEN 1500*4
-                    WHEN ( laminate = 'doff1' or laminate = 'doff2' ) and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
-                    WHEN ( laminate = 'doff1' or laminate = 'doff2' ) and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
+                    WHEN laminate = 'doff1' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
+                    WHEN laminate = 'doff2' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2),0)
+                    WHEN laminate = 'doff1' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
+                    WHEN laminate = 'doff2' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2)*4,0)
                     WHEN laminate = 'hard_lemit' THEN 10000
                     WHEN laminate = 'laminating_floor' and ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) THEN ( 40000 * qty ) / test
                     WHEN laminate = 'laminating_floor' and kode = 'digital' THEN 10000
@@ -1343,23 +1347,23 @@
                     ELSE '0'
                 END) as b_kotak,
                 (CASE
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 500 THEN 500_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 250 THEN 250_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 100 THEN 100_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 50 THEN 50_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 20 THEN 20_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 10 THEN 10_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 3 THEN 3sd5_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 2 THEN 2_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '32' and test >= 1 THEN 1_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 500 THEN 500_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 250 THEN 250_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 100 THEN 100_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 50 THEN 50_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
                     ELSE '0'
                 END) as b_AlatTambahan,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 50 THEN ( 50m_Cutting * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 10 THEN ( 10m_Cutting * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 3 THEN ( 3sd9m_Cutting * qty ) / test
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 1 THEN ( 1sd2m_Cutting * qty ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 50 THEN ( 50m_Cutting * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 10 THEN ( 10m_Cutting * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 3 THEN ( 3sd9m_Cutting * Uk_PxL )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 1 THEN ( 1sd2m_Cutting * Uk_PxL )
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 500 THEN 500_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 250 THEN 250_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 100 THEN 100_lembar_Cutting + potong
@@ -1377,14 +1381,18 @@
                     WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'lembar' THEN 1500
                     WHEN laminate = 'kilat1'and leminating_kilat >=20 and satuan = 'kotak' THEN 750*4
                     WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'kotak' THEN 1500*4
-                    WHEN ( laminate = 'kilat1' or laminate = 'kilat2' ) and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
-                    WHEN ( laminate = 'kilat1' or laminate = 'kilat2' ) and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
+                    WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
+                    WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2),0)
+                    WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
+                    WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2)*4,0)
                     WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'lembar' THEN 750
                     WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'lembar' THEN 1500
                     WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'kotak' THEN 750*4
                     WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'kotak' THEN 1500*4
-                    WHEN ( laminate = 'doff1' or laminate = 'doff2' ) and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
-                    WHEN ( laminate = 'doff1' or laminate = 'doff2' ) and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
+                    WHEN laminate = 'doff1' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
+                    WHEN laminate = 'doff2' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2),0)
+                    WHEN laminate = 'doff1' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
+                    WHEN laminate = 'doff2' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2)*4,0)
                     WHEN laminate = 'hard_lemit' THEN 10000
                     WHEN laminate = 'laminating_floor' and ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) THEN ( 40000 * qty ) / test
                     WHEN laminate = 'laminating_floor' and kode = 'digital' THEN 6300

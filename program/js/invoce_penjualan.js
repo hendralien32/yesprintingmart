@@ -68,15 +68,13 @@ function autoCalc() {
         data: fdata,
         success: function(data){
             var obj=$.parseJSON(data);
-            $('#notes').val(obj.notes);
-
-            // $('#b_digital').val(obj.b_digital);
-            // $('#b_kotak').val(obj.b_kotak);
-            // $('#b_finishing').val(obj.b_finishing);
-            // $('#b_large').val(obj.b_large);
-            // $('#b_indoor').val(obj.b_indoor);
-            // $('#b_xbanner').val(obj.b_xbanner);
-            // $('#b_laminate').val(obj.b_laminate);
+            $('#b_digital').val(obj.b_digital);
+            $('#b_kotak').val(obj.b_kotak);
+            $('#b_finishing').val(obj.b_finishing);
+            $('#b_large').val(obj.b_large);
+            $('#b_indoor').val(obj.b_indoor);
+            $('#b_xbanner').val(obj.b_xbanner);
+            $('#b_laminate').val(obj.b_laminate);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);

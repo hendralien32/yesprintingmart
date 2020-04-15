@@ -644,6 +644,7 @@
                 <?php else : ?>
                     <button onclick="submit('Update')">Update Order</button>
                 <?php endif; ?>
+                    <button onclick="open_form('Add_invoice')">Re-Add Invoice</button>
             </div>
             <div id="Result">
             

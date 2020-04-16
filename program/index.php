@@ -8,14 +8,6 @@
 
     require '../function.php';
 
-    // switch($_GET['page']) {
-    //     case "SO_YPM": 					$SO_YPM="active"; 					break;
-    //     case "SI_YPM": 					$SI_YPM="active"; 					break; 
-    // }
-
-    // switch($_GET['tab']) {
-    //     case "SalesYPM": 					$SalesYPM="active"; 					break;
-    // }
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +80,7 @@
             <ul>
                 <li>Dashboard</li>
                 <li>Database</li>
-                <a href="?page=SO_YPM&tab=SalesYPM"><li class='<?php echo "$SalesYPM"; ?>'>Penjualan</li></a>
+                <a href="?page=SO_YPM&tab=SalesYPM"><li class=''>Penjualan</li></a>
                 <li>Penjualan Yescom</li>
                 <li>Pelunasan</li>
                 <li>Yes WO List</li>
@@ -100,8 +92,8 @@
         </div>
         <div id="sub_menu">
             <ul>
-                <a href="?page=SO_YPM&tab=SalesYPM"><li class='<?php echo "$SO_YPM"; ?>'>Sales Order Yesprintingmart</li></a>
-                <a href="?page=SI_YPM&tab=SalesYPM"><li class='<?php echo "$SI_YPM"; ?>'>Sales Invoice Yesprintingmart</li></a>
+                <a href="?page=SO_YPM&tab=SalesYPM"><li class=''>Sales Order Yesprintingmart</li></a>
+                <a href="?page=SI_YPM&tab=SalesYPM"><li class=''>Sales Invoice Yesprintingmart</li></a>
                 <div class="clear"></div>
             </ul>
         </div>

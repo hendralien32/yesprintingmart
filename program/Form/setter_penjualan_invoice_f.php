@@ -7,7 +7,7 @@
 
 <input type="hidden" id="no_invoice" value="">
 <input type="hidden" id="InvoiceList_client_check" value="0">
-<input type="hidden" id="InvoiceList_setter_check" value="<?php echo "$_SESSION[uid]"; ?>">
+<input type="hidden" id="InvoiceList_setter_check" value="<?=$_SESSION['uid']; ?>">
 <input type="hidden" id="InvoiceList_Qty_check" value="0">
     <div id="outstandinglist"></div>
     <div id="Result"></div>

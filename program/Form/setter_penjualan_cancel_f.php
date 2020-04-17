@@ -3,9 +3,7 @@
     require_once "../../function.php";
 
     $ID_Order = $_POST['ID_Order'];
-?>
 
-<?php
     if($_POST['AksesEdit'] == "cancel_invoice") {    
 
         echo "
@@ -86,49 +84,51 @@
             penjualan.oid
         desc";
 
-                    
-        $data = mysqli_query($conn, $sql);
-        while($d = mysqli_fetch_array($data)) {
-            $kode_class=str_replace(" ","_",$d['kode_barang']);
-            $oid = explode("," , "$d[oid]");
-            $description = explode("," , "$d[description]");
-            $ukuran = explode("," , "$d[ukuran]");
-            $kode_barang = explode("," , "$kode_class");
-            $code = explode("," , "$d[code]");
-            $sisi = explode("," , "$d[sisi]");
-            $bahan = explode("," , "$d[bahan]");
-            $qty = explode("," , "$d[qty]");
-            $harga_satuan = explode("," , "$d[harga_satuan]");
-            $total = explode("," , "$d[total]");
-            $akses_edit = explode("," , "$d[akses_edit]");
-            $count_oid = count($oid);
-            
-            for($i=0;$i<$count_oid ;$i++){
-                $n = $i+1;
-                echo "
-                <tr>
-                    <td>$n</td>
-                    <td>$d[nama_client]</td>
-                    <td>$oid[$i]</td>
-                    <td><span class='KodeProject $kode_barang[$i]'>". strtoupper($code[$i]) ."</span></td>
-                    <td>$description[$i] $ukuran[$i]</td>
-                    <td>$sisi[$i]</td>
-                    <td>$bahan[$i]</td>
-                    <td>$qty[$i]</td>
-                    <td>". number_format($harga_satuan[$i]) ."</td>
-                    <td>". number_format($total[$i]) ."</td>
-                </tr>
-                ";
-            }
+        // Perform query
+        $result = $conn_OOP -> query($sql);
 
-        }
-    
-    echo "</table><br>";
-    $cancel_action = "cancel_invoice";
-?>    
+        if ($result->num_rows > 0) :
+            // output data of each row
+            while($d = $result->fetch_assoc()) :
+                $kode_class=str_replace(" ","_",$d['kode_barang']);
+                $oid = explode("," , "$d[oid]");
+                $description = explode("," , "$d[description]");
+                $ukuran = explode("," , "$d[ukuran]");
+                $kode_barang = explode("," , "$kode_class");
+                $code = explode("," , "$d[code]");
+                $sisi = explode("," , "$d[sisi]");
+                $bahan = explode("," , "$d[bahan]");
+                $qty = explode("," , "$d[qty]");
+                $harga_satuan = explode("," , "$d[harga_satuan]");
+                $total = explode("," , "$d[total]");
+                $akses_edit = explode("," , "$d[akses_edit]");
+                $count_oid = count($oid);
+                
+                for($i=0;$i<$count_oid ;$i++) :
+                    $n = $i+1;
+                    echo "
+                    <tr>
+                        <td>$n</td>
+                        <td>$d[nama_client]</td>
+                        <td>$oid[$i]</td>
+                        <td><span class='KodeProject $kode_barang[$i]'>". strtoupper($code[$i]) ."</span></td>
+                        <td>$description[$i] $ukuran[$i]</td>
+                        <td>$sisi[$i]</td>
+                        <td>$bahan[$i]</td>
+                        <td>$qty[$i]</td>
+                        <td>". number_format($harga_satuan[$i]) ."</td>
+                        <td>". number_format($total[$i]) ."</td>
+                    </tr>
+                    ";
+                endfor;
+            endwhile;
+        else :
 
+        endif;
 
-<?php
+        echo "</table><br>";
+        $cancel_action = "cancel_invoice";
+
     } else {
         
         echo "<h3 class='title_form'>$_POST[judul_form] Sales Order No. ID : $ID_Order</h3>";
@@ -178,7 +178,7 @@
                     WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
                     ELSE '- - -'
                 END) as alat_tambahan,
-                CONCAT(format(penjualan.qty,'de_DE'), ' ' ,penjualan.satuan) as qty,
+                CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
                 penjualan.potong,
                 penjualan.potong_gantung,
                 penjualan.pon,
@@ -204,134 +204,140 @@
                 penjualan.oid = '$ID_Order'
         ";
 
-        $result = mysqli_query($conn, $sql);
+        // Perform query
+        $result = $conn_OOP -> query($sql);
+
+        if ($result->num_rows > 0) :
+            // output data of each row
+            $row = $result->fetch_assoc();
             
-        if( mysqli_num_rows($result) === 1 ) {
-            $row = mysqli_fetch_assoc($result);
-        }
-?>
-        <div class="row">
-            <div class="col-6">
-                <table class='table-form'>
-                    <tr> <td>Kode Barang</td><td><?php echo $row['kode']; ?></td> </tr>
-                    <tr> <td>Client</td><td><?php echo ucwords($row['nama_client']); ?></td> </tr>
-                    <tr> <td>Deskripsi</td><td><?php echo ucfirst($row['description']); ?></td> </tr>
-                    <tr> <td>Ukuran</td><td><?php echo $row['ukuran']; ?></td> </tr>
-                    <tr> <td>sisi</td><td><?php echo $row['sisi']; ?></td> </tr>
-                    <tr> <td>Bahan</td><td><?php echo $row['bahan']; ?></td> </tr>
-                    <tr> <td>Notes / Finishing LF</td><td><?php echo ucfirst($row['keterangan']); ?></td> </tr>
-                </table>
-            </div>
-            <div class="col-6">
-                <table class='table-form'>
-                    <tr> <td>Laminating</td><td colspan="3"><?php echo $row['laminating']; ?></td> </tr>
-                    <tr> <td>Alat Tambahan</td><td colspan="3"><?php echo $row['alat_tambahan']; ?></td> </tr>
-                    <tr>
-                        <td>Finishing</td>
-                        <?php
-                            $array_kode = array(
-                                "potong",
-                                "potong_gantung",
-                                "pon",
-                                "perporasi",
-                                "CuttingSticker",
-                                "Hekter_Tengah",
-                                "Blok",
-                                "Spiral",
-                                "Proffing",
-                                "ditunggu",
-                                "Design"
-                            );
-                            foreach($array_kode as $kode) {
-                                if($row[$kode]=="Y") {
-                                    ${'check_'.$kode} = "<i class='fad fa-check-square'></i>";
-                                } else {
-                                    ${'check_'.$kode} = "<i class='fad fa-times-square'></i>";
+            ?>
+            
+            <div class="row">
+                <div class="col-6">
+                    <table class='table-form'>
+                        <tr> <td>Kode Barang</td><td><?php echo $row['kode']; ?></td> </tr>
+                        <tr> <td>Client</td><td><?php echo ucwords($row['nama_client']); ?></td> </tr>
+                        <tr> <td>Deskripsi</td><td><?php echo ucfirst($row['description']); ?></td> </tr>
+                        <tr> <td>Ukuran</td><td><?php echo $row['ukuran']; ?></td> </tr>
+                        <tr> <td>sisi</td><td><?php echo $row['sisi']; ?></td> </tr>
+                        <tr> <td>Bahan</td><td><?php echo $row['bahan']; ?></td> </tr>
+                        <tr> <td>Notes / Finishing LF</td><td><?php echo ucfirst($row['keterangan']); ?></td> </tr>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class='table-form'>
+                        <tr> <td>Laminating</td><td colspan="3"><?php echo $row['laminating']; ?></td> </tr>
+                        <tr> <td>Alat Tambahan</td><td colspan="3"><?php echo $row['alat_tambahan']; ?></td> </tr>
+                        <tr>
+                            <td>Finishing</td>
+                            <?php
+                                $array_kode = array(
+                                    "potong",
+                                    "potong_gantung",
+                                    "pon",
+                                    "perporasi",
+                                    "CuttingSticker",
+                                    "Hekter_Tengah",
+                                    "Blok",
+                                    "Spiral",
+                                    "Proffing",
+                                    "ditunggu",
+                                    "Design"
+                                );
+                                foreach($array_kode as $kode) {
+                                    if($row[$kode]=="Y") {
+                                        ${'check_'.$kode} = "<i class='fad fa-check-square'></i>";
+                                    } else {
+                                        ${'check_'.$kode} = "<i class='fad fa-times-square'></i>";
+                                    }
                                 }
-                            }
-                        ?>
-                        <td>
-                            <div class="contact100-form-checkbox">
-                                <?php echo $check_potong; ?>
-                                <label class='checkbox-fa' for='Ptg_Pts'> Ptg Putus </label>
-                            </div>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_potong_gantung; ?>
-                                <label class='checkbox-fa' for='Ptg_Gantung'> Ptg Gantung </label>
-                            </div>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_pon; ?>
-                                <label class='checkbox-fa' for='Pon_Garis'> Pon Garis </label>
-                            </div>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_perporasi; ?>
-                                <label class='checkbox-fa' for='Perporasi'> Perporasi </label>
-                            </div>
-                        </td>
-                        <td colspan="2">
-                            <div class="contact100-form-checkbox">
-                                <?php echo $check_CuttingSticker; ?>
-                                <label class='checkbox-fa' for='CuttingSticker'> Cutting Sticker </label>
-                            </div>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_Hekter_Tengah; ?>
-                                <label class='checkbox-fa' for='Hekter_Tengah'> Hekter Tengah </label>
-                            </div>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_Blok; ?>
-                                <label class='checkbox-fa' for='Blok'> Blok </label>
-                            </div>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_Spiral; ?>
-                                <label class='checkbox-fa' for='Spiral'> Ring Spiral </label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr> <td>Qty</td><td colspan="3"><?php echo $row['qty']; ?></td> </tr>
-                    <tr>
-                        <td>Permintaan Order</td>
-                        <td>
-                            <div class="contact100-form-checkbox">
-                                <?php echo $check_Proffing; ?>
-                                <label class='checkbox-fa' for='proffing'> Proffing</label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_ditunggu; ?>
-                                <label class='checkbox-fa' for='Ditunggu'> Ditunggu </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class='contact100-form-checkbox'>
-                                <?php echo $check_Design; ?>
-                                <label class='checkbox-fa' for='Design'> Design </label>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                            ?>
+                            <td>
+                                <div class="contact100-form-checkbox">
+                                    <?php echo $check_potong; ?>
+                                    <label class='checkbox-fa' for='Ptg_Pts'> Ptg Putus </label>
+                                </div>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_potong_gantung; ?>
+                                    <label class='checkbox-fa' for='Ptg_Gantung'> Ptg Gantung </label>
+                                </div>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_pon; ?>
+                                    <label class='checkbox-fa' for='Pon_Garis'> Pon Garis </label>
+                                </div>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_perporasi; ?>
+                                    <label class='checkbox-fa' for='Perporasi'> Perporasi </label>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="contact100-form-checkbox">
+                                    <?php echo $check_CuttingSticker; ?>
+                                    <label class='checkbox-fa' for='CuttingSticker'> Cutting Sticker </label>
+                                </div>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_Hekter_Tengah; ?>
+                                    <label class='checkbox-fa' for='Hekter_Tengah'> Hekter Tengah </label>
+                                </div>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_Blok; ?>
+                                    <label class='checkbox-fa' for='Blok'> Blok </label>
+                                </div>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_Spiral; ?>
+                                    <label class='checkbox-fa' for='Spiral'> Ring Spiral </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr> <td>Qty</td><td colspan="3"><?php echo $row['qty']; ?></td> </tr>
+                        <tr>
+                            <td>Permintaan Order</td>
+                            <td>
+                                <div class="contact100-form-checkbox">
+                                    <?php echo $check_Proffing; ?>
+                                    <label class='checkbox-fa' for='proffing'> Proffing</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_ditunggu; ?>
+                                    <label class='checkbox-fa' for='Ditunggu'> Ditunggu </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class='contact100-form-checkbox'>
+                                    <?php echo $check_Design; ?>
+                                    <label class='checkbox-fa' for='Design'> Design </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        </div>
-        
     <?php 
+
         $cancel_action = "Cancel";
-    } 
-    
+
+        else :
+
+        endif;
+    }
     ?>
-        
+
     <hr>
-        <div id="cancel_container">
-            <div class="cancel_left">
-                <input type="hidden" id="id_order" value="<?php echo $ID_Order; ?>">
-                Alasan Cancel
-            </div>
-            <div class="cancel_right">
-                <input type="hidden" id="id_order" value="<?php echo $ID_Order; ?>">
-                <textarea id='alasan_cancel' class='form ld' style='width:45vw;'></textarea>
-            </div>               
+    <div id="cancel_container">
+        <div class="cancel_left">
+            <input type="hidden" id="id_order" value="<?php echo $ID_Order; ?>">
+            Alasan Cancel
         </div>
-        <div class="row">                    
-            <div id="submit_menu">
-                <button onclick="cancel('<?php echo $cancel_action; ?>')">Cancel Order</button>
-            </div>
+        <div class="cancel_right">
+            <input type="hidden" id="id_order" value="<?php echo $ID_Order; ?>">
+            <textarea id='alasan_cancel' class='form ld' style='width:45vw;'></textarea>
+        </div>               
+    </div>
+    <div class="row">                    
+        <div id="submit_menu">
+            <button onclick="cancel('<?php echo $cancel_action; ?>')">Cancel Order</button>
         </div>
+    </div>

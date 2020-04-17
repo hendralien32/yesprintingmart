@@ -1,3 +1,7 @@
 Next Progressive
  
+ * Update Program To PHP Versi 7.4.4
+    - Error Di Form Sales Order
+    - Error Di Form Sales Invoice
+    
  * Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter )

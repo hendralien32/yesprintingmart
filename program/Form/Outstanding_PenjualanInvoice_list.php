@@ -34,12 +34,25 @@
                     DESC
                     ";
 
-                    $data = mysqli_query($conn, $sql);
-                    while($d = mysqli_fetch_array($data)) {
-                        if($_POST[InvoiceList_client_check]=="") { $check = "0"; } else { $check = "$_POST[InvoiceList_client_check]"; }
-                        if($d[client]=="$check") { $pilih = "selected"; } else { $pilih = ""; }
-                        echo "<option value='$d[client],$d[Qty_OID]' $pilih>$d[nama_client] [$d[Qty_OID]]</option>";
-                    }
+                    // Perform query
+                    $result = $conn_OOP -> query($sql);
+
+                    if ($result->num_rows > 0) :
+                        // output data of each row
+                        while($d = $result->fetch_assoc()) {
+                            if($_POST['InvoiceList_client_check']=="") : $check = "0"; 
+                            else : $check = "$_POST[InvoiceList_client_check]"; 
+                            endif;
+
+                            if($d['client']=="$check") : $pilih = "selected"; 
+                            else : $pilih = "";
+                            endif;
+
+                            echo "<option value='$d[client],$d[Qty_OID]' $pilih>$d[nama_client] [$d[Qty_OID]]</option>";
+                        }
+                    else :
+
+                    endif;
                 ?>
             </select>
             </td> </tr>
@@ -73,12 +86,25 @@
                         DESC
                         ";
 
-                        $data = mysqli_query($conn, $sql);
-                        while($d = mysqli_fetch_array($data)) {
-                            if($_POST[InvoiceList_setter_check]=="") { $check = "$_SESSION[uid]"; } else { $check = "$_POST[InvoiceList_setter_check]"; }
-                            if($d[uid]=="$check") { $pilih = "selected"; } else { $pilih = ""; }
-                            echo "<option value='$d[uid]' $pilih>$d[nama] [$d[Qty_OID]]</option>";
-                        }
+                        // Perform query
+                        $result = $conn_OOP -> query($sql);
+
+                        if ($result->num_rows > 0) :
+                            // output data of each row
+                            while($d = $result->fetch_assoc()) {
+                                if($_POST['InvoiceList_setter_check']=="") : $check = "$_SESSION[uid]"; 
+                                else : $check = "$_POST[InvoiceList_setter_check]"; 
+                                endif;
+
+                                if($d['uid']=="$check") : $pilih = "selected"; 
+                                else : $pilih = ""; 
+                                endif;
+                                
+                                echo "<option value='$d[uid]' $pilih>$d[nama] [$d[Qty_OID]]</option>";
+                            }
+                        else :
+
+                        endif;
                     ?>
                 </select>
                 </td> 
@@ -116,7 +142,7 @@
                         WHEN barang.id_barang > 0 THEN barang.nama_barang
                         ELSE penjualan.bahan
                     END) as bahan,
-                    CONCAT('<b>',format(penjualan.qty,'de_DE'), '</b> ' ,penjualan.satuan) as qty,
+                    CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
                     (CASE
                         WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
                         WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
@@ -149,27 +175,37 @@
                 desc
                 ";
                 $n = 0;
-                $data = mysqli_query($conn, $sql);
-                while($d = mysqli_fetch_array($data)) {
-                    $n++;
-                    $kode_class=str_replace(" ","_",$d['kode_barang']);
 
-                    echo "
-                        <tr>
-                            <td><input type='checkbox' id='cek_$n' name='option' value='$d[oid]'></td>
-                            <td><center>". $d['oid'] ."</Center></td>
-                            <td><span class='KodeProject ".$kode_class."'>". strtoupper($d['code']) ."</span></td>
-                            <td>". $d['description'] ."</td>
-                            <td><center><span class='".$d['css_sisi']." KodeProject'>". $d['sisi'] ."</span></center></td>
-                            <td>". $d['bahan'] ."</td>
-                            <td>". $d['ukuran'] ."</td>
-                            <td>". $d['qty'] ."</td>
-                            <td>". $d['Nama_Setter'] ."</td>
-                        </tr>
-                    ";
-                }
+                // Perform query
+                $result = $conn_OOP->query($sql);
+
+                if ($result->num_rows > 0) :
+                    // output data of each row
+                    while($d = $result->fetch_assoc()) :
+                        $n++;
+                        $kode_class=str_replace(" ","_",$d['kode_barang']);
+                        echo "
+                            <tr>
+                                <td><input type='checkbox' id='cek_$n' name='option' value='$d[oid]'></td>
+                                <td><center>". $d['oid'] ."</Center></td>
+                                <td><span class='KodeProject ".$kode_class."'>". strtoupper($d['code']) ."</span></td>
+                                <td>". $d['description'] ."</td>
+                                <td><center><span class='".$d['css_sisi']." KodeProject'>". $d['sisi'] ."</span></center></td>
+                                <td>". $d['bahan'] ."</td>
+                                <td>". $d['ukuran'] ."</td>
+                                <td>". $d['qty'] ."</td>
+                                <td>". $d['Nama_Setter'] ."</td>
+                            </tr>
+                        ";
+                    endwhile;
+                else :
+
+                endif;
             ?>
             </tr>
         </tbody>
     </table>
     <center><input type="button" class="myinput" value="Create Invoice" onclick="submitInvoice('create_invoice')"></center>
+</div>
+
+<?php $conn -> close(); ?>

@@ -93,11 +93,11 @@
 
                         if ($result->num_rows > 0) :
                             // output data of each row
-                            while($d = $result->fetch_assoc()) {
+                            while($d = $result->fetch_assoc()) :
                                 $Nama_Setter=ucwords($d['nama']);
                                 if($d['setter']=="$test") { $pilih = "selected"; } else { $pilih = ""; }
                                 echo "<option value='$d[setter]' $pilih>$Nama_Setter ($d[Qty])</option>"; 
-                            }
+                            endwhile;
                         else :
     
                         endif;

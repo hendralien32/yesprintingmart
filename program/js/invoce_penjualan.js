@@ -805,11 +805,11 @@ function submitInvoice(type) {
             jenis_submit    : type
         },
         beforeSend: function(){
-            // $('.myinput').attr("disabled","disabled");
+            $('.myinput').attr("disabled","disabled");
         },
         success: function(data){
             alert("Invoice berhasil di Dibuka !")
-            //$("#Result").html(data);
+            // $("#Result").html(data);
             hideBox();
             onload();
             return false;

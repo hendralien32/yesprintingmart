@@ -18,7 +18,7 @@
         LEFT( penjualan.invoice_date, 10 ) as tanggal,
         customer.nama_client,
         GROUP_CONCAT(penjualan.oid) as oid,
-        GROUP_CONCAT(penjualan.description SEPARATOR '◘') as description,
+        GROUP_CONCAT(penjualan.description SEPARATOR '*_*') as description,
         GROUP_CONCAT((CASE
             WHEN penjualan.panjang > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
             WHEN penjualan.lebar > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
@@ -28,7 +28,7 @@
             WHEN barang.id_barang > 0 THEN barang.nama_barang
             ELSE penjualan.bahan
         END)) as bahan,
-        GROUP_CONCAT(CONCAT('<b>',format(penjualan.qty,'de_DE'), '</b> ' ,penjualan.satuan)) as qty,
+        GROUP_CONCAT(CONCAT('<b>',penjualan.qty, '</b> ' ,penjualan.satuan)) as qty,
         GROUP_CONCAT((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)) as harga_satuan,
         GROUP_CONCAT(penjualan.discount) as discount,
         GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)*penjualan.qty)) as total,
@@ -71,42 +71,43 @@
     GROUP BY
         penjualan.no_invoice
     desc";
-                                    
-    $data = mysqli_query($conn, $sql);
-    while($d = mysqli_fetch_array($data)) {
-        $oid = explode("," , "$d[oid]");
-        $description = explode("◘" , "$d[description]");
-        $ukuran = explode("," , "$d[ukuran]");
-        $bahan = explode("," , "$d[bahan]");
-        $qty = explode("," , "$d[qty]");
-        $discount = explode("," , "$d[discount]");
-        $harga_satuan = explode("," , "$d[harga_satuan]");
-        $total = explode("," , "$d[total]");
 
-        $data_No_Invoice = "$d[no_invoice]";
-        $data_InvoiceDate = "$d[tanggal]";
-        $data_total = "$d[Total_keseluruhan]";
-        $data_Nama_Setter = "$d[Nama_Setter]";
-        $data_Nama_Sales = "$d[Nama_Sales]";
-        $data_nama_client = "$d[nama_client]";
+    // Perform query
+    $result = $conn_OOP->query($sql);
 
-        if($d['pembayaran']=="lunas") {
-            $check_Lunas = "LUNAS";
-            $Tgl_Lunas = "";
-        } elseif($d['Total_keseluruhan'] == $d['total_bayar']) {
-            $check_Lunas = "LUNAS";
-            $Tgl_Lunas = "". date("d M Y",strtotime($d['Tgl_Pelunasan'] ))."";
-        } else {
-            $check_Lunas = "BELUM LUNAS";
-            $Tgl_Lunas = "";
-        }
+    if ($result->num_rows > 0) :
+        while($d = $result->fetch_assoc()) :
+            $oid = explode("," , "$d[oid]");
+            $description = explode("*_*" , "$d[description]");
+            $ukuran = explode("," , "$d[ukuran]");
+            $bahan = explode("," , "$d[bahan]");
+            $qty = explode("," , "$d[qty]");
+            $discount = explode("," , "$d[discount]");
+            $harga_satuan = explode("," , "$d[harga_satuan]");
+            $total = explode("," , "$d[total]");
+            $data_No_Invoice = "$d[no_invoice]";
+            $data_InvoiceDate = "$d[tanggal]";
+            $data_total = "$d[Total_keseluruhan]";
+            $data_Nama_Setter = "$d[Nama_Setter]";
+            $data_Nama_Sales = "$d[Nama_Sales]";
+            $data_nama_client = "$d[nama_client]";
 
-        $diskon = "$d[total_discount]";
+            if($d['pembayaran']=="lunas") :
+                $check_Lunas = "LUNAS";
+                $Tgl_Lunas = "";
+            elseif($d['Total_keseluruhan'] == $d['total_bayar']) :
+                $check_Lunas = "LUNAS";
+                $Tgl_Lunas = "". date("d M Y",strtotime($d['Tgl_Pelunasan'] ))."";
+            else :
+                $check_Lunas = "BELUM LUNAS";
+                $Tgl_Lunas = "";
+            endif;
 
-        $total_invoice = $data_total - $diskon;
-         
-        $count_oid = count($oid);
-    }
+            $diskon = "$d[total_discount]";
+            $total_invoice = $data_total - $diskon;
+            $count_oid = count($oid);
+        endwhile;
+    endif;
 
 ?>
 
@@ -135,79 +136,83 @@
 
 <?php
 
-    if($type=="sales_invoice") { ?>
-        <div id='container'>
-            <div id='container_1'>
-                <div class='left'>
-                    <img src='../images/Logo YES BON.png'>
-                </div>
-                <div class='middle'>
-                    <div class='status_lunas'>
-                        <?= $check_Lunas; ?>
+    if(isset($_SESSION["login"])) :
+        if($type=="sales_invoice") : ?>
+            <div id='container'>
+                <div id='container_1'>
+                    <div class='left'>
+                        <img src='../images/Logo YES BON.png'>
                     </div>
-                    <div class='Tgl_lunas'>
-                        <?= $Tgl_Lunas; ?>
+                    <div class='middle'>
+                        <div class='status_lunas'>
+                            <?= $check_Lunas; ?>
+                        </div>
+                        <div class='Tgl_lunas'>
+                            <?= $Tgl_Lunas; ?>
+                        </div>
+                    </div>
+                    <div class='right'>
+                        <h3>INVOICE</h3>
+                        <table>
+                            <tr>
+                                <th width="4%">INVOICE#</th>
+                                <th width="4%">DATE</th>    
+                            </tr>
+                            <tr>
+                                <td><?= $data_No_Invoice; ?></td>
+                                <td><?= $data_InvoiceDate; ?></td>    
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div class='right'>
-                    <h3>INVOICE</h3>
-                    <table>
+                <div id='container_2'>
+                    <div id="left">
+                        <b>Client :</b> <?= $data_nama_client; ?>
+                    </div>
+                    <div id="right">
+                        <b>Setter :</b>  <?= $data_Nama_Setter; ?> | <b>Sales :</b>  <?= $data_Nama_Sales; ?>
+                    </div>
+                </div>
+                <div id='container_3'>
+                    <table class='table_print'>
                         <tr>
-                            <th width="4%">INVOICE#</th>
-                            <th width="4%">DATE</th>    
+                            <th width="1%">No.</th>
+                            <th width="61%">Deskripsi</th>
+                            <th width="12%">Qty</th>
+                            <th width="12%">@ Harga</th>
+                            <th width="14%">Harga</th>
+                        </tr>
+                        <?php
+                            for($i=0;$i<$count_oid ;$i++) :
+                                $no = $i+1 ;
+                                echo "
+                                <tr>
+                                    <td><center>$no</center></td>
+                                    <td>$description[$i]</td>
+                                    <td>$qty[$i]</td>
+                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>". number_format($total[$i]) ."</td>
+                                </tr>
+                                ";
+                            endfor;
+                        ?>
+                        <tr>
+                            <th colspan='4' style='text-align:right'>Substotal</th><td style='text-align:right'><b><?= number_format($data_total); ?></b></td>
                         </tr>
                         <tr>
-                            <td><?= $data_No_Invoice; ?></td>
-                            <td><?= $data_InvoiceDate; ?></td>    
+                            <th colspan='4' style='text-align:right'>Diskon</th><td style='text-align:right'><b><?= number_format($diskon); ?></b></td>
+                        </tr>
+                        <tr>
+                            <th colspan='4' style='text-align:right'>Invoice Total</th><td style='text-align:right'><b><?= number_format($total_invoice); ?></b></td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div id='container_2'>
-                <div id="left">
-                    <b>Client :</b> <?= $data_nama_client; ?>
-                </div>
-                <div id="right">
-                    <b>Setter :</b>  <?= $data_Nama_Setter; ?> | <b>Sales :</b>  <?= $data_Nama_Sales; ?>
-                </div>
-            </div>
-            <div id='container_3'>
-                <table class='table_print'>
-                    <tr>
-                        <th width="1%">No.</th>
-                        <th width="61%">Deskripsi</th>
-                        <th width="12%">Qty</th>
-                        <th width="12%">@ Harga</th>
-                        <th width="14%">Harga</th>
-                    </tr>
-                    <?php
-                        for($i=0;$i<$count_oid ;$i++){
-                            $no = $i+1 ;
-                            echo "
-                            <tr>
-                                <td><center>$no</center></td>
-                                <td>$description[$i]</td>
-                                <td>$qty[$i]</td>
-                                <td>". number_format($harga_satuan[$i]) ."</td>
-                                <td>". number_format($total[$i]) ."</td>
-                            </tr>
-                            ";
-                        }
-                    ?>
-                    <tr>
-                        <th colspan='4' style='text-align:right'>Substotal</th><td style='text-align:right'><b><?= number_format($data_total); ?></b></td>
-                    </tr>
-                    <tr>
-                        <th colspan='4' style='text-align:right'>Diskon</th><td style='text-align:right'><b><?= number_format($diskon); ?></b></td>
-                    </tr>
-                    <tr>
-                        <th colspan='4' style='text-align:right'>Invoice Total</th><td style='text-align:right'><b><?= number_format($total_invoice); ?></b></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    <?php } else {
+        
+    <?php 
+        endif;
+    else :
         header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
         exit();
-    }
+    endif;
 ?>

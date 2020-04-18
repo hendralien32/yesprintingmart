@@ -15,7 +15,7 @@
                 ELSE '- - -'
             END)) as kode,
             customer.nama_client,
-            GROUP_CONCAT(penjualan.description SEPARATOR '◘') as description,
+            GROUP_CONCAT(penjualan.description SEPARATOR '*_*') as description,
             GROUP_CONCAT((CASE
                 WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
                 WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
@@ -26,7 +26,7 @@
                 ELSE penjualan.bahan
             END)) as bahan,
             GROUP_CONCAT(penjualan.sisi) as sisi,
-            GROUP_CONCAT(CONCAT(format(penjualan.qty,'de_DE'), ' ' ,penjualan.satuan)) as qty,
+            GROUP_CONCAT(CONCAT(penjualan.qty, ' ' ,penjualan.satuan)) as qty,
             GROUP_CONCAT((CASE
                 WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
                 WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
@@ -113,13 +113,15 @@
         DESC
     ";
 
-    $result = mysqli_query($conn, $sql_query);
-            
-    if( mysqli_num_rows($result) === 1 ) {
-        $row = mysqli_fetch_assoc($result);
+    // Perform query
+    $result = $conn_OOP -> query($sql_query);
+
+    if ($result->num_rows > 0) :
+        // output data of each row
+        $row = $result->fetch_assoc();
 
         $oid = explode("," , "$row[oid]");
-        $description = explode("◘" , "$row[description]");
+        $description = explode("*_*" , "$row[description]");
         $ukuran = explode("," , "$row[ukuran]");
         $bahan = explode("," , "$row[bahan]");
         $sisi = explode("," , "$row[sisi]");
@@ -149,10 +151,8 @@
         $discount = explode("," , "$row[discount]");
         $harga_satuan = explode("," , "$row[harga_satuan]");
         $total = explode("," , "$row[total]");
-
         $count_oid = count($oid);
-    }
-
+    else : endif;
 ?>
 
 <h3 class='title_form'>Check Invoice Penjualan <span style="text-decoration:underline"><?= $row['nama_client'] ?></span> dengan No. Invoice <span style="text-decoration:underline">#<?= $_POST['data'] ?></span></h3>

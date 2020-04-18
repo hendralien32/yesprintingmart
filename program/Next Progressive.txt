@@ -1,7 +1,21 @@
 Next Progressive
  
- * Update Program To PHP Versi 7.4.4
-    - Error Di Form Sales Order
-    - Error Di Form Sales Invoice
+* Update Program To PHP Versi 7.4.4 [SOLVED]
+   - Error Di Form Sales Order [SOLVED]
+   - Error Di Form Sales Invoice [SOLVED]
+   - Update History Log [SOLVED]
+
+* Info  Sales Order saat tidak bisa di edit [SOLVED]
+   - Tambah harga [SOLVED]
+   - Kasih Validasi Untuk user [SOLVED]
+      ` Admin & CS bisa lihat harga [SOLVED]
+      ` untuk Setter hanya bisa lihat detail saja [SOLVED]
+
+* Ganti CSS Checkbox di form Invoice [SOLVED]
+
+* FIX Bug saat pertama kali masuk page Sales Order [SOLVED]
+   - tambah SCRIPT * $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; *
     
- * Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter )
+* Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter )
+
+* Error Di Print Invoice karena Update versi 7.4.4 [SOLVED]

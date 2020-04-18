@@ -83,7 +83,7 @@ function LaodForm(id,nid,Akses_Edit) {
                 }
             } else if( id == "setter_penjualan_cancel" ) { 
                 $("#alasan_cancel").focus();
-            } else if( id == "setter_penjualan_invoice" ) { 
+            } else if( id == "setter_penjualan_invoice" ) {
                 outstandinglist();
             }
         }

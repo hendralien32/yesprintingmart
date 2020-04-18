@@ -1,13 +1,12 @@
 <?php
     session_start();
 
+    require_once '../function.php';
+
     if( !isset($_SESSION["login"])) {
-        header("location:../");
+        header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
         exit;
     }
-
-    require '../function.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +79,7 @@
             <ul>
                 <li>Dashboard</li>
                 <li>Database</li>
-                <a href="?page=SO_YPM&tab=SalesYPM"><li class=''>Penjualan</li></a>
+                <a href="?page=SO_YPM&tab=SalesYPM"><li>Penjualan</li></a>
                 <li>Penjualan Yescom</li>
                 <li>Pelunasan</li>
                 <li>Yes WO List</li>
@@ -92,8 +91,8 @@
         </div>
         <div id="sub_menu">
             <ul>
-                <a href="?page=SO_YPM&tab=SalesYPM"><li class=''>Sales Order Yesprintingmart</li></a>
-                <a href="?page=SI_YPM&tab=SalesYPM"><li class=''>Sales Invoice Yesprintingmart</li></a>
+                <a href="?page=SO_YPM&tab=SalesYPM"><li>Sales Order Yesprintingmart</li></a>
+                <a href="?page=SI_YPM&tab=SalesYPM"><li>Sales Invoice Yesprintingmart</li></a>
                 <div class="clear"></div>
             </ul>
         </div>
@@ -104,16 +103,15 @@
             <?php
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-                if (isset($page)) {
-                    switch ($page) {
+                if (isset($page)) :
+                    switch ($page) :
                         case 'SO_YPM':       require_once('setter_penjualan.php');             break;
                         case 'SI_YPM':       require_once('invoce_penjualan.php');             break;
                         default:             require_once('test.php');
-                    }
-                } else {
+                    endswitch;
+                else :
                     echo "$page";
-                }
-                
+                endif;
             ?>
             </div>
             <div class="clear"></div>

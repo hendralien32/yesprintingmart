@@ -687,10 +687,10 @@ function submitInvoice(type) {
             // $('.myinput').attr("disabled","disabled");
         },
         success: function(data){
-            alert("Sales Invoice berhasil Dibuka !")
-            //$("#Result").html(data);
-            hideBox();
-            onload();
+            // alert("Sales Invoice berhasil Dibuka !")
+            $("#Result").html(data);
+            // hideBox();
+            // onload();
             return false;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

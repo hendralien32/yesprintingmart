@@ -1,6 +1,6 @@
 <script src="js/penjualan.js" async type="text/javascript" ></script>
 
-<?php if(null === $_SESSION['filter_ID_Penjualan']) { $abc = ""; } else { $abc = "$_SESSION[filter_ID_Penjualan]";} ?>
+<?php $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; ?>
 
 <div class="left_content">
     <button type="button" onclick="LaodForm('setter_penjualan')"><i class="far fa-plus-circle"></i> Add Order</button>

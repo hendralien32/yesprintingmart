@@ -340,7 +340,7 @@ input[type=date]::before {
 .label-checkbox100 {
     color: #353942;
     line-height: 1.4;
-    display: block;
+    display: inline-block;
     position: relative;
     padding-left: 26px;
     cursor: pointer;
@@ -538,6 +538,7 @@ a:hover {
 
 
 #content .right_content table, table.form_table {
+    width: 100%;
     border-collapse: collapse;
 }
 

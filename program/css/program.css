@@ -603,12 +603,8 @@ a:hover {
     background-color:#b91789;
 }
 
-.satu {
-    background-color:orange;
-}
-
-#content .right_content .indoor, .form_table .indoor {
-    background-color:#751f9c;
+#content .right_content .indoor, .form_table .indoor, .satu {
+    background-color:#f1592a;
 }
 
 #content .right_content .offset, .form_table .offset {
@@ -621,6 +617,31 @@ a:hover {
 
 #content .right_content .etc, .form_table .etc {
     background-color:#747474;
+}
+
+/* ------------------------------- */
+.tanda_digital {
+    color:#2b599e;
+}
+
+.tanda_large_format {
+    color:#b91789;
+}
+
+.tanda_indoor {
+    color:#f1592a;
+}
+
+.tanda_offset {
+    color:#078a62;
+}
+
+.tanda_Xuli {
+    color:#ff0000;
+}
+
+.tanda_etc {
+    color:#747474;
 }
 
 

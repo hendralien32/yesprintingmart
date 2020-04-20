@@ -14,8 +14,38 @@ Next Progressive
 * Ganti CSS Checkbox di form Invoice [SOLVED]
 
 * FIX Bug saat pertama kali masuk page Sales Order [SOLVED]
-   - tambah SCRIPT * $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; *
+   - tambah SCRIPT * $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; * [SOLVED]
     
-* Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter )
+* Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter ) [SOLVED]
 
 * Error Di Print Invoice karena Update versi 7.4.4 [SOLVED]
+
+* Pelunasan
+   - Tampilkan List Pelunasan Yang belum Lunas di tampilan awal
+   - Tampilan List Pelunasan yang sudah lunas berdasarkan tanggal
+   - Multiple Payment Button ( Berfungsi Untuk Client yang sama )
+   - Form Pelunasan
+   - Form History Pelunasan
+
+* Database
+   - Database user
+      ` List User Database
+      ` Add User
+      ` Update User
+      ` Delete User
+   - Database Client
+      ` List Client Database
+      ` Add Client
+      ` Update Client
+      ` Delete Client
+   - Database Barang
+      ` List Barang Database
+      ` Add Barang
+      ` Update Barang
+      ` Delete Barang
+   - Database PriceList
+      ` List PriceList Database
+      ` Add PriceList
+      ` Update PriceList
+      ` Delete PriceList
+      

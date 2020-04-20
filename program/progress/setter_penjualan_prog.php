@@ -2112,6 +2112,8 @@
             no_invoice		= '$_POST[ID_Order]'
         ";
     elseif($_POST['jenis_submit']=='ReAdd_Invoice') :
+        $waktu = date("Y-m-d H:I:s");
+
         $list_yes = "$_POST[idy]";
         $reid = explode("," , "$list_yes");
         foreach($reid as $yes) {
@@ -2126,7 +2128,7 @@
         if(isset($_POST['no_invoice'])){
             $test = $_POST['no_invoice'];
         } else {
-            $test = "";
+            $test = "0";
         }
 
         // SEARCH INVOICE END
@@ -2354,7 +2356,7 @@
                         FROM
                             penjualan
                         WHERE
-                            penjualan.oid IN ('$aid')
+                            penjualan.oid IN ($fix_yes)
                         GROUP BY
                             penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan
                         ) total_qty
@@ -2380,7 +2382,7 @@
                         FROM
                             penjualan
                         WHERE
-                            penjualan.oid IN ('$aid')
+                            penjualan.oid IN ($fix_yes)
                         GROUP BY
                             penjualan.ID_Bahan
                         ) total_laminate
@@ -2550,7 +2552,8 @@
                 b_xbanner = (CASE 
                                 $b_AlatTambahan
                             END),
-                history   =  CONCAT('$Final_log', history)
+                history   =  CONCAT('$Final_log', history),
+                inv_check =  'N'
             WHERE oid IN ($fix_yes);
         ";
 
@@ -2562,14 +2565,25 @@
         $REaid = implode("','", $n);
         $fix_no = "'$REaid'";
 
-        $query_no = "
-            update
-                penjualan
-            set
-                no_invoice = '0',
-                invoice_date = '0000-00-00 00:00:00'
-            where
-                oid in ($fix_no)
+        $Final_log = "
+            <tr>
+                <td>$hr, $timestamps</td>
+                <td>". $_SESSION['username'] ." Update Data</td>
+                <td><b>No Invoice</b> :  - </td>
+            </tr>
+        ";
+
+
+        $query_no = 
+        "UPDATE
+            penjualan
+        SET
+            no_invoice = '0',
+            invoice_date = '0000-00-00 00:00:00',
+            history   =  CONCAT('$Final_log', history),
+            inv_check =  'N'
+        WHERE
+            oid IN ($fix_no)
         ";
         
         if($list_no!="") { mysqli_query($conn, $query_no); }
@@ -2579,7 +2593,7 @@
     if (mysqli_query($conn, $sql)){
         echo "Records inserted or Update successfully.";
     } else{
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br><br> $fix_yes <br><br>" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br>" . mysqli_error($conn) . "</br>";
     }
     
     // Close connection

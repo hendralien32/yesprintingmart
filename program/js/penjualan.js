@@ -659,6 +659,7 @@ function cancel(id) {
 
 
 function submitInvoice(type) {
+    var si = document.getElementById("no_invoice").value;
     var j   = $('#InvoiceList_Qty_check').val();
     var x   = new Array ();
     var y   = new Array ();
@@ -671,26 +672,24 @@ function submitInvoice(type) {
 		}
 	}
 	var si_yes; si_yes = y.join();
-	var si_no; si_no = x.join();
-	
-	// var si = document.getElementById("form_invoice").value;
-    
+    var si_no; si_no = x.join();
+
     $.ajax({
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         data: {
             idy             : si_yes, 
             idx             : si_no,
+            no_invoice      : si,
             jenis_submit    : type
         },
         beforeSend: function(){
             // $('.myinput').attr("disabled","disabled");
         },
         success: function(data){
-            // alert("Sales Invoice berhasil Dibuka !")
-            $("#Result").html(data);
-            // hideBox();
-            // onload();
+            // $("#Result").html(data);
+            hideBox();
+            onload();
             return false;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

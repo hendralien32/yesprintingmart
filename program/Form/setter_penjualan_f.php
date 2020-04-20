@@ -651,10 +651,10 @@
                 <div id="submit_menu">
                     <?php if($row['no_invoice']!="0") :?>
                         <button onclick="submit('Update_SO_Invoice')">Update Order Invoice</button>
+                        <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>', '<?= $row['ID_Client']; ?>')">Re-Add Invoice <?= $row['no_invoice']; ?></button>
                     <?php else : ?>
                         <button onclick="submit('Update')">Update Order</button>
                     <?php endif; ?>
-                        <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>')">Re-Add Invoice <?= $row['no_invoice']; ?></button>
                 </div>
                 <div id="Result">
                 

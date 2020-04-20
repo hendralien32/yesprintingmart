@@ -81,7 +81,6 @@
                 <li>Database</li>
                 <a href="?page=SO_YPM&tab=SalesYPM"><li>Penjualan</li></a>
                 <li>Penjualan Yescom</li>
-                <li>Pelunasan</li>
                 <li>Yes WO List</li>
                 <li>Laporan</li>
                 <li>Large Format</li>
@@ -93,6 +92,7 @@
             <ul>
                 <a href="?page=SO_YPM&tab=SalesYPM"><li>Sales Order Yesprintingmart</li></a>
                 <a href="?page=SI_YPM&tab=SalesYPM"><li>Sales Invoice Yesprintingmart</li></a>
+                <a href="?page=Payment_YPM&tab=SalesYPM"><li>Pelunasan Yesprintingmart</li></a>
                 <div class="clear"></div>
             </ul>
         </div>
@@ -105,9 +105,10 @@
 
                 if (isset($page)) :
                     switch ($page) :
-                        case 'SO_YPM':       require_once('setter_penjualan.php');             break;
-                        case 'SI_YPM':       require_once('invoce_penjualan.php');             break;
-                        default:             require_once('test.php');
+                        case 'SO_YPM':              require_once('setter_penjualan.php');                   break;
+                        case 'SI_YPM':              require_once('invoce_penjualan.php');                   break;
+                        case 'Payment_YPM':         require_once('pelunasan_penjualan.php');            break;
+                        default:                    require_once('test.php');
                     endswitch;
                 else :
                     echo "$page";

@@ -41,3 +41,20 @@ function onload() {
         }
     });
 }
+
+function SearchClient() {
+    $('#loader').show();
+    onload();
+}
+
+function SearchData() {
+    var Validasi_Search = $('#search').val().length;
+
+    if(Validasi_Search > 5) {
+        $('#loader').show();
+        onload();
+    } else {
+        alert("Jumlah Character Harus Lebih dari 5 Character");
+        return false;
+    }
+}

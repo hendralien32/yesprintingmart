@@ -91,6 +91,12 @@
     --fa-secondary-color: dimgray;
 }
 
+.fa-cash-register {
+    --fa-primary-color:orange;
+    --fa-secondary-color: rgb(197, 77, 8); 
+    --fa-secondary-opacity: 1;
+}
+
 
 /*==================================================================
 [ Icon Active ]*/
@@ -310,8 +316,20 @@ input[type=text], input[type=date] {
     color :#353942;
 }
 
+input[type=month] {
+    padding: 5px 8px;
+    width: 18%;
+    border-top: 1px solid #aeaeae;
+    border-left: 1px solid #aeaeae;
+    border-right: 1px solid #aeaeae;
+    border-bottom:2px solid #f1592a;
+    outline:none;
+    background-color:#f6f6f6;
+    color :#353942;
+}
+
 input[type=text].data {
-    width: 50vh;
+    width: 45vh;
 }
 
 input[type=text].client {
@@ -323,7 +341,14 @@ input[type=date]::before {
     width: 29%;
     color: #aaa;
     font-weight: normal;
-  }
+}
+
+input[type=month]::before { 
+    content: attr(data-placeholder);
+    width: 29%;
+    color: #aaa;
+    font-weight: normal;
+}
 
 /*==================================================================
 [ Restyle Checkbox ]*/
@@ -441,7 +466,7 @@ a:hover {
 
 #header .header_right .user_logout a {
     font-weight:100;
-    color :#00a651;
+    color :#39b54a;
 }
 
 #menu, #sub_menu {
@@ -464,12 +489,12 @@ a:hover {
 }
 
 #menu ul li:hover {
-	background-color:#f86e2b;
+	background-color:#39b54a;
     cursor:pointer;
 }
 
 #menu ul li.active {
-	background-color:#f86e2b;
+	background-color:#39b54a;
 }
 
 #sub_menu ul {

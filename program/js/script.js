@@ -55,6 +55,8 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Cancel";
     } else if( id == "log" ) { 
         var judul = "Form Log";
+    } else if( id == "pelunasan_invoice" ) { 
+        var judul = "Form Pelunasan Invoice"; 
     } else {
         
     }

@@ -46,10 +46,6 @@
     font-weight: bold;
 }
 
-#cancel_container .cancel_right {
-
-}
-
 #cancel_container .cancel_right textarea {
     width: 80px;
 }
@@ -91,7 +87,7 @@
     --fa-secondary-color: dimgray;
 }
 
-.fa-cash-register {
+.fa-cash-register, .fa-credit-card  {
     --fa-primary-color:orange;
     --fa-secondary-color: rgb(197, 77, 8); 
     --fa-secondary-opacity: 1;
@@ -316,6 +312,10 @@ input[type=text], input[type=date] {
     color :#353942;
 }
 
+input[type=date]:disabled {
+    background-color:#e2e2e2;
+}
+
 input[type=month] {
     padding: 5px 8px;
     width: 18%;
@@ -329,7 +329,7 @@ input[type=month] {
 }
 
 input[type=text].data {
-    width: 45vh;
+    width: 43vh;
 }
 
 input[type=text].client {
@@ -338,7 +338,7 @@ input[type=text].client {
 
 input[type=date]::before { 
     content: attr(data-placeholder);
-    width: 29%;
+    width: 35%;
     color: #aaa;
     font-weight: normal;
 }
@@ -387,7 +387,7 @@ input[type=month]::before {
     width: 18px;
     height: 18px;
     border-radius: 2px;
-    background: #fff;
+    /* background: #fff; */
     border: 1px solid #aeaeae;
     left: 0;
     top: 50%;
@@ -397,10 +397,16 @@ input[type=month]::before {
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-  
+
 .input-checkbox100:checked + .label-checkbox100::before {
     color: #ff7200;
 }
+
+
+.input-checkbox100:disabled + .label-checkbox100::before {
+    background: #e2e2e2;
+}
+
 
 
 body {

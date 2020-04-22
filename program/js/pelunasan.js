@@ -25,10 +25,11 @@ function onload() {
     var client          = $('#Search_Client').val();
     var Dari_Tanggal    = $('#dari_tanggal').val();
     var Ke_Tanggal      = $('#ke_tanggal').val();
+    var show_lunas;     if($('#Check_box').prop("checked") == true) { show_lunas = "Y"; } else { show_lunas = "N"; }
 
     $.ajax({
         type: "POST",
-        data: {data:search, Dari_Tanggal:Dari_Tanggal, Ke_Tanggal:Ke_Tanggal, client:client},
+        data: {data:search, Dari_Tanggal:Dari_Tanggal, Ke_Tanggal:Ke_Tanggal, client:client, show_lunas:show_lunas},
         url: "Ajax/pelunasan_penjualan_Ajax.php",
         cache: false,
         success: function(data){
@@ -51,6 +52,7 @@ function SearchClient() {
         onload();
     } else {
         alert("Jumlah Character Harus Lebih dari 2 Character");
+    }
 }
 
 function SearchData() {
@@ -58,10 +60,37 @@ function SearchData() {
     var Validasi_Search = $('#search').val().length;
 
     if(Validasi_Search > 5) {
+        $('#Check_box').prop("checked", true);
         $('#loader').show();
         onload();
     } else {
         alert("Jumlah Character Harus Lebih dari 5 Character");
         return false;
     }
+}
+
+function SearchFrom() {
+    var dari_tanggal = $('#dari_tanggal').val();
+    var All_Element =  ["ke_tanggal", "Check_box"];
+    
+    for (i = 0; i < All_Element.length; i++) {
+        $('#'+All_Element[i]+'').prop("disabled", false);
+        $('#'+All_Element[i]+'').prop("readonly", false);
+    }
+
+    $('#ke_tanggal').attr('min' , dari_tanggal);
+    $('#Check_box').prop("checked", true);
+    $('#loader').show();
+    
+    onload();
+}
+
+function SearchTo() {
+    $('#loader').show();
+    onload();
+}
+
+function show_lunas() {
+    $('#loader').show();
+    onload();
 }

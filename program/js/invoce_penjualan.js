@@ -238,7 +238,7 @@ function SearchData() {
         $('#loader').show();
         onload();
     } else {
-        alert("Jumlah Character Harus Lebih dari 3 huruf");
+        alert("Jumlah Character Harus Lebih dari 3 Character");
         return false;
     }
 }
@@ -251,7 +251,7 @@ function SearchClient() {
         $('#loader').show();
         onload();
     } else {
-        alert("Jumlah Character Harus Lebih dari 3 huruf");
+        alert("Jumlah Character Harus Lebih dari 3 Character");
         return false;
     }
 }

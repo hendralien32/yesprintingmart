@@ -2,6 +2,17 @@
     session_start();
 
     require_once '../../function.php';
+
+    if($_POST['data'] != '' && $_POST['client'] == '' ) :
+        $Add_Search = "and penjualan.no_invoice LIKE '%$_POST[data]%'";
+    elseif($_POST['data'] == '' && $_POST['client'] != '' ) :
+        $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%'";
+    else :
+        $Add_Search = "";
+    endif;
+
+    $cari_keyword_client = $_POST['client'];
+    $bold_cari_keyword_client = "<span style='text-decoration:underline'>".$_POST['client']."</span>";
 ?>
 <script>
     $(function () {
@@ -109,8 +120,9 @@
                                             penjualan.no_invoice != '' and
                                             penjualan.client !='1' and
                                             -- LEFT( penjualan.invoice_date, 10 ) = '2020-04-18' and
-                                            -- penjualan.client ='1102' and
-                                            penjualan.pembayaran != 'lunas'
+                                            penjualan.pembayaran != 'lunas' and 
+                                            penjualan.cancel!='Y'
+                                            $Add_Search
                                         GROUP BY
                                             penjualan.no_invoice
                                     ) penjualan
@@ -158,7 +170,7 @@
                         echo "
                             <tr>
                                 <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>$no</td>
-                                <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>$d[nama_client]</td>
+                                <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>". str_ireplace($cari_keyword_client,$bold_cari_keyword_client,$d['nama_client']) ."</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>$tanggal_Inv[0]</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[0]</td>
                                 <td><b class='tanda_$kode_barang[0]'>▐</b> $OID[0] - $description[0]</td>
@@ -220,9 +232,13 @@
                             <td colspan='5'>Total Invoice $d[nama_client] [$Count_No_Invoice]</td>
                             <td style='text-align:right'>". number_format($ArraySum_Total) ."</td>
                             <td style='text-align:right'>". number_format($ArraySum_Total_Pembayaran) ."</td>
+                            <td>Multipayment</td>
                         </tr>
                         ";
                     endwhile;
+                else :
+                    $Nilai_Total = 0;
+                    $Nilai_Total_bayar = 0;
                 endif;
 
             ?>

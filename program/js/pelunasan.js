@@ -51,6 +51,17 @@ function SearchClient() {
         onload();
     } else {
         alert("Jumlah Character Harus Lebih dari 2 Character");
+}
+
+function SearchData() {
+    $('#Search_Client').val("");
+    var Validasi_Search = $('#search').val().length;
+
+    if(Validasi_Search > 5) {
+        $('#loader').show();
+        onload();
+    } else {
+        alert("Jumlah Character Harus Lebih dari 5 Character");
         return false;
     }
 }

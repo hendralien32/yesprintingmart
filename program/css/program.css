@@ -542,8 +542,8 @@ a:hover {
     border-collapse: collapse;
 }
 
-#content .right_content table tr:hover {
-    background-color: #AEAEAE;
+#content .right_content table tr:hover, table tbody tr td.hover {
+    background-color: rgb(224, 224, 224);
 }
 
 #content .right_content table tr th, table.form_table tr th {
@@ -580,7 +580,6 @@ a:hover {
     border-bottom:1px solid #d9d9d9;
     vertical-align: middle;
     padding : 8px;
-    background-color:rgba(255,255,255,0.7);
 }
 
 #content .right_content table tr.cancel td {

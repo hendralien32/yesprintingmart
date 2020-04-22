@@ -3,6 +3,32 @@
 
     require_once '../../function.php';
 ?>
+<script>
+    $(function () {
+        $("td").hover(function () {
+            $el = $(this);
+            $el.parent().addClass("hover");
+            var tdIndex = $('tr').index($el.parent());
+            if ($el.parent().has('td[rowspan]').length == 0) {
+                $el.parent().prevAll('tr:has(td[rowspan]):first')
+                .find('td[rowspan]').filter(function () {
+                    return checkRowSpan(this, tdIndex);
+                }).addClass("hover");
+            }
+        }, function () {
+            $el.parent()
+            .removeClass("hover")
+            .prevAll('tr:has(td[rowspan]):first')
+            .find('td[rowspan]')
+            .removeClass("hover");
+        });
+    });
+    function checkRowSpan(element, pIndex) {
+        var rowSpan = parseInt($(element).attr('rowspan'));
+        var cIndex = $('tr').index($(element).parent());
+        return rowSpan >= pIndex + 1 || (cIndex + rowSpan) > pIndex;
+    }
+</script>
 
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
     <table>
@@ -190,7 +216,7 @@
                         $Nilai_Total_bayar = number_format(array_sum($total_pembayaran));
 
                         echo "
-                        <tr id='total_invoice' style='font-weight:bold; background-color:#4389e8;'>
+                        <tr id='total_invoice' style='font-weight:bold; background-color:#b5d0f5;'>
                             <td colspan='5'>Total Invoice $d[nama_client] [$Count_No_Invoice]</td>
                             <td style='text-align:right'>". number_format($ArraySum_Total) ."</td>
                             <td style='text-align:right'>". number_format($ArraySum_Total_Pembayaran) ."</td>

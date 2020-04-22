@@ -41,3 +41,16 @@ function onload() {
         }
     });
 }
+
+function SearchClient() {
+    $('#search').val("");
+    var Validasi_Search = $('#Search_Client').val().length;
+
+    if(Validasi_Search >= 2) {
+        $('#loader').show();
+        onload();
+    } else {
+        alert("Jumlah Character Harus Lebih dari 2 Character");
+        return false;
+    }
+}

@@ -26,6 +26,34 @@
     $cari_keyword_client = $_POST['client'];
     $bold_cari_keyword_client = "<strong style='text-decoration:underline'>".$_POST['client']."</strong>";
 ?>
+
+<script>
+    $(function () {
+        $("td").hover(function () {
+            $el = $(this);
+            $el.parent().addClass("hover");
+            var tdIndex = $('tr').index($el.parent());
+            if ($el.parent().has('td[rowspan]').length == 0) {
+                $el.parent().prevAll('tr:has(td[rowspan]):first')
+                .find('td[rowspan]').filter(function () {
+                    return checkRowSpan(this, tdIndex);
+                }).addClass("hover");
+            }
+        }, function () {
+            $el.parent()
+            .removeClass("hover")
+            .prevAll('tr:has(td[rowspan]):first')
+            .find('td[rowspan]')
+            .removeClass("hover");
+        });
+    });
+    function checkRowSpan(element, pIndex) {
+        var rowSpan = parseInt($(element).attr('rowspan'));
+        var cIndex = $('tr').index($(element).parent());
+        return rowSpan >= pIndex + 1 || (cIndex + rowSpan) > pIndex;
+    }
+</script>
+
     <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
     <table>
         <tbody>
@@ -188,7 +216,7 @@
                             if($d['cancel']!="Y") { 
                                 $button_Cancel = "<span class='icon_status' onclick='LaodForm(\"setter_penjualan_cancel\", \"". $d['no_invoice'] ."\", \"cancel_invoice\")'><i class='far fa-trash-alt text-danger'></i></span>"; 
                                 $css_cancel = ""; 
-                                $sub_css_cancel = "background-color:#4389e8;";
+                                $sub_css_cancel = "background-color:#b5d0f5;";
                             } else { 
                                 $button_Cancel = ""; 
                                 $css_cancel = "cancel"; 
@@ -199,7 +227,7 @@
                             $button_Cancel = ""; 
                             if($d['cancel']!="Y") { 
                                 $css_cancel = ""; 
-                                $sub_css_cancel = "background-color:#4389e8;";
+                                $sub_css_cancel = "background-color:#b5d0f5;";
                             } else {
                                 $css_cancel = "cancel"; 
                                 $sub_css_cancel = "background-color:red;";

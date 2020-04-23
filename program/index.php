@@ -7,19 +7,28 @@
         header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
         exit;
     }
+
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    if (isset($page)) :
+        switch ($page) :
+            case 'SO_YPM':              $title = 'Sales Order YESPRINTINGMART';                   break;
+            case 'SI_YPM':              $title = 'Sales Invoice YESPRINTINGMART';                      break;
+            case 'Payment_YPM':         $title = 'Pelunasan YESPRINTINGMART';                            break;
+            default:                    $title = 'YES Program V.5.0';
+        endswitch;
+    endif;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>YES Program V.5.0</title>
+	<title><?= $title; ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
 
     <link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
-    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
     <link rel="stylesheet" type="text/css" href="../fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">

@@ -94,3 +94,19 @@ function show_lunas() {
     $('#loader').show();
     onload();
 }
+
+function Copy_SisaByr(data) {
+    $("#jumlah_besar").val(data);
+}
+
+function submit(data) {
+    var tanggal_bayar = $('#tanggal_bayar').val();
+    var jumlah_bayar = $('#jumlah_bayar').val();
+    var adjust = $('#adjust').val();
+    var nomor_atm = $('#nomor_atm').val();
+    var bank = $('#bank').val();
+    var rekening_tujuan = $('#rekening_tujuan').val();
+    var sisa_bayar = $('#sisa_bayar').val();
+
+    alert(tanggal_bayar);
+}

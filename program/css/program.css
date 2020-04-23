@@ -1,3 +1,18 @@
+@font-face {
+    font-family: B612-Regular;
+    src: url(../../fonts/B612/B612-Regular.ttf);
+}
+
+@font-face {
+    font-family: Karla-Regular;
+    src: url(../../fonts/Karla/Karla-Regular.ttf);
+}
+
+@font-face {
+    font-family: KG Broken Vessels Sketch;
+    src: url(../../fonts/KGBrokenVesselsSketch/KGBrokenVesselsSketch.ttf);
+}
+
 .clear:after { 
    content: "."; 
    visibility: hidden; 
@@ -48,6 +63,10 @@
 
 #cancel_container .cancel_right textarea {
     width: 80px;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 /*==================================================================
@@ -264,8 +283,6 @@
 [ Restyle Input Type File ]*/
 
 
-
-
 /*==================================================================
 [ Restyle button ]*/
 
@@ -410,7 +427,8 @@ input[type=month]::before {
 
 
 body {
-	margin:0px;
+    margin:0px;
+    font-family: Karla-Regular, B612-Regular;
     /* background:url(../../images/light-grey-terrazzo.png) repeat; */
     background-color: #f8f8f8;
     color :#353942;
@@ -425,14 +443,21 @@ a:hover {
     text-decoration: none;
 }
 
-.pointer {
-    cursor: pointer;
+.status_lunas {
+    font-family: KG Broken Vessels Sketch;
+    color: forestgreen;
+    font-size: 38px;
+    flex-direction: column;
+}
+
+.status_lunas span {
+    display: flex;
+    justify-content: center;
 }
 
 #wrapper {
 	width:100%;
     margin:0px auto;
-    font-family: 'Maven Pro', 'Quicksand', sans-serif;
 }
 
 #header {
@@ -526,6 +551,24 @@ a:hover {
 	background-color:#39b54a;
 }
 
+#bagDetail table.table-detail {
+    width:80%;
+    border:1px solid #aeaeae;
+    border-collapse: separate;
+   
+}
+
+#bagDetail table.table-detail tr:nth-child(3) {
+    color: red;
+}
+
+#bagDetail table.table-detail tr td {
+    padding: 9px;
+}
+
+#bagDetail table.table-pelunasan tr td {
+    padding: 7px;
+}
 
 #content .left_content {
     width: 98%;
@@ -566,7 +609,6 @@ a:hover {
 .container-fluid .myinput {
     margin-top:10px;
 }
-
 
 #content .right_content table, table.form_table {
     width: 100%;
@@ -747,6 +789,16 @@ a:hover {
     font-size: 18px;
 }
 
+table.table-pelunasan tr td:nth-child(1) {
+    font-weight: bold;
+    width: 40%;
+}
+
+table.table-detail tr td:nth-child(1) {
+    font-weight: bold;
+    width: 50%;
+}
+
 table.table-form tr td:nth-child(1) {
     font-weight: bold;
 }
@@ -803,7 +855,7 @@ textarea.form {
         width: 35%;
     }
 
-    input[type=text].form, input[type=number].form {
+    input[type=text].form, input[type=number].form, input[type=date].form  {
         padding: 3px 8px;
         border: 1px solid #aeaeae;
         background-color: white;
@@ -852,7 +904,7 @@ textarea.form {
         width: 35%;
     }
 
-    input[type=text].form, input[type=number].form {
+    input[type=text].form, input[type=number].form, input[type=date].form {
         padding: 5px 8px;
         border: 1px solid #aeaeae;
         outline:none;

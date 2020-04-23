@@ -195,17 +195,15 @@
 
                         if(isset($pay_date[0])) {
                             if($Status_Lunas[0] == "Lunas") :
-                                $Status = "<span style='font-weight:bold; color:green'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[0]))."</span>";
+                                $Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[0]))."</span>";
                             else :
                                 $Status = "
-                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
-                                    <span class='icon_status pointer'><i class='fad fa-credit-card'></i></span>
+                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
                                 ";
                             endif;
                         } else {
                             $Status = "
-                                <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
-                                <span class='icon_status pointer'><i class='fad fa-credit-card'></i></span>
+                                <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
                             ";
                         }
                         
@@ -242,17 +240,15 @@
 
                             if(isset($pay_date[$i])) {
                                 if($Status_Lunas[$i] == "Lunas") :
-                                    $X_Status = "<span style='font-weight:bold; color:green'><i class='fas fa-money-bill'></i>". date("d M Y",strtotime($pay_date[$i]))."</span>";
+                                    $X_Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[$i]))."</span>";
                                 else :
                                     $X_Status = "
-                                        <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
-                                        <span class='icon_status pointer'><i class='fad fa-credit-card'></i></span>
+                                        <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
                                     ";
                                 endif;
                             } else {
                                 $X_Status = "
-                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
-                                    <span class='icon_status pointer'><i class='fad fa-credit-card'></i></span>
+                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
                                 ";
                             }
 

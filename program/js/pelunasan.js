@@ -59,7 +59,7 @@ function SearchData() {
     $('#Search_Client').val("");
     var Validasi_Search = $('#search').val().length;
 
-    if(Validasi_Search > 5) {
+    if(Validasi_Search >= 4) {
         $('#Check_box').prop("checked", true);
         $('#loader').show();
         onload();
@@ -96,17 +96,79 @@ function show_lunas() {
 }
 
 function Copy_SisaByr(data) {
-    $("#jumlah_besar").val(data);
+    $("#jumlah_bayar").val(data);
 }
 
-function submit(data) {
+function submit(id, no_invoice) {
+    var spans = $( "#jumlah_bayar" );
+
     var tanggal_bayar = $('#tanggal_bayar').val();
-    var jumlah_bayar = $('#jumlah_bayar').val();
-    var adjust = $('#adjust').val();
+    var jumlah_bayar = $('#jumlah_bayar').val() || 0;
+    var adjust = $('#adjust').val() || 0;
     var nomor_atm = $('#nomor_atm').val();
     var bank = $('#bank').val();
     var rekening_tujuan = $('#rekening_tujuan').val();
-    var sisa_bayar = $('#sisa_bayar').val();
+    var sisa_bayar = $('#sisa_bayar').val() || 0;
 
-    alert(tanggal_bayar);
+    if( jumlah_bayar == "" ) {
+        alert("Jumlah Bayar Tidak boleh kosong");
+        $(".table-pelunasan").find( spans ).css( "background-color", "#ffe2e3" );
+        return false;
+    } else if(jumlah_bayar > sisa_bayar) {
+        alert("Jumlah Bayar Tidak boleh lebih besar dari sisa bayar");
+        $(".table-pelunasan").find( spans ).css( "background-color", "#ffe2e3" );
+        return false;
+    }
+
+    var fdata = new FormData()
+    fdata.append("tanggal_bayar", tanggal_bayar);
+    fdata.append("jumlah_bayar", jumlah_bayar);
+    fdata.append("adjust", adjust);
+    fdata.append("nomor_atm", nomor_atm);
+    fdata.append("bank", bank);
+    fdata.append("rekening_tujuan", rekening_tujuan);
+    fdata.append("sisa_bayar", sisa_bayar);
+    fdata.append("no_invoice", no_invoice);
+    fdata.append("jenis_submit", id);
+
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        cache: false,
+		processData : false,
+		contentType : false,
+        data: fdata,
+        beforeSend: function() {
+            $('#submitBtn').attr("disabled","disabled");
+            $(".icon-close").removeAttr('onclick');
+        },
+        success: function(data) {
+            // $("#bagDetail").html(data);
+            hideBox();
+            onload();
+            return false;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
+}
+
+function force_paid(ID_Order) {
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        data: {
+            ID_Order        : ID_Order,
+            jenis_submit    : "force_paid"
+        },
+        success: function(data){
+            alert("Status Pelunasan sudah LUNAS");
+            onload();
+            return false;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
 }

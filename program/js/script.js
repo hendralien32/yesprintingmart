@@ -31,7 +31,7 @@ function LaodSubForm(id,nid) {
     if( id == "setter_penjualan" ) { 
         var judul = "FORM SETTER PENJUALAN";
     } else {
-        
+        var judul = "404 Not Found";
     }
 
     $.ajax({

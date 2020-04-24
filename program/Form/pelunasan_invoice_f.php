@@ -140,7 +140,7 @@ if( $sisa_bayar != 0 ) :
                 <tr class='pointer' onclick="Copy_SisaByr('<?= $sisa_bayar ?>')"> 
                     <td>Sisa Bayar</td>
                     <td>
-                        <?= number_format($sisa_bayar); ?> <i class="fas fa-copy" style='margin-left:10px'></input>
+                        <?= number_format($sisa_bayar); ?> <i class="fas fa-copy" style='margin-left:10px'></i>
                         <input type="hidden" id="sisa_bayar" value="<?= $sisa_bayar ?>">
                     </td>
                 </tr>
@@ -148,7 +148,10 @@ if( $sisa_bayar != 0 ) :
         </div>
         <div id="submit_menu">
             <hr>
-            <button onclick="submit('Pay')" id="submitBtn">Bayar Invoice</button>
+            <button onclick="submit('Payment','<?= $_POST['ID_Order'] ?>')" id="submitBtn">Bayar Invoice</button>
+        </div>
+        <div id="Result">
+            
         </div>
     </div>
 <?php 
@@ -239,15 +242,23 @@ endif;
         <table class="form_table">
             <tr>
                 <th width="16%">Tanggal</th>
-                <th width="18%">Tipe Pembayaran</th>
-                <th width="22%">Jumlah Pembayaran</th>
+                <th width="20%">Tipe Pembayaran</th>
+                <th width="20%">Jumlah Pembayaran</th>
                 <th width="22%">Jumlah Adjustment</th>
                 <th width="22%">Total Terima</th>
             </tr>
             <?php
                 $sql = 
                 "SELECT
-                    pid, tot_pay, adj_pay, type_pem, tipe_gesek, jenis_kartu, pay_date, LEFT( pay_date, 10 ) as tanggal, (tot_pay-adj_pay) as total_terima
+                    pid, tot_pay, 
+                    adj_pay, 
+                    type_pem, 
+                    tipe_gesek, 
+                    jenis_kartu, 
+                    nomor_kartu,
+                    rekening_tujuan,
+                    pay_date, pay_date as tanggal, 
+                    (tot_pay-adj_pay) as total_terima
                 from
                     pelunasan
                 where
@@ -260,19 +271,24 @@ endif;
                 if ($result->num_rows > 0) :
                     while($d = $result->fetch_assoc()) :
 
-                        if($d['type_pem']=="cash" or $d['type_pem']=="DP") { 
+                        if($d['type_pem']==='cash' or $d['type_pem']==='Cash') {
                             $type_pem="$d[type_pem]"; 
+                        } elseif($d['type_pem']=="DP") {
+                            $type_pem="Down Payment";
+                        } elseif($d['type_pem']=="Kartu Kredit") {
+                            $type_pem="$d[jenis_kartu] - $d[nomor_kartu] <i class='fas fa-chevron-double-right'></i> $d[rekening_tujuan]"; 
                         } else { 
-                            $type_pem="$d[jenis_kartu]"; 
+                            $type_pem="- - -"; 
                         }
                         
                         echo "
                             <tr>
-                                <td><center><b>". date("d M Y",strtotime($d['tanggal'])) ."</b></center></td>
+                                <td><center><b>". date("d M Y H:i A",strtotime($d['tanggal'])) ."</b></center></td>
                                 <td><center><b>$type_pem</b></center></td>
                                 <td style='text-align:right; padding-right:20px'>".number_format($d['tot_pay'])."</td>
                                 <td style='text-align:right; padding-right:20px'>".number_format($d['adj_pay'])."</td>
                                 <td style='text-align:right; padding-right:20px'>". number_format($d['total_terima'])."</td>
+                                <td class='pointer' onclick='showSubBox(\"pelunasan_InvEdit\", \"". $d['pid'] ."\")'><i class='fas fa-edit'></i></td>
                             </tr>
                         ";
                     endwhile;

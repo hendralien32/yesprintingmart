@@ -2586,7 +2586,62 @@
             oid IN ($fix_no)
         ";
         
-        if($list_no!="") { mysqli_query($conn, $query_no); }
+        if($list_no!="") { 
+            mysqli_query($conn, $query_no); 
+        } else {
+
+        }
+
+    elseif($_POST['jenis_submit']=='Payment') :
+        
+        if(($_POST['sisa_bayar'] == $_POST['jumlah_bayar']) and $_POST['bank'] == "") {
+            $type_pembayaran = "Cash";
+            $status_lunas = "Lunas";
+        } elseif(($_POST['jumlah_bayar'] < $_POST['sisa_bayar']) and $_POST['bank'] == "") {
+            $type_pembayaran = "DP";
+            $status_lunas = "";
+        } elseif(($_POST['sisa_bayar'] == $_POST['jumlah_bayar']) and $_POST['bank'] != "") {
+            $type_pembayaran = "Kartu Kredit";
+            $status_lunas = "Lunas";
+        } elseif(($_POST['jumlah_bayar'] < $_POST['sisa_bayar']) and $_POST['bank'] != "") {
+            $type_pembayaran = "DP Kartu Kredit";
+            $status_lunas = "";
+        } else {
+            $type_pembayaran = "";
+            $status_lunas = "";
+        }
+        
+        if($status_lunas=="Lunas") { 
+            $penjualan_Lunas = 
+            "UPDATE
+                penjualan
+            SET
+                pembayaran = 'lunas'
+            WHERE
+                no_invoice = '$_POST[no_invoice]'
+            ";
+
+            $conn_OOP -> query($penjualan_Lunas);
+        } else { }
+
+        $sql = 
+        "INSERT INTO pelunasan (
+            no_invoice,
+            tot_pay,
+            adj_pay,
+            type_pem,
+            jenis_kartu,
+            nomor_kartu,
+            rekening_tujuan
+        ) VALUES (
+            '$_POST[no_invoice]',
+            '$_POST[jumlah_bayar]',
+            '$_POST[adjust]',
+            '$type_pembayaran',
+            '$_POST[bank]',
+            '$_POST[nomor_atm]',
+            '$_POST[rekening_tujuan]'
+        )";
 
     endif;
 
@@ -2597,5 +2652,5 @@
     }
     
     // Close connection
-    mysqli_close($conn);
+    $conn -> close();
 ?>

@@ -8,7 +8,7 @@
     elseif($_POST['data'] == '' && $_POST['client'] != '' ) :
         $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%'";
     else :
-        $Add_Search = "";
+        $Add_Search = "and penjualan.pembayaran != 'lunas'";
     endif;
 
     if($_POST['Dari_Tanggal']!="" and $_POST['Ke_Tanggal']!="") :
@@ -142,8 +142,6 @@
                                         WHERE
                                             penjualan.no_invoice != '' and
                                             penjualan.client !='1' and
-                                            -- LEFT( penjualan.invoice_date, 7 ) = '2020-04-18' and
-                                            penjualan.pembayaran != 'lunas' and 
                                             penjualan.cancel!='Y'
                                             $Add_Search
                                             $Add_date
@@ -198,12 +196,15 @@
                                 $Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[0]))."</span>";
                             else :
                                 $Status = "
-                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
+                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
+                                    <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                                 ";
+                                
                             endif;
                         } else {
                             $Status = "
-                                <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
+                                <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
+                                <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                             ";
                         }
                         
@@ -243,12 +244,14 @@
                                     $X_Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[$i]))."</span>";
                                 else :
                                     $X_Status = "
-                                        <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
+                                        <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
+                                        <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                                     ";
                                 endif;
                             } else {
                                 $X_Status = "
-                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i> bayar?</span>
+                                    <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
+                                    <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                                 ";
                             }
 

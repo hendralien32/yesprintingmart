@@ -250,7 +250,9 @@ endif;
             <?php
                 $sql = 
                 "SELECT
-                    pid, tot_pay, 
+                    pid, 
+                    no_invoice,
+                    tot_pay, 
                     adj_pay, 
                     type_pem, 
                     tipe_gesek, 
@@ -275,7 +277,7 @@ endif;
                             $type_pem="$d[type_pem]"; 
                         } elseif($d['type_pem']=="DP") {
                             $type_pem="Down Payment";
-                        } elseif($d['type_pem']=="Kartu Kredit") {
+                        } elseif($d['type_pem']=="Kartu Kredit" or $d['type_pem']=="DP Kartu Kredit") {
                             $type_pem="$d[jenis_kartu] - $d[nomor_kartu] <i class='fas fa-chevron-double-right'></i> $d[rekening_tujuan]"; 
                         } else { 
                             $type_pem="- - -"; 
@@ -288,7 +290,7 @@ endif;
                                 <td style='text-align:right; padding-right:20px'>".number_format($d['tot_pay'])."</td>
                                 <td style='text-align:right; padding-right:20px'>".number_format($d['adj_pay'])."</td>
                                 <td style='text-align:right; padding-right:20px'>". number_format($d['total_terima'])."</td>
-                                <td class='pointer' onclick='showSubBox(\"pelunasan_InvEdit\", \"". $d['pid'] ."\")'><i class='fas fa-edit'></i></td>
+                                <td class='pointer' onclick='LaodSubForm(\"pelunasan_InvEdit\", \"". $d['pid'].'*'.$d['no_invoice'] ."\")'><i class='fas fa-edit'></i></td>
                             </tr>
                         ";
                     endwhile;

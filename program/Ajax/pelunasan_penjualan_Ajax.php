@@ -197,15 +197,26 @@
                             else :
                                 $Status = "
                                     <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
-                                    <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                                 ";
-                                
+                                if($_SESSION["level"] == "admin") { 
+                                $Status .= "
+                                    <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
+                                ";
+                                } else {
+
+                                }
                             endif;
                         } else {
                             $Status = "
                                 <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
-                                <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                             ";
+                            if($_SESSION["level"] == "admin") { 
+                                $Status .= "
+                                    <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
+                                ";
+                            } else {
+
+                            }
                         }
                         
                         echo "
@@ -245,14 +256,27 @@
                                 else :
                                     $X_Status = "
                                         <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
-                                        <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
+                                        
                                     ";
+                                    if($_SESSION["level"] == "admin") { 
+                                        $X_Status .= "
+                                            <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
+                                        ";
+                                    } else {
+        
+                                    }
                                 endif;
                             } else {
                                 $X_Status = "
                                     <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
-                                    <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fas fa-hand-holding-usd pointer text-danger'></i></span>
                                 ";
+                                if($_SESSION["level"] == "admin") { 
+                                    $X_Status .= "
+                                        <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
+                                    ";
+                                } else {
+    
+                                }
                             }
 
                             echo "

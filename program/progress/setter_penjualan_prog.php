@@ -2643,6 +2643,56 @@
             '$_POST[rekening_tujuan]'
         )";
 
+    elseif($_POST['jenis_submit']=='edit_Payment') :
+
+        $PID_Inv = explode("*" , "$_POST[no_invoice]");
+
+        $ID_Order = $PID_Inv[0];
+        $Inv_Order = $PID_Inv[1];
+            
+        if(($_POST['sisa_bayar'] == $_POST['jumlah_bayar']) and $_POST['bank'] == "") {
+            $type_pembayaran = "Cash";
+            $status_lunas = "Lunas";
+        } elseif(($_POST['jumlah_bayar'] < $_POST['sisa_bayar']) and $_POST['bank'] == "") {
+            $type_pembayaran = "DP";
+            $status_lunas = "";
+        } elseif(($_POST['sisa_bayar'] == $_POST['jumlah_bayar']) and $_POST['bank'] != "") {
+            $type_pembayaran = "Kartu Kredit";
+            $status_lunas = "Lunas";
+        } elseif(($_POST['jumlah_bayar'] < $_POST['sisa_bayar']) and $_POST['bank'] != "") {
+            $type_pembayaran = "DP Kartu Kredit";
+            $status_lunas = "";
+        } else {
+            $type_pembayaran = "";
+            $status_lunas = "";
+        }
+        
+        if($status_lunas=="Lunas") { 
+            $penjualan_Lunas = 
+            "UPDATE
+                penjualan
+            SET
+                pembayaran = 'lunas'
+            WHERE
+                no_invoice = '$Inv_Order'
+            ";
+
+            $conn_OOP -> query($penjualan_Lunas);
+        } else { }
+
+        $sql = 
+        "UPDATE
+            pelunasan
+        SET
+            tot_pay = '$_POST[jumlah_bayar]'
+            adj_pay = '$_POST[adjust]'
+            type_pem = '$type_pembayaran'
+            jenis_kartu = '$_POST[bank]'
+            nomor_kartu = '$_POST[nomor_atm]'
+            rekening_tujuan = '$_POST[rekening_tujuan]'
+        WHERE
+            pid = '$ID_Order'";
+
     endif;
 
     if (mysqli_query($conn, $sql)){

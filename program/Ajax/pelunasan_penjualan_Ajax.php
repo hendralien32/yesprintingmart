@@ -62,13 +62,13 @@
         <tbody>
             <tr>
                 <th width="1%">#</th>
-                <th width="10%">Client</th>
+                <th width="11%">Client</th>
                 <th width="8%">Date</th>
                 <th width="8%">No Invoice</th>
-                <th width="34%">No ID</th>
+                <th width="37%">No ID</th>
                 <th width="8%">Total Invoice</th>
                 <th width="8%">Total Pay</th>
-                <th width="8%">Payment</th>
+                <th width="4%">Payment</th>
             </tr>
 
             <?php

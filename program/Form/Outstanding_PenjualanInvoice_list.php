@@ -131,7 +131,7 @@
                                 pm_user.uid = penjualan.setter
                             WHERE
                                 pm_user.status = 'a' and
-                                ( pm_user.level = 'admin' or pm_user.level = 'CS' or pm_user.level = 'Setter' )
+                                ( pm_user.level = 'admin' or pm_user.level = 'CS' or pm_user.level = 'Setter' or pm_user.level = 'accounting' )
                             ORDER BY 
                                 pm_user.nama
                             DESC

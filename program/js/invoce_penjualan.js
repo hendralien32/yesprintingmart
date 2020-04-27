@@ -212,6 +212,7 @@ function onload() {
     $('#loader').show();
     var search      = $('#search').val();
     var client      = $('#Search_Client').val();
+    var invoice     = $('#Search_Invoice').val();
     var Tanggal     = $('#tanggal').val();
     if( search == "" ) {
         var display = "";
@@ -221,7 +222,7 @@ function onload() {
 
     $.ajax({
         type: "POST",
-        data: {data:search, date:Tanggal, client:client, display:display},
+        data: {data:search, date:Tanggal, client:client, display:display, invoice:invoice},
         url: "Ajax/invoce_penjualan_Ajax.php",
         success: function(data){
             $('#loader').hide();
@@ -241,6 +242,23 @@ function SearchData() {
         alert("Jumlah Character Harus Lebih dari 3 Character");
         return false;
     }
+}
+
+function Searchinvoice() {
+    $('#tanggal').val("");
+    $('#search').val("");
+    $('#Search_Client').val("");
+
+    var Validasi_Search = $('#Search_Invoice').val().length;
+    
+    if(Validasi_Search > 3) {
+        $('#loader').show();
+        onload();
+    } else {
+        alert("Jumlah Character Harus Lebih dari 3 Character");
+        return false;
+    }
+
 }
 
 function SearchClient() {

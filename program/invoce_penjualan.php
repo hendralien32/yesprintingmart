@@ -2,8 +2,9 @@
 
 <div class="left_content">
     <input type='text' value="" placeholder="Search Client" class='search client' id='Search_Client' onchange="SearchClient()" autocomplete="off">
-    <input type='text' value="" placeholder="Search Deskripsi, No Order, No. Invoice" class='search data' id='search' onchange="SearchData()" autocomplete="off">
-    <input type="date" value="<?= $date; ?>" data-placeholder="Tanggal" id="tanggal" onblur="SearchDate()" max="<?= $date; ?>">
+    <input type='text' value="" placeholder="Search Invoice" class='search invoice' id='Search_Invoice' onchange="Searchinvoice()" autocomplete="off">
+    <input type='text' value="" placeholder="Search Deskripsi, No Order" class='search data' id='search' onchange="SearchData()" autocomplete="off">
+    <input type="date" value="<?= $date; ?>" data-placeholder="Tanggal" id="tanggal" onblur="SearchDate()" max="<?= $date; ?>" style="width:200px">
 </div>
 
 <div id="invoce_penjualan">

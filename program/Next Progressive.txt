@@ -23,11 +23,15 @@ Next Progressive
 * Pelunasan
    - Tampilkan List Pelunasan Yang belum Lunas di tampilan awal [SOLVED]
    - Tampilan List Pelunasan yang sudah lunas berdasarkan tanggal [SOLVED]
-   - Multiple Payment Button ( Berfungsi Untuk Client yang sama )
    - Form Pelunasan [SOLVED]
    - Form History Pelunasan [SOLVED]
-   - Masalah Di Update Pelunasan
-   - Berikan Log / History pada saat Pelunasan dan Edit Pelunasan
+   - Masalah Di Update Pelunasan [SOLVED]
+   - Berikan Log / History pada saat Pelunasan dan Edit Pelunasan [SOLVED]
+   - Multiple Payment Button ( Berfungsi Untuk Client yang sama )
+
+* Fix Bug di penjualan setter pada Form Buka Invoice [SOLVED]
+
+* Penambah Input untuk search Invoice di Invoice Yesprintingmart [SOLVED]
 
 * Database
    - Database user

@@ -6,12 +6,14 @@
     $n = 0;
     $Nilai_Total = null;
 
-    if($_POST['data'] != '' && $_POST['client'] == '' ) :
-        $Add_Search = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or penjualan.no_invoice LIKE '%$_POST[data]%' or bahan LIKE '%$_POST[data]%')";
-    elseif($_POST['data'] == '' && $_POST['client'] != '' ) :
+    if($_POST['data'] != '' && $_POST['client'] == '' && $_POST['invoice']=='') :
+        $Add_Search = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or bahan LIKE '%$_POST[data]%')";
+    elseif($_POST['data'] == '' && $_POST['client'] != '' && $_POST['invoice']=="") :
         $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%'";
-    elseif($_POST['data'] != '' && $_POST['client'] != '' ) :
+    elseif($_POST['data'] != '' && $_POST['client'] != '' && $_POST['invoice']=="") :
         $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%' and penjualan.description LIKE '%$_POST[data]%'";
+    elseif($_POST['invoice']!="") :
+        $Add_Search = "and penjualan.no_invoice LIKE '%$_POST[invoice]%'";
     else :
         $Add_Search = "and penjualan.cancel!='Y'";
     endif;
@@ -343,7 +345,7 @@
                     $Nilai_Total = 0 ;
                     echo "
                         <tr>
-                            <td colspan='14' class='alert-danger'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                            <td colspan='14'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
                         </tr>
                     ";
                 endif;

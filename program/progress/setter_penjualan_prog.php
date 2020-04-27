@@ -2610,19 +2610,60 @@
             $type_pembayaran = "";
             $status_lunas = "";
         }
-        
-        if($status_lunas=="Lunas") { 
-            $penjualan_Lunas = 
-            "UPDATE
-                penjualan
-            SET
-                pembayaran = 'lunas'
-            WHERE
-                no_invoice = '$_POST[no_invoice]'
-            ";
 
-            $conn_OOP -> query($penjualan_Lunas);
-        } else { }
+        if($status_lunas=="Lunas") :
+            $lunas = "pembayaran = 'lunas',";
+        endif;
+
+        $log = "";
+
+        $array_kode = array(
+            "Jumlah_Bayar"               => "$_POST[jumlah_bayar]",
+            "Adjust_Pay"                 => "$_POST[adjust]",
+            "Jenis_Kartu"                => "$_POST[bank]",
+            "Type_Pembayaran"            => "$type_pembayaran",
+            "Nomor_Kartu"                => "$_POST[nomor_atm]",
+            "Rekening_Tujuan"            => "$_POST[rekening_tujuan]"
+        );
+
+        foreach($array as $key => $value ) :
+            if($value!="") :
+                if(is_numeric($value)) {
+                    $Input_Value = number_format($value); 
+                } else {
+                    $Input_Value = "$value";
+                }
+                $deskripsi = str_replace("_"," ", $key);
+                $log  .= "<b>$deskripsi</b> : $Input_Value<br>";
+            else :
+                $log  .= "";
+            endif;
+        endforeach;
+        
+        if($log != null) :
+            $Final_log = "
+                <tr>
+                    <td>$hr, $timestamps</td>
+                    <td>". $_SESSION['username'] ." Pelunasan Invoice</td>
+                    <td>$log</td>
+                </tr>
+            ";
+        else :
+            $Final_log = "";
+        endif;
+
+        
+        $penjualan_Lunas = 
+        "UPDATE
+            penjualan
+        SET
+            $lunas
+            history    =  CONCAT('$Final_log', history)
+        WHERE
+            no_invoice = '$_POST[no_invoice]'
+        ";
+
+        $conn_OOP -> query($penjualan_Lunas);
 
         $sql = 
         "INSERT INTO pelunasan (
@@ -2666,32 +2707,97 @@
             $type_pembayaran = "";
             $status_lunas = "";
         }
-        
-        if($status_lunas=="Lunas") { 
-            $penjualan_Lunas = 
-            "UPDATE
-                penjualan
-            SET
-                pembayaran = 'lunas'
-            WHERE
-                no_invoice = '$Inv_Order'
-            ";
 
-            $conn_OOP -> query($penjualan_Lunas);
-        } else { }
+        $log_pelunasan = 
+        "SELECT
+            pelunasan.tot_pay as Jumlah_Bayar,
+            pelunasan.adj_pay as Adjust_Pay,
+            pelunasan.type_pem as Type_Pembayaran,
+            pelunasan.jenis_kartu as Jenis_Kartu,
+            pelunasan.nomor_kartu as Nomor_Kartu,
+            pelunasan.rekening_tujuan as Rekening_Tujuan
+        FROM
+            pelunasan
+        WHERE
+            pid = '$ID_Order'
+        ";
+
+        $result = $conn_OOP -> query($log_pelunasan);
+
+        if ($result->num_rows > 0) :
+            $row = $result->fetch_assoc();
+
+            $array = array (
+                "Jumlah_Bayar"               => "$_POST[jumlah_bayar]",
+                "Adjust_Pay"                 => "$_POST[adjust]",
+                "Jenis_Kartu"                => "$_POST[bank]",
+                "Type_Pembayaran"            => "$type_pembayaran",
+                "Nomor_Kartu"                => "$_POST[nomor_atm]",
+                "Rekening_Tujuan"            => "$_POST[rekening_tujuan]"
+            );
+
+            $log ="";
+
+            foreach($array as $key => $value ) :
+                $a = $row[$key];
+                if($value!="$row[$key]") :
+                    if(is_numeric($value)) {
+                        $Input_Value = number_format($value); 
+                    } else {
+                        $Input_Value = "$value";
+                    }
+                    $deskripsi = str_replace("_"," ", $key);
+                    $log  .= "<b>$deskripsi</b> : $a <i class=\"far fa-angle-double-right\"></i> $Input_Value<br>";
+                else :
+                    $log  .= "";
+                endif;
+            endforeach;
+
+            $test = $row['Jumlah_tagihan'] - $row['total_bayar'];
+        endif;
+
+        
+        if($status_lunas=="Lunas") :
+            $lunas = "pembayaran = 'lunas',";
+        endif;
+
+        if($log != null) :
+            $Final_log = "
+                <tr>
+                    <td>$hr, $timestamps</td>
+                    <td>". $_SESSION['username'] ." Pelunasan Invoice</td>
+                    <td>$log</td>
+                </tr>
+            ";
+        else :
+            $Final_log = "";
+        endif;
+
+        $penjualan_Lunas = 
+        "UPDATE
+            penjualan
+        SET
+            $lunas
+            history    =  CONCAT('$Final_log', history)
+        WHERE
+            no_invoice = '$Inv_Order'
+        ";
+
+        $conn_OOP -> query($penjualan_Lunas);
 
         $sql = 
         "UPDATE
             pelunasan
         SET
-            tot_pay = '$_POST[jumlah_bayar]'
-            adj_pay = '$_POST[adjust]'
-            type_pem = '$type_pembayaran'
-            jenis_kartu = '$_POST[bank]'
-            nomor_kartu = '$_POST[nomor_atm]'
+            tot_pay = '$_POST[jumlah_bayar]',
+            adj_pay = '$_POST[adjust]',
+            type_pem = '$type_pembayaran',
+            jenis_kartu = '$_POST[bank]',
+            nomor_kartu = '$_POST[nomor_atm]',
             rekening_tujuan = '$_POST[rekening_tujuan]'
         WHERE
-            pid = '$ID_Order'";
+            pid = '$ID_Order'
+        ";
 
     endif;
 

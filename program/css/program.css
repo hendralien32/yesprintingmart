@@ -412,7 +412,7 @@ input[type=text].client {
     width: 18px;
     height: 18px;
     border-radius: 2px;
-    /* background: #fff; */
+    background: #fff;
     border: 1px solid #aeaeae;
     left: 0;
     top: 50%;

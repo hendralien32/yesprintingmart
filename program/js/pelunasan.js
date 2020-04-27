@@ -118,12 +118,14 @@ function submit(id, no_invoice) {
         alert("Jumlah Bayar Tidak boleh kosong");
         $(".table-pelunasan").find( jumlah_bayar ).css( "background-color", "#ffe2e3" );
         return false;
-    } else if(jumlah_bayar > sisa_bayar) {
+    } else if(parseInt(jumlah_bayar) > parseInt(sisa_bayar)) {
+        alert(jumlah_bayar);
+        alert(sisa_bayar);
         alert("Jumlah Bayar Tidak boleh lebih besar dari sisa bayar");
         $(".table-pelunasan").find( jumlah_bayar ).css( "background-color", "#ffe2e3" );
         return false;
-    } else if(bank!="" && rekening_tujuan == "" && nomor_atm == "" ) {
-        alert("Rekening Tujuan dan Nomor Kartu Wajib di isi");
+    } else if(bank!="" && rekening_tujuan == "") {
+        alert("Rekening Tujuan Wajib di isi");
         return false;
     }
 
@@ -161,7 +163,7 @@ function submit(id, no_invoice) {
     }); 
 }
 
-function update(id, no_invoice) {
+function Update(id, no_invoice) {
     var jumlah_bayar = $( "#sub_jumlah_bayar" );
 
     var tanggal_bayar = $('#sub_tanggal_bayar').val();
@@ -172,16 +174,18 @@ function update(id, no_invoice) {
     var rekening_tujuan = $('#sub_rekening_tujuan').val();
     var sisa_bayar = $('#sub_sisa_bayar').val() || 0;
 
+    var test        = no_invoice.split('*');
+
     if( jumlah_bayar == "" || jumlah_bayar == "0" ) {
         alert("Jumlah Bayar Tidak boleh kosong");
         $(".table-pelunasan").find( jumlah_bayar ).css( "background-color", "#ffe2e3" );
         return false;
-    } else if(jumlah_bayar > sisa_bayar) {
+    } else if(parseInt(jumlah_bayar) > parseInt(sisa_bayar)) {
         alert("Jumlah Bayar Tidak boleh lebih besar dari sisa bayar");
         $(".table-pelunasan").find( jumlah_bayar ).css( "background-color", "#ffe2e3" );
         return false;
-    } else if(bank!="" && rekening_tujuan == "" && nomor_atm == "" ) {
-        alert("Rekening Tujuan dan Nomor Kartu Wajib di isi");
+    } else if(bank!="" && rekening_tujuan == "") {
+        alert("Rekening Tujuan wajib di isi");
         return false;
     }
 
@@ -208,9 +212,11 @@ function update(id, no_invoice) {
             $(".icon-close").removeAttr('onclick');
         },
         success: function(data) {
-            // $("#bagDetail").html(data);
-            hideBox();
+            // $("#Result" ).html(data);
+            hidesubBox();
             onload();
+            $("#bagDetail").html("<center><img src='../images/0_4Gzjgh9Y7Gu8KEtZ.gif' width='150px' id='loader'></center>");
+            LaodForm("pelunasan_invoice",test[1]);
             return false;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

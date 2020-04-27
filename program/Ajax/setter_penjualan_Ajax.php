@@ -252,7 +252,7 @@
     } else {
         echo "
             <tr>
-                <td colspan='13' class='alert-danger'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                <td colspan='13'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
             </tr>
         ";
     }

@@ -82,6 +82,8 @@
 
     if ($result->num_rows > 0) :
         $row = $result->fetch_assoc();
+
+        $test = $row['Jumlah_tagihan'] - $row['total_bayar'];
     endif;
 
 ?>
@@ -173,11 +175,11 @@
                     <td>Total Bayar</td>
                     <td><?= number_format($row['total_bayar']); ?></td>
                 </tr>
-                <tr class='pointer' onclick="CopySub_SisaByr('<?= $row['Sisa_bayar'] ?>')"> 
+                <tr class='pointer' onclick="CopySub_SisaByr('<?= $test ?>')"> 
                     <td>Sisa Bayar</td>
                     <td>
-                        <?= number_format($row['Sisa_bayar']); ?>
-                        <input type="hidden" id="sub_sisa_bayar" value="<?= $row['Sisa_bayar'] ?>">
+                        <?= number_format($test); ?>
+                        <input type="hidden" id="sub_sisa_bayar" value="<?= $test ?>">
                     </td>
                 </tr>
             </table>

@@ -659,7 +659,7 @@ function cancel(id) {
 
 
 function submitInvoice(type) {
-    var si = document.getElementById("no_invoice").value;
+    var si  = $("#no_invoice").val();
     var j   = $('#InvoiceList_Qty_check').val();
     var x   = new Array ();
     var y   = new Array ();

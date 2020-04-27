@@ -153,8 +153,9 @@ function submit(id, no_invoice) {
         },
         success: function(data) {
             // $("#bagDetail").html(data);
-            hideBox();
             onload();
+            $("#bagDetail").html("<center><img src='../images/0_4Gzjgh9Y7Gu8KEtZ.gif' width='150px' id='loader'></center>");
+            LaodForm("pelunasan_invoice",no_invoice);
             return false;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -242,4 +243,39 @@ function force_paid(ID_Order) {
             $("#bagDetail").html(XMLHttpRequest);
         }
     }); 
+}
+
+function outstandinglist() {
+    let client = $('#client').val();
+    
+    $.ajax({
+        type: "POST",
+        data: {client:client},
+        url: "Form/Outstanding_pelunasanInvoice_list.php",
+        success: function(data){
+            $("#outstandinglist").html(data);
+        }
+    });
+}
+
+function change_client() {
+    let client = $('#form_client').val();
+    $('#client').val(client);
+    outstandinglist();
+}
+
+function copy_sisa(sisa_Bayar, id) {
+    $('#FormByr_'+id).val(sisa_Bayar);
+}
+
+function copy_all() {
+    checkboxes = $('[name="invoice"]'); 
+    for (let i = 1; i <= checkboxes.length; i++) {
+        abc = $('#test_copy_'+[i]).val();
+        $('#FormByr_'+[i]).val(abc);
+    }
+}
+
+function multipayment(id) {
+    alert("multiple");
 }

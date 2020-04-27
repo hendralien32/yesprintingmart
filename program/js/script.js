@@ -57,9 +57,9 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Log";
     } else if( id == "pelunasan_invoice" ) { 
         var judul = "Form Pelunasan Invoice"; 
-    } else {
-        
-    }
+    } else if( id == "pelunasan_Multi_invoice" ) { 
+        var judul = "Form Multi Payment"; 
+    } 
 
     $.ajax({
         type: "POST",
@@ -85,9 +85,11 @@ function LaodForm(id,nid,Akses_Edit) {
                 }
             } else if( id == "setter_penjualan_cancel" ) { 
                 $("#alasan_cancel").focus();
-            } else if( id == "setter_penjualan_invoice" ) {
+            } else if( id == "setter_penjualan_invoice" || id == "pelunasan_Multi_invoice" ) {
                 outstandinglist();
             }
+
+            
         }
     });
 }

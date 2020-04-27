@@ -47,7 +47,8 @@
     ON
         pelunasan.no_invoice = penjualan.no_invoice
     WHERE
-        penjualan.no_invoice =  '$_POST[ID_Order]'
+        penjualan.no_invoice =  '$_POST[ID_Order]' and
+        penjualan.cancel!='Y'
     GROUP BY
         penjualan.no_invoice
     ";
@@ -160,12 +161,13 @@ else :
 
     echo "
         <div class='status_lunas'>
-            <span style='font-size:16px;'>Invoice #$_POST[ID_Order]</span>
-            <span>LUNAS</span>
-            <span style='font-size:16px;'>". date("d M Y",strtotime($row['tgl_bayar']))."</span>
+            <a href='print.php?type=sales_invoice&no_invoice=$_POST[ID_Order]' target='_blank' class='pointer'>
+                <span style='font-size:16px;'>Invoice #$_POST[ID_Order] <i class='fad fa-print' style='margin-left:10px;'></i></span>
+                <span>LUNAS</span>
+                <span style='font-size:16px;'>". date("d M Y",strtotime($row['tgl_bayar']))."</span>
+            </a>
         </div>
     ";
-
 
 endif; 
 

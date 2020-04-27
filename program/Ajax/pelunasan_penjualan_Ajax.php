@@ -74,6 +74,7 @@
             <?php
                 $sql = 
                 "SELECT
+                    test.ID_Client,
                     test.nama_client,
                     test.tanggal,
                     test.No_Invoice,
@@ -91,6 +92,7 @@
                     (
                         SELECT
                             list_pelunasan.nama_client,
+                            list_pelunasan.ID_Client,
                             GROUP_CONCAT(list_pelunasan.tanggal SEPARATOR '*_*') as tanggal,
                             GROUP_CONCAT(list_pelunasan.No_invoice SEPARATOR '*_*') as No_Invoice,
                             GROUP_CONCAT(list_pelunasan.id_OID) as id_OID_KOMA,
@@ -109,6 +111,7 @@
                                     penjualan.id_OID,
                                     penjualan.description,
                                     penjualan.kode_barang,
+                                    penjualan.client as ID_Client,
                                     penjualan.nama_client,
                                     penjualan.tanggal,
                                     penjualan.No_invoice,
@@ -194,10 +197,12 @@
                         if(isset($pay_date[0])) {
                             if($Status_Lunas[0] == "Lunas") :
                                 $Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[0]))."</span>";
+                                $print = "<a href='print.php?type=sales_invoice&no_invoice=". $Explode_Invoice['0'] ."' target='_blank' class='pointer'><i class='fad fa-print'></i></a>";
                             else :
                                 $Status = "
                                     <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
                                 ";
+                                $print = "";
                                 if($_SESSION["level"] == "admin") { 
                                 $Status .= "
                                     <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
@@ -210,6 +215,7 @@
                             $Status = "
                                 <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")'><i class='fad fa-cash-register'></i></span>
                             ";
+                            $print = "";
                             if($_SESSION["level"] == "admin") { 
                                 $Status .= "
                                     <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice['0'] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
@@ -224,7 +230,7 @@
                                 <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>$no</td>
                                 <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>". str_ireplace($cari_keyword_client,$bold_cari_keyword_client,$d['nama_client']) ."</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>$tanggal_Inv[0]</td>
-                                <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[0]</td>
+                                <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[0] $print</td>
                                 <td><b class='tanda_$kode_barang[0]'>▐</b> $OID[0] - $description[0]</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px; text-align:right'>". number_format($Explode_Total[0]) ."</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px; text-align:right'>". number_format($Explode_Total_pembayaran[0]) ."</td>
@@ -252,12 +258,14 @@
 
                             if(isset($pay_date[$i])) {
                                 if($Status_Lunas[$i] == "Lunas") :
-                                    $X_Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice['0'] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[$i]))."</span>";
+                                    $X_Status = "<span style='font-weight:bold; color:green' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")' class='pointer'><i class='fas fa-money-bill'></i> ". date("d M Y",strtotime($pay_date[$i]))."</span>";
+                                    $X_print = "<a href='print.php?type=sales_invoice&no_invoice=". $Explode_Invoice[$i] ."' target='_blank' class='pointer'><i class='fad fa-print'></i></a>";
                                 else :
                                     $X_Status = "
                                         <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
                                         
                                     ";
+                                    $X_print = "";
                                     if($_SESSION["level"] == "admin") { 
                                         $X_Status .= "
                                             <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
@@ -270,6 +278,7 @@
                                 $X_Status = "
                                     <span class='icon_status pointer' onclick='LaodForm(\"pelunasan_invoice\", \"". $Explode_Invoice[$i] ."\")'><i class='fad fa-cash-register'></i></span>
                                 ";
+                                $X_print = "";
                                 if($_SESSION["level"] == "admin") { 
                                     $X_Status .= "
                                         <span class='icon_status pointer' ondblclick='force_paid(\"". $Explode_Invoice[$i] ."\")'><i class='fad fa-hand-holding-usd pointer text-danger'></i></span>
@@ -282,7 +291,7 @@
                             echo "
                                 <tr>
                                     <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px'>$tanggal_Inv[$i]</td>
-                                    <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[$i]</td>
+                                    <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[$i] $X_print</td>
                                     <td><b class='tanda_$X_kode_barang[0]'>▐</b> $X_OID[0] - $X_description[0]</td>
                                     <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px; text-align:right'>". number_format($Explode_Total[$i]) ."</td>
                                     <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px; text-align:right'>". number_format($Explode_Total_pembayaran[$i]) ."</td>
@@ -312,7 +321,7 @@
                             <td colspan='5'>Total Invoice $d[nama_client] [$Count_No_Invoice]</td>
                             <td style='text-align:right'>". number_format($ArraySum_Total) ."</td>
                             <td style='text-align:right'>". number_format($ArraySum_Total_Pembayaran) ."</td>
-                            <td><center>Multipayment</center></td>
+                            <td onclick='LaodForm(\"pelunasan_Multi_invoice\", \"". $d['ID_Client'] ."\")' class='pointer'><center>Multipayment</center></td>
                         </tr>
                         ";
                     endwhile;

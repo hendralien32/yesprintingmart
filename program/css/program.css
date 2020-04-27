@@ -22,6 +22,10 @@
    clear: both;
 }
 
+.t-right {
+    text-align: right;
+}
+
 .ui-autocomplete {
     position: absolute;
     z-index: 1000;
@@ -457,10 +461,14 @@ a:hover {
     font-size: 38px;
     flex-direction: column;
 }
+.status_lunas a {
+    color: forestgreen;
+}
 
 .status_lunas span {
     display: flex;
     justify-content: center;
+    vertical-align:middle;
 }
 
 #wrapper {

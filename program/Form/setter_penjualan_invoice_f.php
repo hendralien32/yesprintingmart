@@ -34,10 +34,9 @@
 
 <h3 class='title_form'>FORM SALES INVOICE</h3>
 
-<input type="text" id="no_invoice" value="<?= $no_invoice; ?>">
-<input type="text" id="InvoiceList_client_check" value="<?= $client; ?>">
-<input type="text" id="InvoiceList_setter_check" value="<?= $_SESSION['uid']; ?>">
-<input type="text" id="InvoiceList_Qty_check" value="<?= $Jumlah_Order; ?>">
+<input type="hidden" id="no_invoice" value="<?= $no_invoice; ?>">
+<input type="hidden" id="InvoiceList_client_check" value="<?= $client; ?>">
+<input type="hidden" id="InvoiceList_setter_check" value="<?= $_SESSION['uid']; ?>">
+<input type="hidden" id="InvoiceList_Qty_check" value="<?= $Jumlah_Order; ?>">
     <div id="outstandinglist"></div>
     <div id="Result"></div>
-</div>

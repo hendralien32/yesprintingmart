@@ -27,11 +27,16 @@ Next Progressive
    - Form History Pelunasan [SOLVED]
    - Masalah Di Update Pelunasan [SOLVED]
    - Berikan Log / History pada saat Pelunasan dan Edit Pelunasan [SOLVED]
-   - Multiple Payment Button ( Berfungsi Untuk Client yang sama )
+   - Multiple Payment Button ( Berfungsi Untuk Client yang sama ) [SOLVED]
+   - Fix bug saat input pembayaran Log tidak terinput [SOLVED]
 
 * Fix Bug di penjualan setter pada Form Buka Invoice [SOLVED]
 
 * Penambah Input untuk search Invoice di Invoice Yesprintingmart [SOLVED]
+
+* List Pelunasan Invoice [SOLVED]
+   - List Pelunasan Yang sudah Bayar [SOLVED]
+   - Edit List Pelunasan ( Menggunakan Form yang sudah ada ) [SOLVED]
 
 * Database
    - Database user

@@ -2626,7 +2626,7 @@
             "Rekening_Tujuan"            => "$_POST[rekening_tujuan]"
         );
 
-        foreach($array as $key => $value ) :
+        foreach($array_kode as $key => $value ) :
             if($value!="") :
                 if(is_numeric($value)) {
                     $Input_Value = number_format($value); 
@@ -2798,14 +2798,123 @@
         WHERE
             pid = '$ID_Order'
         ";
+    elseif($_POST['jenis_submit']=='multipayment') :
+        $test = "";
+
+        $list_pembayaran = explode("," , "$_POST[Nilai_bayar]");
+        $list_invoice = explode("," , "$_POST[No_Invoice]");
+        $list_Sisabayar = explode("," , "$_POST[Sisa_bayar]");
+        
+
+        $count = count($list_invoice);
+        
+        for($i=1 ; $i<$count ; $i++) {
+            if($list_pembayaran[$i]!="" or $list_pembayaran[$i]!="0") {
+
+                if(($list_Sisabayar[$i] == $list_pembayaran[$i]) and $_POST['bank'] == "") {
+                    $type_pembayaran = "Cash";
+                    $lunas = "pembayaran = 'lunas',";
+                } elseif(($list_pembayaran[$i] < $list_Sisabayar[$i]) and $_POST['bank'] == "") {
+                    $type_pembayaran = "DP";
+                    $lunas = "";
+                } elseif(($list_Sisabayar[$i] == $list_pembayaran[$i]) and $_POST['bank'] != "") {
+                    $type_pembayaran = "Kartu Kredit";
+                    $lunas = "";
+                } elseif(($list_pembayaran[$i] < $list_Sisabayar[$i]) and $_POST['bank'] != "") {
+                    $type_pembayaran = "DP Kartu Kredit";
+                    $lunas = "";
+                } else {
+                    $type_pembayaran = "";
+                    $lunas = "";
+                }
+        
+                $log = "";
+        
+                $array_kode = array(
+                    "Jumlah_Bayar"               => "$list_pembayaran[$i]",
+                    "Jenis_Kartu"                => "$_POST[bank]",
+                    "Type_Pembayaran"            => "$type_pembayaran",
+                    "Nomor_Kartu"                => "$_POST[Nomor_Kartu]",
+                    "Rekening_Tujuan"            => "$_POST[rekening_tujuan]"
+                );
+        
+                foreach($array_kode as $key => $value ) :
+                    if($value!="") :
+                        if(is_numeric($value)) {
+                            $Input_Value = number_format($value); 
+                        } else {
+                            $Input_Value = "$value";
+                        }
+                        $deskripsi = str_replace("_"," ", $key);
+                        $log  .= "<b>$deskripsi</b> : $Input_Value<br>";
+                    else :
+                        $log  .= "";
+                    endif;
+                endforeach;
+                
+                if($log != null) :
+                    $Final_log = "
+                        <tr>
+                            <td>$hr, $timestamps</td>
+                            <td>". $_SESSION['username'] ." Pelunasan Invoice</td>
+                            <td>$log</td>
+                        </tr>
+                    ";
+                else :
+                    $Final_log = "";
+                endif;
+        
+                
+                $sql .= 
+                "UPDATE
+                    penjualan
+                SET
+                    $lunas
+                    history    =  CONCAT('$Final_log', history)
+                WHERE
+                    ( no_invoice = '$list_invoice[$i]' );
+                ";
+
+                $sql .= 
+                "INSERT INTO pelunasan 
+                    (
+                        no_invoice,
+                        tot_pay,
+                        type_pem,
+                        jenis_kartu,
+                        nomor_kartu,
+                        rekening_tujuan
+                    )
+                VALUES 
+                    (
+                        '$list_invoice[$i]',
+                        '$list_pembayaran[$i]',
+                        '$type_pembayaran',
+                        '$_POST[bank]',
+                        '$_POST[Nomor_Kartu]',
+                        '$_POST[rekening_tujuan]'
+                    );
+                ";
+
+            } else {
+                $sql .= "";
+            }
+            
+        }
+        
 
     endif;
-
-    if (mysqli_query($conn, $sql)){
-        echo "Records inserted or Update successfully.";
-    } else{
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br>" . mysqli_error($conn) . "</br>";
+    
+    if ($conn->multi_query($sql) === TRUE) {
+        echo "New records created successfully";
+    } else {
+        if (mysqli_query($conn, $sql)){
+            echo "Records inserted or Update successfully.";
+        } else{
+            echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br>" . mysqli_error($conn) . "</br>";
+        }
     }
+    
     
     // Close connection
     $conn -> close();

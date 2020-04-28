@@ -12,9 +12,10 @@
 
     if (isset($page)) :
         switch ($page) :
-            case 'SO_YPM':              $title = 'Sales Order YESPRINTINGMART';                   break;
-            case 'SI_YPM':              $title = 'Sales Invoice YESPRINTINGMART';                      break;
-            case 'Payment_YPM':         $title = 'Pelunasan YESPRINTINGMART';                            break;
+            case 'SO_YPM':              $title = 'Sales Order';                     break;
+            case 'SI_YPM':              $title = 'Sales Invoice';                   break;
+            case 'Payment_YPM':         $title = 'Pelunasan Invoice';               break;
+            case 'List_Payment_YPM':    $title = 'List Pelunasan Invoice';          break;
             default:                    $title = 'YES Program V.5.0';
         endswitch;
     endif;
@@ -102,6 +103,7 @@
                 <a href="?page=SO_YPM&tab=SalesYPM"><li>Sales Order Yesprintingmart</li></a>
                 <a href="?page=SI_YPM&tab=SalesYPM"><li>Sales Invoice Yesprintingmart</li></a>
                 <a href="?page=Payment_YPM&tab=SalesYPM"><li>Pelunasan Yesprintingmart</li></a>
+                <a href="?page=List_Payment_YPM&tab=SalesYPM"><li>List Pelunasan Yesprintingmart</li></a>
                 <div class="clear"></div>
             </ul>
         </div>
@@ -116,7 +118,8 @@
                     switch ($page) :
                         case 'SO_YPM':              require_once('setter_penjualan.php');                   break;
                         case 'SI_YPM':              require_once('invoce_penjualan.php');                   break;
-                        case 'Payment_YPM':         require_once('pelunasan_penjualan.php');            break;
+                        case 'Payment_YPM':         require_once('pelunasan_penjualan.php');                break;
+                        case 'List_Payment_YPM':    require_once('list_pelunasan_penjualan.php');           break;
                         default:                    require_once('test.php');
                     endswitch;
                 else :

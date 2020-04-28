@@ -277,5 +277,56 @@ function copy_all() {
 }
 
 function multipayment(id) {
-    alert("multiple");
+    var tanggal_bayar = $('#tanggal_bayar').val();
+    var Client = $('#form_client').val();
+    var nomor_atm = $('#nomor_atm').val();
+    var bank = $('#bank').val();
+    var rekening_tujuan = $('#rekening_tujuan').val();
+
+    var nilai_bayar   = new Array ();
+    var Sisa_bayar   = new Array ();
+    var no_invoice   = new Array ();
+
+    for (let i = 1; i <= $('[name="invoice"]').length; i++) {
+        Sisa_bayar[i] = $('#test_copy_'+[i]).val();
+        no_invoice[i] = $('#ID_'+[i]).val();
+        nilai_bayar[i] = $('#FormByr_'+[i]).val();
+    }
+
+    var X; X = nilai_bayar.join();
+    var Y; Y = no_invoice.join();
+    var Z; Z = Sisa_bayar.join();
+
+    var fdata = new FormData()
+    fdata.append("Nilai_bayar", X);
+    fdata.append("No_Invoice", Y);
+    fdata.append("Sisa_bayar", Z);
+    fdata.append("tanggal_bayar", tanggal_bayar);
+    fdata.append("Client", Client);
+    fdata.append("Nomor_Kartu", nomor_atm);
+    fdata.append("bank", bank);
+    fdata.append("rekening_tujuan", rekening_tujuan);
+    fdata.append("jenis_submit", id);
+
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        cache: false,
+		processData : false,
+		contentType : false,
+        data: fdata,
+        beforeSend: function() {
+            $('#submitBtn').attr("disabled","disabled");
+            $(".icon-close").removeAttr('onclick');
+        },
+        success: function(data) {
+            // $("#Result" ).html(data);
+            hideBox();
+            onload();
+            return false;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
 }

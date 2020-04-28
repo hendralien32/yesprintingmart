@@ -111,6 +111,7 @@
                             <td rowspan='$count' name='invoice' class='pointer t-right' onclick='copy_sisa($sisa_bayar,$no)'>
                                 ". number_format($sisa_bayar) ."
                                 <input type='hidden' id='test_copy_$no' value='$sisa_bayar'>
+                                <input type='hidden' id='ID_$no' value='$d[No_invoice]'>
                             </td>
                             <td rowspan='$count'><input type='number' class='form' id='FormByr_$no' style='width:100%'></td>
                         </tr>
@@ -287,8 +288,8 @@
                 </tr>
                 <tr> 
                     <td>Sisa Bayar</td>
-                    <td>
-                        <?= number_format($detail_sisa) ?>
+                    <td onclick='copy_all()' class='pointer'>
+                        <?= number_format($detail_sisa) ?> <i class="fas fa-copy" style='margin-left:10px'></i>
                     </td>
                 </tr>
             </table>

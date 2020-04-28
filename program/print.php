@@ -94,7 +94,7 @@
 
             if($d['pembayaran']=="lunas") :
                 $check_Lunas = "LUNAS";
-                $Tgl_Lunas = "";
+                $Tgl_Lunas = "". date("d M Y",strtotime($d['Tgl_Pelunasan'] ))."";
             elseif($d['Total_keseluruhan'] == $d['total_bayar']) :
                 $check_Lunas = "LUNAS";
                 $Tgl_Lunas = "". date("d M Y",strtotime($d['Tgl_Pelunasan'] ))."";

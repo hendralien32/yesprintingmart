@@ -145,7 +145,8 @@
                                         WHERE
                                             penjualan.no_invoice != '' and
                                             penjualan.client !='1' and
-                                            penjualan.cancel!='Y'
+                                            penjualan.cancel!='Y' and
+                                            penjualan.inv_check='Y'
                                             $Add_Search
                                             $Add_date
                                         GROUP BY

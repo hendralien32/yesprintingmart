@@ -2902,14 +2902,45 @@
             
         }
         
-
+    elseif($_POST['jenis_submit']=='delete_client') :
+        if($_POST['status_client'] == "A") : $status_client = "T";
+        else : $status_client = "A";
+        endif;
+        
+        $sql = 
+        "UPDATE
+            customer
+        SET
+            status_client   = '$status_client'
+        WHERE
+            cid 		    = '$_POST[Client_ID]'
+        ";
+    elseif($_POST['jenis_submit']=='submit_client') :
+        $sql = 
+        "INSERT INTO customer (
+            nama_client,
+            no_telp,
+            email,
+            alamat_kantor,
+            level_client,
+            status_client,
+            special
+        ) VALUES (
+            '$_POST[NamaClient]',
+            '$_POST[NoTelp]',
+            '$_POST[EmailClient]',
+            '$_POST[DeskClient]',
+            '$_POST[levelClient]',
+            'A',
+            '$_POST[Special]'
+        )";
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {
-        echo "New records created successfully";
+        echo "New records created successfully. $sql";
     } else {
         if (mysqli_query($conn, $sql)){
-            echo "Records inserted or Update successfully.";
+            echo "Records inserted or Update successfully. $sql";
         } else{
             echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br>" . mysqli_error($conn) . "</br>";
         }

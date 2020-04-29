@@ -8,7 +8,7 @@
 
     if($term!="" and $tipe_validasi=="autocomplete_client") {
 
-        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.no_telp FROM customer where customer.nama_client LIKE '%$_POST[term]%' and customer.status='A' LIMIT 15");
+        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.no_telp FROM customer where customer.nama_client LIKE '%$_POST[term]%' and customer.status_client='A' LIMIT 15");
         
         if( mysqli_num_rows($result) > 0 ) {
             while($row = mysqli_fetch_assoc($result)){
@@ -17,7 +17,7 @@
             echo json_encode($json);
         }
     } elseif ($term!="" and $tipe_validasi=="Search_client") {
-        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.level  FROM customer where customer.nama_client = '$_POST[term]' and customer.status='A'");
+        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.level  FROM customer where customer.nama_client = '$_POST[term]' and customer.status_client='A'");
 
         $row = mysqli_fetch_assoc($result);
         

@@ -152,6 +152,13 @@
                         $total_penjualan[]   = $total_terima;
                         $Nilai_Total = number_format(array_sum($total_penjualan));
                     endwhile;
+                else :
+                    echo "
+                        <tr>
+                            <td colspan='9'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                        </tr>
+                    ";
+                    $Nilai_Total = "0";
                 endif;
             ?>
             <tr><th colspan="8">Total Pembayaran <?= date("d M Y",strtotime($_POST['date'] )) ?></th><th style="text-align:right; padding-right:10px"><?= $Nilai_Total ?></th></tr>

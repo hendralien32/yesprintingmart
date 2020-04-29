@@ -40,15 +40,17 @@ Next Progressive
 
 * Database
    - Database user
-      ` List User Database
+      ` List User Database 
       ` Add User
       ` Update User
-      ` Delete User
+      ` Delete User 
    - Database Client
-      ` List Client Database
+      ` List Client Database [solved]
       ` Add Client
+         * Error di validasi client
+         * ada inputan yang tidak masuk ke database
       ` Update Client
-      ` Delete Client
+      ` Delete Client [solved]
    - Database Barang
       ` List Barang Database
       ` Add Barang

@@ -9,14 +9,15 @@
     }
 
     $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : 1;
 
     if (isset($page)) :
         switch ($page) :
-            case 'SO_YPM':              $title = 'Sales Order';                     break;
-            case 'SI_YPM':              $title = 'Sales Invoice';                   break;
-            case 'Payment_YPM':         $title = 'Pelunasan Invoice';               break;
-            case 'List_Payment_YPM':    $title = 'List Pelunasan Invoice';          break;
-            default:                    $title = 'YES Program V.5.0';
+            case 'SO_YPM':              $title = 'Sales Order';                 break;
+            case 'SI_YPM':              $title = 'Sales Invoice';               break;
+            case 'Payment_YPM':         $title = 'Pelunasan Invoice';           break;
+            case 'List_Payment_YPM':    $title = 'List Pelunasan Invoice';      break;
+            default:                    $title = 'YES Program V.5.0';                   
         endswitch;
     endif;
 ?>
@@ -37,17 +38,17 @@
 
 <!--===============================================================================================-->
 
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/Plugin/jquery-3.4.1.min.js"></script>
     <!-- jQuery UI library -->
     <link rel="stylesheet" href="css/jquery-ui.css">
-    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/Plugin/jquery-ui.min.js"></script>
     
     <script src="js/script.js"></script>
     <link rel="stylesheet" type="text/css" src="css/Font-Awesome-master/css/all.css">
     <script defer src="css/Font-Awesome-master/js/all.js"></script>
     <link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <script src="js/moment-with-locales.js"></script>
-    <script src="js/moment-timezone-with-data.js"></script>
+    <script src="js/Plugin/moment-with-locales.js"></script>
+    <script src="js/Plugin/moment-timezone-with-data.js"></script>
     
 <!--===============================================================================================-->
     
@@ -87,9 +88,9 @@
         </div>
         <div id="menu">
             <ul>
-                <li>Dashboard</li>
-                <li>Database</li>
-                <a href="?page=SO_YPM&tab=SalesYPM"><li>Penjualan</li></a>
+                <a href="../"><li class='<?= ($page == '1') ? 'active':''; ?>'>Dashboard</li></a>
+                <a href="?page=Client_YPM&tab=DatabaseYPM"><li class='<?= ($tab == 'DatabaseYPM') ? 'active':''; ?>'>Database</li>
+                <a href="?page=SO_YPM&tab=SalesYPM"><li class='<?= ($tab == 'SalesYPM') ? 'active':''; ?>'>Penjualan</li></a>
                 <li>Penjualan Yescom</li>
                 <li>Yes WO List</li>
                 <li>Laporan</li>
@@ -99,14 +100,24 @@
             </ul>
         </div>
         <div id="sub_menu">
+        <?php if($tab=='SalesYPM') : ?>
             <ul>
-                <a href="?page=SO_YPM&tab=SalesYPM"><li>Sales Order Yesprintingmart</li></a>
-                <a href="?page=SI_YPM&tab=SalesYPM"><li>Sales Invoice Yesprintingmart</li></a>
-                <a href="?page=Payment_YPM&tab=SalesYPM"><li>Pelunasan Yesprintingmart</li></a>
-                <a href="?page=List_Payment_YPM&tab=SalesYPM"><li>List Pelunasan Yesprintingmart</li></a>
+                <a href="?page=SO_YPM&tab=SalesYPM"><li class='<?= ($page == 'SO_YPM') ? 'active':''; ?>'>Sales Order Yesprintingmart</li></a>
+                <a href="?page=SI_YPM&tab=SalesYPM"><li class='<?= ($page == 'SI_YPM') ? 'active':''; ?>'>Sales Invoice Yesprintingmart</li></a>
+                <a href="?page=Payment_YPM&tab=SalesYPM"><li class='<?= ($page == 'Payment_YPM') ? 'active':''; ?>'>Pelunasan Yesprintingmart</li></a>
+                <a href="?page=List_Payment_YPM&tab=SalesYPM"><li class='<?= ($page == 'List_Payment_YPM') ? 'active':''; ?>'>List Pelunasan Yesprintingmart</li></a>
                 <div class="clear"></div>
             </ul>
-        </div>
+        <?php elseif($tab=='DatabaseYPM') : ?>
+            <ul>
+                <a href=""><li class='<?= ($page == 'Client_YPM') ? 'active':''; ?>'>Client Database</li></a>
+                <a href=""><li class=''>User Database</li></a>
+                <a href=""><li class=''>Pricelist Database</li></a>
+                <a href=""><li class=''>Barang Database</li></a>
+                <div class="clear"></div>
+            </ul>
+        <?php endif; ?>
+        </div>  
 
         <div id="content">
             
@@ -120,6 +131,7 @@
                         case 'SI_YPM':              require_once('invoce_penjualan.php');                   break;
                         case 'Payment_YPM':         require_once('pelunasan_penjualan.php');                break;
                         case 'List_Payment_YPM':    require_once('list_pelunasan_penjualan.php');           break;
+                        case 'Client_YPM':          require_once('database_client.php');                break;
                         default:                    require_once('test.php');
                     endswitch;
                 else :

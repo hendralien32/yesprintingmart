@@ -114,7 +114,7 @@
     --fa-secondary-color: dimgray;
 }
 
-.fa-cash-register, .fa-credit-card, .fa-hand-holding-usd  {
+.fa-cash-register, .fa-credit-card, .fa-hand-holding-usd, .fa-crown  {
     --fa-primary-color:orange;
     --fa-secondary-color: rgb(197, 77, 8); 
     --fa-secondary-opacity: 1;

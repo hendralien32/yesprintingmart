@@ -59,7 +59,9 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Pelunasan Invoice"; 
     } else if( id == "pelunasan_Multi_invoice" ) { 
         var judul = "Form Multi Payment"; 
-    } 
+    } else if ( id == "database_client" ) {
+        var judul = "Form Client";
+    }
 
     $.ajax({
         type: "POST",

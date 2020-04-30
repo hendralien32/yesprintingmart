@@ -2,6 +2,14 @@
     session_start();
     require_once "../../function.php";
 
+    if(isset($_POST['ID_Order'])) {
+        $status_submit = "update_client";
+        $nama_submit = "Update Client";
+    } else {
+        $status_submit = "submit_client";
+        $nama_submit = "Submit Client";
+    }
+
     echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
 ?>
 
@@ -12,7 +20,7 @@
                     <td>Nama Client</td>
                     <td>
                         <input type="text" id="client" class='form md' value="" autocomplete="off" onkeyup="validasi('client')" style='width:150px;'>
-                        <input type='hidden' id='validasi_client' class='form sd'>
+                        <input type='hidden' id='validasi_client' class='form sd' disabled>
                         <span id="Alert_Valclient"></span>
                     </td>
                 </tr>
@@ -57,7 +65,7 @@
         </div>
         <div id="submit_menu">
             <hr>
-            <button onclick="submit('submit_client')" id="submitBtn">Submit Client</button>
+            <button onclick="submit('<?= $status_submit ?>')" id="submitBtn"><?= $nama_submit ?></button>
         </div>
         <div id="Result">
             

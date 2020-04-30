@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once "../../function.php";
 
     if($_POST['type_client']!="") {
@@ -79,6 +80,7 @@
                         elseif($row['level_client']=="D4") : $status = "#FF0000";
                         else : $status = "#000000";
                         endif;
+
                         if($row['special']=="Y") {
                             $special = "<i class='fad fa-crown'></i>";
                         } else {
@@ -91,8 +93,12 @@
                             $icon = "<i class='far fa-trash-alt text-danger'></i>";
                         endif;
 
+                        if($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting") :
+                            $edit = "LaodForm(\"database_client\", \"". $row['cid'] ."\")";
+                        endif;
+
                         echo "
-                        <tr>
+                        <tr class='pointer' onclick='". $edit ."'>
                             <td>$no</td>
                             <td>C-$CID</td>
                             <td><b style='color:$status;'>▐</b> $row[nama_client] $special</td>

@@ -89,7 +89,7 @@ function LaodForm(id,nid,Akses_Edit) {
                 $("#alasan_cancel").focus();
             } else if( id == "setter_penjualan_invoice" || id == "pelunasan_Multi_invoice" ) {
                 outstandinglist();
-            }
+            } 
 
             
         }

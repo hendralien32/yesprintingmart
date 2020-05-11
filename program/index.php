@@ -110,8 +110,8 @@
             </ul>
         <?php elseif($tab=='DatabaseYPM') : ?>
             <ul>
-                <a href=""><li class='<?= ($page == 'Client_YPM') ? 'active':''; ?>'>Client Database</li></a>
-                <a href=""><li class=''>User Database</li></a>
+                <a href="?page=Client_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'Client_YPM') ? 'active':''; ?>'>Client Database</li></a>
+                <a href="?page=User_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'User_YPM') ? 'active':''; ?>'>User Database</li></a>
                 <a href=""><li class=''>Pricelist Database</li></a>
                 <a href=""><li class=''>Barang Database</li></a>
                 <div class="clear"></div>
@@ -131,7 +131,8 @@
                         case 'SI_YPM':              require_once('invoce_penjualan.php');                   break;
                         case 'Payment_YPM':         require_once('pelunasan_penjualan.php');                break;
                         case 'List_Payment_YPM':    require_once('list_pelunasan_penjualan.php');           break;
-                        case 'Client_YPM':          require_once('database_client.php');                break;
+                        case 'Client_YPM':          require_once('database_client.php');                    break;
+                        case 'User_YPM':            require_once('database_user.php');                      break;
                         default:                    require_once('test.php');
                     endswitch;
                 else :

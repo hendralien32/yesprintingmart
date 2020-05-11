@@ -2934,6 +2934,20 @@
             'A',
             '$_POST[Special]'
         )";
+    elseif($_POST['jenis_submit']=='update_client') :
+        $sql = 
+        "UPDATE
+            customer
+        SET
+            nama_client         = '$_POST[NamaClient]',
+            no_telp             = '$_POST[NoTelp]',
+            email               = '$_POST[EmailClient]',
+            alamat_kantor       = '$_POST[DeskClient]',
+            level_client        = '$_POST[levelClient]',
+            special             = '$_POST[Special]'
+        WHERE
+            cid 		        = '$_POST[IdClient]'
+        ";
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {

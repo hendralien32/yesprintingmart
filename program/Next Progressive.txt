@@ -44,13 +44,13 @@ Next Progressive
       ` Add User
       ` Update User
       ` Delete User 
-   - Database Client
-      ` List Client Database [solved]
-      ` Add Client
-         * Error di validasi client
-         * ada inputan yang tidak masuk ke database
-      ` Update Client
-      ` Delete Client [solved]
+   - Database Client [SOLVED]
+      ` List Client Database [SOLVED]
+      ` Add Client [SOLVED]
+         * Error di validasi client [SOLVED]
+         * ada inputan yang tidak masuk ke database [SOLVED]
+      ` Update Client [SOLVED]
+      ` Delete Client [SOLVED]
    - Database Barang
       ` List Barang Database
       ` Add Barang

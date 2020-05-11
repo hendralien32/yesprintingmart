@@ -99,6 +99,7 @@ function validasi(id) {
 function submit(id) {
     var re = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     var NamaClient       = $('#client').val();
+    var IdClient         = $('#id_client').val();
     var NoTelp           = $('#form_NoTelp').val();
     var EmailClient      = $('#form_EmailClient').val();
     var DeskClient       = $('#form_DeskClient').val();
@@ -126,6 +127,7 @@ function submit(id) {
     } 
 
     var fdata = new FormData()
+    fdata.append("IdClient", IdClient);
     fdata.append("NamaClient", NamaClient);
     fdata.append("NoTelp", NoTelp);
     fdata.append("EmailClient", EmailClient);
@@ -155,5 +157,4 @@ function submit(id) {
             $("#bagDetail").html(XMLHttpRequest);
         }
     }); 
-
 }

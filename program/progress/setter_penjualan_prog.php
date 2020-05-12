@@ -2948,6 +2948,74 @@
         WHERE
             cid 		        = '$_POST[IdClient]'
         ";
+    elseif($_POST['jenis_submit']=='delete_user') :
+        if($_POST['status_user'] == "a") : $status_user = "n";
+        else : $status_user = "a";
+        endif;
+        
+        $sql = 
+        "UPDATE
+            pm_user
+        SET
+            status   = '$status_user'
+        WHERE
+            uid      = '$_POST[user_ID]'
+        ";
+    elseif($_POST['jenis_submit']=='submit_username') :
+        $password	= htmlentities($_POST['Password'], ENT_QUOTES);
+        $pass       = md5("pmart"."$password");
+    
+        $sql = 
+        "INSERT INTO pm_user (
+            nama,
+            username,
+            password,
+            password_visible,
+            phone,
+            tanggal_masuk,
+            tanggal_resign,
+            level,
+            status
+        ) VALUES (
+            '$_POST[Nama]',
+            '$_POST[Username]',
+            '$pass',
+            '$_POST[Password]',
+            '$_POST[NoTelp]',
+            '$_POST[TglMasuk]',
+            '$_POST[Tgl_Keluar]',
+            '$_POST[LevelUser]',
+            'a'
+        )";
+    elseif($_POST['jenis_submit']=='update_username') :
+        if($_POST['Password']!="") {
+            $password	= htmlentities($_POST['Password'], ENT_QUOTES);
+            $pass       = md5("pmart"."$password");
+
+            $change_pass = "
+                password	        = '$pass', 
+                password_visible    = '$password', 
+            ";
+        } else {
+            $change_pass = "";
+        }
+
+        $sql = 
+        "UPDATE
+			pm_user
+		set
+            nama		        = '$_POST[Nama]',
+			username	        = '$_POST[Username]',
+            phone               = '$_POST[NoTelp]',
+            tanggal_masuk       = '$_POST[TglMasuk]',
+            tanggal_resign      = '$_POST[Tgl_Keluar]',
+            $change_pass
+            level		        = '$_POST[LevelUser]'
+		where
+			uid			        = '$_POST[IdUser]'
+		limit
+            1
+        ";
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {

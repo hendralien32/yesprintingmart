@@ -17,7 +17,14 @@
             echo json_encode($json);
         }
     } elseif ($term!="" and $tipe_validasi=="Search_client") {
-        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.level_client  FROM customer where customer.nama_client = '$_POST[term]' and customer.status_client='A'");
+        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client FROM customer where customer.nama_client = '$_POST[term]'");
+
+        $row = mysqli_fetch_assoc($result);
+        
+        echo mysqli_num_rows($result);
+
+    } elseif ($term!="" and $tipe_validasi=="Search_username") {
+        $result = mysqli_query($conn, "SELECT pm_user.uid, pm_user.username FROM pm_user where pm_user.username = '$_POST[term]'");
 
         $row = mysqli_fetch_assoc($result);
         

@@ -1,12 +1,26 @@
 <?php
     session_start();
-
     require_once '../function.php';
 
     if( !isset($_SESSION["login"])) {
         header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
         exit;
     }
+
+    $sql = 
+    "SELECT
+        pm_user.uid,
+        pm_user.nama
+    FROM
+        pm_user
+    WHERE
+        pm_user.uid = '$_SESSION[uid]'
+    ";
+    $result = $conn_OOP -> query($sql);
+
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+    endif;
 
     $page = isset($_GET['page']) ? $_GET['page'] : 1;
     $tab = isset($_GET['tab']) ? $_GET['tab'] : 1;
@@ -17,6 +31,10 @@
             case 'SI_YPM':              $title = 'Sales Invoice';               break;
             case 'Payment_YPM':         $title = 'Pelunasan Invoice';           break;
             case 'List_Payment_YPM':    $title = 'List Pelunasan Invoice';      break;
+            case 'Client_YPM':          $title = 'Database Client';             break;
+            case 'User_YPM':            $title = 'Database User';               break;
+            case 'database_pricelist':  $title = 'Database Pricelist';          break;
+            
             default:                    $title = 'YES Program V.5.0';                   
         endswitch;
     endif;
@@ -80,7 +98,7 @@
                     <span id="text">
                 </div>
                 <div class="user_logout">
-                    Hai, <?= $_SESSION["username"]; ?>! <br>
+                    Hai, <?= $row["nama"]; ?>! <br>
                     <a href="logout.php"><i class="far fa-sign-out"></i> Sign Out !</a>
                 </div>
             </div>
@@ -112,8 +130,8 @@
             <ul>
                 <a href="?page=Client_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'Client_YPM') ? 'active':''; ?>'>Client Database</li></a>
                 <a href="?page=User_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'User_YPM') ? 'active':''; ?>'>User Database</li></a>
-                <a href=""><li class=''>Pricelist Database</li></a>
-                <a href=""><li class=''>Barang Database</li></a>
+                <a href="?page=Pricelist_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'Pricelist_YPM') ? 'active':''; ?>'>Pricelist Database</li></a>
+                <a href="?page=Bahan_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'Bahan_YPM') ? 'active':''; ?>'>Barang Database</li></a>
                 <div class="clear"></div>
             </ul>
         <?php endif; ?>
@@ -133,6 +151,8 @@
                         case 'List_Payment_YPM':    require_once('list_pelunasan_penjualan.php');           break;
                         case 'Client_YPM':          require_once('database_client.php');                    break;
                         case 'User_YPM':            require_once('database_user.php');                      break;
+                        case 'Pricelist_YPM':       require_once('database_pricelist.php');                 break;
+                        case 'Bahan_YPM':           require_once('database_bahan.php');                     break;
                         default:                    require_once('test.php');
                     endswitch;
                 else :

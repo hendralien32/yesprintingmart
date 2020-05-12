@@ -61,6 +61,8 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Multi Payment"; 
     } else if ( id == "database_client" ) {
         var judul = "Form Client";
+    } else if ( id == "database_user" ) {
+        var judul = "Form User";
     }
 
     $.ajax({

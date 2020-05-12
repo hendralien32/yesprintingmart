@@ -87,7 +87,7 @@ function validasi(id) {
         success: function(data){
             if( data > 0 ) {
                 $("#validasi_"+id).val(data);
-                $("#Alert_Val"+id).html("<b style='color:red'> "+id+" Sudah terdaftar</b>");
+                $("#Alert_Val"+id).html("<b style='color:red'> "+id+" sudah terdaftar</b>");
             } else {
                 $("#validasi_"+id).val("0");
                 $("#Alert_Val"+id).html("<b style='color:green'> "+id+" belum terdaftar</b>");

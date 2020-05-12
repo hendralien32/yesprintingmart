@@ -95,16 +95,18 @@
 
                         if($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting") :
                             $edit = "LaodForm(\"database_client\", \"". $row['cid'] ."\")";
+                        else :
+                            $edit ="";
                         endif;
 
                         echo "
-                        <tr class='pointer' onclick='". $edit ."'>
+                        <tr class='pointer'>
                             <td>$no</td>
-                            <td>C-$CID</td>
-                            <td><b style='color:$status;'>▐</b> $row[nama_client] $special</td>
-                            <td>$no_telp</td>
-                            <td>$row[email]</td>
-                            <td>$row[deskripsi]</td>
+                            <td onclick='". $edit ."'>C-$CID</td>
+                            <td onclick='". $edit ."'><b style='color:$status;'>▐</b> $row[nama_client] $special</td>
+                            <td onclick='". $edit ."'>$no_telp</td>
+                            <td onclick='". $edit ."'>$row[email]</td>
+                            <td onclick='". $edit ."'>$row[deskripsi]</td>
                             <td class='pointer' ondblclick='hapus(\"". $row['cid'] ."\", \"". $row['nama_client'] ."\", \"". $row['status_client'] ."\")'>$icon</td>
                         </tr>
                         ";

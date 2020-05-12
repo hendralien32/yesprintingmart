@@ -39,11 +39,11 @@ Next Progressive
    - Edit List Pelunasan ( Menggunakan Form yang sudah ada ) [SOLVED]
 
 * Database
-   - Database user
-      ` List User Database 
-      ` Add User
-      ` Update User
-      ` Delete User 
+   - Database user [SOLVED]
+      ` List User Database [SOLVED]
+      ` Add User [SOLVED]
+      ` Update User [SOLVED]
+      ` Delete User [SOLVED]
    - Database Client [SOLVED]
       ` List Client Database [SOLVED]
       ` Add Client [SOLVED]

@@ -917,7 +917,7 @@ textarea.form {
         width: 35%;
     }
 
-    input[type=text].form, input[type=number].form, input[type=date].form  {
+    input[type=text].form, input[type=number].form, input[type=date].form, input[type=password].form, textarea.form  {
         padding: 3px 8px;
         border: 1px solid #aeaeae;
         background-color: white;
@@ -966,7 +966,7 @@ textarea.form {
         width: 35%;
     }
 
-    input[type=text].form, input[type=number].form, input[type=date].form {
+    input[type=text].form, input[type=number].form, input[type=date].form, input[type=password].form, textarea.form {
         padding: 5px 8px;
         border: 1px solid #aeaeae;
         outline:none;

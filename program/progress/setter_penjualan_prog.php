@@ -3016,10 +3016,105 @@
 		limit
             1
         ";
+    elseif($_POST['jenis_submit']=='delete_bahan') :
+        if($_POST['status_bahan'] == "a") : $status_bahan = "n";
+        else : $status_bahan = "a";
+        endif;
+        
+        $sql = 
+        "UPDATE
+            barang
+        SET
+            status_bahan   = '$status_bahan'
+        WHERE
+            id_barang      = '$_POST[bahan_ID]'
+        ";
+    elseif($_POST['jenis_submit']=='submit_bahan') :
+        $query =
+        "SELECT
+            GROUP_CONCAT(CAST((REPLACE(barang.kode_barang, '$_POST[JenisBahan]', '')) AS UNSIGNED)) as kode_barang
+        FROM
+            barang
+        WHERE
+            barang.jenis_barang = '$_POST[JenisBahan]'
+        GROUP BY
+            barang.jenis_barang
+        ";
+        $result = $conn_OOP -> query($query) -> fetch_assoc();
+
+        $arr1 = explode(',',$result['kode_barang']); //buat kode barang dijadikan array
+        $arr2 = range(1,max($arr1));                                                 
+        $missing = array_diff($arr2,$arr1); // cari nilai array yang hilang
+        if($missing[1]!="") { 
+            $angka = $_POST['JenisBahan'].sprintf("%02d",$missing[1]);
+        } else {
+            $angka = $_POST['JenisBahan'].sprintf("%02d",max($arr1)+1);
+        }
+
+        $Satuan = ucfirst($_POST['Satuan']);
+
+        $sql =
+        "INSERT INTO barang (
+            nama_barang,
+            jenis_barang,
+            kode_barang,
+            min_stock,
+            satuan,
+            status_bahan
+        ) VALUES (
+            '$_POST[Bahan]',
+            '$_POST[JenisBahan]',
+            '$angka',
+            '$_POST[MinStock]',
+            '$Satuan',
+            'a'
+        )
+        ";
+    elseif($_POST['jenis_submit']=='update_bahan') :
+        $query =
+        "SELECT
+            GROUP_CONCAT(CAST((REPLACE(barang.kode_barang, '$_POST[JenisBahan]', '')) AS UNSIGNED)) as kode_barang
+        FROM
+            barang
+        WHERE
+            barang.jenis_barang = '$_POST[JenisBahan]' and
+            barang.kode_barang != '$_POST[KodeBrng]'
+        GROUP BY
+            barang.jenis_barang
+        ";
+        $result = $conn_OOP -> query($query) -> fetch_assoc();
+
+        $arr1 = explode(',',$result['kode_barang']); //buat kode barang dijadikan array
+        $arr2 = range(1,max($arr1));                                                 
+        $missing = implode("",array_diff($arr2,$arr1)); // cari nilai array yang hilang
+
+        if($missing!="") { 
+            $angka = $_POST['JenisBahan'].sprintf("%02d",$missing);
+        } else {
+            $angka = $_POST['JenisBahan'].sprintf("%02d",max($arr1)+1);
+        }
+
+        $Satuan = ucfirst($_POST['Satuan']);
+
+        $sql = 
+        "UPDATE
+			barang
+		set
+            nama_barang		    = '$_POST[Bahan]',
+			jenis_barang	    = '$_POST[JenisBahan]',
+            kode_barang         = '$angka',
+            min_stock           = '$_POST[MinStock]',
+            satuan              = '$Satuan'
+		where
+            id_barang			= '$_POST[IdBahan]'
+		limit
+            1
+        ";
+
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {
-        echo "New records created successfully. $sql";
+        echo "New records created successfully.";
     } else {
         if (mysqli_query($conn, $sql)){
             echo "Records inserted or Update successfully. $sql";

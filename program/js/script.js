@@ -63,6 +63,8 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Client";
     } else if ( id == "database_user" ) {
         var judul = "Form User";
+    } else if ( id == "database_bahan" ) {
+        var judul = "Form Bahan";
     }
 
     $.ajax({

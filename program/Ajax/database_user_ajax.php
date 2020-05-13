@@ -1,6 +1,5 @@
 <?php
     session_start();
-
     require_once "../../function.php";
 
     if($_POST['data']!="") {
@@ -18,7 +17,7 @@
     <table>
         <tbody>
             <tr>
-                <th width="3%">#</th>
+                <th width="5%">#</th>
                 <th width="15%">Username</th>
                 <th width="15%">Nama</th>
                 <th width="12%">Level</th>
@@ -31,7 +30,18 @@
                     pm_user.uid,
                     pm_user.nama,
                     pm_user.username,
-                    pm_user.level,
+                    (CASE
+                        WHEN pm_user.level = 'accounting' THEN 'Accounting'
+                        WHEN pm_user.level = 'admin' THEN 'Administrator'
+                        WHEN pm_user.level = 'setter' THEN 'Setter'
+                        WHEN pm_user.level = 'operator_lf' THEN 'Operator Large Format'
+                        WHEN pm_user.level = 'operator_dp' THEN 'Operator Digital Printing'
+                        WHEN pm_user.level = 'CS' THEN 'Customer Service'
+                        WHEN pm_user.level = 'creative_support' THEN 'Creative Support YES'
+                        WHEN pm_user.level = 'admin_yes' THEN 'Adminstator YES'
+                        WHEN pm_user.level = 'marketing' THEN 'Marketing YES'
+                        ELSE ''
+                    END) as level,
                     pm_user.tanggal_masuk,
                     pm_user.status
                 FROM
@@ -59,7 +69,7 @@
                         if($row['tanggal_masuk'] != "0000-00-00") {
                             $tanggal_masuk = date("d M Y",strtotime($row['tanggal_masuk']));
                         } else {
-                            $tanggal_masuk = "0000-00-00";
+                            $tanggal_masuk = "- - - - - -";
                         }
 
                         echo "

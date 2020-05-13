@@ -72,7 +72,7 @@
                         }
                         
                         $no++;
-                        $CID = sprintf("%05d",$row['cid']);
+                        $CID = sprintf("%04d",$row['cid']);
 
                         if($row['level_client']=="D1") : $status = "#228B22";
                         elseif($row['level_client']=="D2") : $status = "#4169E1";

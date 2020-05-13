@@ -51,11 +51,11 @@ Next Progressive
          * ada inputan yang tidak masuk ke database [SOLVED]
       ` Update Client [SOLVED]
       ` Delete Client [SOLVED]
-   - Database Barang
-      ` List Barang Database
-      ` Add Barang
-      ` Update Barang
-      ` Delete Barang
+   - Database Barang [SOLVED]
+      ` List Barang Database [SOLVED]
+      ` Add Barang [SOLVED]
+      ` Update Barang [SOLVED]
+      ` Delete Barang [SOLVED]
    - Database PriceList
       ` List PriceList Database
       ` Add PriceList

@@ -693,12 +693,14 @@ a:hover {
     text-align: center;
     font-weight: 600;
     letter-spacing: 0.5px;
+    cursor: pointer;
 }
 
 #content .right_content table tr th select option {
     background-color:#FFFFFF;
     color :#353942;
     font-weight: normal;
+    cursor: pointer;
 }
 
 

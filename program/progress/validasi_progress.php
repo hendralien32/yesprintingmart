@@ -37,6 +37,34 @@
         
         echo mysqli_num_rows($result);
 
+    }  elseif ($term!="" and $tipe_validasi=="Search_bahanFC") {
+        $result = mysqli_query($conn, 
+        "SELECT 
+            pricelist.price_id,
+            barang.nama_barang 
+        FROM 
+            pricelist 
+        LEFT JOIN
+            (
+                SELECT
+                    barang.nama_barang,
+                    barang.id_barang
+                FROM
+                    barang
+            ) barang
+        ON
+            barang.id_barang = pricelist.bahan
+        where 
+            barang.nama_barang = '$_POST[term]' and 
+            pricelist.sisi = '$_POST[Sisi]' and 
+            pricelist.warna = '$_POST[Warna]' and 
+            pricelist.jenis = '$_POST[kode_barng]'
+        ");
+
+        $row = mysqli_fetch_assoc($result);
+        
+        echo mysqli_num_rows($result);
+
     } elseif($term!="" and $tipe_validasi=="autocomplete_BahanDigital") {
         $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
         

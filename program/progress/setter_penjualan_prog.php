@@ -3110,7 +3110,100 @@
 		limit
             1
         ";
-
+    elseif($_POST['jenis_submit']=='submit_pricelist') :
+        $sql =
+        "INSERT INTO pricelist (
+            pricelist.bahan,
+            pricelist.jenis,
+            pricelist.sisi,
+            pricelist.warna,
+            pricelist.1_lembar,
+            pricelist.2_lembar,
+            pricelist.3sd5_lembar,
+            pricelist.6sd9_lembar,
+            pricelist.10_lembar,
+            pricelist.20_lembar,
+            pricelist.50_lembar,
+            pricelist.100_lembar,
+            pricelist.250_lembar,
+            pricelist.500_lembar,
+            pricelist.1_kotak,
+            pricelist.2sd19_kotak,
+            pricelist.20_kotak,
+            pricelist.1sd2m,
+            pricelist.3sd9m,
+            pricelist.10m,
+            pricelist.50m,
+            pricelist.harga_indoor,
+            pricelist.6sd8pass_indoor,
+            pricelist.12pass_indoor,
+            pricelist.20pass_indoor,
+            pricelist.special_price,
+            pricelist.status_pricelist
+        ) VALUES (
+            '$_POST[bahanFC]',
+            '$_POST[kode_barng]',
+            '$_POST[Sisi]',
+            '$_POST[form_Warna]',
+            '$_POST[f_1_lembar]',
+            '$_POST[f_2_lembar]',
+            '$_POST[f_3sd5_lembar]',
+            '$_POST[f_6sd9_lembar]',
+            '$_POST[f_10_lembar]',
+            '$_POST[f_20_lembar]',
+            '$_POST[f_50_lembar]',
+            '$_POST[f_100_lembar]',
+            '$_POST[f_250_lembar]',
+            '$_POST[f_500_lembar]',
+            '$_POST[f_1_kotak]',
+            '$_POST[f_2sd19_kotak]',
+            '$_POST[f_20_kotak]',
+            '$_POST[f_1sd2m]',
+            '$_POST[f_3sd9m]',
+            '$_POST[f_10m]',
+            '$_POST[f_50m]',
+            '$_POST[f_harga_indoor]',
+            '$_POST[f_6sd8pass_indoor]',
+            '$_POST[f_12pass_indoor]',
+            '$_POST[f_20pass_indoor]',
+            '$_POST[SpecialPrice]',
+            'a'
+        )
+        ";
+    elseif($_POST['jenis_submit']=='update_pricelist') :    
+        $sql = 
+        "UPDATE
+            pricelist
+        SET
+            pricelist.bahan = '$_POST[bahanFC]', 
+            pricelist.jenis = '$_POST[kode_barng]', 
+            pricelist.sisi = '$_POST[Sisi]', 
+            pricelist.warna = '$_POST[form_Warna]', 
+            pricelist.1_lembar = '$_POST[f_1_lembar]', 
+            pricelist.2_lembar = '$_POST[f_2_lembar]', 
+            pricelist.3sd5_lembar = '$_POST[f_3sd5_lembar]', 
+            pricelist.6sd9_lembar = '$_POST[f_6sd9_lembar]', 
+            pricelist.10_lembar = '$_POST[f_10_lembar]', 
+            pricelist.20_lembar = '$_POST[f_20_lembar]', 
+            pricelist.50_lembar = '$_POST[f_50_lembar]', 
+            pricelist.100_lembar = '$_POST[f_100_lembar]', 
+            pricelist.250_lembar = '$_POST[f_250_lembar]', 
+            pricelist.500_lembar = '$_POST[f_500_lembar]', 
+            pricelist.1_kotak = '$_POST[f_1_kotak]', 
+            pricelist.2sd19_kotak = '$_POST[f_2sd19_kotak]', 
+            pricelist.20_kotak = '$_POST[f_20_kotak]', 
+            pricelist.1sd2m = '$_POST[f_1sd2m]', 
+            pricelist.3sd9m = '$_POST[f_3sd9m]', 
+            pricelist.10m = '$_POST[f_10m]', 
+            pricelist.50m = '$_POST[f_50m]', 
+            pricelist.harga_indoor = '$_POST[f_harga_indoor]', 
+            pricelist.6sd8pass_indoor = '$_POST[f_6sd8pass_indoor]', 
+            pricelist.12pass_indoor = '$_POST[f_12pass_indoor]', 
+            pricelist.20pass_indoor = '$_POST[f_20pass_indoor]', 
+            pricelist.special_price = '$_POST[SpecialPrice]'
+        WHERE
+            price_id 		        = '$_POST[id_pricelist]'
+        ";
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {

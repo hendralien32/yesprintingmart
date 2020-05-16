@@ -2,8 +2,8 @@
     session_start();
     require_once "../../function.php";
 
-    if(isset($_POST['kode_barang'])) {
-        $kode_barang = $_POST['kode_barang'];
+    if(isset($_POST['Form_KodeBrg'])) {
+        $kode_barang = $_POST['Form_KodeBrg'];
 
         if($kode_barang=="digital") {
             $digital = "";
@@ -37,7 +37,6 @@
         $add_where = "";
     }
 
-    
 ?>
 
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
@@ -142,34 +141,40 @@
                         else : $status = "#000000";
                         endif;
 
+                        if($_SESSION['level']=="admin") :
+                            $edit = "LaodForm(\"database_pricelist\", \"". $row['price_id'] ."\")";
+                        else :
+                            $edit ="";
+                        endif;
+
                         echo "
                         <tr>
                             <td>$no</td>
-                            <td><b style='$status'>▐</b> $row[nama_barang]</td>
-                            <td>". ucfirst($row['jenis']) ."</td>
-                            <td><span class='".$row['css_sisi']." KodeProject'>". $row['sisi'] ."</span></td>
-                            <td style='display:$digital'><center>". number_format($row['1_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['2_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['3sd5_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['6sd9_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['10_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['20_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['50_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['100_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['250_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['500_lembar']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['1_kotak']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['2sd19_kotak']) ."</center></td>
-                            <td style='display:$digital'><center>". number_format($row['20_kotak']) ."</center></td>
-                            <td style='display:$lf'><center>". number_format($row['1sd2m']) ."</center></td>
-                            <td style='display:$lf'><center>". number_format($row['3sd9m']) ."</center></td>
-                            <td style='display:$lf'><center>". number_format($row['10m']) ."</center></td>
-                            <td style='display:$lf'><center>". number_format($row['50m']) ."</center></td>
-                            <td style='display:$latex'><center>". number_format($row['harga_indoor']) ."</center></td>
-                            <td style='display:$latex'><center>". number_format($row['6sd8pass_indoor']) ."</center></td>
-                            <td style='display:$latex'><center>". number_format($row['12pass_indoor']) ."</center></td>
-                            <td style='display:$latex'><center>". number_format($row['20pass_indoor']) ."</center></td>
-                            <td><center>". number_format($row['special_price']) ."</center></td>
+                            <td onClick='$edit' class='pointer'><b style='$status'>▐</b> $row[nama_barang]</td>
+                            <td onClick='$edit' class='pointer'>". ucfirst($row['jenis']) ."</td>
+                            <td onClick='$edit' class='pointer'><span class='".$row['css_sisi']." KodeProject'>". $row['sisi'] ."</span></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['1_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['2_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['3sd5_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['6sd9_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['10_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['20_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['50_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['100_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['250_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['500_lembar']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['1_kotak']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['2sd19_kotak']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$digital'><center>". number_format($row['20_kotak']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$lf'><center>". number_format($row['1sd2m']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$lf'><center>". number_format($row['3sd9m']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$lf'><center>". number_format($row['10m']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$lf'><center>". number_format($row['50m']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$latex'><center>". number_format($row['harga_indoor']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$latex'><center>". number_format($row['6sd8pass_indoor']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$latex'><center>". number_format($row['12pass_indoor']) ."</center></td>
+                            <td onClick='$edit' class='pointer' style='display:$latex'><center>". number_format($row['20pass_indoor']) ."</center></td>
+                            <td onClick='$edit' class='pointer'><center>". number_format($row['special_price']) ."</center></td>
                             <td>$icon</td>
                         </tr>
                         ";

@@ -347,7 +347,6 @@
                             <td>Kode Barang</td>
                             <td>
                             <select class="myselect" id="kode_barng" onchange="ChangeKodeBrg()">
-                                <option value="">Pilih Kode Barang</option>
                                 <?php
                                     $array_kode = array(
                                         "digital" => "Digital Printing",
@@ -671,7 +670,6 @@
                         <td>Kode Barang</td>
                         <td>
                             <select class="myselect" id="kode_barng" onchange="ChangeKodeBrg()">
-                                <option value="">Pilih Kode Barang</option>
                                 <?php
                                     $array_kode = array(
                                         "digital" => "Digital Printing",
@@ -877,7 +875,6 @@
             <div id="Result">
             
             </div>    
-               
         </div>
 
     <?php endif; ?>

@@ -67,7 +67,11 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Bahan";
     } else if ( id == "database_pricelist" ) {
         var judul = "Form Pricelist";
+    } else if ( id == "WO_List_yescom" ) {
+        var judul = "Form YES Communication Work Order";
     }
+
+    
 
     $.ajax({
         type: "POST",
@@ -95,7 +99,7 @@ function LaodForm(id,nid,Akses_Edit) {
                 $("#alasan_cancel").focus();
             } else if( id == "setter_penjualan_invoice" || id == "pelunasan_Multi_invoice" ) {
                 outstandinglist();
-            } else if( id == "database_pricelist" ) { 
+            } else if( id == "database_pricelist" || id == "WO_List_yescom" ) { 
                 ChangeKodeBrg();
             }
 

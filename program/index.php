@@ -34,6 +34,7 @@
             case 'Client_YPM':          $title = 'Database Client';             break;
             case 'User_YPM':            $title = 'Database User';               break;
             case 'database_pricelist':  $title = 'Database Pricelist';          break;
+            case 'Wo_List':             $title = 'Work Order List Yescom';      break;
             
             default:                    $title = 'YES Program V.5.0';                   
         endswitch;
@@ -109,8 +110,7 @@
                 <a href="../"><li class='<?= ($page == '1') ? 'active':''; ?>'>Dashboard</li></a>
                 <a href="?page=Client_YPM&tab=DatabaseYPM"><li class='<?= ($tab == 'DatabaseYPM') ? 'active':''; ?>'>Database</li>
                 <a href="?page=SO_YPM&tab=SalesYPM"><li class='<?= ($tab == 'SalesYPM') ? 'active':''; ?>'>Penjualan</li></a>
-                <li>Penjualan Yescom</li>
-                <li>Yes WO List</li>
+                <a href="?page=Wo_List&tab=SalesYescom"><li class='<?= ($tab == 'SalesYescom') ? 'active':''; ?>'>Penjualan Yescom</li></a>
                 <li>Laporan</li>
                 <li>Large Format</li>
                 <li>Digital Printing</li>
@@ -134,6 +134,12 @@
                 <a href="?page=Bahan_YPM&tab=DatabaseYPM"><li class='<?= ($page == 'Bahan_YPM') ? 'active':''; ?>'>Barang Database</li></a>
                 <div class="clear"></div>
             </ul>
+        <?php elseif($tab=='SalesYescom') : ?>
+            <ul>
+                <a href="?page=Wo_List&tab=SalesYescom"><li class='<?= ($page == 'Wo_List') ? 'active':''; ?>'>WO List Yescom</li></a>
+                <a href="?page=Sales_Yescom&tab=SalesYescom"><li>Sales Order Yescom</li></a>
+                <div class="clear"></div>
+            </ul>
         <?php endif; ?>
         </div>  
 
@@ -153,6 +159,7 @@
                         case 'User_YPM':            require_once('database_user.php');                      break;
                         case 'Pricelist_YPM':       require_once('database_pricelist.php');                 break;
                         case 'Bahan_YPM':           require_once('database_bahan.php');                     break;
+                        case 'Wo_List':             require_once('WO_List_yescom.php');                     break;
                         default:                    require_once('test.php');
                     endswitch;
                 else :

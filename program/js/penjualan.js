@@ -20,7 +20,7 @@ function toggle(pilih) {
     for(var i=0, n=checkboxes.length;i<n;i++) {
       checkboxes[i].checked = pilih.checked;
     }
-  }
+}
 
 function outstandinglist() {
     var InvoiceList_setter_check = $('#InvoiceList_setter_check').val();

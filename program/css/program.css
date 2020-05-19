@@ -349,7 +349,10 @@ input[type=text], input[type=date], .left_content SELECT {
     color :#353942;
 }
 
-input[type=date]:disabled {
+input[type=date]:disabled, 
+input[type=text].form:disabled, 
+input[type=number].form:disabled, 
+input[type=email].form:disabled  {
     background-color:#e2e2e2;
 }
 
@@ -927,7 +930,7 @@ textarea.form {
         color :#353942;
     }
     
-    input[type=number].form:disabled {
+    input[type=number].form:disabled, input[type=text].form:disabled {
         background-color: #eeeeee;
     }
 
@@ -976,7 +979,9 @@ textarea.form {
         color :#353942;
     }
 
-    input[type=number].form:disabled {
+    input[type=number].form:disabled, 
+    input[type=text].form:disabled,
+     input[type=email].form:disabled {
         background-color: #eeeeee;
     }
 

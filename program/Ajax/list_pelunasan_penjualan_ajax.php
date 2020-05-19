@@ -35,10 +35,10 @@
             <tr>
                 <th width="1%">#</th>
                 <th width="12%">Client</th>
-                <th width="9%">Tanggal Invoice</th>
+                <th width="8%">Tanggal Invoice</th>
                 <th width="8%">No Invoice</th>
                 <th width="37%">Deskripsion</th>
-                <th width="11%">Tipe Pembayaran</th>
+                <th width="12%">Tipe Pembayaran</th>
                 <th width="7%">Total Bayar</th>
                 <th width="6%">Adjust</th>
                 <th width="8%">Total Terima</th>
@@ -62,7 +62,13 @@
                     penjualan.kode_barang,
                     pelunasan.pid,
                     pelunasan.no_invoice,
-                    pelunasan.type_pem,
+                    (CASE
+                        WHEN pelunasan.type_pem = 'Cash' THEN 'Cash'
+                        WHEN pelunasan.type_pem = 'DP' THEN 'Down Payment'
+                        WHEN pelunasan.type_pem = 'Kartu Kredit' THEN 'Debit / Kredit / Transfer'
+                        WHEN pelunasan.type_pem = 'DP Kartu Kredit' THEN 'DP Debit / Kredit / Transfer'
+                        ELSE '- - - -'
+                    END) as type_pem,
                     pelunasan.tot_pay,
                     pelunasan.adj_pay,
                     penjualan.pembayaran,

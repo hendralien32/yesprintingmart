@@ -3204,6 +3204,19 @@
         WHERE
             price_id 		        = '$_POST[id_pricelist]'
         ";
+    elseif($_POST['jenis_submit']=='delete_pricelist') :
+        if($_POST['status_pricelist'] == "a") : $status_pricelist = "n";
+        else : $status_pricelist = "a";
+        endif;
+        
+        $sql = 
+        "UPDATE
+            pricelist
+        SET
+            status_pricelist   = '$status_pricelist'
+        WHERE
+            price_id      = '$_POST[pricelist_ID]'
+        ";
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {
@@ -3215,7 +3228,6 @@
             echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br>" . mysqli_error($conn) . "</br>";
         }
     }
-    
     
     // Close connection
     $conn -> close();

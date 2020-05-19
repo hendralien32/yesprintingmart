@@ -4,22 +4,16 @@ Next Progressive
    - Error Di Form Sales Order [SOLVED]
    - Error Di Form Sales Invoice [SOLVED]
    - Update History Log [SOLVED]
-
 * Info  Sales Order saat tidak bisa di edit [SOLVED]
    - Tambah harga [SOLVED]
    - Kasih Validasi Untuk user [SOLVED]
       ` Admin & CS bisa lihat harga [SOLVED]
       ` untuk Setter hanya bisa lihat detail saja [SOLVED]
-
 * Ganti CSS Checkbox di form Invoice [SOLVED]
-
 * FIX Bug saat pertama kali masuk page Sales Order [SOLVED]
-   - tambah SCRIPT * $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; * [SOLVED]
-    
+   - tambah SCRIPT * $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; * [SOLVED]   
 * Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter ) [SOLVED]
-
 * Error Di Print Invoice karena Update versi 7.4.4 [SOLVED]
-
 * Pelunasan
    - Tampilkan List Pelunasan Yang belum Lunas di tampilan awal [SOLVED]
    - Tampilan List Pelunasan yang sudah lunas berdasarkan tanggal [SOLVED]
@@ -29,16 +23,12 @@ Next Progressive
    - Berikan Log / History pada saat Pelunasan dan Edit Pelunasan [SOLVED]
    - Multiple Payment Button ( Berfungsi Untuk Client yang sama ) [SOLVED]
    - Fix bug saat input pembayaran Log tidak terinput [SOLVED]
-
 * Fix Bug di penjualan setter pada Form Buka Invoice [SOLVED]
-
 * Penambah Input untuk search Invoice di Invoice Yesprintingmart [SOLVED]
-
 * List Pelunasan Invoice [SOLVED]
    - List Pelunasan Yang sudah Bayar [SOLVED]
    - Edit List Pelunasan ( Menggunakan Form yang sudah ada ) [SOLVED]
-
-* Database
+* Database [SOLVED]
    - Database user [SOLVED]
       ` List User Database [SOLVED]
       ` Add User [SOLVED]
@@ -56,9 +46,46 @@ Next Progressive
       ` Add Barang [SOLVED]
       ` Update Barang [SOLVED]
       ` Delete Barang [SOLVED]
-   - Database PriceList
-      ` List PriceList Database
-      ` Add PriceList
-      ` Update PriceList
-      ` Delete PriceList
-      
+   - Database PriceList [SOLVED]
+      ` List PriceList Database [SOLVED]
+      ` Add PriceList [SOLVED]
+      ` Update PriceList [SOLVED]
+      ` Delete PriceList [SOLVED]
+* Laporan Penjualan
+   - penjualan Yesprintingmart
+   - Penjualan Yescom
+   - Export Excel
+* Laporan Pelunasan
+   - Tampilkan Cash
+   - Tampilkan Debit / Kredit / Transfer
+   - Update Status Pelunasan apakah di setor bank / dijadikan peti cash
+   - Export Excel 
+* Laporan Peti Cash << OPTIONAL >>
+   - Export Excel
+* Laporan Kerja Large Format & Indoor   
+* YES WO List
+   - List Form Work Order List
+      ` Insert
+      ` Update
+      ` Delete
+      ` Generator
+         * Time Generate
+* Penjualan Yescom
+   - Generator Input Form Yescom
+   - List Penjualan Yescom
+   - Edit Order Penjualan Yescom
+   - Create Invoice Yescom
+* Digital Printing
+   - Order List Digital Printing
+   - Laporan Pemotongan Stock
+   - Laporan Harian Konika
+   - Laporan Penggunaan Stock 
+   - Stock Bahan
+      ` Penerimaan Bahan
+      ` Pengeluaran Bahan
+* Large Format
+   - Order List Large Format
+   - Laporan Pemotongan Stock
+   - Stock Bahan
+      ` Penerimaan Bahan
+      ` Pengeluaran Bahan 

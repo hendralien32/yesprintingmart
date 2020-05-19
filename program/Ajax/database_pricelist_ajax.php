@@ -130,10 +130,10 @@
                     while ($row = $result->fetch_assoc()) :
                         $no++;
 
-                        if($row['status_pricelist']=="T") :
-                            $icon = "<i class='fas fa-undo-alt text-success'></i>";
-                        else :
+                        if($row['status_pricelist']=="a") :
                             $icon = "<i class='far fa-trash-alt text-danger'></i>";
+                        else :
+                            $icon = "<i class='fas fa-undo-alt text-success'></i>";
                         endif;
 
                         if($row['warna']=="FC") : $status = "color: rgb(131,58,180);";
@@ -175,7 +175,7 @@
                             <td onClick='$edit' class='pointer' style='display:$latex'><center>". number_format($row['12pass_indoor']) ."</center></td>
                             <td onClick='$edit' class='pointer' style='display:$latex'><center>". number_format($row['20pass_indoor']) ."</center></td>
                             <td onClick='$edit' class='pointer'><center>". number_format($row['special_price']) ."</center></td>
-                            <td>$icon</td>
+                            <td class='pointer' ondblclick='hapus(\"". $row['price_id'] ."\", \"". $row['nama_barang'] ."\", \"". $row['status_pricelist'] ."\")'>$icon</td>
                         </tr>
                         ";
                     endwhile;

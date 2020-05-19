@@ -100,7 +100,7 @@
         $f_12pass_indoor = $row['12pass_indoor'];
         $f_20pass_indoor = $row['20pass_indoor'];
         $f_special_price = $row['special_price'];
-        $alert = "<b style='color:green'> Nama Client Sama</b>";
+        $alert = "<b style='color:green'> Pricelist Nama Bahan Sama</b>";
     } else {
         $f_price_id = "";
         $f_bahan = "";
@@ -178,7 +178,7 @@
                         <input type='text' class='form md' id="bahanFC" value="<?= $f_nama_barang ?>" autocomplete="off" onkeyup="test('bahanFC')" onchange="test_valid('bahan')" onkeyup="validasi('bahanFC')" onchange="validasi('bahanFC')">
                         <input type='hidden' id='id_bahanFC' value="<?= $f_bahan ?>" class='form sd' readonly disabled>
                         <input type='hidden' id='validasi_bahanFC' value="0"  class='form sd' readonly disabled>
-                        <input type='hidden' id='validasi_bahan' value="0" class='form sd' readonly disabled>
+                        <input type='hidden' id='validasi_bahan' value="1" class='form sd' readonly disabled>
                         <span id="Alert_ValbahanFC"><?= $alert ?></span>
                     </td>
                 </tr>

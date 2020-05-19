@@ -244,11 +244,11 @@ function submit(id) {
 
     if(Validasi_Pricelist == 1) {
         alert("Nama Bahan Sudah terdaftar");
-        // return false;
+        return false;
     }
     if(Validasi_Bahan == 0) {
         alert("Nama Bahan tidak terdaftar");
-        // return false;
+        return false;
     }
     
     var fdata = new FormData()
@@ -302,4 +302,32 @@ function submit(id) {
             $("#bagDetail").html(XMLHttpRequest);
         }
     }); 
+}
+
+function hapus(cid,nama_pricelist,status_pricelist) {
+    if(status_pricelist=="a") {
+        var abc = "hapus";
+    } else {
+        var abc = "kembalikan";
+    }
+
+    if(confirm( abc +' Pricelist "'+ nama_pricelist + '" ?')) {
+        $.ajax({
+            type: "POST",
+            url: "progress/setter_penjualan_prog.php",
+            data: {
+                pricelist_ID            : cid,
+                jenis_submit            : "delete_pricelist",
+                status_pricelist        : status_pricelist
+            },
+            success: function(data){
+                alert('Pricelist "' + nama_pricelist + '" sudah di' + abc);
+                onload();
+                return false;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $("#bagDetail").html(XMLHttpRequest);
+            }
+        }); 
+    }
 }

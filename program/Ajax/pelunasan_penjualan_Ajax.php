@@ -62,13 +62,13 @@
         <tbody>
             <tr>
                 <th width="1%">#</th>
-                <th width="11%">Client</th>
+                <th width="10%">Client</th>
                 <th width="8%">Date</th>
                 <th width="8%">No Invoice</th>
                 <th width="37%">No ID</th>
                 <th width="8%">Total Invoice</th>
                 <th width="8%">Total Pay</th>
-                <th width="4%">Payment</th>
+                <th width="7%">Payment</th>
             </tr>
 
             <?php
@@ -230,7 +230,7 @@
                             <tr>
                                 <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>$no</td>
                                 <td rowspan='$Count_ID_Koma' style='vertical-align: top; padding-top: 13px'>". str_ireplace($cari_keyword_client,$bold_cari_keyword_client,$d['nama_client']) ."</td>
-                                <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>$tanggal_Inv[0]</td>
+                                <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>". date("d M Y",strtotime($tanggal_Inv[0]))."</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[0] $print</td>
                                 <td><b class='tanda_$kode_barang[0]'>▐</b> $OID[0] - $description[0]</td>
                                 <td rowspan='$Count_JlhID' style='vertical-align: top; padding-top: 13px; text-align:right'>". number_format($Explode_Total[0]) ."</td>
@@ -291,7 +291,7 @@
 
                             echo "
                                 <tr>
-                                    <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px'>$tanggal_Inv[$i]</td>
+                                    <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px'>". date("d M Y",strtotime($tanggal_Inv[$i]))."</td>
                                     <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px'>#$Explode_Invoice[$i] $X_print</td>
                                     <td><b class='tanda_$X_kode_barang[0]'>▐</b> $X_OID[0] - $X_description[0]</td>
                                     <td rowspan='$X_Count_JlhID' style='vertical-align: top; padding-top: 13px; text-align:right'>". number_format($Explode_Total[$i]) ."</td>

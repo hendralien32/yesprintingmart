@@ -15,6 +15,7 @@
         $Satuan         = htmlspecialchars($_POST['Satuan'],ENT_QUOTES);
         $Nama_Client    = htmlspecialchars($_POST['Nama_Client'],ENT_QUOTES);
         $Nama_Bahan     = htmlspecialchars($_POST['Nama_Bahan'],ENT_QUOTES);
+        
     } else {
         $Deskripsi      = "";
         $Notes          = "";
@@ -3216,6 +3217,156 @@
             status_pricelist   = '$status_pricelist'
         WHERE
             price_id      = '$_POST[pricelist_ID]'
+        ";
+    elseif($_POST['jenis_submit']=='Insert_WO_List') :
+        $project         = htmlspecialchars($_POST['Deskripsi'],ENT_QUOTES);
+        $Client_YES      = htmlspecialchars($_POST['Nama_Client'],ENT_QUOTES);
+
+        $array = array (
+            "ID Yes"                    => "$_POST[id_yescom]",
+            "SO Yes"                    => "$_POST[so_yescom]",
+            "AE Yes"                    => "$_POST[marketing_yescom]",
+            "Warna Work Order"          => "$_POST[wo_yescom]",
+            "Ukuran Yes"                => "$_POST[ukuran_yescom]",
+            "Qty Yes"                   => "$_POST[qty_yescom]",
+            "Kode barang"               => "$_POST[Desc_Kode_Brg]",
+            "Nama Client"               => "$Client_YES",
+            "Deskripsi"                 => "$project",
+            "Ukuran"                    => "$_POST[Ukuran]",
+            "Panjang"                   => "$_POST[Panjang]",
+            "Lebar"                     => "$_POST[Lebar]",
+            "Sisi"                      => "$_POST[Sisi]",
+            "Warna"                     => "$_POST[warna_cetakan]",
+            "Nama Bahan"                => "$Nama_Bahan",
+            "Notes / Finishing LF"      => "$Notes",
+            "Laminating"                => "$_POST[Desc_Laminating]",
+            "Alat Tambahan"             => "$_POST[Desc_alat_tambahan]",
+            "Potong Putus"              => "$_POST[Ptg_Pts]",
+            "Potong Gantung"            => "$_POST[Ptg_Gantung]",
+            "Pon Garis"                 => "$_POST[Pon_Garis]",
+            "Perporasi"                 => "$_POST[Perporasi]",
+            "Cutting Stiker"            => "$_POST[CuttingSticker]",
+            "Hekter Tengah"             => "$_POST[Hekter_Tengah]",
+            "Blok"                      => "$_POST[Blok]",
+            "Spiral"                    => "$_POST[Spiral]",
+            "Qty"                       => "$_POST[Qty]",
+            "Satuan"                    => "$Satuan"
+        );
+
+        $log ="";
+
+        foreach($array as $key => $value ) {
+            if($value!="" && $value!="N") {
+                if(is_numeric($value)) {
+                    $Input_Value = number_format($value); 
+                } else {
+                    $Input_Value = "$value";
+                }
+                $log  .= "<b>$key</b> : $Input_Value<br>";
+            } else {
+                $log  .= "";
+            }
+        }
+
+        $Final_log = "
+            <tr>
+                <td>$timestamps</td>
+                <td>". $_SESSION['username'] ." Tambah data</td>
+                <td>$log</td>
+            </tr>
+        ";
+
+        $sql = 
+        "INSERT INTO wo_list (
+            wo_list.kode,
+            wo_list.wo_color,
+            wo_list.send_via,
+            wo_list.marketing,
+            wo_list.id,
+            wo_list.so,
+            wo_list.client,
+            wo_list.project,
+            wo_list.ID_Bahan,
+            wo_list.ukuran,
+            wo_list.ukuran_jadi,
+            wo_list.panjang,
+            wo_list.lebar,
+            wo_list.cetak,
+            wo_list.potong,
+            wo_list.potong_gantung,
+            wo_list.pon,
+            wo_list.perporasi,
+            wo_list.CuttingSticker,
+            wo_list.Hekter_Tengah,
+            wo_list.Blok,
+            wo_list.Spiral,
+            wo_list.leminate,
+            wo_list.finishing,
+            wo_list.qty,
+            wo_list.qty_jadi,
+            wo_list.satuan,
+            wo_list.urgent,
+            wo_list.send_by,
+            wo_list.warna,
+            wo_list.alat_tambahan,
+            wo_list.log
+        ) VALUES (
+            '$_POST[Kode_Brg]',
+            '$_POST[wo_yescom]',
+            'email',
+            '$_POST[marketing_yescom]',
+            '$_POST[id_yescom]',
+            '$_POST[so_yescom]',
+            '$Client_YES',
+            '$project',
+            '$_POST[ID_Bahan]',
+            '$_POST[Ukuran]',
+            '$_POST[ukuran_yescom]',
+            '$_POST[Panjang]',
+            '$_POST[Lebar]',
+            '$_POST[Sisi]',
+            '$_POST[Ptg_Pts]',
+            '$_POST[Ptg_Gantung]',
+            '$_POST[Pon_Garis]',
+            '$_POST[Perporasi]',
+            '$_POST[CuttingSticker]',
+            '$_POST[Hekter_Tengah]',
+            '$_POST[Blok]',
+            '$_POST[Spiral]',
+            '$_POST[Laminating]',
+            '$_POST[Notes]',
+            '$_POST[Qty]',
+            '$_POST[qty_yescom]',
+            '$_POST[Satuan]',
+            '$_POST[urgent]',
+            '$_SESSION[username]',
+            '$_POST[warna_cetakan]',
+            '$_POST[alat_tambahan]',
+            '$Final_log'
+        )
+        ";
+    elseif($_POST['jenis_submit']=='delete_WOLIST') :
+
+        if($_POST['status_WO_LIST'] == "deleted") : $status_pricelist = "";
+        else : $status_pricelist = "deleted";
+        endif;
+
+        $Final_log = "
+            <tr>
+                <td>$hr, $timestamps</td>
+                <td>". $_SESSION['username'] ." Hapus data</td>
+                <td><b>Cancel</b> : $status_pricelist</td>
+            </tr>
+        ";
+
+        $sql = 
+        "UPDATE
+            wo_list
+        SET
+            status			= '$status_pricelist',
+            log             =  CONCAT('$Final_log', log)
+        WHERE
+            wio				= '$_POST[WO_LIST_ID]'
         ";
     endif;
     

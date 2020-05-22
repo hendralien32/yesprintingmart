@@ -424,54 +424,52 @@
         echo json_encode($arr_data);
     } elseif($tipe_validasi=="Auto_YesOrder_Data") {
         $sql =
-                "SELECT 
-                    workorder.so,
-                    workorder.client,
-                    workorder.project,
-                    workorder.ukuran,
-                    workorder.bahan,
-                    (CASE
-                        WHEN workorder.cetak = '1/0' THEN '1'
-                        WHEN workorder.cetak = '2/0' THEN '1'
-                        WHEN workorder.cetak = '3/0' THEN '1'
-                        WHEN workorder.cetak = '4/0' THEN '1'
-                        WHEN workorder.cetak = '1/1' THEN '2'
-                        WHEN workorder.cetak = '2/1' THEN '2'
-                        WHEN workorder.cetak = '3/1' THEN '2'
-                        WHEN workorder.cetak = '4/1' THEN '2'
-                        WHEN workorder.cetak = '2/2' THEN '2'
-                        WHEN workorder.cetak = '3/2' THEN '2'
-                        WHEN workorder.cetak = '4/2' THEN '2'
-                        WHEN workorder.cetak = '3/3' THEN '2'
-                        WHEN workorder.cetak = '4/3' THEN '2'
-                        WHEN workorder.cetak = '4/4' THEN '2'
-                        ELSE '1'
-                    END) as sisi,
-                    CONCAT(workorder.qty, ' ', workorder.satuan) as qty,
-                    workorder.ae,
-                    workorder.finishing
-                FROM 
-                    workorder 
-                where 
-                    workorder.idorder = '$_POST[ID_YES]'
-                ";
-                $result = $conn_OOP -> query($sql);
-                if ($result->num_rows > 0) :
-                    while ($row = $result->fetch_assoc()) :
-
-                        $arr_data['so']= "$row[so]";
-                        $arr_data['client']= "$row[client]";
-                        $arr_data['project']= "$row[project]";
-                        $arr_data['ukuran']= "$row[ukuran]";
-                        $arr_data['bahan']= "$row[bahan]";
-                        $arr_data['sisi']= "$row[sisi]";
-                        $arr_data['qty']= "$row[qty]";
-                        $arr_data['ae']= "$row[ae]";
-                        $arr_data['finishing']= "$row[finishing]";
-
-                        // $json[] = $row;
-                    endwhile;
-                    echo json_encode($arr_data);
-                endif;
+        "SELECT 
+            workorder.so,
+            workorder.client,
+            workorder.project,
+            workorder.ukuran,
+            workorder.bahan,
+            (CASE
+                WHEN workorder.cetak = '1/0' THEN '1'
+                WHEN workorder.cetak = '2/0' THEN '1'
+                WHEN workorder.cetak = '3/0' THEN '1'
+                WHEN workorder.cetak = '4/0' THEN '1'
+                WHEN workorder.cetak = '1/1' THEN '2'
+                WHEN workorder.cetak = '2/1' THEN '2'
+                WHEN workorder.cetak = '3/1' THEN '2'
+                WHEN workorder.cetak = '4/1' THEN '2'
+                WHEN workorder.cetak = '2/2' THEN '2'
+                WHEN workorder.cetak = '3/2' THEN '2'
+                WHEN workorder.cetak = '4/2' THEN '2'
+                WHEN workorder.cetak = '3/3' THEN '2'
+                WHEN workorder.cetak = '4/3' THEN '2'
+                WHEN workorder.cetak = '4/4' THEN '2'
+                ELSE '1'
+            END) as sisi,
+            CONCAT(workorder.qty, ' ', workorder.satuan) as qty,
+            workorder.ae,
+            workorder.finishing
+        FROM 
+            workorder 
+        where 
+            workorder.idorder = '$_POST[ID_YES]'
+        ";
+        $result = $conn_Server -> query($sql);
+        // $result = $conn_OOP -> query($sql);
+        if ($result->num_rows > 0) :
+            while ($row = $result->fetch_assoc()) :
+                $arr_data['so']= "$row[so]";
+                $arr_data['client']= "$row[client]";
+                $arr_data['project']= "$row[project]";
+                $arr_data['ukuran']= "$row[ukuran]";
+                $arr_data['bahan']= "$row[bahan]";
+                $arr_data['sisi']= "$row[sisi]";
+                $arr_data['qty']= "$row[qty]";
+                $arr_data['ae']= "$row[ae]";
+                $arr_data['finishing']= "$row[finishing]";
+            endwhile;
+            echo json_encode($arr_data);
+        endif;
     }
 ?>  

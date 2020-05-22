@@ -9,7 +9,7 @@
 
     <div class="row">
             <div class="col-6">
-                <input type="hidden" id="id_user" value="<?= $_SESSION['uid']; ?>">
+                <input type="hidden" id="id_Order" value="">
                 <table class='table-form'>
                     <tr>
                         <td>Kode Barang</td>
@@ -78,15 +78,6 @@
                             </datalist>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Status Order</td>
-                        <td>
-                            <div class="contact100-form-checkbox urgent">
-                                <input class="input-checkbox100" id="urgent" type="checkbox" name="remember">
-                                <label class="label-checkbox100" for="urgent"> Urgent </label>
-                            </div>
-                        </td>
-                    </tr>
                 </table>
             </div>
             <div class="col-6">
@@ -108,20 +99,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>SO</td>
+                        <td>SO - Marketing</td>
                         <td colspan="2">
-                            <input type='text' class='form md' readonly disabled value="" id="so_yescom">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Marketing</td>
-                        <td colspan="2">
-                            <input type='text' class='form md' readonly disabled value="" id="marketing_yescom">
+                            <input type='text' class='form md' style='width:150px' readonly disabled value="" id="so_yescom"> - 
+                            <input type='text' class='form md' style='width:150px' readonly disabled value="" id="marketing_yescom">
                         </td>
                     </tr>
                     <tr>
                         <td>Ukuran WO</td>
-                        <td colspan="2"><input type='text' class='form md' readonly disabled value="" id="ukuran_yescom"></td>
+                        <td colspan="2"><input type='text' class='form ld' readonly disabled value="" id="ukuran_yescom"></td>
                     </tr>
                     <tr>
                         <td>Qty WO</td>
@@ -224,6 +210,15 @@
                             <div class="contact100-form-checkbox Ring_Spiral">
                                 <input class="input-checkbox100" id="Spiral" type="checkbox" name="remember">
                                 <label class="label-checkbox100" for="Spiral"> Ring Spiral </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Status Order</td>
+                        <td>
+                            <div class="contact100-form-checkbox urgent">
+                                <input class="input-checkbox100" id="urgent" type="checkbox" name="remember">
+                                <label class="label-checkbox100" for="urgent"> Urgent </label>
                             </div>
                         </td>
                     </tr>

@@ -260,4 +260,6 @@
     </tbody>
 </table>
 
+<div id="result"></div>
+
 <?php $conn -> close(); ?>

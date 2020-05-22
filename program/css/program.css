@@ -294,6 +294,18 @@
 /*==================================================================
 [ Restyle button ]*/
 
+input[type=button].generate_button {
+    padding: 3px 10px;
+    border-top:none;
+    border-right:none;
+    border-bottom: none;
+    border-left:4px solid #000000;
+    background-color:#353942;
+    color :#ffffff;
+    outline: none;
+    border-radius:1px;
+}
+
 input[type=button], button {
     padding: 6px 10px;
     border-top:none;
@@ -720,7 +732,7 @@ a:hover {
 #content .right_content .KodeProject, .form_table .KodeProject {
     padding:0.2rem 0.4rem;
     color:white;
-    border-radius:0.3rem;
+    border-radius:0.1rem;
     font-weight: bold;
     font-size: 0.7rem;
 }

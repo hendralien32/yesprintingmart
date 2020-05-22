@@ -64,10 +64,10 @@ Next Progressive
    - Export Excel
 * Laporan Kerja Large Format & Indoor   
 * YES WO List
-   - List Form Work Order List
-      ` Insert
-      ` Update
-      ` Delete
+   - List Form Work Order List --> Show Log
+      ` Insert [SOLVED]
+      ` Update [SOLVED]
+      ` Delete --> Bug Saat Submit Delete tidak mau refresh Page
       ` Generator
          * Time Generate
 * Penjualan Yescom

@@ -4,7 +4,7 @@
 
     echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
 
-    echo "<div style='background-color:#f9dedd; border-left:10px solid #e31d3f; text-align:left; padding:5px 5px 5px 15px; margin-bottom:10px; font-weight:bold; letter-spacing:0.005em'>Segala Informasi / Data yang terisi didalam form ini sudah di jamin kebenarannya, dimana Informasi ini sudah siap dijadikan patokan untuk melakukan proses cetak. Apabila terjadi kesalahan informasi dalam form ini maka kesalahan tersebut ditanggung kepada yang mengisi Form tersebut</div>";
+    echo "<div style='background-color:#f9dedd; border-left:10px solid #e31d3f; text-align:left; padding:5px 5px 5px 15px; margin-bottom:10px; font-weight:bold; letter-spacing:0.005em'>Segala Informasi / Data yang terisi didalam form ini sudah di jamin kebenarannya, dimana Informasi ini sudah siap dijadikan patokan untuk melakukan proses cetak. Apabila terjadi kesalahan informasi dalam form ini maka kesalahan tersebut sepenuhnya ditanggung oleh yang mengisi Form tersebut. Oleh sebab itu disarankan untuk lebih teliti dalam mengisi Form</div>";
 ?>
 
     <div class="row">
@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td>ID</td>
-                        <td><input type="text" id="id_yescom" class="form md"></td>
+                        <td><input type="text" id="id_yescom" class="form md" onkeyup="SearchID_YES()"></td>
                     </tr>
                     <tr>
                         <td>Client</td>
@@ -55,12 +55,13 @@
                             </label>
                         </td>
                     </tr>
-                    <tr><td>Bahan</td><td>
-                        <input type='text' class='form md' id="bahan" autocomplete="off" onkeyup="test('bahan')" onchange="validasi('bahan')">
+                    <tr><td rowspan="2">Bahan</td><td>
+                        <input type='text' class='form md'id="bahan" autocomplete="off" onkeyup="test('bahan')" onChange="validasi('bahan'); Check_KertasSendiri();" >
                             <input type='text' id='id_bahan' class='form sd' readonly disabled style="display:none">
                             <input type='text' id='validasi_bahan' class='form sd' readonly disabled style="display:none">
                             <span id="Alert_Valbahan"></span>
                     </td></tr>
+                    <tr><td><input type='text' class='form md' style="width:150px; display:none" id="bahan_sendiri" autocomplete="off" placeholder="Kertas / bahan Sendiri"> <span id="YES_bahan"></span></td></tr>
                     <tr><td>Notes / Finishing LF</td><td><textarea id='notes' class='form ld' style="height:50px;"></textarea></td></tr>
                     <tr>
                         <td>Qty</td>
@@ -130,7 +131,6 @@
                         <td>Warna</td>
                         <td colspan="2">
                             <select class="myselect" id="warna_cetakan">
-                                <option value="">Pilih Warna</option>
                                 <?php
                                     $array_kode = array(
                                         "FC" => "Fullcolor",
@@ -230,7 +230,7 @@
                 </table>
             </div>
             <div id="submit_menu">
-                <button onclick="submit('Insert')" id="submitBtn">Buka Order</button>
+                <button onclick="submit('Insert_WO_List')" id="submitBtn">Buka Order</button>
             </div>
             <div id="Result">
             

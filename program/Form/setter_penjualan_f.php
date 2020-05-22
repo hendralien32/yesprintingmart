@@ -638,11 +638,11 @@
 
                         <tr class='b_delivery'>
                             <td>Biaya Delivery</td>
-                            <td><input id="b_delivery" type='number' class='form ld' value="<?= $row['b_delivery']; ?>"></td>
+                            <td><input id="b_delivery" type='number' class='form ld' disabled readonly value="<?= $row['b_delivery']; ?>"></td>
                         </tr>    
 
                         <tr class='b_discount'>
-                            <td>Biaya Discounts</td>
+                            <td>Discounts</td>
                             <td><input id="discount" type='number' class='form ld' value="<?= $row['discount']; ?>"></td>
                         </tr>
                     </table>

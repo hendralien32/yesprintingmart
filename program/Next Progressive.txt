@@ -83,10 +83,11 @@ Next Progressive
    - Generator Input Form Yescom [SOLVED]
    - List Penjualan Yescom [SOLVED]
    - Hapus Penjualan YESCOM [SOLVED]
-   - Edit Order Penjualan Yescom
+   - Edit Order Penjualan Yescom [SOLVED]
       ` SubForm Untuk Detail ID Yescom
-      ` Show Form saat order edit Lock
+      ` Show Form saat order edit Lock [SOLVED]
    - Create Invoice Yescom
+   - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart
    
 * Digital Printing
    - Order List Digital Printing

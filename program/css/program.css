@@ -914,6 +914,41 @@ textarea.form {
     user-select: none;
 }
 
+div#generator_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div#generator_container h3 {
+    text-align: center;
+}
+
+div#generator_container textarea {
+    padding: 3px 8px;
+    border: 1px solid #aeaeae;
+    background-color: white;
+    outline:none;
+    color :#353942;
+    text-align: center;
+    width: 65%;
+    height: 250px;
+    font-size: .8rem;
+    line-height: 1.5rem;
+}
+
+div#generator_container button[type=button] {
+    margin-top:10px;
+    padding: 10px;
+    width: 20%;
+    border: none;
+    border-radius: 1px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition-timing-function: linear;
+}
+
 
 @media (min-width: 1366px) {
     #wrapper {

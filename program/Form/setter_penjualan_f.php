@@ -102,41 +102,44 @@
         <div class="row">
             <div class="col-6">
                 <table class='table-form'>
-                    <tr><td style='width:50.5'>Kode Barang</td><td><?= $row['kode']; ?></td> </tr>
-                    <tr><td style='width:50.5'>Client</td><td><?= ucwords($row['nama_client']); ?></td> </tr>
-                    <tr><td style='width:50.5'>Deskripsi</td><td><?= ucfirst($row['description']); ?></td> </tr>
-                    <tr><td style='width:50.5'>Ukuran</td><td><?= $row['ukuran']; ?></td> </tr>
-                    <tr><td style='width:50.5'>sisi</td><td><?= $row['sisi']; ?></td> </tr>
-                    <tr><td style='width:50.5'>Bahan</td><td><?= $row['bahan']; ?></td> </tr>
-                    <tr><td style='width:50.5'>Notes / Finishing LF</td><td><?= ucfirst($row['keterangan']); ?></td> </tr>
+                    <tr><td style='width:150px'>Kode Barang</td><td><?= $row['kode']; ?></td> </tr>
+                    <tr><td style='width:150px'>Client</td><td><?= ucwords($row['nama_client']); ?></td> </tr>
+                    <tr><td style='width:150px'>Deskripsi</td><td><?= ucfirst($row['description']); ?></td> </tr>
+                    <tr><td style='width:150px'>Ukuran</td><td><?= $row['ukuran']; ?></td> </tr>
+                    <tr><td style='width:150px'>sisi</td><td><?= $row['sisi']; ?></td> </tr>
+                    <tr><td style='width:150px'>Bahan</td><td><?= $row['bahan']; ?></td> </tr>
+                    <tr><td style='width:150px'>Notes / Finishing LF</td><td><?= ucfirst($row['keterangan']); ?></td> </tr>
+                    <tr><td style='width:150px'>Laminating</td><td colspan="3"><?= $row['laminating']; ?></td> </tr>
                     <?php
                         if($row['kode']=="Digital Printing" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) {
                     ?>
-                        <tr><td style='width:50.5'>Biaya Digital</td><td><?= "Rp. ". number_format($row['b_digital']) .""; ?></td> </tr>
-                        <tr><td style='width:50.5'>Biaya Kotak</td><td><?= "Rp. ". number_format($row['b_kotak']) .""; ?></td> </tr>
-                        <tr><td style='width:50.5'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
-                        <tr><td style='width:50.5'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Digital</td><td><?= "Rp. ". number_format($row['b_digital']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Kotak</td><td><?= "Rp. ". number_format($row['b_kotak']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
+                        <tr><td style='width:150px'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
                     <?php
                         } elseif($row['kode']=="Large Format" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:50.5'>Biaya Large Format</td><td><?= "Rp. ". number_format($row['b_large']) .""; ?></td> </tr> 
-                        <tr><td style='width:50.5'>Biaya Xbanner</td><td><?= "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr> 
-                        <tr><td style='width:50.5'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Large Format</td><td><?= "Rp. ". number_format($row['b_large']) .""; ?></td> </tr> 
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Xbanner</td><td><?= "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr> 
+                        <tr><td style='width:150px'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
                     <?php
                         } elseif($row['kode']=="Indoor HP Latex" or $row['kode']=="Indoor Xuli" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:50.5'>Biaya Indoor</td><td><?= "Rp. ". number_format($row['b_indoor']) .""; ?></td> </tr>  
-                        <tr><td style='width:50.5'>Biaya Xbanner</td><td><?= "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr>
-                        <tr><td style='width:50.5'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Indoor</td><td><?= "Rp. ". number_format($row['b_indoor']) .""; ?></td> </tr>  
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Xbanner</td><td><?= "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
                     <?php        
                         } elseif($row['kode']=="Offset Printing" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:50.5'>Biaya Offset</td><td><?= "Rp. ". number_format($row['b_offset']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Offset</td><td><?= "Rp. ". number_format($row['b_offset']) .""; ?></td> </tr>
                     <?php
                         } elseif($row['kode']=="ETC" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
                     ?>
-                        <tr><td style='width:50.5'>Biaya Lain</td><td><?= "Rp. ". number_format($row['b_lain']) .""; ?></td> </tr>
-                        <tr><td style='width:50.5'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
+                        <tr><td style='width:150px'>Biaya Lain</td><td><?= "Rp. ". number_format($row['b_lain']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
                     <?php
                         }
                     ?>
@@ -144,7 +147,6 @@
             </div>
             <div class="col-6">
                 <table class='table-form'>
-                    <tr><td>Laminating</td><td colspan="3"><?= $row['laminating']; ?></td> </tr>
                     <tr><td>Alat Tambahan</td><td colspan="3"><?= $row['alat_tambahan']; ?></td> </tr>
                     <tr>
                         <td>Finishing</td>
@@ -597,11 +599,6 @@
                             <td><input id="b_lain" type='number' class='form ld' value="<?= $row['b_lain']; ?>"></td>
                         </tr>
 
-                        <tr class='b_finishing'>
-                            <td>Biaya Finishing</td>
-                            <td><input id="b_finishing" type='number' class='form ld' value="<?= $row['b_potong']; ?>"></td>
-                        </tr>
-
                         <tr class='b_lf'>
                             <td>Biaya Large Format</td>
                             <td><input id="b_large" type='number' class='form ld' value="<?= $row['b_large']; ?>"></td>
@@ -610,6 +607,11 @@
                         <tr class='b_indoor'>
                             <td>Biaya Indoor</td>
                             <td><input id="b_indoor" type='number' class='form ld' value="<?= $row['b_indoor']; ?>"></td>
+                        </tr>
+
+                        <tr class='b_finishing'>
+                            <td>Biaya Finishing</td>
+                            <td><input id="b_finishing" type='number' class='form ld' value="<?= $row['b_potong']; ?>"></td>
                         </tr>
 
                         <tr class='b_xbanner'>

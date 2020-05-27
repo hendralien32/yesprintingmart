@@ -2,88 +2,114 @@
     session_start();
     require_once "../../function.php";
 
-    echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
+    if(!isset($_POST['ID_Order'])) :
+?>
+    <div id='generator_container'>
+        <h3 class='title_form'><?= $_POST['judul_form'] ?></h3>
+        <textarea id="generator_select" placeholder="Copy Paste Generate Code Here"></textarea>
+        <button type="button" id="button_copy" onclick="submit_GeneratorCode()">Submit Generator Code</button>
+    </div>
+    <div id="result"></div>
+
+<?php 
+    else : 
 
     $AksesEdit = isset($_POST['AksesEdit']) ? $_POST['AksesEdit'] : "";
-
     if($AksesEdit=="Y" or $AksesEdit=="") {
+    
         if(isset($_POST['ID_Order'])) {
             $ID_Order = $_POST['ID_Order'];
-            $status_submit = "Update_WO_List";
-            $nama_submit = "Update Order";
             $sql = 
-            "SELECT
-                wo_list.kode,
-                wo_list.wo_color,
-                wo_list.marketing,
-                wo_list.id,
-                wo_list.so,
-                wo_list.client,
-                wo_list.project,
-                wo_list.ID_Bahan,
-                wo_list.ukuran,
-                wo_list.ukuran_jadi,
-                wo_list.panjang,
-                wo_list.lebar,
-                wo_list.cetak,
-                wo_list.potong,
-                wo_list.potong_gantung,
-                wo_list.pon,
-                wo_list.perporasi,
-                wo_list.CuttingSticker,
-                wo_list.Hekter_Tengah,
-                wo_list.Blok,
-                wo_list.Spiral,
-                wo_list.leminate,
-                wo_list.finishing,
-                wo_list.qty,
-                wo_list.qty_jadi,
-                wo_list.satuan,
-                wo_list.urgent,
-                wo_list.Proffing,
-                wo_list.Ditunggu,
-                wo_list.send_by,
-                wo_list.warna,
-                wo_list.alat_tambahan,
-                wo_list.akses_edit,
-                wo_list.cetak,
-                barang.nama_barang,
-                wo_list.bahan_sendiri
-            FROM
-                wo_list
-            LEFT JOIN 
-                (select barang.id_barang, barang.nama_barang from barang) barang
-            ON
-                wo_list.ID_Bahan = barang.id_barang  
-            WHERE
-                wo_list.wio = '$_POST[ID_Order]'
+                "SELECT
+                    penjualan.kode,
+                    penjualan.jenis_wo,
+                    penjualan.send_by,
+                    penjualan.marketing,
+                    (CASE
+                        WHEN penjualan.no_invoice != '' THEN 'Y'
+                        ELSE 'N'
+                    END) as no_invoice,
+                    penjualan.no_invoice as Invoice_Number,
+                    penjualan.id_yes,
+                    penjualan.so_yes,
+                    penjualan.client_yes,
+                    penjualan.description,
+                    penjualan.ID_Bahan,
+                    penjualan.ukuran,
+                    penjualan.ukuran_jadi,
+                    penjualan.panjang,
+                    penjualan.lebar,
+                    penjualan.sisi,
+                    penjualan.potong,
+                    penjualan.potong_gantung,
+                    penjualan.pon,
+                    penjualan.perporasi,
+                    penjualan.CuttingSticker,
+                    penjualan.Hekter_Tengah,
+                    penjualan.Blok,
+                    penjualan.Spiral,
+                    penjualan.laminate,
+                    penjualan.keterangan,
+                    penjualan.qty,
+                    penjualan.qty_jadi,
+                    penjualan.satuan,
+                    penjualan.urgent,
+                    penjualan.CS_Generate,
+                    penjualan.warna_cetak,
+                    penjualan.alat_tambahan,
+                    penjualan.date_create,
+                    penjualan.DateSO_Yes,
+                    penjualan.dead_line,
+                    penjualan.additional_charge_YES,
+                    penjualan.harga_YES,
+                    penjualan.ppn_YES,
+                    penjualan.designer_YES,
+                    penjualan.cs_YES,
+                    penjualan.Shipto_YES,
+                    penjualan.Proffing,
+                    penjualan.ditunggu,
+                    barang.nama_barang,
+                    penjualan.b_digital,
+                    penjualan.b_lain,
+                    penjualan.b_potong,
+                    penjualan.b_large,
+                    penjualan.b_indoor,
+                    penjualan.b_xbanner,
+                    penjualan.b_kotak,
+                    penjualan.b_laminate,
+                    penjualan.bahan_sendiri
+                FROM
+                    penjualan
+                LEFT JOIN 
+                    (select barang.id_barang, barang.nama_barang from barang) barang
+                ON
+                    penjualan.ID_Bahan = barang.id_barang  
+                WHERE
+                    penjualan.oid = '$_POST[ID_Order]'
             ";
             $result = $conn_OOP -> query($sql);
-
             if ($result->num_rows > 0) :
                 $row = $result->fetch_assoc();
             endif;
         } else {
             $ID_Order = "";
-            $status_submit = "Insert_WO_List";
-            $nama_submit = "Buka Order";
         }
 
         if(isset($row)) {
-            $kode_barang = $row['kode'];
-            $wo_color = $row['wo_color'];
-            $marketing = $row['marketing'];
-            $id = $row['id'];
-            $so = $row['so'];
-            $client = $row['client'];
-            $project = $row['project'];
-            $ID_Bahan = $row['ID_Bahan'];
-            $nama_barang = $row['nama_barang'];
-            $ukuran = $row['ukuran'];
-            $ukuran_jadi = $row['ukuran_jadi'];
-            $panjang = $row['panjang'];
-            $lebar = $row['lebar'];
-            $cetak = $row['cetak'];
+            $kode_barang = "$row[kode]";
+            $jenis_wo = "$row[jenis_wo]";
+            $send_by = "$row[send_by]";
+            $marketing = "$row[marketing]";
+            $id_yes = "$row[id_yes]";
+            $so_yes = "$row[so_yes]";
+            $client_yes = "$row[client_yes]";
+            $description = "$row[description]";
+            $ID_Bahan = "$row[ID_Bahan]";
+            $ukuran = "$row[ukuran]";
+            $ukuran_jadi = "$row[ukuran_jadi]";
+            $panjang = "$row[panjang]";
+            $lebar = "$row[lebar]";
+            $sisi = "$row[sisi]";
             if($row['potong']=="Y") { $potong = "checked"; } else { $potong = ""; }
             if($row['potong_gantung']=="Y") { $potong_gantung = "checked"; } else { $potong_gantung = ""; }
             if($row['pon']=="Y") { $pon = "checked"; } else { $pon = ""; }
@@ -93,35 +119,52 @@
             if($row['Blok']=="Y") { $Blok = "checked"; } else { $Blok = ""; }
             if($row['Spiral']=="Y") { $Spiral = "checked"; } else { $Spiral = ""; }
             if($row['Proffing']=="Y") { $proffing = "checked"; } else { $proffing = ""; }
-            if($row['Ditunggu']=="Y") { $ditunggu = "checked"; } else { $ditunggu = ""; }
-            $leminate = $row['leminate'];
-            $finishing = $row['finishing'];
-            $qty = $row['qty'];
-            $qty_jadi = $row['qty_jadi'];
-            $satuan = $row['satuan'];
+            if($row['ditunggu']=="Y") { $ditunggu = "checked"; } else { $ditunggu = ""; }
+            $laminate = "$row[laminate]";
+            $keterangan = "$row[keterangan]";
+            $qty = "$row[qty]";
+            $qty_jadi = "$row[qty_jadi]";
+            $satuan = "$row[satuan]";
             if($row['urgent']=="Y") { $urgent = "checked"; } else { $urgent = ""; }
-            $send_by = $row['send_by'];
-            $warna = $row['warna'];
-            $alat_tambahan = $row['alat_tambahan'];
-            $akses_edit = $row['akses_edit'];
-            $cetak = $row['cetak'];
+            $CS_Generate = "$row[CS_Generate]";
+            $warna_cetak = "$row[warna_cetak]";
+            $alat_tambahan = "$row[alat_tambahan]";
+            $date_create = "$row[date_create]";
+            $DateSO_Yes = "$row[DateSO_Yes]";
+            $dead_line = "$row[dead_line]";
+            $additional_charge_YES = "$row[additional_charge_YES]";
+            $harga_YES = "$row[harga_YES]";
+            $ppn_YES = "$row[ppn_YES]";
+            $designer_YES = "$row[designer_YES]";
+            $cs_YES = "$row[cs_YES]";
+            $Shipto_YES = "$row[Shipto_YES]";
+            $nama_barang = "$row[nama_barang]";
             $validasi_bahan = "1";
-            $bahan_sendiri = $row['bahan_sendiri'];
+            if($row['b_digital']!="") { $b_digital = "$row[b_digital]"; } else { $b_digital = "0"; }
+            if($row['b_lain']!="") { $b_lain = "$row[b_lain]"; } else { $b_lain = "0"; }
+            if($row['b_potong']!="") { $b_potong = "$row[b_potong]"; } else { $b_potong = "0"; }
+            if($row['b_large']!="") { $b_large = "$row[b_large]"; } else { $b_large = "0"; }
+            if($row['b_indoor']!="") { $b_indoor = "$row[b_indoor]"; } else { $b_indoor = "0"; }
+            if($row['b_xbanner']!="") { $b_xbanner = "$row[b_xbanner]"; } else { $b_xbanner = "0"; }
+            if($row['b_kotak']!="") { $b_kotak = "$row[b_kotak]"; } else { $b_kotak = "0"; }
+            if($row['b_laminate']!="") { $b_laminate = "$row[b_laminate]"; } else { $b_laminate = "0"; }
+            $Invoice_Number = "$row[Invoice_Number]";
+            $bahan_sendiri = "$row[bahan_sendiri]";
         } else {
-            $kode_barang = "";
-            $wo_color = "";
+            $kode = "";
+            $jenis_wo = "";
+            $send_by = "";
             $marketing = "";
-            $id = "";
-            $so = "";
-            $client = "";
-            $project = "";
+            $id_yes = "";
+            $so_yes = "";
+            $client_yes = "";
+            $description = "";
             $ID_Bahan = "";
-            $nama_barang = "";
             $ukuran = "";
             $ukuran_jadi = "";
             $panjang = "";
             $lebar = "";
-            $cetak = "";
+            $sisi = "";
             $potong = "";
             $potong_gantung = "";
             $pon = "";
@@ -130,32 +173,51 @@
             $Hekter_Tengah = "";
             $Blok = "";
             $Spiral = "";
-            $leminate = "";
-            $finishing = "";
+            $laminate = "";
+            $keterangan = "";
             $qty = "";
             $qty_jadi = "";
             $satuan = "";
             $urgent = "";
-            $send_by = "";
-            $warna = "";
+            $CS_Generate = "";
+            $warna_cetak = "";
             $alat_tambahan = "";
-            $akses_edit = "";
-            $cetak = "";
-            $validasi_bahan = "";
-            $proffing = "";
+            $date_create = "";
+            $DateSO_Yes = "";
+            $dead_line = "";
+            $additional_charge_YES = "";
+            $harga_YES = "";
+            $ppn_YES = "";
+            $designer_YES = "";
+            $cs_YES = "";
+            $Shipto_YES = "";
+            $Proffing = "";
             $ditunggu = "";
+            $nama_barang = "";
+            $validasi_bahan = "";
+            $b_digital ="0";
+            $b_lain ="0";
+            $b_potong ="0";
+            $b_large ="0";
+            $b_indoor ="0";
+            $b_xbanner ="0";
+            $b_kotak ="0";
+            $b_laminate ="0";
+            $Invoice_Number = "";
             $bahan_sendiri = "";
         }
 
-        echo "<div style='background-color:#f9dedd; border-left:10px solid #e31d3f; text-align:left; padding:5px 5px 5px 15px; margin-bottom:10px; font-weight:bold; letter-spacing:0.005em'>Segala Informasi / Data yang terisi didalam form ini sudah di jamin kebenarannya, dimana Informasi ini sudah siap dijadikan patokan untuk melakukan proses cetak. Apabila terjadi kesalahan informasi dalam form ini maka kesalahan tersebut sepenuhnya ditanggung oleh yang mengisi Form tersebut. Oleh sebab itu disarankan untuk lebih teliti dalam mengisi Form</div>";
-?>
+        ?>
+
+        <h3 class='title_form'><?= $_POST['judul_form'] . " OID " . $ID_Order ?></h3>
 
         <div class="row">
             <div class="col-6">
                 <input type="hidden" id="id_Order" value="<?= $ID_Order ?>">
+                <input type="hidden" id="no_invoice" value="<?= $Invoice_Number ?>">
                 <table class='table-form'>
                     <tr>
-                        <td>Kode Barang</td>
+                        <td style='width:150px;'>Kode Barang</td>
                         <td>
                             <select class="myselect" id="kode_barng" onchange="ChangeKodeBrg()">
                                 <?php
@@ -175,28 +237,28 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>ID</td>
-                        <td><input type="text" id="id_yescom" value="<?= $id ?>" class="form md" onkeyup="SearchID_YES()"></td>
+                        <td style='width:150px;'>ID</td>
+                        <td><input type="text" id="id_yescom" value="<?= $id_yes ?>" class="form md"></td>
                     </tr>
                     <tr>
-                        <td>Client</td>
+                        <td style='width:150px;'>Client</td>
                         <td>
-                            <input type='text' class='form md' id="client" value='<?= $client ?>' autocomplete="off">
+                            <input type='text' class='form md' id="client" value='<?= $client_yes ?>' autocomplete="off">
                         </td>
                     </tr>
-                    <tr><td>Deskripsi</td><td><input type='text' id="deskripsi" class='form ld' value='<?= $project ?>' autocomplete="off"></td></tr>
-                    <tr><td>Ukuran</td>
+                    <tr><td style='width:150px;'>Deskripsi</td><td><input type='text' id="deskripsi" class='form ld' value='<?= $description ?>' autocomplete="off"></td></tr>
+                    <tr><td style='width:150px;'>Ukuran</td>
                         <td>
                             <input type='text' class='form' id='ukuran' value='<?= $ukuran ?>'> 
                             <span id="ukuran_LF"><input type='number' class='form sd' id='panjang' onkeyup="calc_meter()" value='<?= $panjang ?>'> x <input type='number' class='form sd' id='lebar' onkeyup="calc_meter()" value='<?= $lebar ?>'></span><span id="perhitungan_meter"></span>
                         </td>
                     </tr>
                     <tr>
-                        <td>sisi</td>
+                        <td style='width:150px;'>sisi</td>
                         <td>
                             <?php 
-                                if($cetak == "1") { $satu = "checked"; $dua = ""; }
-                                else if($cetak == "2") { $satu = ""; $dua = "checked"; }
+                                if($sisi == "1") { $satu = "checked"; $dua = ""; }
+                                else if($sisi == "2") { $satu = ""; $dua = "checked"; }
                                 else { $satu = "checked"; $dua = ""; }
                             ?>
                             <label class="sisi_radio">1 Sisi
@@ -209,16 +271,16 @@
                             </label>
                         </td>
                     </tr>
-                    <tr><td rowspan="2">Bahan</td><td>
+                    <tr><td style='width:150px;' rowspan="2">Bahan</td><td>
                         <input type='text' class='form md'id="bahan" autocomplete="off" onkeyup="test('bahan')" value='<?= $nama_barang ?>' onChange="validasi('bahan'); Check_KertasSendiri();" >
                         <input type='text' id='id_bahan' class='form sd' value='<?= $ID_Bahan ?>' readonly disabled style="display:none">
                         <input type='text' id='validasi_bahan' class='form sd' value='<?= $validasi_bahan ?>' readonly disabled style="display:none">
                         <span id="Alert_Valbahan"></span>
                     </td></tr>
-                    <tr><td><input type='text' class='form md' style="width:150px; display:none" id="bahan_sendiri" value="<?= $bahan_sendiri ?>" autocomplete="off" placeholder="Kertas / bahan Sendiri"> <span id="YES_bahan"></span></td></tr>
-                    <tr><td>Notes / Finishing LF</td><td><textarea id='notes' class='form ld' style="height:50px;"><?= $finishing ?></textarea></td></tr>
+                    <tr><td style='width:150px;'><input type='text' class='form md' style="width:150px; display:none" value="<?= $bahan_sendiri ?>" id="bahan_sendiri" autocomplete="off" placeholder="Kertas / bahan Sendiri"> <span id="YES_bahan"></span></td></tr>
+                    <tr><td style='width:150px;'>Notes / Finishing LF</td><td><textarea id='notes' class='form ld' style="height:50px;"><?= $keterangan ?></textarea></td></tr>
                     <tr>
-                        <td>Qty</td>
+                        <td style='width:150px;'>Qty</td>
                         <td colspan="3">
                             <input type='number' class='form sd' id="qty" value='<?= $qty ?>'>
                             <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onkeyup="satuan_val()" value='<?= $satuan ?>'>
@@ -246,7 +308,7 @@
                                         "Hijau"     => "Hijau"
                                     );
                                     foreach($array_kode as $kode => $kd) {
-                                        if($kode == $wo_color) { $selected = "selected"; } else { $selected = ""; }
+                                        if($kode == $jenis_wo) { $selected = "selected"; } else { $selected = ""; }
                                         echo "<option value='$kode' $selected>$kd</option>";
                                     }
                                 ?>
@@ -256,7 +318,7 @@
                     <tr>
                         <td>SO - Marketing</td>
                         <td colspan="3">
-                            <input type='text' class='form md' style='width:150px' readonly disabled id="so_yescom" value='<?= $so ?>'> - 
+                            <input type='text' class='form md' style='width:150px' id="so_yescom" value='<?= $so_yes ?>'> - 
                             <input type='text' class='form md' style='width:150px' readonly disabled id="marketing_yescom"  value='<?= $marketing ?>'>
                         </td>
                     </tr>
@@ -278,7 +340,7 @@
                                         "BW" => "Grayscale"
                                     );
                                     foreach($array_kode as $kode => $kd) {
-                                        if($kode == $warna) { $selected = "selected"; } else { $selected = ""; }
+                                        if($kode == $warna_cetak) { $selected = "selected"; } else { $selected = ""; }
                                         echo "<option value='$kode' $selected>$kd</option>";
                                     }
                                 ?>
@@ -302,7 +364,7 @@
                                         "laminating_floor" => "Laminating Floor"
                                     );
                                     foreach($array_kode as $kode => $kd) :
-                                        if($kode == $leminate) { $selected = "selected"; } else { $selected = ""; }
+                                        if($kode == $laminate) { $selected = "selected"; } else { $selected = ""; }
                                         echo "<option value='$kode.$kd' class='$kode' $selected>$kd</option>";
                                     endforeach;
                                 ?>
@@ -393,94 +455,161 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div id="submit_menu">
-                <button onclick="submit('<?= $status_submit ?>')" id="submitBtn"><?= $nama_submit ?></button>
-            </div>
-            <div id="Result">
-            
-            </div>    
+            </div>                        
         </div>
-    <?php } else {
+        <?php if($row['no_invoice']=="Y" && ( $_SESSION['level']=="admin" || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting" )) : ?>
+        <div class="row">
+            <div class="col-6">
+                <table class='table-form'>
+                    <tr class='b_digital'>
+                        <td style='width:150px;'>Biaya Digital</td>
+                        <td><input id="b_digital" type='number' class='form ld' value="<?= $b_digital; ?>"></td>
+                    </tr>
+                    <tr class='b_lain'>
+                        <td style='width:150px;'>Biaya Lain</td>
+                        <td><input id="b_lain" type='number' class='form ld' value="<?= $b_lain; ?>"></td>
+                    </tr>
+                    <tr class='b_finishing'>
+                        <td style='width:150px;'>Biaya Finishing</td>
+                        <td><input id="b_finishing" type='number' class='form ld' value="<?= $b_potong; ?>"></td>
+                    </tr>
+                    <tr class='b_lf'>
+                        <td style='width:150px;'>Biaya Large Format</td>
+                        <td><input id="b_large" type='number' class='form ld' value="<?= $b_large; ?>"></td>
+                    </tr>
+                    <tr class='b_indoor'>
+                        <td style='width:150px;'>Biaya Indoor</td>
+                        <td><input id="b_indoor" type='number' class='form ld' value="<?= $b_indoor; ?>"></td>
+                    </tr>
+                    <tr class='b_xbanner'>
+                        <td style='width:150px;'>Biaya Xbanner</td>
+                        <td><input id="b_xbanner" type='number' class='form ld' value="<?= $b_xbanner; ?>"></td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="col-6">
+                <table class='table-form'>
+                    <tr class='b_kotak'>
+                        <td>Biaya Kotak</td>
+                        <td><input id="b_kotak" type='number' class='form ld' value="<?= $b_kotak; ?>"></td>
+                    </tr>
+                    <tr class='b_laminating'>
+                        <td>Biaya Laminating</td>
+                        <td><input id="b_laminate" type='number' class='form ld' value="<?= $b_laminate; ?>"></td>
+                    </tr>
+                </table>
+            </div>                            
+        </div>
+
+        <?php else : ?>
+
+            <input type="hidden" id="b_digital" value="<?= $b_digital ?>">
+            <input type="hidden" id="b_lain" value="<?= $b_lain ?>">
+            <input type="hidden" id="b_finishing" value="<?= $b_potong ?>">
+            <input type="hidden" id="b_large" value="<?= $b_large ?>">
+            <input type="hidden" id="b_indoor" value="<?= $b_indoor ?>">
+            <input type="hidden" id="b_xbanner" value="<?= $b_xbanner ?>">
+            <input type="hidden" id="b_kotak" value="<?= $b_kotak ?>">
+            <input type="hidden" id="b_laminate" value="<?= $b_laminate ?>">
+
+        <?php endif; ?>
+
+        <div id="submit_menu">
+            <button onclick="submit_order('Update_PenjualanYESCOM')" id="submitBtn">Update Order</button>
+        </div>
+        <div id="Result"></div>    
+
+    <?php  } else {
+
         $ID_Order = "$_POST[ID_Order]";
         $sql = 
             "SELECT 
-                wo_list.wio,
-                wo_list.client,
-                wo_list.id,
-                wo_list.marketing,
-                wo_list.so,
-                wo_list.wo_color,
-                wo_list.warna,
-                wo_list.ukuran_jadi,
-                wo_list.qty_jadi,
-                wo_list.project,
+                penjualan.oid ,
+                penjualan.client_yes,
+                penjualan.id_yes,
+                penjualan.marketing,
+                penjualan.so_yes,
+                penjualan.jenis_wo,
+                penjualan.warna_cetak,
+                penjualan.ukuran_jadi,
+                penjualan.qty_jadi,
+                penjualan.description,
                 (CASE
-                    WHEN wo_list.kode = 'large format' THEN 'Large Format'
-                    WHEN wo_list.kode = 'digital' THEN 'Digital Printing'
-                    WHEN wo_list.kode = 'indoor' THEN 'Indoor HP Latex'
-                    WHEN wo_list.kode = 'Xuli' THEN 'Indoor Xuli'
-                    WHEN wo_list.kode = 'offset' THEN 'Offset Printing'
-                    WHEN wo_list.kode = 'etc' THEN 'ETC'
+                    WHEN penjualan.kode = 'large format' THEN 'Large Format'
+                    WHEN penjualan.kode = 'digital' THEN 'Digital Printing'
+                    WHEN penjualan.kode = 'indoor' THEN 'Indoor HP Latex'
+                    WHEN penjualan.kode = 'Xuli' THEN 'Indoor Xuli'
+                    WHEN penjualan.kode = 'offset' THEN 'Offset Printing'
+                    WHEN penjualan.kode = 'etc' THEN 'ETC'
                     ELSE '- - -'
                 END) as kode,
                 (CASE
-                    WHEN wo_list.panjang > 0 THEN CONCAT(wo_list.panjang, ' X ', wo_list.lebar, ' Cm')
-                    WHEN wo_list.lebar > 0 THEN CONCAT(wo_list.panjang, ' X ', wo_list.lebar, ' Cm')
-                    ELSE wo_list.ukuran
+                    WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+                    WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+                    ELSE penjualan.ukuran
                 END) as ukuran,
-                CONCAT(wo_list.cetak, ' Sisi') as sisi,
+                CONCAT(penjualan.sisi, ' Sisi') as sisi,
                 (CASE
-                    WHEN barang.id_barang > 0 THEN barang.nama_barang
-                    ELSE wo_list.bahan
+                    WHEN penjualan.ID_Bahan > 0 THEN barang.nama_barang
+                    ELSE penjualan.bahan
                 END) as bahan,
-                wo_list.finishing,
+                penjualan.keterangan,
                 (CASE
-                    WHEN wo_list.leminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
-                    WHEN wo_list.leminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
-                    WHEN wo_list.leminate = 'doff1' THEN 'Laminating Doff 1 Sisi'
-                    WHEN wo_list.leminate = 'doff2' THEN 'Laminating Doff 2 Sisi'
-                    WHEN wo_list.leminate = 'kilatdingin1' THEN 'Laminating Kilat Dingin'
-                    WHEN wo_list.leminate = 'doffdingin1' THEN 'Laminating Doff Dingin'
-                    WHEN wo_list.leminate = 'hard_lemit' THEN 'Hard Laminating / Lamit KTP'
-                    WHEN wo_list.leminate = 'laminating_floor' THEN 'Laminating Floor'
+                    WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
+                    WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
+                    WHEN penjualan.laminate = 'doff1' THEN 'Laminating Doff 1 Sisi'
+                    WHEN penjualan.laminate = 'doff2' THEN 'Laminating Doff 2 Sisi'
+                    WHEN penjualan.laminate = 'kilatdingin1' THEN 'Laminating Kilat Dingin'
+                    WHEN penjualan.laminate = 'doffdingin1' THEN 'Laminating Doff Dingin'
+                    WHEN penjualan.laminate = 'hard_lemit' THEN 'Hard Laminating / Lamit KTP'
+                    WHEN penjualan.laminate = 'laminating_floor' THEN 'Laminating Floor'
                     ELSE '- - -'
                 END) as laminating,
                 (CASE
-                    WHEN wo_list.alat_tambahan = 'Ybanner' THEN 'Ybanner'
-                    WHEN wo_list.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
-                    WHEN wo_list.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
-                    WHEN wo_list.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
-                    WHEN wo_list.alat_tambahan = 'Tripod' THEN 'Tripod'
-                    WHEN wo_list.alat_tambahan = 'Softboard' THEN 'Softboard'
-                    WHEN wo_list.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
+                    WHEN penjualan.alat_tambahan = 'Ybanner' THEN 'Ybanner'
+                    WHEN penjualan.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
+                    WHEN penjualan.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
+                    WHEN penjualan.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
+                    WHEN penjualan.alat_tambahan = 'Tripod' THEN 'Tripod'
+                    WHEN penjualan.alat_tambahan = 'Softboard' THEN 'Softboard'
+                    WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
                     ELSE '- - -'
                 END) as alat_tambahan,
-                CONCAT(wo_list.qty, ' ' ,wo_list.satuan) as qty,
-                wo_list.potong,
-                wo_list.potong_gantung,
-                wo_list.pon,
-                wo_list.perporasi,
-                wo_list.CuttingSticker,
-                wo_list.Hekter_Tengah,
-                wo_list.Blok,
-                wo_list.Spiral,
-                wo_list.urgent,
-                wo_list.Ditunggu,
-                wo_list.Proffing,
-                wo_list.generate,
                 (CASE
-                    WHEN wo_list.bahan_sendiri != '' THEN CONCAT(' - ' ,wo_list.bahan_sendiri)
+                    WHEN penjualan.bahan_sendiri != '' THEN CONCAT(' - ' ,penjualan.bahan_sendiri)
                     ELSE ''
-                END) as bahan_sendiri
+                END) as bahan_sendiri,
+                CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
+                penjualan.potong,
+                penjualan.potong_gantung,
+                penjualan.pon,
+                penjualan.perporasi,
+                penjualan.CuttingSticker,
+                penjualan.Hekter_Tengah,
+                penjualan.Blok,
+                penjualan.Spiral,
+                penjualan.urgent,
+                penjualan.Ditunggu,
+                penjualan.Proffing,
+                penjualan.b_digital,
+                penjualan.b_xbanner,
+                penjualan.b_lain,
+                penjualan.b_large,
+                penjualan.b_kotak,
+                penjualan.b_laminate,
+                penjualan.b_potong,
+                penjualan.b_indoor,
+                ((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount) as harga_satuan,
+                (((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as total
             FROM 
-                wo_list
+                penjualan
             LEFT JOIN 
                 (select barang.id_barang, barang.nama_barang from barang) barang
             ON
-                wo_list.ID_Bahan = barang.id_barang  
+                penjualan.ID_Bahan = barang.id_barang  
             WHERE
-                wo_list.wio = '$ID_Order'
+                penjualan.oid = '$ID_Order'
         ";
 
         $result = $conn_OOP -> query($sql);
@@ -488,32 +617,59 @@
         if ($result->num_rows > 0) :
             $row = $result->fetch_assoc();
         else : endif;
+
     ?>
 
         <div class="row">
             <div class="col-6">
                 <table class='table-form'>
                     <tr><td style='width:150px'>Kode Barang</td><td><?= $row['kode']; ?></td> </tr>
-                    <tr><td style='width:150px'>ID</td><td><?= ucwords($row['id']); ?></td> </tr>
-                    <tr><td style='width:150px'>Client</td><td><?= ucwords($row['client']); ?></td> </tr>
-                    <tr><td style='width:150px'>Deskripsi</td><td><?= ucfirst($row['project']); ?></td> </tr>
+                    <tr><td style='width:150px'>ID</td><td><?= ucwords($row['id_yes']); ?></td> </tr>
+                    <tr><td style='width:150px'>Client</td><td><?= ucwords($row['client_yes']); ?></td> </tr>
+                    <tr><td style='width:150px'>Deskripsi</td><td><?= ucfirst($row['description']); ?></td> </tr>
                     <tr><td style='width:150px'>Ukuran</td><td><?= $row['ukuran']; ?></td> </tr>
                     <tr><td style='width:150px'>sisi</td><td><?= $row['sisi']; ?></td> </tr>
-                    <tr><td style='width:150px'>Bahan</td><td><?= $row['bahan'] . $row['bahan_sendiri']; ?></td> </tr>
-                    <tr><td style='width:150px'>Notes / Finishing LF</td><td><?= ucfirst($row['finishing']); ?></td> </tr>
+                    <tr><td style='width:150px'>Bahan</td><td><?= $row['bahan'] ." " . $row['bahan_sendiri']; ?></td> </tr>
+                    <tr><td style='width:150px'>Notes / Finishing LF</td><td><?= ucfirst($row['keterangan']); ?></td> </tr>
                     <tr><td style='width:150px'>Qty</td><td><?= $row['qty']; ?></td> </tr>
                     <tr><td style='width:150px'>Laminating</td><td><?= $row['laminating']; ?></td> </tr>
                     <tr><td style='width:150px'>Alat Tambahan</td><td><?= $row['alat_tambahan']; ?></td> </tr>
+                    <?php
+                        if($row['kode']=="Digital Printing" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) {
+                    ?>
+                        <tr><td style='width:150px'>Biaya Digital</td><td><?= "Rp. ". number_format($row['b_digital']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Kotak</td><td><?= "Rp. ". number_format($row['b_kotak']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
+                    <?php
+                        } elseif($row['kode']=="Large Format" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
+                    ?>
+                        <tr><td style='width:150px'>Biaya Large Format</td><td><?= "Rp. ". number_format($row['b_large']) .""; ?></td> </tr> 
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Xbanner</td><td><?= "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr> 
+                    <?php
+                        } elseif($row['kode']=="Indoor HP Latex" or $row['kode']=="Indoor Xuli" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
+                    ?>
+                        <tr><td style='width:150px'>Biaya Indoor</td><td><?= "Rp. ". number_format($row['b_indoor']) .""; ?></td> </tr>  
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Xbanner</td><td><?= "Rp. ". number_format($row['b_xbanner']) .""; ?></td> </tr>
+                    <?php        
+                        } elseif($row['kode']=="ETC" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
+                    ?>
+                        <tr><td style='width:150px'>Biaya Lain</td><td><?= "Rp. ". number_format($row['b_lain']) .""; ?></td> </tr>
+                        <tr><td style='width:150px'>Biaya Finishing</td><td><?= "Rp. ". number_format($row['b_potong']) .""; ?></td> </tr>    
+                    <?php
+                        }
+                    ?>
                 </table>
             </div>
             <div class="col-6">
                 <table class='table-form'>
-                    <tr><td>WO</td><td colspan="2"><?= $row['wo_color']; ?></td> </tr>
-                    <tr><td>SO</td><td colspan="2"><?= $row['so']; ?></td> </tr>
-                    <tr><td>Marketing</td><td colspan="2"><?= $row['marketing']; ?></td> </tr>
-                    <tr><td>Ukuran WO</td><td colspan="2"><?= $row['ukuran_jadi']; ?></td> </tr>
-                    <tr><td>Qty WO</td><td colspan="2"><?= $row['qty_jadi']; ?></td> </tr>
-                    <tr><td>Warna</td><td colspan="2"><?= $row['warna']; ?></td> </tr>
+                    <tr><td>WO</td><td colspan="3"><?= $row['jenis_wo']; ?></td> </tr>
+                    <tr><td>SO</td><td colspan="3"><?= $row['so_yes']; ?></td> </tr>
+                    <tr><td>Marketing</td><td colspan="3"><?= $row['marketing']; ?></td> </tr>
+                    <tr><td>Ukuran WO</td><td colspan="3"><?= $row['ukuran_jadi']; ?></td> </tr>
+                    <tr><td>Qty WO</td><td colspan="3"><?= $row['qty_jadi']; ?></td> </tr>
+                    <tr><td>Warna</td><td colspan="3"><?= $row['warna_cetak']; ?></td> </tr>
                     <tr>
                         <td>Finishing</td>
                         <?php
@@ -554,7 +710,7 @@
                                 <label class='checkbox-fa' for='Perporasi'> Perporasi </label>
                             </div>
                         </td>
-                        <td>
+                        <td colspan="2">
                             <div class="contact100-form-checkbox">
                                 <?= $check_CuttingSticker; ?>
                                 <label class='checkbox-fa' for='CuttingSticker'> Cutting Sticker </label>
@@ -594,13 +750,29 @@
                             </div>
                         </td>
                     </tr>
+                    <?php if($_SESSION['level']=="admin" || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting") : ?>
+                        <?php
+                        if($row['kode']=="Digital Printing" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) {
+                    ?>  
+                        <tr><td style='width:150px'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                    <?php
+                        } elseif($row['kode']=="Large Format" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
+                    ?>
+                        <tr><td style='width:150px'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                    <?php
+                        } elseif($row['kode']=="Indoor HP Latex" or $row['kode']=="Indoor Xuli" and ($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting")) { 
+                    ?>
+                        <tr><td style='width:150px'>Biaya Laminating</td><td><?= "Rp. ". number_format($row['b_laminate']) .""; ?></td> </tr>
+                    <?php        
+                        }
+                    ?>
+                    <tr><td>Harga Satuan @</td><td><?= "Rp. ". number_format($row['harga_satuan']) .""; ?></td> </tr>
+                    <tr><td>Total Biaya</td><td><?= "Rp. ". number_format($row['total']) .""; ?></td> </tr>
+                    <?php else : endif; ?>
                 </table>
             </div>
-            <div id="submit_menu">
-                <?php
-                    echo "<input type='button' class='generate_button' value='Generate - $row[generate]' onclick='LaodSubForm(\"generator_WoList\", \"". $row['wio'] ."\", \"$row[id]\");'>";
-                    
-                ?>
-            </div>
-        </div>
-    <?php } ?>
+            
+
+    <?php }
+
+    endif; ?>

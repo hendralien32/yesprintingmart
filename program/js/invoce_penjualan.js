@@ -309,11 +309,11 @@ function ChangeKodeBrg() {
     var etc_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "Hekter_Tengah",  "Blok", "Ring_Spiral", "b_finishing", "b_lain", "b_discount"];
     var etc_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi", "b_digital", "b_lf", "b_indoor", "b_offset", "b_xbanner", "b_kotak", "b_laminating", "b_design", "b_delivery"];
 
-    var LF_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker",  "b_lf", "b_xbanner", "b_laminating", "b_design", "b_delivery", "b_discount"];
-    var LF_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_digital", "b_indoor", "b_offset", "b_lain", "b_kotak", "b_finishing"];
+    var LF_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker",  "b_lf", "b_xbanner", "b_laminating", "b_design", "b_delivery", "b_discount", "b_finishing"];
+    var LF_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_digital", "b_indoor", "b_offset", "b_lain", "b_kotak"];
 
-    var indoor_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker",  "b_indoor",  "b_xbanner",  "b_laminating","b_design", "b_delivery", "b_discount"];
-    var indoor_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_lf", "b_digital", "b_offset", "b_lain", "b_kotak", "b_finishing"];
+    var indoor_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker",  "b_indoor",  "b_xbanner",  "b_laminating","b_design", "b_delivery", "b_discount", "b_finishing"];
+    var indoor_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_lf", "b_digital", "b_offset", "b_lain", "b_kotak"];
 
     var Offset_show = ["kilat1", "kilat2", "doff1", "doff2", "KotakNC", "Hekter_Tengah", "Blok", "Ring_Spiral", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_offset","b_design", "b_delivery", "b_discount"];
     var Offset_hide = ["kilatdingin1", "doffdingin1", "hard_lemit", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_digital", "b_lf", "b_indoor",  "b_lain", "b_xbanner", "b_kotak", "b_laminating", "b_finishing"];

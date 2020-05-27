@@ -27,14 +27,17 @@
 
     if (isset($page)) :
         switch ($page) :
-            case 'SO_YPM':              $title = 'Sales Order';                 break;
-            case 'SI_YPM':              $title = 'Sales Invoice';               break;
-            case 'Payment_YPM':         $title = 'Pelunasan Invoice';           break;
-            case 'List_Payment_YPM':    $title = 'List Pelunasan Invoice';      break;
-            case 'Client_YPM':          $title = 'Database Client';             break;
-            case 'User_YPM':            $title = 'Database User';               break;
-            case 'database_pricelist':  $title = 'Database Pricelist';          break;
-            case 'Wo_List':             $title = 'Work Order List Yescom';      break;
+            case 'SO_YPM':              $title = 'Sales Order Yesprintingmart';                 break;
+            case 'SI_YPM':              $title = 'Sales Invoice Yesprintingmart';               break;
+            case 'Payment_YPM':         $title = 'Pelunasan Invoice Yesprintingmart';           break;
+            case 'List_Payment_YPM':    $title = 'List Pelunasan Invoice Yesprintingmart';      break;
+            case 'Client_YPM':          $title = 'Database Client Yesprintingmart';             break;
+            case 'User_YPM':            $title = 'Database User';                               break;
+            case 'Pricelist_YPM':       $title = 'Database Pricelist';                          break;
+            case 'Bahan_YPM':           $title = 'Database Bahan';                              break;
+            case 'database_pricelist':  $title = 'Database Pricelist';                          break;
+            case 'Wo_List':             $title = 'Work Order List Yescom';                      break;
+            case 'penjualan_YESCOM':    $title = 'Sales Order Yescom';                          break;
             
             default:                    $title = 'YES Program V.5.0';                   
         endswitch;
@@ -137,7 +140,7 @@
         <?php elseif($tab=='SalesYescom') : ?>
             <ul>
                 <a href="?page=Wo_List&tab=SalesYescom"><li class='<?= ($page == 'Wo_List') ? 'active':''; ?>'>WO List Yescom</li></a>
-                <a href="?page=Sales_Yescom&tab=SalesYescom"><li>Sales Order Yescom</li></a>
+                <a href="?page=penjualan_YESCOM&tab=SalesYescom"><li class='<?= ($page == 'penjualan_YESCOM') ? 'active':''; ?>'>Sales Order Yescom</li></a>
                 <div class="clear"></div>
             </ul>
         <?php endif; ?>
@@ -160,6 +163,7 @@
                         case 'Pricelist_YPM':       require_once('database_pricelist.php');                 break;
                         case 'Bahan_YPM':           require_once('database_bahan.php');                     break;
                         case 'Wo_List':             require_once('WO_List_yescom.php');                     break;
+                        case 'penjualan_YESCOM':    require_once('penjualan_yescom.php');                   break;
                         default:                    require_once('test.php');
                     endswitch;
                 else :

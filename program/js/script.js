@@ -26,22 +26,29 @@ function showSubBox() {
     $('#blackout_sub').css({"visibility":"visible"});
 }
 
-function LaodSubForm(id,nid) {
+function LaodSubForm(id,nid,Akses_Edit) {
 
     if( id == "setter_penjualan" ) { 
         var judul = "FORM SETTER PENJUALAN";
+    } else if ( id == "generator_WoList") {
+        var judul = "Form Generator Code"
+    } else if ( id == "penjualan_yescom") {
+        var judul = "Form Sales Order YESCOM"
     } else {
         var judul = "404 Not Found";
     }
 
     $.ajax({
         type: "POST",
-        data: {data:id, judul_form:judul, ID_Order:nid},
+        data: {data:id, judul_form:judul, ID_Order:nid, AksesEdit:Akses_Edit},
         url: "Form/" + id +"_f.php",
  
         success: function(data){
             showSubBox();
             $("#bagDetail_sub").html(data);
+            if( id == "generator_WoList" ) { 
+                onload();
+            } 
         }
     });
 }
@@ -69,16 +76,18 @@ function LaodForm(id,nid,Akses_Edit) {
         var judul = "Form Pricelist";
     } else if ( id == "WO_List_yescom" ) {
         var judul = "Form YES Communication Work Order";
+    } else if ( id == "penjualan_yescom") {
+        var judul = "Form Sales Order YESCOM"
+    } else {
+        var judul = "404 Not Found";
     }
-
-    
 
     $.ajax({
         type: "POST",
         data: {data:id, judul_form:judul, ID_Order:nid, AksesEdit:Akses_Edit},
         url: "Form/" + id +"_f.php",
  
-        success: function(data){
+        success: function(data) {
             showBox();
             $("#bagDetail").html(data);
 
@@ -99,11 +108,13 @@ function LaodForm(id,nid,Akses_Edit) {
                 $("#alasan_cancel").focus();
             } else if( id == "setter_penjualan_invoice" || id == "pelunasan_Multi_invoice" ) {
                 outstandinglist();
-            } else if( id == "database_pricelist" || id == "WO_List_yescom" ) { 
+            } else if( id == "database_pricelist") { 
                 ChangeKodeBrg();
+            } else if ( id == "penjualan_yescom"  || id == "WO_List_yescom") {
+                ChangeKodeBrg();
+                Check_KertasSendiri();
             }
 
-            
         }
     });
 }

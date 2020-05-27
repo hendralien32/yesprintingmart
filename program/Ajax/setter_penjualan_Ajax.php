@@ -1,6 +1,5 @@
 <?php 
     session_start();
-
     require_once '../../function.php';
     
     $test = "";
@@ -232,9 +231,9 @@
                     <td><span class='KodeProject ".$kode_class."'>". strtoupper($d['code']) ."</span></td>
                     <td onclick='". $edit ."' style='cursor:pointer'><b>". str_ireplace($cari_keyword_client,$bold_cari_keyword_client,$d['nama_client']) ."</b> - ". str_ireplace($cari_keyword,$bold_cari_keyword,$d['description']) ." ". $d['ukuran'] ."</td>
                     <td>
+                        <span class='icon_status'><i class='fas fa-thumbs-up ". $check_acc ."'></i></span>
                         $icon_akses_edit
                         <span class='icon_status'><i class='fas fa-check-double ". $check_Finished ."'></i></span>
-                        <span class='icon_status'><i class='fas fa-thumbs-up ". $check_acc ."'></i></span>
                         <span class='icon_status'><i class='fas fa-user-clock ". $check_ditunggu ."'></i></span>
                     </td>
                     <td><span class='".$d['css_sisi']." KodeProject'>". $d['sisi'] ."</span></td>

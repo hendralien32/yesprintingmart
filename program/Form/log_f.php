@@ -4,17 +4,33 @@
 
     $ID_Order = $_POST["ID_Order"];
 
-    $sql = 
-        "SELECT 
-            penjualan.history
-        FROM 
-            penjualan
-        WHERE
-            penjualan.oid = '$ID_Order'
-    ";
+    $AksesEdit = isset($_POST['AksesEdit']) ? $_POST['AksesEdit'] : "";
+    
+    if($AksesEdit=="wo_list") :
+        $sql = 
+            "SELECT 
+                wo_list.log as history
+            FROM 
+                wo_list
+            WHERE
+                wo_list.wio = '$ID_Order'
+        ";
+    else :
+        $sql = 
+            "SELECT 
+                penjualan.history
+            FROM 
+                penjualan
+            WHERE
+                penjualan.oid = '$ID_Order'
+        ";
+    endif;
 
-    // Perform query
+    // Untuk Yesprintingmart
     $result = $conn_OOP -> query($sql);
+
+    // Untuk YESCOM
+    // $result = $conn_Server -> query($sql); 
 
     if ($result->num_rows > 0) :
         $row = $result->fetch_assoc();

@@ -53,7 +53,7 @@
                 WHEN barang.id_barang > 0 THEN barang.nama_barang
                 ELSE penjualan.bahan
             END)) as bahan,
-            GROUP_CONCAT(CONCAT('<b>',format(penjualan.qty,'de_DE'), '</b> ' ,penjualan.satuan)) as qty,
+            GROUP_CONCAT(CONCAT('<b>',penjualan.qty, '</b> ' ,penjualan.satuan)) as qty,
             GROUP_CONCAT((CASE
                 WHEN penjualan.status = 'selesai' THEN 'Y'
                 WHEN penjualan.status = '' THEN 'N'

@@ -1,14 +1,6 @@
 $(document).ready(function() {
 
-    $('#dari_tanggal').keyup(function(e) { 
-        if (e.keyCode == 13) { // Enter keycode
-            $('#loader').show();
-            onload();
-            return false;
-        }
-    });
-
-    $('#ke_tanggal').keyup(function(e) { 
+    $('#tanggal').keyup(function(e) { 
         if (e.keyCode == 13) { // Enter keycode
             $('#loader').show();
             onload();
@@ -19,36 +11,24 @@ $(document).ready(function() {
     onload();
 });
 
-
 $( item ).autocomplete({
     selectFirst: true
 });
 
 function onload() {
     $('#loader').show();
-    var search          = $('#search').val();
-    var warna_wo        = $('#warna_wo').val();
-    var Dari_Tanggal    = $('#dari_tanggal').val();
-    var Ke_Tanggal      = $('#ke_tanggal').val();
-    var Check_box;      if($('#Check_box').prop("checked") == true) { Check_box = "Y"; } else { Check_box = "N"; }
-
-    var fdata = new FormData()
-    fdata.append("search",search);
-    fdata.append("warna_wo",warna_wo);
-    fdata.append("Dari_Tanggal",Dari_Tanggal);
-    fdata.append("Ke_Tanggal", Ke_Tanggal);
-    fdata.append("Check_box", Check_box);
+    var search              = $('#search_data').val();
+    var Tanggal             = $('#tanggal').val();
+    var show_delete;        if($('#Check_box').prop("checked") == true) { show_delete = "deleted"; } else { show_delete = ""; }
 
     $.ajax({
         type: "POST",
-        url: "Ajax/WO_List_yescom_ajax.php",
+        data: {data:search, date:Tanggal, show_delete:show_delete},
+        url: "Ajax/penjualan_yescom_ajax.php",
         cache: false,
-		processData : false,
-		contentType : false,
-        data: fdata,
         success: function(data){
             $('#loader').hide();
-            $("#list_WO_Yescom").html(data);
+            $("#list_PenjualanYes").html(data);
             return false;
         },
         error: function(xhr, status, error) {
@@ -57,10 +37,16 @@ function onload() {
     });
 }
 
-function search_data() {
-    var Validasi_Search = $('#search').val().length;
+function SearchDate() {
+    $('#loader').show();
+    onload();
+}
 
-    if(Validasi_Search >= 4) {
+function search_data() {
+    $('#tanggal').val("");
+    var Validasi_Search = $('#search_data').val().length;
+
+    if(Validasi_Search > 3) {
         $('#loader').show();
         onload();
     } else {
@@ -69,38 +55,61 @@ function search_data() {
     }
 }
 
-function search_typedata() {
-    $('#dari_tanggal').val("");
-    $('#ke_tanggal').val("");
-    $('#loader').show();
-    onload();
-    return false;
+function submit_GeneratorCode() {
+    var id = "Submit_Generator_Code";
+    var str = $('#generator_select').val();
+    var Start_Val = str.includes("////// ACTION START ---->>>");
+    var End_Val = str.includes("<<<---- ACTION END //////");
+
+    if(Start_Val == false && End_Val == false) {
+        alert("Error Code Submit");
+        return false
+    } else {
+        $.ajax({
+            type: "POST",
+            data: {generator:str, jenis_submit:id},
+            url: "progress/setter_penjualan_prog.php",
+            cache: false,
+            success: function(data){
+                // $("#result").html(data);
+                alert("Generate Data Complete");
+                hidesubBox();
+                onload();
+                return false;
+            },
+            error: function(xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    }
 }
 
-function SearchFrom() {
-    $('#search').val("");
-
-    var dari_tanggal = $('#dari_tanggal').val();
-    var All_Element =  ["ke_tanggal", "Check_box"];
-    
-    for (i = 0; i < All_Element.length; i++) {
-        $('#'+All_Element[i]+'').prop("disabled", false);
-        $('#'+All_Element[i]+'').prop("readonly", false);
+function hapus(cid,nama_PenjualanYES,status_PenjualanYES) {
+    if(status_PenjualanYES=="Y") {
+        var abc = "kembalikan";
+    } else {
+        var abc = "hapus";
     }
 
-    $('#ke_tanggal').attr('min' , dari_tanggal);
-    $('#loader').show();
-    onload();
-}
-
-function SearchTo() {
-    $('#loader').show();
-    onload();
-}
-
-function Show_delete() {
-    $('#loader').show();
-    onload();
+    if(confirm( abc +' WO List "'+ nama_PenjualanYES + '" ?')) {
+        $.ajax({
+            type: "POST",
+            url: "progress/setter_penjualan_prog.php",
+            data: {
+                PenjualanYES_ID             : cid,
+                jenis_submit                : "delete_PenjualanYes",
+                status_PenjualanYES         : status_PenjualanYES
+            },
+            success: function(data){
+                alert('Order ID "' + nama_PenjualanYES + '" sudah di' + abc);
+                onload();
+                return false;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $("#bagDetail").html(XMLHttpRequest);
+            }
+        }); 
+    }
 }
 
 function calc_meter() {
@@ -331,47 +340,6 @@ function test(id) {
     validasi(id);
 }
 
-function SearchID_YES() {
-    if($('#id_yescom').val().length >= 4) {
-        var ID_YES = $('#id_yescom').val();
-
-        var fdata = new FormData()
-        fdata.append("ID_YES", ID_YES);
-        fdata.append("tipe_validasi", 'Auto_YesOrder_Data');
-
-        $.ajax({
-            type: "POST",
-            url: "progress/validasi_progress.php",
-            cache: false,
-        	processData : false,
-        	contentType : false,
-            data: fdata,
-            success: function(data){
-                // $('#notes').val(data);
-                $('#bahan').val("");
-                $('#id_bahan').val("");
-                var obj=$.parseJSON(data);
-                $('#so_yescom').val(obj.so);
-                $('#client').val(obj.client); 
-                $('#marketing_yescom').val(obj.ae);
-                $('#ukuran_yescom').val(obj.ukuran);
-                $('#qty_yescom').val(obj.qty);
-                $('#deskripsi').val(obj.project);
-                $('#notes').val(obj.finishing);
-                $('#YES_bahan').html(obj.bahan);
-                if(obj.sisi == "2") {
-                    $('#dua_sisi').prop("checked", true);
-                } else {
-                    $('#satu_sisi').prop("checked", true);
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $("#bagDetail").html(XMLHttpRequest);
-            }
-        }); 
-    } 
-}
-
 function Check_KertasSendiri() {
     if($('#bahan').val() == "Kertas Sendiri") {
         $('#bahan_sendiri').show();
@@ -381,73 +349,71 @@ function Check_KertasSendiri() {
     }
 }
 
-function submit(id) {
-
-    if($('#kode_barng').val()=="") {
-        alert("Kode Barang harus di pilih")
-        return false;
-    } else if($('#client').val()=="") {
-        alert("Nama Client tidak Boleh kosong")
-        return false;
-    } else if($('#validasi_bahan').val()<1) {
-        alert("Nama Bahan tidak ada dalam Daftar Stock Barang")
-        return false;
-    } else if($('#qty').val()=="") {
-        alert("Qty tidak Boleh Kosong")
-        return false;
-    }
-    
-    var id_Order            = $('#id_Order').val();
-    var id_yescom           = $('#id_yescom').val();
-    var wo_yescom           = $('#wo_yescom').val();
-    var so_yescom           = $('#so_yescom').val();
-    var marketing_yescom    = $('#marketing_yescom').val();
-    var ukuran_yescom       = $('#ukuran_yescom').val();
-    var qty_yescom          = $('#qty_yescom').val();
-    var warna_cetakan       = $('#warna_cetakan').val();
-    var urgent;             if($('#urgent').prop("checked") == true) { urgent = "Y"; } else { urgent = "N"; }
-    var Kode_Brg            = $('#kode_barng').val().split('.');
-    var Nama_Client         = $('#client').val();
-    var Deskripsi           = $('#deskripsi').val();
-    var Ukuran              = $('#ukuran').val();
-    var Panjang             = $('#panjang').val();
-    var Lebar               = $('#lebar').val();
-    var Sisi;               if($('#satu_sisi').prop("checked") == true) { Sisi = "1"; } else { Sisi = "2"; }
-    var ID_Bahan            = $('#id_bahan').val();
-    var Nama_Bahan          = $('#bahan').val();
-    var Notes               = $('#notes').val();
-    var Laminating          = $('#laminating').val().split('.');
-    var alat_tambahan       = $('#alat_tambahan').val().split('.');
-    var Ptg_Pts;            if($('#Ptg_Pts').prop("checked") == true) { Ptg_Pts = "Y"; } else { Ptg_Pts = "N"; }
-    var Ptg_Gantung;        if($('#Ptg_Gantung').prop("checked") == true) { Ptg_Gantung = "Y"; } else { Ptg_Gantung = "N"; }
-    var Pon_Garis;          if($('#Pon_Garis').prop("checked") == true) { Pon_Garis = "Y"; } else { Pon_Garis = "N"; }
-    var Perporasi;          if($('#Perporasi').prop("checked") == true) { Perporasi = "Y"; } else { Perporasi = "N"; }
-    var CuttingSticker;     if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "Y"; } else { CuttingSticker = "N"; }
-    var Hekter_Tengah;      if($('#Hekter_Tengah').prop("checked") == true) { Hekter_Tengah = "Y"; } else { Hekter_Tengah = "N"; }
-    var Blok;               if($('#Blok').prop("checked") == true) { Blok = "Y"; } else { Blok = "N"; }
-    var Spiral;             if($('#Spiral').prop("checked") == true) { Spiral = "Y"; } else { Spiral = "N"; }
-    var Proffing;           if($('#proffing').prop("checked") == true) { Proffing = "Y"; } else { Proffing = "N"; }
-    var Ditunggu;           if($('#ditunggu').prop("checked") == true) { Ditunggu = "Y"; } else { Ditunggu = "N"; }
-    var Qty                 = $('#qty').val();
-    var Satuan              = $('#satuan').val();
-
+function submit_order(id) {
+    var id_Order          = $('#id_Order').val();
+    var Kode_Brg          = $('#kode_barng').val().split('.');
+    var id_yescom         = $('#id_yescom').val();
+    var client            = $('#client').val();
+    var deskripsi         = $('#deskripsi').val();
+    var ukuran            = $('#ukuran').val();
+    var panjang           = $('#panjang').val();
+    var lebar             = $('#lebar').val();
+    var Sisi;             if($('#satu_sisi').prop("checked") == true) { Sisi = "1"; } else { Sisi = "2"; }
+    var bahan             = $('#bahan').val();
+    var id_bahan          = $('#id_bahan').val();
+    var bahan_sendiri     = $('#bahan_sendiri').val();
+    var notes             = $('#notes').val();
+    var qty               = $('#qty').val();
+    var satuan            = $('#satuan').val();
+    var wo_yescom         = $('#wo_yescom').val();
+    var so_yescom         = $('#so_yescom').val();
+    var warna_cetakan     = $('#warna_cetakan').val();
+    var Laminating        = $('#laminating').val().split('.');
+    var alat_tambahan     = $('#alat_tambahan').val().split('.');
+    var Ptg_Pts;          if($('#Ptg_Pts').prop("checked") == true) { Ptg_Pts = "Y"; } else { Ptg_Pts = "N"; }
+    var Ptg_Gantung;      if($('#Ptg_Gantung').prop("checked") == true) { Ptg_Gantung = "Y"; } else { Ptg_Gantung = "N"; }
+    var Pon_Garis;        if($('#Pon_Garis').prop("checked") == true) { Pon_Garis = "Y"; } else { Pon_Garis = "N"; }
+    var Perporasi;        if($('#Perporasi').prop("checked") == true) { Perporasi = "Y"; } else { Perporasi = "N"; }
+    var CuttingSticker;   if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "Y"; } else { CuttingSticker = "N"; }
+    var Hekter_Tengah;    if($('#Hekter_Tengah').prop("checked") == true) { Hekter_Tengah = "Y"; } else { Hekter_Tengah = "N"; }
+    var Blok;             if($('#Blok').prop("checked") == true) { Blok = "Y"; } else { Blok = "N"; }
+    var Spiral;           if($('#Spiral').prop("checked") == true) { Spiral = "Y"; } else { Spiral = "N"; }
+    var urgent;           if($('#urgent').prop("checked") == true) { urgent = "Y"; } else { urgent = "N"; }
+    var Proffing;         if($('#proffing').prop("checked") == true) { Proffing = "Y"; } else { Proffing = "N"; }
+    var Ditunggu;         if($('#ditunggu').prop("checked") == true) { Ditunggu = "Y"; } else { Ditunggu = "N"; }
+    var b_digital         = $('#b_digital').val();
+    var b_lain            = $('#b_lain').val();
+    var b_finishing       = $('#b_finishing').val();
+    var b_large           = $('#b_large').val();
+    var b_indoor          = $('#b_indoor').val();
+    var b_xbanner         = $('#b_xbanner').val();
+    var b_kotak           = $('#b_kotak').val();
+    var b_laminate        = $('#b_laminate').val();
+    var no_invoice        = $('#no_invoice').val();
     if(Laminating[1]== null) { deskripsi_Laminating = ""; } else { deskripsi_Laminating = Laminating[1]; }
     if(alat_tambahan[1]== null) { deskripsi_alat_tambahan = ""; } else { deskripsi_alat_tambahan = alat_tambahan[1]; }
 
     var fdata = new FormData()
-    fdata.append("id_Order",id_Order);
-    fdata.append("id_yescom",id_yescom);
+    fdata.append("id_Order", id_Order);
+    fdata.append("no_invoice", no_invoice);
     fdata.append("Kode_Brg", Kode_Brg[0]); 
-    fdata.append("Desc_Kode_Brg", Kode_Brg[1]);
-    fdata.append("Nama_Client", Nama_Client);
-    fdata.append("Deskripsi", Deskripsi);
-    fdata.append("Ukuran", Ukuran);
-    fdata.append("Panjang", Panjang);
-    fdata.append("Lebar", Lebar);
+    fdata.append("Desc_Kode_Brg", Kode_Brg[1]); 
+    fdata.append("id_yescom", id_yescom);
+    fdata.append("Nama_Client", client);
+    fdata.append("Deskripsi", deskripsi);
+    fdata.append("ukuran", ukuran);
+    fdata.append("panjang", panjang);
+    fdata.append("lebar", lebar);
     fdata.append("Sisi", Sisi);
-    fdata.append("ID_Bahan", ID_Bahan);
-    fdata.append("Nama_Bahan", Nama_Bahan);
-    fdata.append("Notes", Notes);
+    fdata.append("Nama_Bahan", bahan);
+    fdata.append("id_bahan", id_bahan);
+    fdata.append("bahan_sendiri", bahan_sendiri);
+    fdata.append("Notes", notes);
+    fdata.append("qty", qty);
+    fdata.append("Satuan", satuan);
+    fdata.append("wo_yescom", wo_yescom);
+    fdata.append("so_yescom", so_yescom);
+    fdata.append("warna_cetakan", warna_cetakan);
     fdata.append("Laminating", Laminating[0]);
     fdata.append("Desc_Laminating", deskripsi_Laminating);
     fdata.append("alat_tambahan", alat_tambahan[0]);
@@ -460,17 +426,17 @@ function submit(id) {
     fdata.append("Hekter_Tengah", Hekter_Tengah);
     fdata.append("Blok", Blok);
     fdata.append("Spiral", Spiral);
-    fdata.append("Qty", Qty);
-    fdata.append("Satuan", Satuan);
-    fdata.append("wo_yescom", wo_yescom);
-    fdata.append("so_yescom", so_yescom);
-    fdata.append("marketing_yescom", marketing_yescom);
-    fdata.append("ukuran_yescom", ukuran_yescom);
-    fdata.append("qty_yescom", qty_yescom);
-    fdata.append("warna_cetakan", warna_cetakan);
     fdata.append("urgent", urgent);
     fdata.append("Proffing", Proffing);
     fdata.append("Ditunggu", Ditunggu);
+    fdata.append("b_digital", b_digital);
+    fdata.append("b_lain", b_lain);
+    fdata.append("b_finishing", b_finishing);
+    fdata.append("b_large", b_large);
+    fdata.append("b_indoor", b_indoor);
+    fdata.append("b_xbanner", b_xbanner);
+    fdata.append("b_kotak", b_kotak);
+    fdata.append("b_laminate", b_laminate);
     fdata.append("jenis_submit", id);
 
     $.ajax({
@@ -485,70 +451,14 @@ function submit(id) {
             $(".icon-close").removeAttr('onclick');
         },
         success: function(data){
-            if(id=="Insert_WO_List") { alert("Data Berhasil Di input ke database !") } 
-            else {  alert("Data Berhasil Di Update ke database !") }
             // $("#Result").html(data);
             hideBox();
             onload();
             return false;
-        }, 
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $("#bagDetail").html(XMLHttpRequest);
-        }
-    }); 
-}
-
-function hapus(cid,nama_WO_LIST,status_WO_LIST) {
-    if(status_WO_LIST=="deleted") {
-        var abc = "kembalikan";
-    } else {
-        var abc = "hapus";
-    }
-
-    if(confirm( abc +' WO List "'+ nama_WO_LIST + '" ?')) {
-        $.ajax({
-            type: "POST",
-            url: "progress/setter_penjualan_prog.php",
-            data: {
-                WO_LIST_ID           : cid,
-                jenis_submit         : "delete_WOLIST",
-                status_WO_LIST       : status_WO_LIST
-            },
-            success: function(data){
-                alert('WO List "' + nama_WO_LIST + '" sudah di' + abc);
-                onload();
-                return false;
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $("#bagDetail").html(XMLHttpRequest);
-            }
-        }); 
-    }
-}
-
-function Copy_text() {
-    $("#generator_select").select();
-    document.execCommand('copy');
-    $("#button_copy").html("<i class='fas fa-copy'></i> Copied Success !");
-    $("#button_copy").animate({width: "30%"});
-}
-
-function akses(a,ID_Order) {
-    $.ajax({
-        type: "POST",
-        url: "progress/setter_penjualan_prog.php",
-        data: {
-            WO_LIST_ID      : ID_Order,
-            jenis_akses     : a,
-            jenis_submit    : "WOList_Akses_Edit"
-        },
-        success: function(data){
-            // $('#result').html(data);
-            onload();
-            return false;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
     }); 
+
 }

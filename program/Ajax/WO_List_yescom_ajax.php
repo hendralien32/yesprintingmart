@@ -2,7 +2,6 @@
     session_start();
     require_once "../../function.php";
 
-
     if($_POST['search']!="") {
         $add_where = "and ( wo_list.id LIKE '%$_POST[search]%' or wo_list.client LIKE '%$_POST[search]%' or wo_list.project LIKE '%$_POST[search]%' or wo_list.so LIKE '%$_POST[search]%' )";
     } else {
@@ -41,10 +40,10 @@
                 <th width="6%">ID</th>
                 <th width="6%">SO</th>
                 <th width="3%">Color</th>
-                <th width="47%">Client -  Deskripsi</th>
+                <th width="45%">Client -  Deskripsi</th>
                 <th width="7%">Generator</th>
                 <th width="8%">CS</th>
-                <th width="5%"></th>
+                <th width="7%"></th>
             </tr>
             <?php
                 $sql =
@@ -62,7 +61,8 @@
                     LEFT(wo_list.date_create,10) as Tanggal,
                     wo_list.generate,
                     wo_list.send_by,
-                    wo_list.status
+                    wo_list.status,
+                    wo_list.akses_edit
                 FROM
                     wo_list
                 WHERE
@@ -92,6 +92,24 @@
                             $warna="style='color:white; padding:3px 8px 2px 8px; background-color:grey'"; 
                         endif;
 
+                        if($row['akses_edit']=="Y") :
+                            if($_SESSION["level"] == "admin") { 
+                                $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"". $row['wio'] ."\")'><i class='fad fa-lock-open-alt'></i></span>";
+                                $Akses_Edit = "Y";
+                            } else { 
+                                $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
+                                $Akses_Edit = "$row[akses_edit]";
+                            }
+                        else :
+                            if($_SESSION["level"] == "admin") { 
+                                $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"". $row['wio'] ."\")'><i class='fad fa-lock-alt'></i></span>";
+                                $Akses_Edit = "Y";
+                            } else { 
+                                $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
+                                $Akses_Edit = "$row[akses_edit]";
+                            }
+                        endif;
+
                         if($_SESSION['level']=="admin_yes" or $_SESSION['level']=="admin") :
                             if($row['status']=="deleted") :
                                 $icon = "<i class='fas fa-undo-alt text-success'></i>";
@@ -103,25 +121,25 @@
                         else :
                             $Delete_icon ="";
                         endif;
-                        
-		
-                        $edit = "0";
+
+                        $edit = "LaodForm(\"WO_List_yescom\", \"". $row['wio'] ."\", \"". $Akses_Edit ."\")";
 
                         echo "
                         <tr class='pointer'>
                             <td>$no</td>
-                            <td>$row[wio]</td>
-                            <td><span class='KodeProject ".$kode_class."'>". strtoupper($row['code']) ."</span></td>
-                            <td><center>". date("d M Y",strtotime($row['Tanggal'] ))."</center></td>
-                            <td>$row[id]</td>
-                            <td>$row[so]</td>
-                            <td><span ".$warna.">$row[warna]</span></td>
-                            <td><b style='color:$status;'>▐</b> $row[client] - $row[project]</td>
-                            <td><center><input type='button' class='generate_button' value='Generate - $row[generate]' onclick='generator(\"$row[wio]\", \"$row[generate]\")''></center></td>
+                            <td onclick='". $edit ."' style='cursor:pointer'>$row[wio]</td>
+                            <td onclick='". $edit ."' style='cursor:pointer'><center><span class='KodeProject ".$kode_class."'>". strtoupper($row['code']) ."</span></center></td>
+                            <td onclick='". $edit ."' style='cursor:pointer'><center>". date("d M Y",strtotime($row['Tanggal'] ))."</center></td>
+                            <td onclick='". $edit ."' style='cursor:pointer'><center>$row[id]</center></td>
+                            <td onclick='". $edit ."' style='cursor:pointer'><center>$row[so]</center></td>
+                            <td onclick='". $edit ."' style='cursor:pointer'><span ".$warna.">$row[warna]</span></td>
+                            <td onclick='". $edit ."' style='cursor:pointer'><b style='color:$status;'>▐</b> $row[client] - $row[project]</td>
+                            <td onclick='LaodSubForm(\"generator_WoList\", \"". $row['wio'] ."\", \"$row[id]\")'><center><input type='button' class='generate_button' value='Generate - $row[generate]'></center></td>
                             <td>$row[send_by]</td>
                             <td>
+                            $icon_akses_edit
                             $Delete_icon
-                            <span class='icon_status' onclick='LaodForm(\"log\", \"". $row['wio'] ."\")'><i class='fad fa-file-alt'></i></span>
+                            <span class='icon_status' onclick='LaodForm(\"log\", \"". $row['wio'] ."\", \"wo_list\")'><i class='fad fa-file-alt'></i></span>
                             </td>
                         </tr>
                         ";
@@ -133,8 +151,8 @@
                         </tr>
                     ";
                 endif;
-
-                echo "$sql";
             ?>
         </tbody>
     </table>
+
+    <div id="result"></div>

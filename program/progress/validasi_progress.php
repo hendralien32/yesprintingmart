@@ -233,6 +233,7 @@
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and Qty_FINAL >= 10 THEN COALESCE(( 10m_Cutting * $ukuran ),0)
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and Qty_FINAL >= 3 THEN COALESCE(( 3sd9m_Cutting * $ukuran ),0)
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and Qty_FINAL >= 1 THEN COALESCE(( 1sd2m_Cutting * $ukuran ),0)
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and Qty_FINAL < 1 THEN COALESCE(( 1sd2m_Cutting / test ),0)
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 500 THEN COALESCE((500_lembar_Cutting + potong),0)
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 250 THEN COALESCE((250_lembar_Cutting + potong),0)
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 100 THEN COALESCE((100_lembar_Cutting + potong),0)
@@ -455,8 +456,8 @@
         where 
             workorder.idorder = '$_POST[ID_YES]'
         ";
-        $result = $conn_Server -> query($sql);
-        // $result = $conn_OOP -> query($sql);
+        // $result = $conn_Server -> query($sql);
+        $result = $conn_OOP -> query($sql);
         if ($result->num_rows > 0) :
             while ($row = $result->fetch_assoc()) :
                 $arr_data['so']= "$row[so]";

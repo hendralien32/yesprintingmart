@@ -51,30 +51,43 @@ Next Progressive
       ` Add PriceList [SOLVED]
       ` Update PriceList [SOLVED]
       ` Delete PriceList [SOLVED]
+
+* Fix Bug Nilai Finishing pada Invoice Sales Yesprinting [SOLVED]
+* Biaya Finishing ditambahakan di large format dan indoor dan Latex [SOLVED]
+
 * Laporan Penjualan
    - penjualan Yesprintingmart
    - Penjualan Yescom
    - Export Excel
+
 * Laporan Pelunasan
    - Tampilkan Cash
    - Tampilkan Debit / Kredit / Transfer
    - Update Status Pelunasan apakah di setor bank / dijadikan peti cash
    - Export Excel 
+
 * Laporan Peti Cash << OPTIONAL >>
    - Export Excel
+
 * Laporan Kerja Large Format & Indoor   
-* YES WO List
-   - List Form Work Order List --> Show Log
+
+* YES WO List [SOLVED]
+   - List Form Work Order List --> Show Log [SOLVED]
       ` Insert [SOLVED]
       ` Update [SOLVED]
-      ` Delete --> Bug Saat Submit Delete tidak mau refresh Page
-      ` Generator
-         * Time Generate
+      ` Delete --> Bug Saat Submit Delete tidak mau refresh Page [SOLVED]
+      ` Generator --> Bug Nama Bahan Tidak ada [SOLVED] 
+         * Time Generate [SOLVED]
+
 * Penjualan Yescom
-   - Generator Input Form Yescom
-   - List Penjualan Yescom
+   - Generator Input Form Yescom [SOLVED]
+   - List Penjualan Yescom [SOLVED]
+   - Hapus Penjualan YESCOM [SOLVED]
    - Edit Order Penjualan Yescom
+      ` SubForm Untuk Detail ID Yescom
+      ` Show Form saat order edit Lock
    - Create Invoice Yescom
+   
 * Digital Printing
    - Order List Digital Printing
    - Laporan Pemotongan Stock
@@ -83,6 +96,7 @@ Next Progressive
    - Stock Bahan
       ` Penerimaan Bahan
       ` Pengeluaran Bahan
+
 * Large Format
    - Order List Large Format
    - Laporan Pemotongan Stock

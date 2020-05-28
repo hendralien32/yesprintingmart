@@ -4528,6 +4528,27 @@
             $sql = "SELECT * FROM penjualan limit 1";
         }
 
+    elseif($_POST['jenis_submit']=='acc_penjualan') :
+
+            $Final_log = "
+                <tr>
+                    <td>$hr, $timestamps</td>
+                    <td>". $_SESSION['username'] ." mengubah data</td>
+                    <td><b>Status ACC</b> : Y</td>
+                </tr>
+            ";
+            
+            // Attempt Update Cancel query execution
+            $sql = 
+            "UPDATE
+                penjualan
+            SET
+                acc             = 'Y',
+                history         =  CONCAT('$Final_log', history)
+            WHERE
+                oid				= '$_POST[oid]'
+            ";
+
     endif;
     
     if ($conn->multi_query($sql) === TRUE) {

@@ -1,0 +1,60 @@
+@media print {
+    @page {
+        margin-top: -2.2cm;
+    }   
+}
+
+@font-face {
+    font-family: Roboto-Regular;
+    src: url(../../fonts/roboto/Roboto-Regular.ttf);
+}
+
+* {
+    font-family: roboto-Regular;
+    font-size: 0.9rem;
+}
+
+#container {
+    width: auto;
+    padding: 10px;
+    user-select: none;
+}
+
+#container #wo_list_title {
+    display:left;
+    align-items: center;
+}
+
+#container h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing:1px;
+    text-align: center;
+    padding:5px;
+}
+
+#container h5 {
+    font-size: 0.95rem;
+    font-weight: bold;
+    letter-spacing:1px;
+    padding:5px;
+}
+
+#container #wo_list_table {
+    margin-bottom: 25px;
+}
+
+#container #wo_list_table table {
+    width: 100%;
+    border-collapse: collapse;
+    border:1px solid #aeaeae;
+}
+
+#container #wo_list_table table tr td, #container #wo_list_table table tr th {
+    border:1px solid #aeaeae;
+    padding : 7px;
+}
+
+#container .wo_list_info {
+    
+}

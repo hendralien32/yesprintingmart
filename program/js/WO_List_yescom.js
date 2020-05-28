@@ -552,3 +552,10 @@ function akses(a,ID_Order) {
         }
     }); 
 }
+
+function print_report() {
+    var dari_tanggal          = $('#dari_tanggal').val();
+    var ke_tanggal          = $('#ke_tanggal').val();
+
+    window.open('print_WOList_report.php?dari_tgl='+ dari_tanggal + '&ke_tgl=' + ke_tanggal, '_blank');
+}

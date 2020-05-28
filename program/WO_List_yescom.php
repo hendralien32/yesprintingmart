@@ -6,6 +6,7 @@
 
 <div class="left_content">
     <button type="button" onclick="LaodForm('WO_List_yescom')"><i class="far fa-plus-circle"></i> Add Order Yescom</button>
+    <button type="button" onclick="print_report()"><i class='fas fa-print' style='color:#fff'></i> Daily Report</button>
     <input type="text" id="search" class='search data' autocomplete="off" placeholder="Client, ID, SO, dan Deskription" onchange="search_data()">
     <select id="warna_wo" onchange="search_typedata()" style='margin-right:10px'>
         <option value="">Pilih Work Order</option>
@@ -14,10 +15,11 @@
     </select>
     <input type="date" data-placeholder="Dr Tanggal" id="dari_tanggal" onblur="SearchFrom()" value="<?= $date; ?>" max="<?= $date ?>">
     <input type="date" data-placeholder="Ke Tanggal" id="ke_tanggal" onblur="SearchTo()" max="<?= $date ?>" disabled="disabled" readonly>
-    <span style='margin-left:10px'>
+    <span>
         <input class="input-checkbox100" id="Check_box" type="checkbox" name="remember" onclick='Show_delete()'>
         <label class="label-checkbox100" for="Check_box">Show Deleted Order</label>
     </span>
+    
 </div>
 
 <div id="list_WO_Yescom">

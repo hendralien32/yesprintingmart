@@ -949,7 +949,6 @@ div#generator_container button[type=button] {
     transition-timing-function: linear;
 }
 
-
 @media (min-width: 1366px) {
     #wrapper {
         font-size: 0.89vw;
@@ -959,6 +958,10 @@ div#generator_container button[type=button] {
         width:85%;
         margin-left:-40%;
         left:48%; top:0;
+    }
+
+    #isidetail_sub {
+        margin:7% 21%;
     }
 
     table.table-form tr td {
@@ -979,6 +982,14 @@ div#generator_container button[type=button] {
     
     input[type=number].form:disabled, input[type=text].form:disabled {
         background-color: #eeeeee;
+    }
+
+    div#generator_container textarea {
+        font-size: .75rem;
+    }
+
+    div#generator_container button[type=button] {
+        width: 25%;
     }
 
     .ui-menu, .ui-menu .ui-menu-item {

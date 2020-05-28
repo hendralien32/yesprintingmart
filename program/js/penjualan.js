@@ -697,3 +697,24 @@ function submitInvoice(type) {
         }
     }); 
 }
+
+function acc_progress(status,id) {
+    if(confirm( status +' Sudah Ok ?')) {
+        $.ajax({
+            type: "POST",
+            url: "progress/setter_penjualan_prog.php",
+            data: {
+                oid                 : id,
+                jenis_submit        : "acc_penjualan"
+            },
+            success: function(data){
+                alert(status + ' sudah di ACC');
+                onload();
+                return false;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $("#bagDetail").html(XMLHttpRequest);
+            }
+        }); 
+    }
+}

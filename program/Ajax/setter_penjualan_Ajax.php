@@ -133,7 +133,11 @@
                 ELSE ''
             END) as ukuran,
             penjualan.ditunggu,
-            penjualan.acc,
+            (CASE
+                WHEN penjualan.acc = 'Y' THEN 'Y'
+                WHEN penjualan.acc = 'N' THEN 'N'
+                ELSE 'N'
+            END) as acc,
             penjualan.Design,
             penjualan.description,
             LEFT( penjualan.waktu, 10 ) as tanggal,
@@ -222,6 +226,14 @@
 
             $edit = "LaodForm(\"setter_penjualan\", \"". $d['oid'] ."\", \"". $Akses_Edit ."\")";
 
+            if($d['acc']=="N") :
+                $acc = "acc_progress(\"". $d['oid'] . " | " . $d['nama_client'] . " - " . $d['description'] ."\", \"". $d['oid'] ."\")";
+                $pointer = "pointer";
+            else :
+                $acc = "";
+                $pointer = "";
+            endif;
+
             echo "
                 <tr class='". $css_cancel ."'>
                     <td>". $no++ ."</td>
@@ -232,7 +244,7 @@
                     <td onclick='". $edit ."' style='cursor:pointer'><b>". str_ireplace($cari_keyword_client,$bold_cari_keyword_client,$d['nama_client']) ."</b> - ". str_ireplace($cari_keyword,$bold_cari_keyword,$d['description']) ." ". $d['ukuran'] ."</td>
                     <td>
                         <center>
-                            <span class='icon_status'><i class='fas fa-thumbs-up ". $check_acc ."'></i></span>
+                            <span class='icon_status $pointer' ondblclick='$acc'><i class='fas fa-thumbs-up ". $check_acc ."'></i></span>
                             $icon_akses_edit
                             <span class='icon_status'><i class='fas fa-check-double ". $check_Finished ."'></i></span>
                             <span class='icon_status'><i class='fas fa-user-clock ". $check_ditunggu ."'></i></span>

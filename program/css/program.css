@@ -951,7 +951,7 @@ div#generator_container button[type=button] {
 
 @media (min-width: 1366px) {
     #wrapper {
-        font-size: 0.89vw;
+        font-size: 0.75rem;
     }
 
     #isidetail {

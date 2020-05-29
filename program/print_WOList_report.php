@@ -39,114 +39,194 @@
 <?php
 
     if(isset($_SESSION["login"])) :
+        $sql =
+            "SELECT
+                test.Tanggal,
+                GROUP_CONCAT(test.kode) as Kode,
+                GROUP_CONCAT(test.wo_color) as wo_color,
+                GROUP_CONCAT(test.Kode_barang) as Kode_barang,
+                GROUP_CONCAT(test.ukuran SEPARATOR '*_*') as ukuran,
+                GROUP_CONCAT(test.id SEPARATOR '*_*') as id,
+                GROUP_CONCAT(test.so SEPARATOR '*_*') as so,
+                GROUP_CONCAT(test.client SEPARATOR '*_*') as client,
+                GROUP_CONCAT(test.project SEPARATOR '*_*') as project,
+                GROUP_CONCAT(test.bahan SEPARATOR '*_*') as bahan,
+                GROUP_CONCAT(test.qty SEPARATOR '*_*') as qty,
+                GROUP_CONCAT(test.satuan SEPARATOR '*_*') as satuan
+            FROM
+                (
+                    SELECT
+                        LEFT(wo_list.date_create,10) as Tanggal,
+                        wo_list.wo_color,
+                        wo_list.kode,
+                        (CASE
+                            WHEN wo_list.kode = 'large format' THEN 'Large Format'
+                            WHEN wo_list.kode = 'digital' THEN 'Digital Printing A3+'
+                            WHEN wo_list.kode = 'indoor' THEN 'Indoor HP Latex'
+                            WHEN wo_list.kode = 'Xuli' THEN 'Indoor Xuli'
+                            WHEN wo_list.kode = 'etc' THEN 'ETC'
+                            ELSE '- - -'
+                        END) as Kode_barang,
+                        GROUP_CONCAT((CASE
+                            WHEN wo_list.panjang > 0 THEN CONCAT(wo_list.panjang, ' X ', wo_list.lebar, ' Cm')
+                            WHEN wo_list.lebar > 0 THEN CONCAT(wo_list.panjang, ' X ', wo_list.lebar, ' Cm')
+                            ELSE ''
+                        END) SEPARATOR ',_') as ukuran,
+                        GROUP_CONCAT(wo_list.id SEPARATOR ',_') as id,
+                        GROUP_CONCAT(wo_list.so SEPARATOR ',_') as so,
+                        GROUP_CONCAT(wo_list.client SEPARATOR ',_') as client,
+                        GROUP_CONCAT(wo_list.project SEPARATOR ',_') as project,
+                        GROUP_CONCAT((CASE
+                            WHEN barang.id_barang > 0 THEN barang.nama_barang
+                            ELSE wo_list.bahan
+                        END) SEPARATOR ',_') as bahan,
+                        GROUP_CONCAT(wo_list.qty SEPARATOR ',_') as qty,
+                        GROUP_CONCAT(wo_list.satuan SEPARATOR ',_') as satuan
+                    FROM
+                        wo_list
+                    LEFT JOIN 
+                        (select barang.id_barang, barang.nama_barang from barang) barang
+                    ON
+                        wo_list.ID_Bahan = barang.id_barang 
+                    WHERE
+                        wo_list.status != 'deleted' and
+                        LEFT( wo_list.date_create, 10 )>='2020-05-26' and 
+                        LEFT( wo_list.date_create, 10 )<='2020-05-28'
+                    GROUP BY
+                        wo_list.wo_color,
+                        wo_list.kode,
+                        LEFT(wo_list.date_create,10)
+                ) test
+            GROUP BY
+                test.Tanggal
+        ";
+
+        $result = $conn_OOP -> query($sql);
+        if ($result->num_rows > 0) :
+            while ($row = $result->fetch_assoc()) :
+                $Kode           = explode("," , "$row[Kode]");
+                $Kode_barang    = explode("," , "$row[Kode_barang]");
+                $wo_color       = explode("," , "$row[wo_color]");
+                $ukuran         = explode("*_*" , "$row[ukuran]");
+                $id             = explode("*_*" , "$row[id]");
+                $so             = explode("*_*" , "$row[so]");
+                $client         = explode("*_*" , "$row[client]");
+                $project        = explode("*_*" , "$row[project]");
+                $bahan          = explode("*_*" , "$row[bahan]");
+                $qty            = explode("*_*" , "$row[qty]");
+                $satuan         = explode("*_*" , "$row[satuan]");
+
+
+                $X_ukuran         = explode(",_" , "$row[ukuran]");
+                $X_id             = explode(",_" , "$row[id]");
+                $X_so             = explode(",_" , "$row[so]");
+                $X_client         = explode(",_" , "$row[client]");
+                $X_project        = explode(",_" , "$row[project]");
+                $X_bahan          = explode(",_" , "$row[bahan]");
+                $X_qty            = explode(",_" , "$row[qty]");
+                $X_satuan         = explode(",_" , "$row[satuan]");
+
+                $count_Kode     = count($Kode);
+                $count_id       = count($X_id);
         ?>
+        
         <div id='container'>
             <div id='wo_list_title'>
-                <h3><?= $title ?></h3>
+                <h3>Daily Report, Tanggal <?= date("d M Y",strtotime($row['Tanggal'])) ?></h3>
             </div>
-            <div id='wo_list_table'>
-                <h5>Digital A3+ Warna WO Kuning</h5>
-                <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>SO</th>
-                        <th>Client + Project</th>
-                        <th>Bahan</th>
-                        <th>Qty A3</th>
-                        <th>PO Cek</th>
-                    </tr>
-                    <tr>
-                        <td>145214</td>
-                        <td>200519018</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec Matte</td>
-                        <td>2 Lembar</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>145218</td>
-                        <td>200520006</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec</td>
-                        <td>5 Lembar</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>145218</td>
-                        <td>200520006</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec</td>
-                        <td>5 Lembar</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>145218</td>
-                        <td>200520006</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec</td>
-                        <td>5 Lembar</td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div id='wo_list_table'>
-                <h5>Digital A3+ Warna WO Kuning</h5>
-                <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>SO</th>
-                        <th>Client + Project</th>
-                        <th>Bahan</th>
-                        <th>Qty A3</th>
-                        <th>PO Cek</th>
-                    </tr>
-                    <tr>
-                        <td>145214</td>
-                        <td>200519018</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec Matte</td>
-                        <td>2 Lembar</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>145218</td>
-                        <td>200520006</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec</td>
-                        <td>5 Lembar</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>145218</td>
-                        <td>200520006</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec</td>
-                        <td>5 Lembar</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>145218</td>
-                        <td>200520006</td>
-                        <td>Cust Cash jefry - Stiker Mangan</td>
-                        <td>Stiker PVC Quantec</td>
-                        <td>5 Lembar</td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
+
+            <?php
+                for($i=0; $i<$count_Kode ;$i++) {
+                    if($Kode[$i]=="large format" || $Kode[$i]=="indoor" || $Kode[$i]=="Xuli") {
+                        $table_th = "<th>Ukuran</th>";
+                    }  else {
+                        $table_th = "";
+                    }
+
+                    echo "
+                        <div id='wo_list_table'>
+                            <h5>$Kode_barang[$i] Warna WO <u>$wo_color[$i]</u></h5>
+                            <table>
+                                <tr>
+                                    <th style='5%'>ID</th>
+                                    <th style='8%'>SO</th>
+                                    <th style='47%'>Client + Project</th>
+                                    <th style='10%'>Bahan</th>
+                                    $table_th
+                                    <th style='10%'>Qty A3</th>
+                                    <th>PO Cek</th>
+                                </tr>
+                                ";
+
+                                for($n=0; $n<$count_id ;$n++) {
+                                    echo "
+                                    <tr>
+                                        <td>$X_id[$n]</td>
+                                        <td>$X_so[$n]</td>
+                                        <td>$X_client[$n] - $X_project[$n]</td>
+                                        <td>$X_bahan[$n]</td>";
+                                    if($Kode[$i]=="large format" || $Kode[$i]=="indoor" || $Kode[$i]=="Xuli") {
+                                        echo "<td>$X_ukuran[$n]</td>";
+                                    } else {
+                                        echo "";
+                                    }
+
+                                    echo "
+                                        <td>$X_qty[$n] $X_satuan[$n]</td>
+                                        <td></td>
+                                    </tr>
+                                    ";
+                                }
+
+                                echo "
+                            </table>
+                        </div>
+                    ";
+                }
+            ?>
+
             <div class='wo_list_info'>
                 <span>
                     <p>
-                        @YPM : <br>
+                        <strong>@YPM : </strong><br>
                         <ul>
-                            <li>Bon / Invoice untuk SO dalam list ini harap diterima paling lambat besok pagi</li>
-                            <li>Jika ada satu / dua item Bon / Invoice yang belum memungkinkan dibuyka dapat dipending ke hari berikutnya</li>
+                            <li>Bon / Invoice untuk SO dalam list ini harap diterima paling lambat besok pagi.</li>
+                            <li>Jika ada satu / dua item Bon / Invoice yang belum memungkinkan dibuka dapat dipending ke hari berikutnya.</li>
                         </ul>
                     </p>
                 </span>
             </div>
+
+            <div class="footer">
+                <div class="column">
+                    <span>
+                        <p>
+                        Disiapkan oleh
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        ___________________
+                        </p>
+                    </span>
+                </div>
+                <div class="column">
+                    <span>
+                        <p>
+                        Diketahui oleh
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        ___________________
+                        </p>
+                    </span>
+                </div>
+            </div>
         </div>
         <?php
+            endwhile;
+        endif;
     else :
         header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
         exit();

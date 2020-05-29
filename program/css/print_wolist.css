@@ -55,6 +55,16 @@
     padding : 7px;
 }
 
-#container .wo_list_info {
-    
+#container .footer {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+
+#container .footer .column {
+    font-weight: bold;
+    flex: 50%;
+    align-items: center;
+    text-align: center;
 }

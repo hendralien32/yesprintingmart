@@ -67,7 +67,7 @@
     
     <script src="js/script.js"></script>
     <link rel="stylesheet" type="text/css" src="css/Font-Awesome-master/css/all.css">
-    <script defer src="css/Font-Awesome-master/js/all.js"></script>
+    <script data-search-pseudo-elements defer src="css/Font-Awesome-master/js/all.js"></script>
     <link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <script src="js/Plugin/moment-with-locales.js"></script>
     <script src="js/Plugin/moment-timezone-with-data.js"></script>

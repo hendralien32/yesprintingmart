@@ -2,20 +2,22 @@
     session_start();
     require_once '../../function.php';
 
-    if($_POST['data'] != '' ) :
-        $Add_Search = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%' or penjualan.so_yes LIKE '%$_POST[data]%')";
-    else :
-        $Add_Search = "";
-    endif;
+    if($_POST['search']!="") {
+        $add_where = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%' or penjualan.so_yes LIKE '%$_POST[data]%')";
+    } else {
+        if($_POST['Dari_Tanggal']!="" and $_POST['Ke_Tanggal']!="") :
+            $add_where="and (LEFT( penjualan.waktu, 10 )>='$_POST[Dari_Tanggal]' and LEFT( penjualan.waktu, 10 )<='$_POST[Ke_Tanggal]')";
+        elseif($_POST['Dari_Tanggal']!="" and $_POST['Ke_Tanggal']=="") :
+            $add_where="and (LEFT( penjualan.waktu, 10 )='$_POST[Dari_Tanggal]')";
+        elseif($_POST['Dari_Tanggal']=="" and $_POST['Ke_Tanggal']!="") :
+            $add_where="and (LEFT( penjualan.waktu, 10 )='$_POST[Ke_Tanggal]')";
+        else :
+            $add_where = "";
+        endif;
+    }
 
-    if($_POST['date'] != '' ) :
-        $Add_date = "and LEFT( penjualan.waktu, 10 ) = '$_POST[date]'";
-    else :
-        $Add_date = "";
-    endif;
-
-    $cari_keyword = $_POST['data'];
-    $bold_cari_keyword = "<strong style='text-decoration:underline'>".$_POST['data']."</strong>";
+    $cari_keyword = $_POST['search'];
+    $bold_cari_keyword = "<strong style='text-decoration:underline'>".$_POST['search']."</strong>";
 
 ?>
 
@@ -109,8 +111,7 @@
             penjualan.oid != '' and
             penjualan.client = '1' and 
             penjualan.cancel != 'Y'
-            $Add_date
-            $Add_Search
+            $add_where
         order by
             penjualan.oid
         desc

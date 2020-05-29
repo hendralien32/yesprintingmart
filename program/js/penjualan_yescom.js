@@ -1,6 +1,14 @@
 $(document).ready(function() {
 
-    $('#tanggal').keyup(function(e) { 
+    $('#dari_tanggal').keyup(function(e) { 
+        if (e.keyCode == 13) { // Enter keycode
+            $('#loader').show();
+            onload();
+            return false;
+        }
+    });
+
+    $('#ke_tanggal').keyup(function(e) { 
         if (e.keyCode == 13) { // Enter keycode
             $('#loader').show();
             onload();
@@ -18,14 +26,21 @@ $( item ).autocomplete({
 function onload() {
     $('#loader').show();
     var search              = $('#search_data').val();
-    var Tanggal             = $('#tanggal').val();
-    var show_delete;        if($('#Check_box').prop("checked") == true) { show_delete = "deleted"; } else { show_delete = ""; }
+    var Dari_Tanggal        = $('#dari_tanggal').val();
+    var Ke_Tanggal          = $('#ke_tanggal').val();
+
+    var fdata = new FormData()
+    fdata.append("search",search);
+    fdata.append("Dari_Tanggal",Dari_Tanggal);
+    fdata.append("Ke_Tanggal", Ke_Tanggal);
 
     $.ajax({
         type: "POST",
-        data: {data:search, date:Tanggal, show_delete:show_delete},
         url: "Ajax/penjualan_yescom_ajax.php",
         cache: false,
+		processData : false,
+		contentType : false,
+        data: fdata,
         success: function(data){
             $('#loader').hide();
             $("#list_PenjualanYes").html(data);
@@ -37,7 +52,23 @@ function onload() {
     });
 }
 
-function SearchDate() {
+function SearchFrom() {
+    $('#search').val("");
+
+    var dari_tanggal = $('#dari_tanggal').val();
+    var All_Element =  ["ke_tanggal", "Check_box"];
+    
+    for (i = 0; i < All_Element.length; i++) {
+        $('#'+All_Element[i]+'').prop("disabled", false);
+        $('#'+All_Element[i]+'').prop("readonly", false);
+    }
+
+    $('#ke_tanggal').attr('min' , dari_tanggal);
+    $('#loader').show();
+    onload();
+}
+
+function SearchTo() {
     $('#loader').show();
     onload();
 }
@@ -482,4 +513,11 @@ function acc_progress(status,id) {
             }
         }); 
     }
+}
+
+function print_report() {
+    var dari_tanggal          = $('#dari_tanggal').val();
+    var ke_tanggal          = $('#ke_tanggal').val();
+
+    window.open('print_WOList_report.php?Status_Print=print_invoice&dari_tgl='+ dari_tanggal + '&ke_tgl=' + ke_tanggal, '_blank');
 }

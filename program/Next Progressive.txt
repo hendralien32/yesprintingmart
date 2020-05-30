@@ -54,6 +54,7 @@ Next Progressive
 
 * Fix Bug Nilai Finishing pada Invoice Sales Yesprinting [SOLVED]
 * Biaya Finishing ditambahakan di large format dan indoor dan Latex [SOLVED]
+* Fix Bug Form Setter & Invoice [SOLVED]
 
 * Laporan Penjualan
    - penjualan Yesprintingmart
@@ -78,16 +79,18 @@ Next Progressive
       ` Delete --> Bug Saat Submit Delete tidak mau refresh Page [SOLVED]
       ` Generator --> Bug Nama Bahan Tidak ada [SOLVED] 
          * Time Generate [SOLVED]
+      ` Print Daily Report WO List  [SOLVED]
 
 * Penjualan Yescom
    - Generator Input Form Yescom [SOLVED]
    - List Penjualan Yescom [SOLVED]
    - Hapus Penjualan YESCOM [SOLVED]
    - Edit Order Penjualan Yescom [SOLVED]
-      ` SubForm Untuk Detail ID Yescom
       ` Show Form saat order edit Lock [SOLVED]
+      ` SubForm Untuk Detail ID Yescom
    - Create Invoice Yescom
-   - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart
+   - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart [SOLVED]
+   - Print Yescom Daily Invoice [SOLVED]
    
 * Digital Printing
    - Order List Digital Printing

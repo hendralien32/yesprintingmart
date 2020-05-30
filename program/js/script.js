@@ -113,6 +113,10 @@ function LaodForm(id,nid,Akses_Edit) {
             } else if ( id == "penjualan_yescom"  || id == "WO_List_yescom") {
                 ChangeKodeBrg();
                 Check_KertasSendiri();
+                if ( id == "penjualan_yescom" ) {
+                    validasi('bahan');
+                    AksesEdit();
+                }
             }
 
         }

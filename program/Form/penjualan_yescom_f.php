@@ -68,7 +68,10 @@
                     penjualan.Shipto_YES,
                     penjualan.Proffing,
                     penjualan.ditunggu,
-                    barang.nama_barang,
+                    (CASE
+                        WHEN penjualan.ID_Bahan = '0' THEN penjualan.bahan
+                        ELSE barang.nama_barang
+                    END) as nama_barang,
                     penjualan.b_digital,
                     penjualan.b_lain,
                     penjualan.b_potong,
@@ -77,7 +80,8 @@
                     penjualan.b_xbanner,
                     penjualan.b_kotak,
                     penjualan.b_laminate,
-                    penjualan.bahan_sendiri
+                    penjualan.bahan_sendiri,
+                    penjualan.akses_edit
                 FROM
                     penjualan
                 LEFT JOIN 
@@ -150,6 +154,7 @@
             if($row['b_laminate']!="") { $b_laminate = "$row[b_laminate]"; } else { $b_laminate = "0"; }
             $Invoice_Number = "$row[Invoice_Number]";
             $bahan_sendiri = "$row[bahan_sendiri]";
+            if($row['akses_edit']=="Y") { $akses_edit = "checked"; } else { $akses_edit = ""; }
         } else {
             $kode = "";
             $jenis_wo = "";
@@ -205,6 +210,7 @@
             $b_laminate ="0";
             $Invoice_Number = "";
             $bahan_sendiri = "";
+            $akses_edit = "";
         }
 
         ?>
@@ -215,6 +221,7 @@
             <div class="col-6">
                 <input type="hidden" id="id_Order" value="<?= $ID_Order ?>">
                 <input type="hidden" id="no_invoice" value="<?= $Invoice_Number ?>">
+                <input type="hidden" id="level_user" value="<?= $_SESSION['level'] ; ?>">
                 <table class='table-form'>
                     <tr>
                         <td style='width:150px;'>Kode Barang</td>
@@ -299,7 +306,7 @@
             <div class="col-6">
                 <table class='table-form'>
                     <tr>
-                        <td>WO</td>
+                        <td>WO - Warna</td>
                         <td colspan="3">
                             <select class="myselect" id="wo_yescom">
                                 <?php
@@ -309,6 +316,19 @@
                                     );
                                     foreach($array_kode as $kode => $kd) {
                                         if($kode == $jenis_wo) { $selected = "selected"; } else { $selected = ""; }
+                                        echo "<option value='$kode' $selected>$kd</option>";
+                                    }
+                                ?>
+                            </select>
+                             - 
+                            <select class="myselect" id="warna_cetakan">
+                                <?php
+                                    $array_kode = array(
+                                        "FC" => "Fullcolor",
+                                        "BW" => "Grayscale"
+                                    );
+                                    foreach($array_kode as $kode => $kd) {
+                                        if($kode == $warna_cetak) { $selected = "selected"; } else { $selected = ""; }
                                         echo "<option value='$kode' $selected>$kd</option>";
                                     }
                                 ?>
@@ -329,23 +349,6 @@
                     <tr>
                         <td>Qty WO</td>
                         <td colspan="3"><input type='text' class='form md' readonly disabled value="<?= $qty_jadi ?>" id="qty_yescom"></td>
-                    </tr>
-                    <tr>
-                        <td>Warna</td>
-                        <td colspan="3">
-                            <select class="myselect" id="warna_cetakan">
-                                <?php
-                                    $array_kode = array(
-                                        "FC" => "Fullcolor",
-                                        "BW" => "Grayscale"
-                                    );
-                                    foreach($array_kode as $kode => $kd) {
-                                        if($kode == $warna_cetak) { $selected = "selected"; } else { $selected = ""; }
-                                        echo "<option value='$kode' $selected>$kd</option>";
-                                    }
-                                ?>
-                            </select>
-                        </td>
                     </tr>
                     <tr>
                         <td>Laminating</td>
@@ -454,6 +457,21 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td>Admin Menu</td>
+                        <td>
+                            <div class="contact100-form-checkbox">
+                                <input class="input-checkbox100" id="Auto_Calc" type="checkbox" name="remember" onclick="AksesEdit()" <?php if($_SESSION["level"] != "admin") { echo "Disabled"; } else { }?> >
+                                <label class="label-checkbox100" for="Auto_Calc"> Auto Calc </label>
+                            </div>
+                        </td>
+                        <td colspan="2" >
+                            <div class="contact100-form-checkbox">
+                                <input class="input-checkbox100" id="akses_edit" type="checkbox" name="remember" onclick="AksesEdit()" <?php if($_SESSION["level"] != "admin") { echo "Disabled "; } else { }  echo "$akses_edit"; ?> >
+                                <label class="label-checkbox100" for="akses_edit"> Akses Edit</label>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </div>                        
         </div>
@@ -465,6 +483,14 @@
                         <td style='width:150px;'>Biaya Digital</td>
                         <td><input id="b_digital" type='number' class='form ld' value="<?= $b_digital; ?>"></td>
                     </tr>
+                    <tr class='b_large'>
+                        <td style='width:150px;'>Biaya Large Format</td>
+                        <td><input id="b_large" type='number' class='form ld' value="<?= $b_large; ?>"></td>
+                    </tr>
+                    <tr class='b_indoor'>
+                        <td style='width:150px;'>Biaya Indoor</td>
+                        <td><input id="b_indoor" type='number' class='form ld' value="<?= $b_indoor; ?>"></td>
+                    </tr>
                     <tr class='b_lain'>
                         <td style='width:150px;'>Biaya Lain</td>
                         <td><input id="b_lain" type='number' class='form ld' value="<?= $b_lain; ?>"></td>
@@ -472,14 +498,6 @@
                     <tr class='b_finishing'>
                         <td style='width:150px;'>Biaya Finishing</td>
                         <td><input id="b_finishing" type='number' class='form ld' value="<?= $b_potong; ?>"></td>
-                    </tr>
-                    <tr class='b_lf'>
-                        <td style='width:150px;'>Biaya Large Format</td>
-                        <td><input id="b_large" type='number' class='form ld' value="<?= $b_large; ?>"></td>
-                    </tr>
-                    <tr class='b_indoor'>
-                        <td style='width:150px;'>Biaya Indoor</td>
-                        <td><input id="b_indoor" type='number' class='form ld' value="<?= $b_indoor; ?>"></td>
                     </tr>
                     <tr class='b_xbanner'>
                         <td style='width:150px;'>Biaya Xbanner</td>
@@ -494,7 +512,7 @@
                         <td>Biaya Kotak</td>
                         <td><input id="b_kotak" type='number' class='form ld' value="<?= $b_kotak; ?>"></td>
                     </tr>
-                    <tr class='b_laminating'>
+                    <tr class='b_laminate'>
                         <td>Biaya Laminating</td>
                         <td><input id="b_laminate" type='number' class='form ld' value="<?= $b_laminate; ?>"></td>
                     </tr>

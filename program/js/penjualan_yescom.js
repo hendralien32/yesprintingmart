@@ -165,17 +165,17 @@ function ChangeKodeBrg() {
 
     var All_Element =  ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "laminating_floor", "KotakNC", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "CuttingSticker"];
 
-    var digital_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi"];
-    var digital_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "Hekter_Tengah", "Blok", "Ring_Spiral"];
+    var digital_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi", "b_digital", "b_finishing", "b_kotak", "b_laminate"];
+    var digital_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "Hekter_Tengah", "Blok", "Ring_Spiral", "b_lain", "b_large", "b_indoor", "b_xbanner"];
 
-    var etc_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "Hekter_Tengah",  "Blok", "Ring_Spiral"];
-    var etc_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi"];
+    var etc_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "Hekter_Tengah",  "Blok", "Ring_Spiral", "b_lain", "b_kotak", "b_laminate", "b_finishing"];
+    var etc_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi", "b_digital", "b_large", "b_indoor", "b_xbanner"];
 
-    var LF_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker"];
-    var LF_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral"];
+    var LF_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_finishing", "b_large", "b_xbanner", "b_finishing", "b_laminate"];
+    var LF_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_indoor", "b_digital", "b_lain", "b_kotak"];
 
-    var indoor_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker"];
-    var indoor_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral"];
+    var indoor_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_finishing", "b_indoor", "b_xbanner", "b_laminate"];
+    var indoor_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_digital", "b_lain",  "b_large", "b_kotak"];
 
     var i;
     
@@ -520,4 +520,65 @@ function print_report() {
     var ke_tanggal          = $('#ke_tanggal').val();
 
     window.open('print_WOList_report.php?Status_Print=print_invoice&dari_tgl='+ dari_tanggal + '&ke_tgl=' + ke_tanggal, '_blank');
+}
+
+function akses(a,ID_Order) {
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        data: {
+            ID_Order        : ID_Order,
+            jenis_akses     : a,
+            jenis_submit    : "Akses_Edit"
+        },
+        success: function(data){
+            onload();
+            return false;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
+}
+
+function AksesEdit() {
+    var kode_barang     = $('#kode_barng').val().split('.');
+    var level_user      = $('#level_user').val()
+    var AksesEdit;      if($('#akses_edit').prop("checked") == true) { AksesEdit = "Y"; } else { AksesEdit = "N"; }
+    var AutoCalc;       if($('#Auto_Calc').prop("checked") == true) { AutoCalc = "Y"; } else { AutoCalc = "N"; }
+    var Akses           = ["b_digital", "b_kotak", "b_finishing", "b_large", "b_indoor", "b_xbanner", "b_laminate"];
+
+    if(AksesEdit === "Y") {
+        for (i = 0; i < Akses.length; i++) {
+            if(level_user != "admin") {
+                $('#'+Akses[i]+'').prop("disabled", true);
+                $('#'+Akses[i]+'').prop("readonly", true);
+                $('#Auto_Calc').prop("checked", true);
+                $('#Auto_Calc').prop("disabled", true);
+            } else {
+                $('#'+Akses[i]+'').prop("disabled", false);
+                $('#'+Akses[i]+'').prop("readonly", false);
+                if( kode_barang[0] == "offset" || kode_barang[0] == "etc") {
+                    $('#Auto_Calc').prop("checked", false);
+                    $('#Auto_Calc').prop("disabled", true);
+                } else {
+                    $('#Auto_Calc').prop("checked", false);
+                    $('#Auto_Calc').prop("disabled", true);
+                }
+            }
+        }  
+    } else {
+        for (i = 0; i < Akses.length; i++) {
+            $('#'+Akses[i]+'').prop("disabled", true);
+            $('#'+Akses[i]+'').prop("readonly", true);
+        }
+
+        if( kode_barang[0] == "offset" || kode_barang[0] == "etc") {
+            $('#Auto_Calc').prop("checked", false);
+            $('#Auto_Calc').prop("disabled", true);
+        } else {
+            $('#Auto_Calc').prop("checked", true);
+            $('#Auto_Calc').prop("disabled", false);
+        }
+    }
 }

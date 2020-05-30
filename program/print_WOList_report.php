@@ -18,9 +18,9 @@
         $title_add = "Yescom Daily Invoice";
 
         if($dari_tanggal!="" and $ke_tanggal!="") :
-            $Add_date="and (LEFT( penjualan.date_create, 10 )>='$dari_tanggal' and LEFT( penjualan.date_create, 10 )<='$ke_tanggal')";
+            $Add_date="and (LEFT( penjualan.invoice_date, 10 )>='$dari_tanggal' and LEFT( penjualan.invoice_date, 10 )<='$ke_tanggal')";
         else :
-            $Add_date = "and (LEFT( penjualan.date_create, 10 )='$dari_tanggal')";
+            $Add_date = "and (LEFT( penjualan.invoice_date, 10 )='$dari_tanggal')";
         endif;
     endif;
 
@@ -271,7 +271,7 @@
                     GROUP_CONCAT(penjualan_yes.test) as nilai_Total
                 FROM
                     (SELECT
-                        LEFT(penjualan.date_create,10) as Tanggal,
+                        LEFT(penjualan.invoice_date,10) as Tanggal,
                         penjualan.no_invoice,
                         penjualan.jenis_wo,
                         penjualan.kode,
@@ -308,13 +308,14 @@
                     ON
                         penjualan.ID_Bahan = barang.id_barang 
                     WHERE
+                        penjualan.client = '1' and
                         penjualan.status != 'deleted' and
                         ( penjualan.no_invoice != '' or penjualan.no_invoice != '0' ) 
                         $Add_date
                     GROUP BY
                         penjualan.no_invoice
                     ) penjualan_yes
-                WHERE
+                GROUP BY
                     penjualan_yes.Tanggal
             ";
 
@@ -347,11 +348,6 @@
 
                 <?php
                     for($i=0; $i<$count_Kode ;$i++) {
-                        if($Kode[$i]=="large format" || $Kode[$i]=="indoor" || $Kode[$i]=="Xuli") {
-                            $table_th = "<th>Ukuran</th>";
-                        }  else {
-                            $table_th = "";
-                        }
 
                         echo "
                             <div id='penjualan_YES_table'>
@@ -392,7 +388,7 @@
                                         $X_total            = explode(",_" , "$total[$i]");
 
                                         if($Kode[$i]=="large format" || $Kode[$i]=="indoor" || $Kode[$i]=="Xuli") {
-                                            $detail_Uk = "$X_ukuran[$n]";
+                                            $detail_Uk = "Uk. $X_ukuran[$n]";
                                         } else {
                                             $detail_Uk = "";
                                         }
@@ -402,11 +398,11 @@
                                             <td style='width:15px'></td>
                                             <td>$X_id[$n]</td>
                                             <td>$X_so[$n]</td>
-                                            <td style='width:425px'>$X_client[$n] - $X_project[$n] $detail_Uk</td>
-                                            <td>$X_bahan[$n]</td>
-                                            <td>$X_qty[$n] $X_satuan[$n]</td>
-                                            <td style='text-align:right'>". number_format($X_harga_satuan[$n]) ."</td>
-                                            <td style='text-align:right'>". number_format($X_total[$n]) ."</td>
+                                            <td style='width:455px'>$X_client[$n] - $X_project[$n] $detail_Uk</td>
+                                            <td style='width:125px'>$X_bahan[$n]</td>
+                                            <td style='width:75px'>$X_qty[$n] $X_satuan[$n]</td>
+                                            <td style='text-align:right; width:75px'>". number_format($X_harga_satuan[$n]) ."</td>
+                                            <td style='text-align:right; width:75px'>". number_format($X_total[$n]) ."</td>
                                         </tr>
                                         ";
                                         
@@ -419,9 +415,10 @@
                                     </tr>
                                 </table>
                             </div>
-                            <span class='penjualan_YES_cut_icon'></span><hr class='penjualan_YES_line_cut'>
                         ";
                     }
+                    
+                    echo "<span class='penjualan_YES_cut_icon'></span><hr class='penjualan_YES_line_cut'>";
                 ?>
 
             </div>

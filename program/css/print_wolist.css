@@ -58,7 +58,7 @@
 
 #container #wo_list_table table tr td, #container #wo_list_table table tr th {
     border:1px solid #aeaeae;
-    padding : 7px;
+    padding : 4px;
 }
 
 #container .wo_list_info p {
@@ -124,7 +124,7 @@
 }
 
 #container #penjualan_YES_table {
-    margin-bottom: 25px;
+    margin-bottom: 8px;
 }
 
 #container #penjualan_YES_table table {
@@ -144,17 +144,18 @@
 
 #container #penjualan_YES_table table tr td {
     border:1px solid #aeaeae;
-    padding : 7px;
+    padding : 4px;
 }
 
 #container hr.penjualan_YES_line_cut {
     width:91%;
     border-top: 1.2px dashed;
+    margin-top: 18px;
 }
 
 #container .penjualan_YES_cut_icon {
     position: absolute;
-    margin-top: -6px;
+    margin-top: 7px;
     margin-left: 35px;
 }
 

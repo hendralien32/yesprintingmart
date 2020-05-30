@@ -257,7 +257,10 @@
                     penjualan.lebar,
                     penjualan.sisi,
                     penjualan.ID_Bahan,
-                    Bahan.nama_barang,
+                    (CASE
+                        WHEN penjualan.ID_Bahan = '0' THEN penjualan.bahan
+                        ELSE Bahan.nama_barang
+                    END) as nama_barang,
                     penjualan.keterangan,
                     penjualan.qty,
                     penjualan.satuan,

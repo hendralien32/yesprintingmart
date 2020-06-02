@@ -71,7 +71,7 @@
                     $show_WO_Color
                 ORDER BY
                     wo_list.id
-                DESC
+                ASC
                 ";
                 $no = 0;
                 $result = $conn_OOP -> query($sql);

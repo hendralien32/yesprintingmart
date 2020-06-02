@@ -430,6 +430,7 @@ function submit(id) {
     var Ditunggu;           if($('#ditunggu').prop("checked") == true) { Ditunggu = "Y"; } else { Ditunggu = "N"; }
     var Qty                 = $('#qty').val();
     var Satuan              = $('#satuan').val();
+    var bahan_sendiri       = $('#bahan_sendiri').val();
 
     if(Laminating[1]== null) { deskripsi_Laminating = ""; } else { deskripsi_Laminating = Laminating[1]; }
     if(alat_tambahan[1]== null) { deskripsi_alat_tambahan = ""; } else { deskripsi_alat_tambahan = alat_tambahan[1]; }
@@ -447,6 +448,7 @@ function submit(id) {
     fdata.append("Sisi", Sisi);
     fdata.append("ID_Bahan", ID_Bahan);
     fdata.append("Nama_Bahan", Nama_Bahan);
+    fdata.append("bahan_sendiri", bahan_sendiri);
     fdata.append("Notes", Notes);
     fdata.append("Laminating", Laminating[0]);
     fdata.append("Desc_Laminating", deskripsi_Laminating);

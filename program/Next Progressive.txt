@@ -87,7 +87,7 @@ Next Progressive
    - Hapus Penjualan YESCOM [SOLVED]
    - Edit Order Penjualan Yescom [SOLVED]
       ` Show Form saat order edit Lock [SOLVED]
-      ` SubForm Untuk Detail ID Yescom
+      ` SubForm Untuk Detail ID Yescom [SOLVED]
    - Create Invoice Yescom
    - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart [SOLVED]
    - Print Yescom Daily Invoice [SOLVED]

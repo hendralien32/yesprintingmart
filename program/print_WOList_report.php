@@ -340,7 +340,7 @@
 
                     $count_Kode     = count($Kode);
                     $count_id       = count($id);
-        ?>
+            ?>
             <div id='container'>
                 <div id='penjualan_YES_title'>
                     <h3>Daily Invoice, Tanggal <?= date("d M Y",strtotime($row['Tanggal'])) ?></h3>
@@ -422,10 +422,11 @@
                 ?>
 
             </div>
-        <?php
+            <?php
                 endwhile;
             else :
-                echo "Error";
+                header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
+                exit();
             endif;
         }
     else :

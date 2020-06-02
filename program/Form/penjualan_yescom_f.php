@@ -245,7 +245,12 @@
                     </tr>
                     <tr>
                         <td style='width:150px;'>ID</td>
-                        <td><input type="text" id="id_yescom" value="<?= $id_yes ?>" class="form md"></td>
+                        <td>
+                            <input type="text" class='form sd' i id="id_yescom" value="<?= $id_yes ?>" class="form md">
+                            <?php
+                                echo "<span style='padding:5px 15px; background-color:#f76c35; cursor:pointer; color:white;margin-left:10px' onClick='LaodSubForm(\"Detail_YesID\",\"$_POST[ID_Order]\")'>View Detail</span>";
+                            ?>
+                        </td>
                     </tr>
                     <tr>
                         <td style='width:150px;'>Client</td>
@@ -595,6 +600,7 @@
                     ELSE '- - -'
                 END) as alat_tambahan,
                 (CASE
+                    
                     WHEN penjualan.bahan_sendiri != '' THEN CONCAT(' - ' ,penjualan.bahan_sendiri)
                     ELSE ''
                 END) as bahan_sendiri,
@@ -635,14 +641,20 @@
         if ($result->num_rows > 0) :
             $row = $result->fetch_assoc();
         else : endif;
-
-    ?>
-
+        ?>
         <div class="row">
             <div class="col-6">
                 <table class='table-form'>
                     <tr><td style='width:150px'>Kode Barang</td><td><?= $row['kode']; ?></td> </tr>
-                    <tr><td style='width:150px'>ID</td><td><?= ucwords($row['id_yes']); ?></td> </tr>
+                    <tr><td style='width:150px'>ID</td>
+                        <td>
+                            <?php
+                                echo "$row[id_yes]"; 
+                                $edit = "LaodSubForm(\"Detail_YesID\",\"". $row['oid'] ."\")";
+                            ?>
+                            <span style='padding:5px 15px; background-color:#f76c35; cursor:pointer; color:white;margin-left:10px' onclick='<?= $edit ?>'>View Detail</span>
+                        </td> 
+                    </tr>
                     <tr><td style='width:150px'>Client</td><td><?= ucwords($row['client_yes']); ?></td> </tr>
                     <tr><td style='width:150px'>Deskripsi</td><td><?= ucfirst($row['description']); ?></td> </tr>
                     <tr><td style='width:150px'>Ukuran</td><td><?= $row['ukuran']; ?></td> </tr>

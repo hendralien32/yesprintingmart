@@ -188,8 +188,8 @@
             <tr>
                 <td onclick='". $edit ."' class='pointer'>$no</td>
                 <td onclick='". $edit ."' class='pointer'>". date("d M Y",strtotime($d['tanggal'] ))."</td>
-                <td onclick='". $edit ."' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['id_yes']) ."</center></td>
-                <td onclick='". $edit ."' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['so_yes']) ."</center></td>
+                <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['id_yes']) ."</center></td>
+                <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['so_yes']) ."</center></td>
                 <td onclick='". $edit ."' class='pointer'><Center><span class='KodeProject ".$kode_class."'>". strtoupper($d['code']) ."</span></Center></td>
                 <td onclick='". $edit ."' class='pointer'><b style='color:$status;'>▐</b> $d[Nomor_Invoice] - <strong>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['client_yes']) ."</strong> - ". str_ireplace($cari_keyword,$bold_cari_keyword,$d['description']) ." $d[ukuran]</td>
                 <td>

@@ -411,7 +411,6 @@
                         
         if( mysqli_num_rows($result) === 1 ) {
             $row = mysqli_fetch_assoc($result);
-
             $arr_data['b_digital']= "$row[b_digital]";
             $arr_data['b_kotak']= "$row[b_kotak]";
             $arr_data['b_finishing']= "$row[b_potong]";
@@ -421,8 +420,9 @@
             $arr_data['b_laminate']= "$row[b_laminate]";
 
         }
-    
-        echo json_encode($arr_data);
+
+        echo "$sql_query";
+        // echo json_encode($arr_data);
     } elseif($tipe_validasi=="Auto_YesOrder_Data") {
         $sql =
         "SELECT 

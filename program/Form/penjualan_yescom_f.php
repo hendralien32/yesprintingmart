@@ -21,6 +21,7 @@
             $ID_Order = $_POST['ID_Order'];
             $sql = 
                 "SELECT
+                    penjualan.oid,
                     penjualan.kode,
                     penjualan.jenis_wo,
                     penjualan.send_by,
@@ -100,6 +101,7 @@
         }
 
         if(isset($row)) {
+            $oid = "$row[oid]";
             $kode_barang = "$row[kode]";
             $jenis_wo = "$row[jenis_wo]";
             $send_by = "$row[send_by]";
@@ -156,6 +158,7 @@
             $bahan_sendiri = "$row[bahan_sendiri]";
             if($row['akses_edit']=="Y") { $akses_edit = "checked"; } else { $akses_edit = ""; }
         } else {
+            $oid = "";
             $kode = "";
             $jenis_wo = "";
             $send_by = "";
@@ -219,7 +222,7 @@
 
         <div class="row">
             <div class="col-6">
-                <input type="hidden" id="id_Order" value="<?= $ID_Order ?>">
+                <input type="hidden" id="id_Order" value="<?= $oid ?>">
                 <input type="hidden" id="no_invoice" value="<?= $Invoice_Number ?>">
                 <input type="hidden" id="level_user" value="<?= $_SESSION['level'] ; ?>">
                 <table class='table-form'>
@@ -262,7 +265,7 @@
                     <tr><td style='width:150px;'>Ukuran</td>
                         <td>
                             <input type='text' class='form' id='ukuran' value='<?= $ukuran ?>'> 
-                            <span id="ukuran_LF"><input type='number' class='form sd' id='panjang' onkeyup="calc_meter()" value='<?= $panjang ?>'> x <input type='number' class='form sd' id='lebar' onkeyup="calc_meter()" value='<?= $lebar ?>'></span><span id="perhitungan_meter"></span>
+                            <span id="ukuran_LF"><input type='number' class='form sd' id='panjang' onchange="autoCalc()" onkeyup="calc_meter()" value='<?= $panjang ?>'> x <input type='number' class='form sd' id='lebar' onchange="autoCalc()" onkeyup="calc_meter()" value='<?= $lebar ?>'></span><span id="perhitungan_meter"></span>
                         </td>
                     </tr>
                     <tr>
@@ -274,17 +277,17 @@
                                 else { $satu = "checked"; $dua = ""; }
                             ?>
                             <label class="sisi_radio">1 Sisi
-                                <input type="radio" name="radio" id="satu_sisi" value="1" <?= $satu ?>>
+                                <input type="radio" name="radio" id="satu_sisi" onchange="autoCalc()" value="1" <?= $satu ?>>
                                 <span class="checkmark"></span>
                             </label>
                             <label class="sisi_radio">2 Sisi
-                                <input type="radio" name="radio" id="dua_sisi" value="2" <?= $dua ?>>
+                                <input type="radio" name="radio" id="dua_sisi" onchange="autoCalc()" value="2" <?= $dua ?>>
                                 <span class="checkmark"></span>
                             </label>
                         </td>
                     </tr>
                     <tr><td style='width:150px;' rowspan="2">Bahan</td><td>
-                        <input type='text' class='form md'id="bahan" autocomplete="off" onkeyup="test('bahan')" value='<?= $nama_barang ?>' onChange="validasi('bahan'); Check_KertasSendiri();" >
+                        <input type='text' class='form md'id="bahan" autocomplete="off" onchange="autoCalc()" onkeyup="test('bahan')" value='<?= $nama_barang ?>' onChange="validasi('bahan'); Check_KertasSendiri();" >
                         <input type='text' id='id_bahan' class='form sd' value='<?= $ID_Bahan ?>' readonly disabled style="display:none">
                         <input type='text' id='validasi_bahan' class='form sd' value='<?= $validasi_bahan ?>' readonly disabled style="display:none">
                         <span id="Alert_Valbahan"></span>
@@ -294,8 +297,8 @@
                     <tr>
                         <td style='width:150px;'>Qty</td>
                         <td colspan="3">
-                            <input type='number' class='form sd' id="qty" value='<?= $qty ?>'>
-                            <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onkeyup="satuan_val()" value='<?= $satuan ?>'>
+                            <input type='number' class='form sd' id="qty" onchange="autoCalc()" value='<?= $qty ?>'>
+                            <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onchange="autoCalc()" onkeyup="satuan_val()" value='<?= $satuan ?>'>
                             <datalist id="list_satuan">
                                 <?php
                                     $array_kode = array( "Kotak", "Lembar", "Rim", "Blok", "Pcs" );
@@ -358,7 +361,7 @@
                     <tr>
                         <td>Laminating</td>
                         <td colspan="3">
-                            <select class="myselect" id="laminating">
+                            <select class="myselect" id="laminating" onchange="autoCalc()">
                                 <option value="">Pilih Laminating</option>
                                 <?php
                                     $array_kode = array(
@@ -382,7 +385,7 @@
                     <tr>
                         <td>Alat Tambahan</td>
                         <td colspan="3">
-                            <select class="myselect" id="alat_tambahan">
+                            <select class="myselect" id="alat_tambahan" onchange="autoCalc()">
                                 <option value="">Pilih Alat Tambahan</option>
                                 <?php
                                     $array_kode = array(
@@ -406,15 +409,15 @@
                         <td>Finishing</td>
                         <td style='vertical-align:top'>
                             <div class="contact100-form-checkbox Ptg_Pts">
-                                <input class="input-checkbox100" id="Ptg_Pts" type="checkbox" name="remember" <?= $potong ?>>
+                                <input class="input-checkbox100" id="Ptg_Pts" type="checkbox" name="remember" onchange="autoCalc()" <?= $potong ?>>
                                 <label class="label-checkbox100" for="Ptg_Pts"> Ptg Putus</label>
                             </div>
                             <div class="contact100-form-checkbox Ptg_Gantung">
-                                <input class="input-checkbox100" id="Ptg_Gantung" type="checkbox" name="remember" <?= $potong_gantung ?>>
+                                <input class="input-checkbox100" id="Ptg_Gantung" type="checkbox" name="remember" onchange="autoCalc()" <?= $potong_gantung ?>>
                                 <label class="label-checkbox100" for="Ptg_Gantung"> Ptg Gantung</label>
                             </div>
                             <div class="contact100-form-checkbox CuttingSticker">
-                                <input class="input-checkbox100" id="CuttingSticker" type="checkbox" name="remember" <?= $CuttingSticker ?>>
+                                <input class="input-checkbox100" id="CuttingSticker" type="checkbox" name="remember" onchange="autoCalc()" <?= $CuttingSticker ?>>
                                 <label class="label-checkbox100" for="CuttingSticker"> Cutting Sticker</label>
                             </div>
                             <div class="contact100-form-checkbox Hekter_Tengah">
@@ -424,11 +427,11 @@
                         </td>
                         <td style='vertical-align:top' colspan="2">
                             <div class="contact100-form-checkbox Pon_Garis">
-                                <input class="input-checkbox100" id="Pon_Garis" type="checkbox" name="remember" <?= $pon ?>>
+                                <input class="input-checkbox100" id="Pon_Garis" type="checkbox" name="remember" onchange="autoCalc()" <?= $pon ?>>
                                 <label class="label-checkbox100" for="Pon_Garis"> Pon Garis</label>
                             </div>
                             <div class="contact100-form-checkbox Perporasi">
-                                <input class="input-checkbox100" id="Perporasi" type="checkbox" name="remember" <?= $perporasi ?>>
+                                <input class="input-checkbox100" id="Perporasi" type="checkbox" name="remember" onchange="autoCalc()" <?= $perporasi ?>>
                                 <label class="label-checkbox100" for="Perporasi"> Perporasi</label>
                             </div>
                             <div class="contact100-form-checkbox Blok">
@@ -806,3 +809,5 @@
     <?php }
 
     endif; ?>
+
+    <div id='result'></div>

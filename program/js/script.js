@@ -106,7 +106,7 @@ function LaodForm(id,nid,Akses_Edit) {
                 }
             } else if( id == "setter_penjualan_cancel" ) { 
                 $("#alasan_cancel").focus();
-            } else if( id == "setter_penjualan_invoice" || id == "pelunasan_Multi_invoice" ) {
+            } else if( id == "setter_penjualan_invoice" || id == "pelunasan_Multi_invoice" || id == "penjualan_invoice_yescom" ) {
                 outstandinglist();
             } else if( id == "database_pricelist") { 
                 ChangeKodeBrg();

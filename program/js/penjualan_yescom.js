@@ -582,3 +582,80 @@ function AksesEdit() {
         }
     }
 }
+
+function toggle(pilih) {
+    checkboxes = $('[name="option"]'); 
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+      checkboxes[i].checked = pilih.checked;
+    }
+}
+
+function outstandinglist() {
+    var InvoiceList_JenisWO_check = $('#InvoiceList_JenisWO_check').val();
+    var InvoiceList_Kode_check = $('#InvoiceList_Kode_check').val();
+    var no_invoice = $('#no_invoice').val();
+
+    $.ajax({
+        type: "POST",
+        data: {
+            no_invoice:no_invoice, 
+            InvoiceList_JenisWO_check:InvoiceList_JenisWO_check,
+            InvoiceList_Kode_check:InvoiceList_Kode_check,
+            status:'Invoice_YESCOM',
+        },
+        url: "Form/Outstanding_PenjualanInvoice_list.php",
+        success: function(data){
+            $("#outstandinglist").html(data);
+        }
+    });
+}
+
+function invoice_outstanding() {
+    var form_jenisWO = $('#form_jenisWO').val();
+    var form_Kode = $('#form_Kode').val().split(',');
+    
+    $('#InvoiceList_JenisWO_check').val(form_jenisWO);
+    $('#InvoiceList_Kode_check').val(form_Kode[0]);
+    $('#InvoiceList_Qty_check').val(form_Kode[1]);
+    outstandinglist();
+}
+
+function submitInvoice(type) {
+    var si  = $("#no_invoice").val();
+    var j   = $('#InvoiceList_Qty_check').val();
+    var x   = new Array ();
+    var y   = new Array ();
+    
+    for ( var i=1 ; i<=j ; i++) {
+		if ($('#cek_'+i).prop('checked')) {
+			y[i] = $('#cek_'+i).val();
+		} else {
+			x[i] = $('#cek_'+i).val();
+		}
+	}
+	var si_yes; si_yes = y.join();
+    var si_no; si_no = x.join();
+
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        data: {
+            idy             : si_yes, 
+            idx             : si_no,
+            no_invoice      : si,
+            jenis_submit    : type
+        },
+        beforeSend: function(){
+            $('.myinput').attr("disabled","disabled");
+        },
+        success: function(data){
+            // $("#Result").html(data);
+            hideBox();
+            onload();
+            return false;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        }
+    }); 
+}

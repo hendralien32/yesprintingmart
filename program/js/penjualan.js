@@ -30,7 +30,13 @@ function outstandinglist() {
 
     $.ajax({
         type: "POST",
-        data: {no_invoice:no_invoice, InvoiceList_setter_check:InvoiceList_setter_check, InvoiceList_client_check:InvoiceList_client_check, InvoiceList_Qty_check:InvoiceList_Qty_check},
+        data: {
+            no_invoice:no_invoice, 
+            InvoiceList_setter_check:InvoiceList_setter_check, 
+            InvoiceList_client_check:InvoiceList_client_check, 
+            InvoiceList_Qty_check:InvoiceList_Qty_check,
+            status:'Invoice_YPM',
+        },
         url: "Form/Outstanding_PenjualanInvoice_list.php",
         success: function(data){
             $("#outstandinglist").html(data);
@@ -656,7 +662,6 @@ function cancel(id) {
         }
     }); 
 }
-
 
 function submitInvoice(type) {
     var si  = $("#no_invoice").val();

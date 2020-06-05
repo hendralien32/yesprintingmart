@@ -56,6 +56,8 @@ Next Progressive
 * Biaya Finishing ditambahakan di large format dan indoor dan Latex [SOLVED]
 * Fix Bug Form Setter & Invoice [SOLVED]
 
+* Bug Di Sales Invoice Penjualan YPM
+
 * Laporan Penjualan
    - penjualan Yesprintingmart
    - Penjualan Yescom

@@ -1,44 +1,42 @@
 <?php
 
-    require_once "../../function.php";
+require_once "../../function.php";
 
-    $tipe_validasi = isset($_POST['tipe_validasi']) ? $_POST['tipe_validasi'] : ' ';
-    $term = isset($_POST['term']) ? $_POST['term'] : ' ';
-    
+$tipe_validasi = isset($_POST['tipe_validasi']) ? $_POST['tipe_validasi'] : ' ';
+$term = isset($_POST['term']) ? $_POST['term'] : ' ';
 
-    if($term!="" and $tipe_validasi=="autocomplete_client") {
 
-        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.no_telp FROM customer where customer.nama_client LIKE '%$_POST[term]%' and customer.status_client='A' LIMIT 15");
-        
-        if( mysqli_num_rows($result) > 0 ) {
-            while($row = mysqli_fetch_assoc($result)){
-                $json[] = $row;
-            }
-            echo json_encode($json);
+if ($term != "" and $tipe_validasi == "autocomplete_client") {
+
+    $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client, customer.no_telp FROM customer where customer.nama_client LIKE '%$_POST[term]%' and customer.status_client='A' LIMIT 15");
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $json[] = $row;
         }
-    } elseif ($term!="" and $tipe_validasi=="Search_client") {
-        $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client FROM customer where customer.nama_client = '$_POST[term]'");
+        echo json_encode($json);
+    }
+} elseif ($term != "" and $tipe_validasi == "Search_client") {
+    $result = mysqli_query($conn, "SELECT customer.cid, customer.nama_client FROM customer where customer.nama_client = '$_POST[term]'");
 
-        $row = mysqli_fetch_assoc($result);
-        
-        echo mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
 
-    } elseif ($term!="" and $tipe_validasi=="Search_username") {
-        $result = mysqli_query($conn, "SELECT pm_user.uid, pm_user.username FROM pm_user where pm_user.username = '$_POST[term]'");
+    echo mysqli_num_rows($result);
+} elseif ($term != "" and $tipe_validasi == "Search_username") {
+    $result = mysqli_query($conn, "SELECT pm_user.uid, pm_user.username FROM pm_user where pm_user.username = '$_POST[term]'");
 
-        $row = mysqli_fetch_assoc($result);
-        
-        echo mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
 
-    } elseif ($term!="" and $tipe_validasi=="Search_bahan") {
-        $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang = '$_POST[term]'");
+    echo mysqli_num_rows($result);
+} elseif ($term != "" and $tipe_validasi == "Search_bahan") {
+    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang = '$_POST[term]'");
 
-        $row = mysqli_fetch_assoc($result);
-        
-        echo mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
 
-    }  elseif ($term!="" and $tipe_validasi=="Search_bahanFC") {
-        $result = mysqli_query($conn, 
+    echo mysqli_num_rows($result);
+} elseif ($term != "" and $tipe_validasi == "Search_bahanFC") {
+    $result = mysqli_query(
+        $conn,
         "SELECT 
             pricelist.price_id,
             barang.nama_barang 
@@ -59,90 +57,90 @@
             pricelist.sisi = '$_POST[Sisi]' and 
             pricelist.warna = '$_POST[Warna]' and 
             pricelist.jenis = '$_POST[kode_barng]'
-        ");
+        "
+    );
 
-        $row = mysqli_fetch_assoc($result);
-        
-        echo mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
 
-    } elseif($term!="" and $tipe_validasi=="autocomplete_BahanDigital") {
-        $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
-        
-        if( mysqli_num_rows($result) > 0 ) {
-            while($row = mysqli_fetch_assoc($result)){
-                $json[] = $row;
-            }
-            echo json_encode($json);
+    echo mysqli_num_rows($result);
+} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
+    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $json[] = $row;
         }
-    } elseif($term!="" and $tipe_validasi=="autocomplete_BahanLF") {
-        $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='LF' ORDER BY barang.nama_barang LIMIT 15");
-        
-        if( mysqli_num_rows($result) > 0 ) {
-            while($row = mysqli_fetch_assoc($result)){
-                $json[] = $row;
-            }
-            echo json_encode($json);
+        echo json_encode($json);
+    }
+} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanLF") {
+    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='LF' ORDER BY barang.nama_barang LIMIT 15");
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $json[] = $row;
         }
-    } elseif($tipe_validasi=="AutoCalc_Price") {
-        if($_POST['Kode_Brg'] == "large format" or $_POST['Kode_Brg'] == "indoor" or $_POST['Kode_Brg'] == "Xuli") :
-            $ukuran  = (($_POST['Panjang'] * $_POST['Lebar'])/10000);
-            $qty = ($ukuran * $_POST['Qty']);
-        else :
-            $ukuran = 0;
-            $qty = $_POST['Qty'];
-        endif;
+        echo json_encode($json);
+    }
+} elseif ($tipe_validasi == "AutoCalc_Price") {
+    if ($_POST['Kode_Brg'] == "large format" or $_POST['Kode_Brg'] == "indoor" or $_POST['Kode_Brg'] == "Xuli") :
+        $ukuran  = (($_POST['Panjang'] * $_POST['Lebar']) / 10000);
+        $qty = ($ukuran * $_POST['Qty']);
+    else :
+        $ukuran = 0;
+        $qty = $_POST['Qty'];
+    endif;
 
-        if($_POST['Laminating'] == "kilat1") : $Qty_Kilat = $_POST['Qty']*1;
-        elseif($_POST['Laminating'] == "kilat2") : $Qty_Kilat = $_POST['Qty']*2;
-        else : $Qty_Kilat = 0;
-        endif;
+    if ($_POST['Laminating'] == "kilat1") : $Qty_Kilat = $_POST['Qty'] * 1;
+    elseif ($_POST['Laminating'] == "kilat2") : $Qty_Kilat = $_POST['Qty'] * 2;
+    else : $Qty_Kilat = 0;
+    endif;
 
-        if($_POST['Laminating'] == "doff1") : $Qty_Doff = $_POST['Qty']*1;
-        elseif($_POST['Laminating'] == "doff2") : $Qty_Doff = $_POST['Qty']*2;
-        else : $Qty_Doff = 0;
-        endif;
+    if ($_POST['Laminating'] == "doff1") : $Qty_Doff = $_POST['Qty'] * 1;
+    elseif ($_POST['Laminating'] == "doff2") : $Qty_Doff = $_POST['Qty'] * 2;
+    else : $Qty_Doff = 0;
+    endif;
 
-        if($_POST['alat_tambahan'] == "KotakNC") : 
-            $ID_AT = 31;
-        elseif($_POST['alat_tambahan'] == "RU_60") : 
-            $ID_AT = 32;
-        elseif($_POST['alat_tambahan'] == "RU_80") : 
-            $ID_AT = 65;
-        elseif($_POST['alat_tambahan'] == "RU_85") : 
-            $ID_AT = 66;
-        elseif($_POST['alat_tambahan'] == "Tripod") : 
-            $ID_AT = 67;
-        elseif($_POST['alat_tambahan'] == "Ybanner") : 
-            $ID_AT = 68;
-        else :
-            $ID_AT = 0;
-        endif;
+    if ($_POST['alat_tambahan'] == "KotakNC") :
+        $ID_AT = 31;
+    elseif ($_POST['alat_tambahan'] == "RU_60") :
+        $ID_AT = 65;
+    elseif ($_POST['alat_tambahan'] == "RU_80") :
+        $ID_AT = 66;
+    elseif ($_POST['alat_tambahan'] == "RU_85") :
+        $ID_AT = 67;
+    elseif ($_POST['alat_tambahan'] == "Tripod") :
+        $ID_AT = 68;
+    elseif ($_POST['alat_tambahan'] == "Ybanner") :
+        $ID_AT = 32;
+    else :
+        $ID_AT = 0;
+    endif;
 
-        if($_POST['ID_CuttingStiker'] == "71") : $ID_CuttingStiker = 71;
-        else : $ID_CuttingStiker = 0;
-        endif;
-        
-        if($_POST['Ptg_Pts'] == "Y" && ( $_POST['Satuan'] == 'Lembar' || $_POST['Satuan'] == 'lembar' )) : $Ptg_Pts = 500;
-        elseif($_POST['Ptg_Pts'] == "Y" && ( $_POST['Satuan'] == 'Kotak' || $_POST['Satuan'] == 'kotak' )) : $Ptg_Pts = 2000;
-        else : $Ptg_Pts = 0;
-        endif;
+    if ($_POST['ID_CuttingStiker'] == "71") : $ID_CuttingStiker = 71;
+    else : $ID_CuttingStiker = 0;
+    endif;
 
-        if($_POST['Ptg_Gantung'] == "Y") : $Ptg_Gantung = 500;
-        else : $Ptg_Gantung = 0;
-        endif;
+    if ($_POST['Ptg_Pts'] == "Y" && ($_POST['Satuan'] == 'Lembar' || $_POST['Satuan'] == 'lembar')) : $Ptg_Pts = 500;
+    elseif ($_POST['Ptg_Pts'] == "Y" && ($_POST['Satuan'] == 'Kotak' || $_POST['Satuan'] == 'kotak')) : $Ptg_Pts = 2000;
+    else : $Ptg_Pts = 0;
+    endif;
 
-        if($_POST['Pon_Garis'] == "Y") : $Pon_Garis = 500;
-        else : $Pon_Garis = 0;
-        endif;
+    if ($_POST['Ptg_Gantung'] == "Y") : $Ptg_Gantung = 500;
+    else : $Ptg_Gantung = 0;
+    endif;
 
-        if($_POST['Perporasi'] == "Y") : $Perporasi = 500;
-        else : $Perporasi = 0;
-        endif;
+    if ($_POST['Pon_Garis'] == "Y") : $Pon_Garis = 500;
+    else : $Pon_Garis = 0;
+    endif;
 
-        $potong = $Ptg_Pts + $Ptg_Gantung + $Pon_Garis + $Perporasi;
-        
-        $sql_query =
-            "SELECT
+    if ($_POST['Perporasi'] == "Y") : $Perporasi = 500;
+    else : $Perporasi = 0;
+    endif;
+
+    $potong = $Ptg_Pts + $Ptg_Gantung + $Pon_Garis + $Perporasi;
+
+    $sql_query =
+        "SELECT
                 oid,
                 kode,
                 ID_Bahan_Order,
@@ -407,24 +405,23 @@
                     auto_check.ID_Cutting = Pricelist_Cutting.bahan and auto_check.kode = Pricelist_Cutting.jenis 
         ";
 
-        $result = mysqli_query($conn, $sql_query);
-                        
-        if( mysqli_num_rows($result) === 1 ) {
-            $row = mysqli_fetch_assoc($result);
-            $arr_data['b_digital']= "$row[b_digital]";
-            $arr_data['b_kotak']= "$row[b_kotak]";
-            $arr_data['b_finishing']= "$row[b_potong]";
-            $arr_data['b_large']= "$row[b_lf]";
-            $arr_data['b_indoor']= "$row[indoor]";
-            $arr_data['b_xbanner']= "$row[b_AlatTambahan]";
-            $arr_data['b_laminate']= "$row[b_laminate]";
+    $result = mysqli_query($conn, $sql_query);
 
-        }
+    if (mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        $arr_data['b_digital'] = round($row['b_digital']);
+        $arr_data['b_kotak'] = round($row['b_kotak']);
+        $arr_data['b_finishing'] = round($row['b_potong']);
+        $arr_data['b_large'] = round($row['b_lf']);
+        $arr_data['b_indoor'] = round($row['indoor']);
+        $arr_data['b_xbanner'] = round($row['b_AlatTambahan']);
+        $arr_data['b_laminate'] = round($row['b_laminate']);
+    }
 
-        echo "$sql_query";
-        // echo json_encode($arr_data);
-    } elseif($tipe_validasi=="Auto_YesOrder_Data") {
-        $sql =
+    // echo "$sql_query";
+    echo json_encode($arr_data);
+} elseif ($tipe_validasi == "Auto_YesOrder_Data") {
+    $sql =
         "SELECT 
             workorder.so,
             workorder.client,
@@ -456,21 +453,20 @@
         where 
             workorder.idorder = '$_POST[ID_YES]'
         ";
-        // $result = $conn_Server -> query($sql);
-        $result = $conn_OOP -> query($sql);
-        if ($result->num_rows > 0) :
-            while ($row = $result->fetch_assoc()) :
-                $arr_data['so']= "$row[so]";
-                $arr_data['client']= "$row[client]";
-                $arr_data['project']= "$row[project]";
-                $arr_data['ukuran']= "$row[ukuran]";
-                $arr_data['bahan']= "$row[bahan]";
-                $arr_data['sisi']= "$row[sisi]";
-                $arr_data['qty']= "$row[qty]";
-                $arr_data['ae']= "$row[ae]";
-                $arr_data['finishing']= "$row[finishing]";
-            endwhile;
-            echo json_encode($arr_data);
-        endif;
-    }
-?>  
+    // $result = $conn_Server -> query($sql);
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
+            $arr_data['so'] = "$row[so]";
+            $arr_data['client'] = "$row[client]";
+            $arr_data['project'] = "$row[project]";
+            $arr_data['ukuran'] = "$row[ukuran]";
+            $arr_data['bahan'] = "$row[bahan]";
+            $arr_data['sisi'] = "$row[sisi]";
+            $arr_data['qty'] = "$row[qty]";
+            $arr_data['ae'] = "$row[ae]";
+            $arr_data['finishing'] = "$row[finishing]";
+        endwhile;
+        echo json_encode($arr_data);
+    endif;
+}

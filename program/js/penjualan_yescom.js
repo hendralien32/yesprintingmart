@@ -732,13 +732,13 @@ function submitInvoice(type) {
             jenis_submit: type
         },
         beforeSend: function () {
-            $('.myinput').attr("disabled", "disabled");
+            // $('.myinput').attr("disabled", "disabled");
         },
         success: function (data) {
-            // $("#Result").html(data);
-            hideBox();
-            onload();
-            return false;
+            $("#Result").html(data);
+            // hideBox();
+            // onload();
+            // return false;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);

@@ -12,7 +12,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                 <tr>
                     <td style="width:140px">Jenis WO</td>
                     <td>
-                        <?php if ($_POST['Invoice_Number'] == "0") : ?>
+                        <?php if ($_POST['Invoice_Number'] == "") : ?>
                             <select id="form_jenisWO" onchange="invoice_outstanding('penjualan_invoice_yescom');">
                                 <option value=''>Pilih Jenis WO</option>
                                 <?php
@@ -65,7 +65,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                 <tr>
                     <td style="width:140px">Kode</td>
                     <td>
-                        <?php if ($_POST['Invoice_Number'] == "0") : ?>
+                        <?php if ($_POST['Invoice_Number'] == "") : ?>
                             <select id="form_Kode" onchange="invoice_outstanding();">
                                 <option value=''>Pilih Kode</option>
                                 <?php
@@ -221,7 +221,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
             ?>
         </table>
         <?php
-        if ($_POST['Invoice_Number'] == "0") :
+        if ($_POST['Invoice_Number'] == "") :
         ?>
             <center><input type="button" class="myinput" value="Create Yescom Invoice" onclick="submitInvoice('create_invoice')"></center>
         <?php
@@ -284,7 +284,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                 <tr>
                     <td>Client</td>
                     <td>
-                        <?php if ($Invoice_Number == "0") : ?>
+                        <?php if ($Invoice_Number == "") : ?>
                             <select class="myinput" id="form_client" onchange="invoice_outstanding();">
                                 <option value=''>Pilih nama client</option>
                                 <?php
@@ -343,7 +343,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                 <tr>
                     <td>Setter</td>
                     <td>
-                        <?php if ($Invoice_Number == "0") : ?>
+                        <?php if ($Invoice_Number == "") : ?>
                             <select class="myinput" id="form_setter" onchange="invoice_outstanding()">
                                 <option value=''>Pilih nama Setter</option>
                                 <?php
@@ -496,7 +496,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
             </tbody>
         </table>
         <?php
-        if ($Invoice_Number == "0") :
+        if ($Invoice_Number == "") :
         ?>
             <center><input type="button" class="myinput" value="Create Sales Invoice" onclick="submitInvoice('create_invoice')"></center>
         <?php
@@ -512,5 +512,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
     echo "Not Found 404";
 endif
 ?>
+
+<div id='result'></div>
 
 <?php $conn->close(); ?>

@@ -400,7 +400,7 @@ else :
                     <tr>
                         <td style='width:150px;'>Qty</td>
                         <td colspan="3">
-                            <input type='number' class='form sd' id="qty" onchange="autoCalc()" value='<?= $qty ?>'>
+                            <input type='number' class='form sd' id="qty" onkeyup="autoCalc()" value='<?= $qty ?>'>
                             <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onchange="autoCalc()" onkeyup="satuan_val()" value='<?= $satuan ?>'>
                             <datalist id="list_satuan">
                                 <?php

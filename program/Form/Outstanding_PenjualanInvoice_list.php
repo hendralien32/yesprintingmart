@@ -3,7 +3,7 @@ session_start();
 include '../../function.php';
 
 $status = isset($_POST['status']) ? $_POST['status'] : "";
-$Invoice_Number = isset($_POST['Invoice_Number']) ? $_POST['Invoice_Number'] : "0";
+$Invoice_Number = isset($_POST['Invoice_Number']) ? $_POST['Invoice_Number'] : "";
 
 if ($status == 'penjualan_invoice_yescom') : ?>
     <div class="row">
@@ -263,6 +263,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
         $Client = "$d[nama_client]";
         $Setter = "$d[nama]";
     else :
+        $id_Client = "";
         $Client = "0";
         $Setter = "$_SESSION[uid]";
     endif;

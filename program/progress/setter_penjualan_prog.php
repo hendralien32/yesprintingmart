@@ -628,7 +628,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as b_lf,
                 (CASE
@@ -636,7 +636,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as indoor,
                 (CASE
@@ -653,16 +653,16 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     ELSE '0'
                 END) as b_kotak,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 500 THEN 500_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 250 THEN 250_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 100 THEN 100_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 50 THEN 50_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 500 THEN 500_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 250 THEN 250_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 100 THEN 100_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 50 THEN 50_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                     ELSE '0'
                 END) as b_AlatTambahan,
                 (CASE
@@ -717,6 +717,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     penjualan.laminate,
                     ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
                     penjualan.qty AS test,
+                    barang.Qty_LF,
                     barang.qty,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
@@ -794,7 +795,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     (SELECT 
                         barang.id_barang,
                         barang.nama_barang,
-                        total_qty.qty,
+                        total_qty.Qty AS qty,
+                        total_qty.Qty_LF,
                         total_qty.sisi,
                         total_qty.satuan as Satuan_Order,
                         total_qty.ID_AT,
@@ -825,7 +827,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             (CASE
                                 WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN FORMAT(sum(((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)
                                 ELSE FORMAT(sum(penjualan.qty),0)
-                            END) AS Qty
+                            END) AS Qty,
+                            FORMAT(sum(penjualan.qty),0) as Qty_LF
                         FROM
                             penjualan
                         WHERE
@@ -1328,7 +1331,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             b_design         = '$_POST[b_design]',
             b_delivery       = '$_POST[b_delivery]',
             discount         = '$_POST[discount]',
-            akses_edit         = '$akses_edit',
+            akses_edit       = '$akses_edit',
             $mysql_FileValue
             $mysql_ImgValue
             history          =  CONCAT('$Final_log', history)
@@ -1341,6 +1344,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
     $sql_data =
         "SELECT
                 oid,
+                qty,
+                Qty_LF,
                 (CASE
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 500 THEN 500_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 250 THEN 250_lembar
@@ -1362,7 +1367,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as b_lf,
                 (CASE
@@ -1370,7 +1375,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as indoor,
                 (CASE
@@ -1387,16 +1392,16 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     ELSE '0'
                 END) as b_kotak,
                 (CASE
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 500 THEN 500_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 250 THEN 250_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 100 THEN 100_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 50 THEN 50_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
-                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 500 THEN 500_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 250 THEN 250_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 100 THEN 100_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 50 THEN 50_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
+                    WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                     ELSE '0'
                 END) as b_AlatTambahan,
                 (CASE
@@ -1404,7 +1409,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 10 THEN ( 10m_Cutting * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 3 THEN ( 3sd9m_Cutting * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 1 THEN ( 1sd2m_Cutting * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty < 1 THEN ( 1sd2m_Cutting / test )
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty < 1 THEN ( 1sd2m_Cutting / Qty_LF )
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 500 THEN 500_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 250 THEN 250_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 100 THEN 100_lembar_Cutting + potong
@@ -1451,7 +1456,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     penjualan.laminate,
                     ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
                     penjualan.qty AS test,
-                    barang.qty,
+                    barang.Qty as qty,
+                    barang.Qty_LF,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
                     pricelist.3sd5_lembar,
@@ -1528,7 +1534,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     (SELECT 
                         barang.id_barang,
                         barang.nama_barang,
-                        total_qty.qty,
+                        total_qty.Qty,
+                        total_qty.Qty_LF,
                         total_qty.sisi,
                         total_qty.satuan as Satuan_Order,
                         total_qty.ID_AT,
@@ -1559,7 +1566,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             (CASE
                                 WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN FORMAT(sum(((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)
                                 ELSE FORMAT(sum(penjualan.qty),0)
-                            END) AS Qty
+                            END) AS Qty,
+                            FORMAT(sum(penjualan.qty),0) as Qty_LF
                         FROM
                             penjualan
                         WHERE
@@ -1767,7 +1775,19 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
     if ($test != null) {
         $Final_log = "$log";
     } else {
-        $Final_log = "ERROR";
+        $Final_log = "when oid = $array[oid] then '
+            <tr>
+                <td>
+                    $timestamps
+                </td>
+                <td>
+                    " . $_SESSION['username'] . " Mengubah data
+                </td>
+                <td>
+                    ERROR
+                </td>
+            </tr>
+        '";
     }
 
     $reid = explode(",", "$oid");
@@ -4670,12 +4690,12 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
-    echo "New records created successfully. $sql";
+    echo "New records created successfully. $sql_data<br> <br> $sql";
 } else {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully. $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br>" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br> <br> $sql_data <br><br>" . mysqli_error($conn) . "</br>";
     }
 }
 

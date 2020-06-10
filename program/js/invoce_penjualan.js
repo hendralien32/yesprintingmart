@@ -1,49 +1,79 @@
-$(document).ready(function() {
-    $('#tanggal').keyup(function(e) { 
+$(document).ready(function () {
+    $('#tanggal').keyup(function (e) {
         if (e.keyCode == 13) { // Enter keycode
             $('#loader').show();
             onload();
             return false;
         }
     });
-    
+
     onload();
 });
 
-$( item ).autocomplete({
+$(item).autocomplete({
     selectFirst: true
 });
 
 function toggle(pilih) {
-    checkboxes = $('[name="option"]'); 
-    for(var i=0, n=checkboxes.length;i<n;i++) {
-      checkboxes[i].checked = pilih.checked;
+    checkboxes = $('[name="option"]');
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = pilih.checked;
     }
 }
 
 function autoCalc() {
-    var ID_Order        = $('#id_order').val();
-    var no_invoice      = $('#no_invoice').val();
-    var Kode_Brg        = $('#kode_barng').val().split('.');
-    var Panjang         = $('#panjang').val();
-    var Lebar           = $('#lebar').val();
-    var Sisi;           if($('#satu_sisi').prop("checked") == true) { Sisi = "1"; } else { Sisi = "2"; }
-    var ID_Bahan        = $('#id_bahan').val();
-    var Laminating      = $('#laminating').val().split('.');
-    var alat_tambahan   = $('#alat_tambahan').val().split('.');
-    var Ptg_Pts;        if($('#Ptg_Pts').prop("checked") == true) { Ptg_Pts = "Y"; } else { Ptg_Pts = "N"; }
-    var Ptg_Gantung;    if($('#Ptg_Gantung').prop("checked") == true) { Ptg_Gantung = "Y"; } else { Ptg_Gantung = "N"; }
-    var Pon_Garis;      if($('#Pon_Garis').prop("checked") == true) { Pon_Garis = "Y"; } else { Pon_Garis = "N"; }
-    var Perporasi;      if($('#Perporasi').prop("checked") == true) { Perporasi = "Y"; } else { Perporasi = "N"; }
-    var CuttingSticker; if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "71"; } else { CuttingSticker = ""; }
-    var Qty             = $('#qty').val();
-    var Satuan          = $('#satuan').val();
+    var ID_Order = $('#id_order').val();
+    var no_invoice = $('#no_invoice').val();
+    var Kode_Brg = $('#kode_barng').val().split('.');
+    var Panjang = $('#panjang').val();
+    var Lebar = $('#lebar').val();
+    var Sisi;
+    if ($('#satu_sisi').prop("checked") == true) {
+        Sisi = "1";
+    } else {
+        Sisi = "2";
+    }
+    var ID_Bahan = $('#id_bahan').val();
+    var Laminating = $('#laminating').val().split('.');
+    var alat_tambahan = $('#alat_tambahan').val().split('.');
+    var Ptg_Pts;
+    if ($('#Ptg_Pts').prop("checked") == true) {
+        Ptg_Pts = "Y";
+    } else {
+        Ptg_Pts = "N";
+    }
+    var Ptg_Gantung;
+    if ($('#Ptg_Gantung').prop("checked") == true) {
+        Ptg_Gantung = "Y";
+    } else {
+        Ptg_Gantung = "N";
+    }
+    var Pon_Garis;
+    if ($('#Pon_Garis').prop("checked") == true) {
+        Pon_Garis = "Y";
+    } else {
+        Pon_Garis = "N";
+    }
+    var Perporasi;
+    if ($('#Perporasi').prop("checked") == true) {
+        Perporasi = "Y";
+    } else {
+        Perporasi = "N";
+    }
+    var CuttingSticker;
+    if ($('#CuttingSticker').prop("checked") == true) {
+        CuttingSticker = "71";
+    } else {
+        CuttingSticker = "";
+    }
+    var Qty = $('#qty').val();
+    var Satuan = $('#satuan').val();
 
     var fdata = new FormData()
-    
+
     fdata.append("ID_Order", ID_Order);
     fdata.append("no_invoice", no_invoice);
-    fdata.append("Kode_Brg", Kode_Brg[0]); 
+    fdata.append("Kode_Brg", Kode_Brg[0]);
     fdata.append("Panjang", Panjang);
     fdata.append("Lebar", Lebar);
     fdata.append("Sisi", Sisi);
@@ -63,11 +93,11 @@ function autoCalc() {
         type: "POST",
         url: "progress/validasi_progress.php",
         cache: false,
-		processData : false,
-		contentType : false,
+        processData: false,
+        contentType: false,
         data: fdata,
-        success: function(data){
-            var obj=$.parseJSON(data);
+        success: function (data) {
+            var obj = $.parseJSON(data);
             $('#b_digital').val(obj.b_digital);
             $('#b_kotak').val(obj.b_kotak);
             $('#b_finishing').val(obj.b_finishing);
@@ -76,29 +106,29 @@ function autoCalc() {
             $('#b_xbanner').val(obj.b_xbanner);
             $('#b_laminate').val(obj.b_laminate);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
-function akses(a,ID_Order) {
+function akses(a, ID_Order) {
     $.ajax({
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         data: {
-            ID_Order        : ID_Order,
-            jenis_akses     : a,
-            jenis_submit    : "Akses_Edit"
+            ID_Order: ID_Order,
+            jenis_akses: a,
+            jenis_submit: "Akses_Edit"
         },
-        success: function(data){
+        success: function (data) {
             onload();
             return false;
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
 function force_paid(ID_Order) {
@@ -106,18 +136,18 @@ function force_paid(ID_Order) {
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         data: {
-            ID_Order        : ID_Order,
-            jenis_submit    : "force_paid"
+            ID_Order: ID_Order,
+            jenis_submit: "force_paid"
         },
-        success: function(data){
+        success: function (data) {
             alert("Status Pelunasan sudah LUNAS");
             onload();
             return false;
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
 function check_invoice(ID_Order, Sales) {
@@ -125,39 +155,49 @@ function check_invoice(ID_Order, Sales) {
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         data: {
-            ID_Order        : ID_Order,
-            jenis_submit    : "check_invoice"
+            ID_Order: ID_Order,
+            jenis_submit: "check_invoice"
         },
-        success: function(data){
+        success: function (data) {
             alert("Sales Invoice No # " + ID_Order + " Sudah di check oleh " + Sales);
             hideBox();
             onload();
             return false;
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
 function AksesEdit() {
     var kode_barang = $('#kode_barng').val().split('.');
     var level_user = $('#level_user').val()
-    var AksesEdit;        if($('#akses_edit').prop("checked") == true) { AksesEdit = "Y"; } else { AksesEdit = "N"; }
-    var AutoCalc;        if($('#Auto_Calc').prop("checked") == true) { AutoCalc = "Y"; } else { AutoCalc = "N"; }
+    var AksesEdit;
+    if ($('#akses_edit').prop("checked") == true) {
+        AksesEdit = "Y";
+    } else {
+        AksesEdit = "N";
+    }
+    var AutoCalc;
+    if ($('#Auto_Calc').prop("checked") == true) {
+        AutoCalc = "Y";
+    } else {
+        AutoCalc = "N";
+    }
     var Akses = ["b_digital", "b_kotak", "b_finishing", "b_large", "b_indoor", "b_xbanner", "b_laminate"];
 
-    if(AksesEdit === "Y") {
+    if (AksesEdit === "Y") {
         for (i = 0; i < Akses.length; i++) {
-            if(level_user != "admin") {
-                $('#'+Akses[i]+'').prop("disabled", true);
-                $('#'+Akses[i]+'').prop("readonly", true);
+            if (level_user != "admin") {
+                $('#' + Akses[i] + '').prop("disabled", true);
+                $('#' + Akses[i] + '').prop("readonly", true);
                 $('#Auto_Calc').prop("checked", true);
                 $('#Auto_Calc').prop("disabled", true);
             } else {
-                $('#'+Akses[i]+'').prop("disabled", false);
-                $('#'+Akses[i]+'').prop("readonly", false);
-                if( kode_barang[0] == "offset" || kode_barang[0] == "etc") {
+                $('#' + Akses[i] + '').prop("disabled", false);
+                $('#' + Akses[i] + '').prop("readonly", false);
+                if (kode_barang[0] == "offset" || kode_barang[0] == "etc") {
                     $('#Auto_Calc').prop("checked", false);
                     $('#Auto_Calc').prop("disabled", true);
                 } else {
@@ -165,14 +205,14 @@ function AksesEdit() {
                     $('#Auto_Calc').prop("disabled", true);
                 }
             }
-        }  
+        }
     } else {
         for (i = 0; i < Akses.length; i++) {
-            $('#'+Akses[i]+'').prop("disabled", true);
-            $('#'+Akses[i]+'').prop("readonly", true);
+            $('#' + Akses[i] + '').prop("disabled", true);
+            $('#' + Akses[i] + '').prop("readonly", true);
         }
 
-        if( kode_barang[0] == "offset" || kode_barang[0] == "etc") {
+        if (kode_barang[0] == "offset" || kode_barang[0] == "etc") {
             $('#Auto_Calc').prop("checked", false);
             $('#Auto_Calc').prop("disabled", true);
         } else {
@@ -182,7 +222,7 @@ function AksesEdit() {
     }
 }
 
-function outstandinglist() {
+function outstandinglist(id) {
     var InvoiceList_setter_check = $('#InvoiceList_setter_check').val();
     var InvoiceList_client_check = $('#InvoiceList_client_check').val();
     var InvoiceList_Qty_check = $('#InvoiceList_Qty_check').val();
@@ -190,9 +230,15 @@ function outstandinglist() {
 
     $.ajax({
         type: "POST",
-        data: {no_invoice:no_invoice, InvoiceList_setter_check:InvoiceList_setter_check, InvoiceList_client_check:InvoiceList_client_check, InvoiceList_Qty_check:InvoiceList_Qty_check},
+        data: {
+            no_invoice: no_invoice,
+            InvoiceList_setter_check: InvoiceList_setter_check,
+            InvoiceList_client_check: InvoiceList_client_check,
+            InvoiceList_Qty_check: InvoiceList_Qty_check,
+            status: id,
+        },
         url: "Form/Outstanding_PenjualanInvoice_list.php",
-        success: function(data){
+        success: function (data) {
             $("#outstandinglist").html(data);
         }
     });
@@ -201,20 +247,20 @@ function outstandinglist() {
 function invoice_outstanding() {
     var form_setter = $('#form_setter').val();
     var form_client = $('#form_client').val().split(',');
-    
+
     $('#InvoiceList_setter_check').val(form_setter);
     $('#InvoiceList_client_check').val(form_client[0]);
     $('#InvoiceList_Qty_check').val(form_client[1]);
-    outstandinglist();
+    outstandinglist("setter_penjualan_invoice");
 }
 
 function onload() {
     $('#loader').show();
-    var search      = $('#search').val();
-    var client      = $('#Search_Client').val();
-    var invoice     = $('#Search_Invoice').val();
-    var Tanggal     = $('#tanggal').val();
-    if( search == "" ) {
+    var search = $('#search').val();
+    var client = $('#Search_Client').val();
+    var invoice = $('#Search_Invoice').val();
+    var Tanggal = $('#tanggal').val();
+    if (search == "") {
         var display = "";
     } else {
         var display = "none";
@@ -222,9 +268,15 @@ function onload() {
 
     $.ajax({
         type: "POST",
-        data: {data:search, date:Tanggal, client:client, display:display, invoice:invoice},
+        data: {
+            data: search,
+            date: Tanggal,
+            client: client,
+            display: display,
+            invoice: invoice
+        },
         url: "Ajax/invoce_penjualan_Ajax.php",
-        success: function(data){
+        success: function (data) {
             $('#loader').hide();
             $("#invoce_penjualan").html(data);
         }
@@ -235,7 +287,7 @@ function SearchData() {
     $('#tanggal').val("");
     var Validasi_Search = $('#search').val().length;
 
-    if(Validasi_Search > 3) {
+    if (Validasi_Search > 3) {
         $('#loader').show();
         onload();
     } else {
@@ -250,8 +302,8 @@ function Searchinvoice() {
     $('#Search_Client').val("");
 
     var Validasi_Search = $('#Search_Invoice').val().length;
-    
-    if(Validasi_Search > 3) {
+
+    if (Validasi_Search > 3) {
         $('#loader').show();
         onload();
     } else {
@@ -265,7 +317,7 @@ function SearchClient() {
     $('#tanggal').val("");
     var Validasi_Search = $('#Search_Client').val().length;
 
-    if(Validasi_Search > 3) {
+    if (Validasi_Search > 3) {
         $('#loader').show();
         onload();
     } else {
@@ -280,9 +332,9 @@ function SearchDate() {
 }
 
 function satuan_val() {
-    if($('#satuan').val().toLowerCase() == "kotak" && $('#kode_barng').val().split('.')[0].toLowerCase() == "digital" && $('#id_order').val() == null ) {
+    if ($('#satuan').val().toLowerCase() == "kotak" && $('#kode_barng').val().split('.')[0].toLowerCase() == "digital" && $('#id_order').val() == null) {
         $('#alat_tambahan').val("KotakNC.Kotak Kartu Nama");
-        $('#Ptg_Pts').prop( "checked", true );
+        $('#Ptg_Pts').prop("checked", true);
     } else {
         // $('#alat_tambahan').val("");
         // $('#Ptg_Pts').prop( "checked", false );
@@ -291,7 +343,7 @@ function satuan_val() {
 }
 
 function upload_design() {
-    if($("#Design").is(':checked')) {
+    if ($("#Design").is(':checked')) {
         $(".upload_design").show();
     } else {
         $(".upload_design").hide();
@@ -301,26 +353,26 @@ function upload_design() {
 function ChangeKodeBrg() {
     var kode_barang = $('#kode_barng').val().split('.');
 
-    var All_Element =  ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "laminating_floor", "KotakNC", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "CuttingSticker", "b_digital", "b_lf", "b_indoor", "b_offset", "b_lain", "b_xbanner", "b_kotak", "b_laminating", "b_finishing", "b_design", "b_delivery", "b_discount"];
+    var All_Element = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "laminating_floor", "KotakNC", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "CuttingSticker", "b_digital", "b_lf", "b_indoor", "b_offset", "b_lain", "b_xbanner", "b_kotak", "b_laminating", "b_finishing", "b_design", "b_delivery", "b_discount"];
 
-    var digital_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi", "b_digital",  "b_kotak", "b_laminating", "b_finishing", "b_design", "b_discount", "b_delivery"];
+    var digital_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi", "b_digital", "b_kotak", "b_laminating", "b_finishing", "b_design", "b_discount", "b_delivery"];
     var digital_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "Hekter_Tengah", "Blok", "Ring_Spiral", "b_lf", "b_indoor", "b_offset", "b_lain", "b_xbanner"];
 
-    var etc_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "Hekter_Tengah",  "Blok", "Ring_Spiral", "b_finishing", "b_lain", "b_discount"];
+    var etc_show = ["kilat1", "kilat2", "doff1", "doff2", "kilatdingin1", "doffdingin1", "hard_lemit", "KotakNC", "laminating_floor", "Hekter_Tengah", "Blok", "Ring_Spiral", "b_finishing", "b_lain", "b_discount"];
     var etc_hide = ["Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "CuttingSticker", "Ptg_Pts", "Ptg_Gantung", "Pon_Garis", "Perporasi", "b_digital", "b_lf", "b_indoor", "b_offset", "b_xbanner", "b_kotak", "b_laminating", "b_design", "b_delivery"];
 
-    var LF_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker",  "b_lf", "b_xbanner", "b_laminating", "b_design", "b_delivery", "b_discount", "b_finishing"];
+    var LF_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_lf", "b_xbanner", "b_laminating", "b_design", "b_delivery", "b_discount", "b_finishing"];
     var LF_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_digital", "b_indoor", "b_offset", "b_lain", "b_kotak"];
 
-    var indoor_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker",  "b_indoor",  "b_xbanner",  "b_laminating","b_design", "b_delivery", "b_discount", "b_finishing"];
+    var indoor_show = ["kilatdingin1", "doffdingin1", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_indoor", "b_xbanner", "b_laminating", "b_design", "b_delivery", "b_discount", "b_finishing"];
     var indoor_hide = ["kilat1", "kilat2", "doff1", "doff2", "hard_lemit", "KotakNC", "Ptg_Pts", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_lf", "b_digital", "b_offset", "b_lain", "b_kotak"];
 
-    var Offset_show = ["kilat1", "kilat2", "doff1", "doff2", "KotakNC", "Hekter_Tengah", "Blok", "Ring_Spiral", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_offset","b_design", "b_delivery", "b_discount"];
-    var Offset_hide = ["kilatdingin1", "doffdingin1", "hard_lemit", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_digital", "b_lf", "b_indoor",  "b_lain", "b_xbanner", "b_kotak", "b_laminating", "b_finishing"];
+    var Offset_show = ["kilat1", "kilat2", "doff1", "doff2", "KotakNC", "Hekter_Tengah", "Blok", "Ring_Spiral", "Ptg_Gantung", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Ring_Spiral", "b_offset", "b_design", "b_delivery", "b_discount"];
+    var Offset_hide = ["kilatdingin1", "doffdingin1", "hard_lemit", "Ybanner", "RU_60", "RU_80", "RU_85", "Tripod", "Softboard", "laminating_floor", "CuttingSticker", "b_digital", "b_lf", "b_indoor", "b_lain", "b_xbanner", "b_kotak", "b_laminating", "b_finishing"];
 
     var i;
-    
-    if( kode_barang[0] == "digital") {
+
+    if (kode_barang[0] == "digital") {
         satuan_val();
 
         $('#ukuran_LF').hide();
@@ -328,12 +380,12 @@ function ChangeKodeBrg() {
         $('#lebar').val("");
 
         for (i = 0; i < digital_show.length; i++) {
-            $('.'+digital_show[i]+'').show();
+            $('.' + digital_show[i] + '').show();
         }
 
         for (i = 0; i < digital_hide.length; i++) {
-            $('.'+digital_hide[i]+'').hide();
-            $('#'+digital_hide[i]+'').prop("checked", false);
+            $('.' + digital_hide[i] + '').hide();
+            $('#' + digital_hide[i] + '').prop("checked", false);
         }
 
         $('#ukuran').show();
@@ -343,7 +395,7 @@ function ChangeKodeBrg() {
         $('#perhitungan_meter').hide();
         $('#finishing').show();
 
-    } else if( kode_barang[0] == "etc") {
+    } else if (kode_barang[0] == "etc") {
         satuan_val();
 
         $('#ukuran_LF').hide();
@@ -351,12 +403,12 @@ function ChangeKodeBrg() {
         $('#lebar').val("");
 
         for (i = 0; i < etc_show.length; i++) {
-            $('.'+etc_show[i]+'').show();
+            $('.' + etc_show[i] + '').show();
         }
 
         for (i = 0; i < etc_hide.length; i++) {
-            $('.'+etc_hide[i]+'').hide();
-            $('#'+etc_hide[i]+'').prop("checked", false);
+            $('.' + etc_hide[i] + '').hide();
+            $('#' + etc_hide[i] + '').prop("checked", false);
         }
 
         $('#ukuran').show();
@@ -366,16 +418,16 @@ function ChangeKodeBrg() {
         $('#perhitungan_meter').hide();
         $('#Auto_Calc').prop("checked", false);
         $('#finishing').show();
-        
-    } else if( kode_barang[0] == "indoor" || kode_barang[0] == "Xuli" ) {
+
+    } else if (kode_barang[0] == "indoor" || kode_barang[0] == "Xuli") {
 
         for (i = 0; i < indoor_show.length; i++) {
-            $('.'+indoor_show[i]+'').show();
+            $('.' + indoor_show[i] + '').show();
         }
 
         for (i = 0; i < indoor_hide.length; i++) {
-            $('.'+indoor_hide[i]+'').hide();
-            $('#'+indoor_hide[i]+'').prop("checked", false);
+            $('.' + indoor_hide[i] + '').hide();
+            $('#' + indoor_hide[i] + '').prop("checked", false);
         }
 
         $('#ukuran').hide();
@@ -385,15 +437,15 @@ function ChangeKodeBrg() {
         $('#perhitungan_meter').html("");
         $('#finishing').show();
 
-    } else if( kode_barang[0] == "large format") {
+    } else if (kode_barang[0] == "large format") {
 
         for (i = 0; i < LF_show.length; i++) {
-            $('.'+LF_show[i]+'').show();
+            $('.' + LF_show[i] + '').show();
         }
 
         for (i = 0; i < LF_hide.length; i++) {
-            $('.'+LF_hide[i]+'').hide();
-            $('#'+LF_hide[i]+'').prop("checked", false);
+            $('.' + LF_hide[i] + '').hide();
+            $('#' + LF_hide[i] + '').prop("checked", false);
         }
 
         $('#ukuran').hide();
@@ -403,21 +455,21 @@ function ChangeKodeBrg() {
         $('#perhitungan_meter').html("");
         $('#finishing').show();
 
-    } else if( kode_barang[0] == "offset") {
+    } else if (kode_barang[0] == "offset") {
 
         var Finishing = ["Ptg_Pts", "Ptg_Gantung", "CuttingSticker", "Hekter_Tengah", "Pon_Garis", "Perporasi", "Blok", "Spiral", "ukuran", "Auto_Calc"]
 
         for (i = 0; i < Finishing.length; i++) {
-            $('#'+Finishing[i]+'').prop("checked", false);
+            $('#' + Finishing[i] + '').prop("checked", false);
         }
 
         for (i = 0; i < Offset_show.length; i++) {
-            $('.'+Offset_show[i]+'').show();
+            $('.' + Offset_show[i] + '').show();
         }
 
         for (i = 0; i < Offset_hide.length; i++) {
-            $('.'+Offset_hide[i]+'').hide();
-            $('#'+Offset_hide[i]+'').prop("checked", false);
+            $('.' + Offset_hide[i] + '').hide();
+            $('#' + Offset_hide[i] + '').prop("checked", false);
         }
 
         $('#ukuran_LF').hide();
@@ -431,8 +483,8 @@ function ChangeKodeBrg() {
     } else {
 
         for (i = 0; i < All_Element.length; i++) {
-            $('.'+All_Element[i]+'').hide();
-            $('#'+All_Element[i]+'').prop("checked", false);
+            $('.' + All_Element[i] + '').hide();
+            $('#' + All_Element[i] + '').prop("checked", false);
         }
 
         $('#ukuran_LF').hide();
@@ -446,25 +498,28 @@ function ChangeKodeBrg() {
 
 function calc_meter() {
     //perhitungan meter
-    var data = $('#panjang').val()/100 + " x " + $('#lebar').val()/100 + " M ";
+    var data = $('#panjang').val() / 100 + " x " + $('#lebar').val() / 100 + " M ";
     $('#perhitungan_meter').html(data);
 }
 
 function validasi(id) {
-    var ID_Data = $('#'+id).val();
+    var ID_Data = $('#' + id).val();
 
     $.ajax({
         type: "POST",
-        data: {tipe_validasi: "Search_"+id, term:ID_Data},
+        data: {
+            tipe_validasi: "Search_" + id,
+            term: ID_Data
+        },
         url: "progress/validasi_progress.php",
-        success: function(data){
-            if( data > 0 ) {
-                $("#validasi_"+id).val(data);
-                $("#Alert_Val"+id).html("");
+        success: function (data) {
+            if (data > 0) {
+                $("#validasi_" + id).val(data);
+                $("#Alert_Val" + id).html("");
             } else {
-                $("#validasi_"+id).val("0");
-                $("#id_"+id).val("");
-                $("#Alert_Val"+id).html("<b style='color:red'>"+id+" Belum terdaftar</b>");
+                $("#validasi_" + id).val("0");
+                $("#id_" + id).val("");
+                $("#Alert_Val" + id).html("<b style='color:red'>" + id + " Belum terdaftar</b>");
             }
         }
     });
@@ -472,7 +527,7 @@ function validasi(id) {
 
 function file_validasi(id) {
 
-    if(id=="FileImage") {
+    if (id == "FileImage") {
         var filename = $("#file_Image").val();
 
         // Use a regular expression to trim everything before final dot
@@ -484,7 +539,7 @@ function file_validasi(id) {
             extension = extension.toLowerCase();
         }
 
-        if(extension==="jpg" || extension==="png" || extension==="jpeg" || extension==="gif") {
+        if (extension === "jpg" || extension === "png" || extension === "jpeg" || extension === "gif") {
             $("#Alert_Val_FileImage").html("");
             $("#Val_FileImage").val("1");
         } else {
@@ -492,7 +547,7 @@ function file_validasi(id) {
             $("#Val_FileImage").val("0");
         }
 
-    } else if(id=="FileDesign") {
+    } else if (id == "FileDesign") {
         var filename = $("#file_design").val();
 
         // Use a regular expression to trim everything before final dot
@@ -504,13 +559,13 @@ function file_validasi(id) {
             extension = extension.toLowerCase();
         }
 
-        if(extension==="rar" || extension==="zip") {
+        if (extension === "rar" || extension === "zip") {
             $("#Alert_Val_FileDesign").html("");
             $("#Val_FileDesign").val("1");
         } else {
             $("#Alert_Val_FileDesign").html("<br><b style='color:red'>Extention File Upload Harus .Zip & .Rar</b>");
             $("#Val_FileDesign").val("0");
-            
+
         }
     }
 };
@@ -518,7 +573,7 @@ function file_validasi(id) {
 function test(id) {
     var kode_barang = $('#kode_barng').val().split('.');
 
-    $( "#client" ).autocomplete({
+    $("#client").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: "progress/validasi_progress.php",
@@ -539,31 +594,31 @@ function test(id) {
                 }
             });
         },
-        minLength:2, 
+        minLength: 2,
         autoFocus: true,
-        select: function(event, ui) {
+        select: function (event, ui) {
             $("#client").val(ui.item.value);
             $("#id_client").val(ui.item.id);
         },
-        change: function(event, ui) {
+        change: function (event, ui) {
             $("#client").val(ui.item.value);
             $("#id_client").val(ui.item.id);
         }
     });
-    
-    if( kode_barang[0] == "large format" || kode_barang[0] == "indoor" || kode_barang[0] == "Xuli" ) {
+
+    if (kode_barang[0] == "large format" || kode_barang[0] == "indoor" || kode_barang[0] == "Xuli") {
         var data_barang = "LF"
     } else {
         var data_barang = "Digital"
     }
 
-    $( "#bahan" ).autocomplete({
+    $("#bahan").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: "progress/validasi_progress.php",
                 type: "POST",
                 data: {
-                    tipe_validasi: "autocomplete_Bahan"+data_barang,
+                    tipe_validasi: "autocomplete_Bahan" + data_barang,
                     term: request.term
                 },
                 dataType: 'json',
@@ -578,97 +633,175 @@ function test(id) {
                 }
             });
         },
-        minLength:2, 
+        minLength: 2,
         autoFocus: true,
-        select: function(event, ui) {
+        select: function (event, ui) {
             $("#bahan").val(ui.item.value);
             $("#id_bahan").val(ui.item.id);
         },
-        change: function(event, ui) {
+        change: function (event, ui) {
             $("#bahan").val(ui.item.value);
             $("#id_bahan").val(ui.item.id);
         }
     });
-    
+
     validasi(id);
 }
 
 function submit(id) {
 
-    if($('#kode_barng').val()=="") {
+    if ($('#kode_barng').val() == "") {
         alert("Kode Barang harus di pilih")
         return false;
-    } else if($('#client').val()=="") {
+    } else if ($('#client').val() == "") {
         alert("Nama Client tidak Boleh kosong")
         return false;
-    } else if($('#validasi_client').val()<1) {
+    } else if ($('#validasi_client').val() < 1) {
         alert("Nama Client Belum terdaftar & Minta Customer Service Untuk Mendaftarkan Nama Client Tersebut")
         return false;
-    } else if($('#validasi_bahan').val()<1) {
+    } else if ($('#validasi_bahan').val() < 1) {
         alert("Nama Bahan tidak ada dalam Daftar Stock Barang")
         return false;
-    } else if($('#Val_FileImage').val()<1) {
+    } else if ($('#Val_FileImage').val() < 1) {
         alert("Extention Image Upload Harus jpg, jpeg, png & gif")
         return false;
-    } else if($('#Val_FileDesign').val()<1) {
+    } else if ($('#Val_FileDesign').val() < 1) {
         alert("Extention File Upload Harus .Zip & .Rar")
         return false;
     }
-    
-    var ID_Order        = $('#id_order').val();
-    var no_invoice      = $('#no_invoice').val();
-    var ID_User         = $('#id_user').val();
-    var Kode_Brg        = $('#kode_barng').val().split('.');
-    var Nama_Client     = $('#client').val();
-    var ID_Client       = $('#id_client').val();
-    var Deskripsi       = $('#deskripsi').val();
-    var Ukuran          = $('#ukuran').val();
-    var Panjang         = $('#panjang').val();
-    var Lebar           = $('#lebar').val();
-    var Sisi;           if($('#satu_sisi').prop("checked") == true) { Sisi = "1"; } else { Sisi = "2"; }
-    var ID_Bahan        = $('#id_bahan').val();
-    var Nama_Bahan      = $('#bahan').val();
-    var Notes           = $('#notes').val();
-    var Laminating      = $('#laminating').val().split('.');
-    var alat_tambahan   = $('#alat_tambahan').val().split('.');
-    var Ptg_Pts;        if($('#Ptg_Pts').prop("checked") == true) { Ptg_Pts = "Y"; } else { Ptg_Pts = "N"; }
-    var Ptg_Gantung;    if($('#Ptg_Gantung').prop("checked") == true) { Ptg_Gantung = "Y"; } else { Ptg_Gantung = "N"; }
-    var Pon_Garis;      if($('#Pon_Garis').prop("checked") == true) { Pon_Garis = "Y"; } else { Pon_Garis = "N"; }
-    var Perporasi;      if($('#Perporasi').prop("checked") == true) { Perporasi = "Y"; } else { Perporasi = "N"; }
-    var CuttingSticker; if($('#CuttingSticker').prop("checked") == true) { CuttingSticker = "Y"; } else { CuttingSticker = "N"; }
-    var Hekter_Tengah;  if($('#Hekter_Tengah').prop("checked") == true) { Hekter_Tengah = "Y"; } else { Hekter_Tengah = "N"; }
-    var Blok;           if($('#Blok').prop("checked") == true) { Blok = "Y"; } else { Blok = "N"; }
-    var Spiral;         if($('#Spiral').prop("checked") == true) { Spiral = "Y"; } else { Spiral = "N"; }
-    var Qty             = $('#qty').val();
-    var Satuan          = $('#satuan').val();
-    var Proffing;       if($('#proffing').prop("checked") == true) { Proffing = "Y"; } else { Proffing = "N"; }
-    var Ditunggu;       if($('#ditunggu').prop("checked") == true) { Ditunggu = "Y"; } else { Ditunggu = "N"; }
-    var Design;         if($('#Design').prop("checked") == true) { Design = "Y"; } else { Design = "N"; }
-    if(Laminating[1]== null) { deskripsi_Laminating = ""; } else { deskripsi_Laminating = Laminating[1]; }
-    if(alat_tambahan[1]== null) { deskripsi_alat_tambahan = ""; } else { deskripsi_alat_tambahan = alat_tambahan[1]; }
-    var b_digital         = $('#b_digital').val();
-    var b_kotak           = $('#b_kotak').val();
-    var b_lain            = $('#b_lain').val();
-    var b_potong          = $('#b_finishing').val();
-    var b_large           = $('#b_large').val();
-    var b_indoor          = $('#b_indoor').val();
-    var b_xbanner         = $('#b_xbanner').val();
-    var b_offset          = $('#b_offset').val();
-    var b_laminate        = $('#b_laminate').val();
-    var b_design          = $('#b_design').val();
-    var b_delivery        = $('#b_delivery').val();
-    var discount          = $('#discount').val();
-    var Auto_Calc;        if($('#Auto_Calc').prop("checked") == true) { Auto_Calc = "Y"; } else { Auto_Calc = "N"; }
-    var akses_edit;        if($('#akses_edit').prop("checked") == true) { akses_edit = "Y"; } else { akses_edit = "N"; }
-    var inv_check         = $('#inv_check').val();
+
+    var ID_Order = $('#id_order').val();
+    var no_invoice = $('#no_invoice').val();
+    var ID_User = $('#id_user').val();
+    var Kode_Brg = $('#kode_barng').val().split('.');
+    var Nama_Client = $('#client').val();
+    var ID_Client = $('#id_client').val();
+    var Deskripsi = $('#deskripsi').val();
+    var Ukuran = $('#ukuran').val();
+    var Panjang = $('#panjang').val();
+    var Lebar = $('#lebar').val();
+    var Sisi;
+    if ($('#satu_sisi').prop("checked") == true) {
+        Sisi = "1";
+    } else {
+        Sisi = "2";
+    }
+    var ID_Bahan = $('#id_bahan').val();
+    var Nama_Bahan = $('#bahan').val();
+    var Notes = $('#notes').val();
+    var Laminating = $('#laminating').val().split('.');
+    var alat_tambahan = $('#alat_tambahan').val().split('.');
+    var Ptg_Pts;
+    if ($('#Ptg_Pts').prop("checked") == true) {
+        Ptg_Pts = "Y";
+    } else {
+        Ptg_Pts = "N";
+    }
+    var Ptg_Gantung;
+    if ($('#Ptg_Gantung').prop("checked") == true) {
+        Ptg_Gantung = "Y";
+    } else {
+        Ptg_Gantung = "N";
+    }
+    var Pon_Garis;
+    if ($('#Pon_Garis').prop("checked") == true) {
+        Pon_Garis = "Y";
+    } else {
+        Pon_Garis = "N";
+    }
+    var Perporasi;
+    if ($('#Perporasi').prop("checked") == true) {
+        Perporasi = "Y";
+    } else {
+        Perporasi = "N";
+    }
+    var CuttingSticker;
+    if ($('#CuttingSticker').prop("checked") == true) {
+        CuttingSticker = "Y";
+    } else {
+        CuttingSticker = "N";
+    }
+    var Hekter_Tengah;
+    if ($('#Hekter_Tengah').prop("checked") == true) {
+        Hekter_Tengah = "Y";
+    } else {
+        Hekter_Tengah = "N";
+    }
+    var Blok;
+    if ($('#Blok').prop("checked") == true) {
+        Blok = "Y";
+    } else {
+        Blok = "N";
+    }
+    var Spiral;
+    if ($('#Spiral').prop("checked") == true) {
+        Spiral = "Y";
+    } else {
+        Spiral = "N";
+    }
+    var Qty = $('#qty').val();
+    var Satuan = $('#satuan').val();
+    var Proffing;
+    if ($('#proffing').prop("checked") == true) {
+        Proffing = "Y";
+    } else {
+        Proffing = "N";
+    }
+    var Ditunggu;
+    if ($('#ditunggu').prop("checked") == true) {
+        Ditunggu = "Y";
+    } else {
+        Ditunggu = "N";
+    }
+    var Design;
+    if ($('#Design').prop("checked") == true) {
+        Design = "Y";
+    } else {
+        Design = "N";
+    }
+    if (Laminating[1] == null) {
+        deskripsi_Laminating = "";
+    } else {
+        deskripsi_Laminating = Laminating[1];
+    }
+    if (alat_tambahan[1] == null) {
+        deskripsi_alat_tambahan = "";
+    } else {
+        deskripsi_alat_tambahan = alat_tambahan[1];
+    }
+    var b_digital = $('#b_digital').val();
+    var b_kotak = $('#b_kotak').val();
+    var b_lain = $('#b_lain').val();
+    var b_potong = $('#b_finishing').val();
+    var b_large = $('#b_large').val();
+    var b_indoor = $('#b_indoor').val();
+    var b_xbanner = $('#b_xbanner').val();
+    var b_offset = $('#b_offset').val();
+    var b_laminate = $('#b_laminate').val();
+    var b_design = $('#b_design').val();
+    var b_delivery = $('#b_delivery').val();
+    var discount = $('#discount').val();
+    var Auto_Calc;
+    if ($('#Auto_Calc').prop("checked") == true) {
+        Auto_Calc = "Y";
+    } else {
+        Auto_Calc = "N";
+    }
+    var akses_edit;
+    if ($('#akses_edit').prop("checked") == true) {
+        akses_edit = "Y";
+    } else {
+        akses_edit = "N";
+    }
+    var inv_check = $('#inv_check').val();
 
     var fdata = new FormData()
-    
-    fdata.append("ID_Order",ID_Order);
-    fdata.append("no_invoice",no_invoice);
-    fdata.append("ID_User",ID_User);
-    fdata.append("Kode_Brg", Kode_Brg[0]); 
-    fdata.append("Desc_Kode_Brg", Kode_Brg[1]); 
+
+    fdata.append("ID_Order", ID_Order);
+    fdata.append("no_invoice", no_invoice);
+    fdata.append("ID_User", ID_User);
+    fdata.append("Kode_Brg", Kode_Brg[0]);
+    fdata.append("Desc_Kode_Brg", Kode_Brg[1]);
     fdata.append("ID_Client", ID_Client);
     fdata.append("Nama_Client", Nama_Client);
     fdata.append("Deskripsi", Deskripsi);
@@ -719,17 +852,21 @@ function submit(id) {
 
 
     $.ajax({
-        xhr : function() {
+        xhr: function () {
             var xhr = new window.XMLHttpRequest();
-            xhr.upload.addEventListener('progress', function(e){
-                if(e.lengthComputable){
+            xhr.upload.addEventListener('progress', function (e) {
+                if (e.lengthComputable) {
                     console.log('Bytes Loaded : ' + e.loaded);
                     console.log('Total Size : ' + e.total);
                     console.log('Persen : ' + (e.loaded / e.total));
-                    
+
                     var percent = Math.round((e.loaded / e.total) * 100);
-                    
-                    $('#progressBar').attr('aria-valuenow', percent).css({"width": percent + '%', "color": "white", "font-weight": "bold"}).text(percent + '%');
+
+                    $('#progressBar').attr('aria-valuenow', percent).css({
+                        "width": percent + '%',
+                        "color": "white",
+                        "font-weight": "bold"
+                    }).text(percent + '%');
                 }
             });
             return xhr;
@@ -738,15 +875,15 @@ function submit(id) {
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         cache: false,
-		processData : false,
-		contentType : false,
+        processData: false,
+        contentType: false,
         data: fdata,
-        beforeSend: function(){
-            $('#submitBtn').attr("disabled","disabled");
+        beforeSend: function () {
+            $('#submitBtn').attr("disabled", "disabled");
             $(".icon-close").removeAttr('onclick');
         },
-        success: function(data){
-            if(id=="Insert") {
+        success: function (data) {
+            if (id == "Insert") {
                 alert("Data Berhasil Di input ke database !")
             } else {
                 alert("Data Berhasil Di Update ke database !")
@@ -757,94 +894,98 @@ function submit(id) {
             onload();
             return false;
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
 function cancel(id) {
-    if($('#alasan_cancel').val()=="") {
+    if ($('#alasan_cancel').val() == "") {
         alert("Alasan Cancel tidak boleh kosong")
         return false;
     }
 
-    var ID_Order         = $('#id_order').val();
-    var Alasan_Cancel    = $('#alasan_cancel').val();
+    var ID_Order = $('#id_order').val();
+    var Alasan_Cancel = $('#alasan_cancel').val();
 
     $.ajax({
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         data: {
-            ID_Order        : ID_Order, 
-            Alasan_Cancel   : Alasan_Cancel,
-            jenis_submit    : id
+            ID_Order: ID_Order,
+            Alasan_Cancel: Alasan_Cancel,
+            jenis_submit: id
         },
-        beforeSend: function(){
-            $('#submitBtn').attr("disabled","disabled");
+        beforeSend: function () {
+            $('#submitBtn').attr("disabled", "disabled");
         },
-        success: function(data){
+        success: function (data) {
             alert("Data berhasil di Cancel !")
             //$("#bagDetail").html(data);
             hideBox();
             onload();
             return false;
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
 
 function submitInvoice(type) {
-    var si = document.getElementById("no_invoice").value;
-    var j   = $('#InvoiceList_Qty_check').val();
-    var x   = new Array ();
-    var y   = new Array ();
-    
-    for ( var i=1 ; i<=j ; i++) {
-		if ($('#cek_'+i).prop('checked')) {
-			y[i] = $('#cek_'+i).val();
-		} else {
-			x[i] = $('#cek_'+i).val();
-		}
-	}
-	var si_yes; si_yes = y.join();
-	var si_no; si_no = x.join();
-	
+    var si = $('#no_invoice').val();
+    var j = $('#InvoiceList_Qty_check').val();
+    var x = new Array();
+    var y = new Array();
+
+    for (var i = 1; i <= j; i++) {
+        if ($('#cek_' + i).prop('checked')) {
+            y[i] = $('#cek_' + i).val();
+        } else {
+            x[i] = $('#cek_' + i).val();
+        }
+    }
+    var si_yes;
+    si_yes = y.join();
+    var si_no;
+    si_no = x.join();
+
     $.ajax({
         type: "POST",
         url: "progress/setter_penjualan_prog.php",
         data: {
-            idy             : si_yes, 
-            idx             : si_no,
-            no_invoice      : si,
-            jenis_submit    : type
+            idy: si_yes,
+            idx: si_no,
+            no_invoice: si,
+            jenis_submit: type
         },
-        beforeSend: function(){
-            $('.myinput').attr("disabled","disabled");
+        beforeSend: function () {
+            $('.myinput').attr("disabled", "disabled");
         },
-        success: function(data){
+        success: function (data) {
             // alert("Invoice berhasil di Dibuka !")
             // $("#Result").html(data);
             hideBox();
             onload();
             return false;
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
-    }); 
+    });
 }
 
 function check_invoice_form(no_invoice) {
     $.ajax({
         type: "POST",
-        data: {data:no_invoice},
+        data: {
+            data: no_invoice
+        },
         url: "Form/check_invoice_f.php",
- 
-        success: function(data){
+
+        success: function (data) {
             showBox();
             $("#bagDetail").html(data);
         }

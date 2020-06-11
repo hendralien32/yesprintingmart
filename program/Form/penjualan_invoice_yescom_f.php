@@ -36,7 +36,7 @@ endif;
 
 <h3 class='title_form'>FORM YESCOM INVOICE</h3>
 
-<input type="text" id="no_invoice" value="<?= $no_invoice; ?>">
+<input type="hidden" id="no_invoice" value="<?= $no_invoice; ?>">
 <input type="hidden" id="InvoiceList_JenisWO_check" value="<?= $jenis_wo; ?>">
 <input type="hidden" id="InvoiceList_Kode_check" value="<?= $kode; ?>">
 <input type="hidden" id="InvoiceList_Qty_check" value="<?= $Jumlah_Order; ?>">

@@ -403,6 +403,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     ) Pricelist_Cutting
                 ON
                     auto_check.ID_Cutting = Pricelist_Cutting.bahan and auto_check.kode = Pricelist_Cutting.jenis 
+            GROUP BY
+                oid
         ";
 
     $result = mysqli_query($conn, $sql_query);

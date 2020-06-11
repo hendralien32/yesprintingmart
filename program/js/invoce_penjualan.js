@@ -97,6 +97,7 @@ function autoCalc() {
         contentType: false,
         data: fdata,
         success: function (data) {
+            // $("#Result").html(data);
             var obj = $.parseJSON(data);
             $('#b_digital').val(obj.b_digital);
             $('#b_kotak').val(obj.b_kotak);
@@ -231,7 +232,7 @@ function outstandinglist(id) {
     $.ajax({
         type: "POST",
         data: {
-            no_invoice: no_invoice,
+            Invoice_Number: no_invoice,
             InvoiceList_setter_check: InvoiceList_setter_check,
             InvoiceList_client_check: InvoiceList_client_check,
             InvoiceList_Qty_check: InvoiceList_Qty_check,

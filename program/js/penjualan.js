@@ -31,7 +31,7 @@ function outstandinglist(id) {
   $.ajax({
     type: "POST",
     data: {
-      no_invoice: no_invoice,
+      Invoice_Number: no_invoice,
       InvoiceList_setter_check: InvoiceList_setter_check,
       InvoiceList_client_check: InvoiceList_client_check,
       InvoiceList_Qty_check: InvoiceList_Qty_check,

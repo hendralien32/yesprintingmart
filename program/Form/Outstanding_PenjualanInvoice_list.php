@@ -156,6 +156,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                 "SELECT
                     penjualan.client_yes,
                     penjualan.id_yes,
+                    penjualan.no_invoice,
                     penjualan.so_yes,
                     penjualan.oid,
                     penjualan.sisi,
@@ -201,10 +202,16 @@ if ($status == 'penjualan_invoice_yescom') : ?>
             if ($result->num_rows > 0) :
                 while ($row = $result->fetch_assoc()) :
                     $n++;
+                    if ($row['no_invoice'] != "0") {
+                        $checkbox = "checked";
+                    } else {
+                        $checkbox = "";
+                    }
+
                     echo "
                         <tr>
                             <td class='contact100-form-checkbox' style='padding-top:16px;'>
-                                <input class='input-checkbox100' id='cek_$n' type='checkbox' name='option' value='$row[oid]'>
+                                <input class='input-checkbox100' id='cek_$n' type='checkbox' name='option' value='$row[oid]' $checkbox>
                                 <label class='label-checkbox100' for='cek_$n'></label>
                             </td>
                             <td>$row[id_yes]</td>
@@ -268,11 +275,11 @@ if ($status == 'penjualan_invoice_yescom') : ?>
         $Setter = "$_SESSION[uid]";
     endif;
 
-    if ($Invoice_Number != "0") :
-        $add_where = "(penjualan.no_invoice = '0' or no_invoice = '$Invoice_Number') and penjualan.client = '$id_Client' and";
+    if ($_POST['Invoice_Number'] = "0") :
+        $add_where = "";
     else :
         $add_where = "
-                (penjualan.no_invoice = '0' or no_invoice = '$Invoice_Number')  and 
+                ( penjualan.no_invoice = '0' or penjualan.no_invoice = '$Invoice_Number' ) and 
                 penjualan.client !='1' and 
                 penjualan.setter = '$_POST[InvoiceList_setter_check]' and
                 penjualan.client = '$_POST[InvoiceList_client_check]' and

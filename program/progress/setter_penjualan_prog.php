@@ -950,9 +950,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     penjualan.sisi = barang.sisi and
                     penjualan.satuan = barang.Satuan_Order
                 ) table_invoice
-                ORDER BY
-                   oid
-                ASC
+                GROUP BY
+                    oid
         "; // OK WORKING FINE
 
     $data = mysqli_query($conn, $sql_data);
@@ -1688,9 +1687,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     penjualan.sisi = barang.sisi and
                     penjualan.satuan = barang.Satuan_Order
                 ) table_invoice
-                ORDER BY
-                   oid
-                ASC
+                GROUP BY
+                    oid
         "; // OK WORKING FINE
 
     $data = mysqli_query($conn, $sql_data);

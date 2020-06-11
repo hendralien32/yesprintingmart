@@ -668,10 +668,10 @@ else :
 
         <div id="submit_menu">
             <?php if ($Invoice_Number != "0") : ?>
-                <button onclick="submit_order('Update_PenjualanYESCOM')" id="submitBtn">Update Order</button>
+                <button onclick="submit_order('Update_PenjualanYESCOM')" id="submitBtn">Update Order Invoice</button>
                 <button onclick="LaodForm('penjualan_invoice_yescom', '<?= $Invoice_Number; ?>', '<?= $jenis_wo; ?>')">Re-Add Invoice <?= $Invoice_Number; ?></button>
             <?php else : ?>
-                <button onclick="submit('Update')">Update Order</button>
+                <button onclick="submit_order('Update_OrderYESCOM')">Update Order</button>
             <?php endif; ?>
         </div>
 
@@ -1036,4 +1036,4 @@ else :
 
 endif; ?>
 
-    <div id='result'></div>
+    <div id='Result'></div>

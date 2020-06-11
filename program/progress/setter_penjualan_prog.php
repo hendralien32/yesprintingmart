@@ -9,7 +9,7 @@ require_once "../../function.php";
 // echo $_FILES['imageFile']['error']."<br>";
 // echo $_FILES['imageFile']['size']."<br>";
 
-if ($_POST['jenis_submit'] == 'Insert' or $_POST['jenis_submit'] == 'Update' or $_POST['jenis_submit'] == 'Update_SO_Invoice' or $_POST['jenis_submit'] == 'Update_PenjualanYESCOM') {
+if ($_POST['jenis_submit'] == 'Insert' or $_POST['jenis_submit'] == 'Update' or $_POST['jenis_submit'] == 'Update_SO_Invoice' or $_POST['jenis_submit'] == 'Update_PenjualanYESCOM' or $_POST['jenis_submit'] == 'Update_OrderYESCOM') {
     $Deskripsi      = htmlspecialchars($_POST['Deskripsi'], ENT_QUOTES);
     $Notes          = htmlspecialchars($_POST['Notes'], ENT_QUOTES);
     $Satuan         = htmlspecialchars($_POST['Satuan'], ENT_QUOTES);
@@ -420,13 +420,13 @@ elseif ($_POST['jenis_submit'] == 'Update') :
             $Final_log = "";
         }
     } else {
-        $Final_log = "
-                <tr>
-                    <td>$timestamps</td>
-                    <td>" . $_SESSION['username'] . " Mengubah data</td>
-                    <td>ERROR Input Logs Data</td>
-                </tr>
-            ";
+        $Final_log =
+            "<tr>
+                <td>$timestamps</td>
+                <td>" . $_SESSION['username'] . " Mengubah data</td>
+                <td>ERROR Input Logs Data</td>
+            </tr>
+        ";
     }
 
     $sql =
@@ -2256,6 +2256,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
     $sql_data =
         "SELECT
                 oid,
+                qty,
+                Qty_LF,
                 (CASE
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 500 THEN 500_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 250 THEN 250_lembar
@@ -2277,7 +2279,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                     WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as b_lf,
                 (CASE
@@ -2285,7 +2287,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                     WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as indoor,
                 (CASE
@@ -2302,16 +2304,16 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     ELSE '0'
                 END) as b_kotak,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 500 THEN 500_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 250 THEN 250_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 100 THEN 100_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 50 THEN 50_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 500 THEN 500_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 250 THEN 250_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 100 THEN 100_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 50 THEN 50_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                     ELSE '0'
                 END) as b_AlatTambahan,
                 (CASE
@@ -2366,6 +2368,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
                     penjualan.qty AS test,
                     barang.qty,
+                    barang.Qty_LF,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
                     pricelist.3sd5_lembar,
@@ -2442,7 +2445,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     (SELECT 
                         barang.id_barang,
                         barang.nama_barang,
-                        total_qty.qty,
+                        total_qty.Qty as qty,
+                        total_qty.Qty_LF,
                         total_qty.sisi,
                         total_qty.satuan as Satuan_Order,
                         total_qty.ID_AT,
@@ -2473,7 +2477,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             (CASE
                                 WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN FORMAT(sum(((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)
                                 ELSE FORMAT(sum(penjualan.qty),0)
-                            END) AS Qty
+                            END) AS Qty,
+                            FORMAT(sum(penjualan.qty),0) AS Qty_LF
                         FROM
                             penjualan
                         WHERE
@@ -2595,7 +2600,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     penjualan.sisi = barang.sisi and
                     penjualan.satuan = barang.Satuan_Order
                 ) table_invoice
-                ORDER BY
+                GROUP BY
                    oid
                 ASC
         "; // OK WORKING FINE
@@ -2702,6 +2707,13 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
             penjualan
         SET
             no_invoice = '0',
+            b_digital = '0',
+            b_large = '0',
+            b_kotak = '0',
+            b_laminate = '0',
+            b_potong = '0',
+            b_indoor = '0',
+            b_xbanner = '0',
             invoice_date = '0000-00-00 00:00:00',
             history   =  CONCAT('$Final_log', history),
             inv_check =  'N'
@@ -4109,15 +4121,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
         "Satuan"                       => "$Satuan",
         "Urgent"                       => "$_POST[urgent]",
         "Proffing"                     => "$_POST[Proffing]",
-        "Ditunggu"                     => "$_POST[Ditunggu]",
-        "Biaya_Digital"                => "$_POST[b_digital]",
-        "Biaya_Kotak"                  => "$_POST[b_kotak]",
-        "Biaya_Potong"                 => "$_POST[b_finishing]",
-        "Biaya_Large"                  => "$_POST[b_large]",
-        "Biaya_Indoor"                 => "$_POST[b_indoor]",
-        "Biaya_Xbanner"                => "$_POST[b_xbanner]",
-        "Biaya_Lain"                   => "$_POST[b_lain]",
-        "Biaya_Laminate"               => "$_POST[b_laminate]"
+        "Ditunggu"                     => "$_POST[Ditunggu]"
     );
 
     $log = "";
@@ -4193,7 +4197,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
         echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql_pertama <br>" . mysqli_error($conn) . "</br>";
     }
 
-    if ($_POST['no_invoice'] != "0") {
+    if ($_POST['no_invoice'] != "0") :
         $sql_Price =
             "SELECT
                     oid,
@@ -4218,7 +4222,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                         WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                         WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                         WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                        WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                        WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                         ELSE '0'
                     END) as b_lf,
                     (CASE
@@ -4226,7 +4230,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                         WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
                         WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
                         WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                        WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / test
+                        WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
                         ELSE '0'
                     END) as indoor,
                     (CASE
@@ -4243,16 +4247,16 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                         ELSE '0'
                     END) as b_kotak,
                     (CASE
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 500 THEN 500_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 250 THEN 250_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 100 THEN 100_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 50 THEN 50_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
-                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 500 THEN 500_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 250 THEN 250_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 100 THEN 100_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 50 THEN 50_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
+                        WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                         ELSE '0'
                     END) as b_AlatTambahan,
                     (CASE
@@ -4308,6 +4312,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                         ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
                         penjualan.qty AS test,
                         barang.qty,
+                        barang.Qty_LF,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
                         pricelist.3sd5_lembar,
@@ -4384,7 +4389,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                         (SELECT 
                             barang.id_barang,
                             barang.nama_barang,
-                            total_qty.qty,
+                            total_qty.Qty as qty,
+                            total_qty.Qty_LF,
                             total_qty.sisi,
                             total_qty.satuan as Satuan_Order,
                             total_qty.ID_AT,
@@ -4415,7 +4421,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                                 (CASE
                                     WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN FORMAT(sum(((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)
                                     ELSE FORMAT(sum(penjualan.qty),0)
-                                END) AS Qty
+                                END) AS Qty,
+                                FORMAT(sum(penjualan.qty),0) as Qty_LF
                             FROM
                                 penjualan
                             WHERE
@@ -4536,8 +4543,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                         penjualan.sisi = barang.sisi and
                         penjualan.satuan = barang.Satuan_Order
                     ) table_invoice
-                    ORDER BY
-                    oid
+                    GROUP BY
+                        oid
                     ASC
             "; // OK WORKING FINE
 
@@ -4623,7 +4630,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
         if ($test != null) {
             $Final_log = "$log";
         } else {
-            $Final_log = "ERROR";
+            $Final_log = "";
         }
 
         $reid = explode(",", "$oid");
@@ -4662,9 +4669,11 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                                 END), history)
                 WHERE oid IN ('$aid');
             ";
-    } else {
+    else :
         $sql = "SELECT * FROM penjualan limit 1";
-    } elseif ($_POST['jenis_submit'] == 'acc_penjualan') :
+    endif;
+
+elseif ($_POST['jenis_submit'] == 'acc_penjualan') :
 
     $Final_log = "
                 <tr>
@@ -4685,15 +4694,200 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM') :
                 oid				= '$_POST[oid]'
             ";
 
+elseif ($_POST['jenis_submit'] == 'Update_OrderYESCOM') :
+    $Sql_Log =
+        "SELECT
+            penjualan.id_yes as ID_Yes,
+            penjualan.so_yes as SO_Yes,
+            penjualan.jenis_wo as Jenis_WO,
+            penjualan.warna_cetak as Warna_Cetak,
+            penjualan.description as Deskripsi,
+            (CASE
+                WHEN penjualan.kode = 'large format' THEN 'Large Format'
+                WHEN penjualan.kode = 'digital' THEN 'Digital Printing'
+                WHEN penjualan.kode = 'indoor' THEN 'Indoor HP Latex'
+                WHEN penjualan.kode = 'Xuli' THEN 'Indoor Xuli'
+                WHEN penjualan.kode = 'offset' THEN 'Offset Printing'
+                WHEN penjualan.kode = 'etc' THEN 'ETC'
+                ELSE '- - -'
+            END) as Kode_barang,
+            (CASE
+                WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
+                WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
+                WHEN penjualan.laminate = 'doff1' THEN 'Laminating Doff 1 Sisi'
+                WHEN penjualan.laminate = 'doff2' THEN 'Laminating Doff 2 Sisi'
+                WHEN penjualan.laminate = 'kilatdingin1' THEN 'Laminating Kilat Dingin'
+                WHEN penjualan.laminate = 'doffdingin1' THEN 'Laminating Doff Dingin'
+                WHEN penjualan.laminate = 'hard_lemit' THEN 'Hard Laminating / Lamit KTP'
+                WHEN penjualan.laminate = 'laminating_floor' THEN 'Laminating Floor'
+                ELSE ''
+            END) as Laminating,
+            (CASE
+                WHEN penjualan.alat_tambahan = 'Ybanner' THEN 'Ybanner'
+                WHEN penjualan.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
+                WHEN penjualan.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
+                WHEN penjualan.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
+                WHEN penjualan.alat_tambahan = 'Tripod' THEN 'Tripod'
+                WHEN penjualan.alat_tambahan = 'Softboard' THEN 'Softboard'
+                WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
+                ELSE ''
+            END) as Alat_Tambahan,
+            penjualan.client_yes as Nama_Client,
+            penjualan.ukuran as Ukuran,
+            penjualan.panjang as Panjang,
+            penjualan.lebar as Lebar,
+            penjualan.sisi as Sisi,
+            penjualan.ID_Bahan,
+            Bahan.nama_barang as Nama_Bahan,
+            penjualan.keterangan as Notes,
+            penjualan.qty as Qty,
+            penjualan.satuan as Satuan,
+            penjualan.potong as Potong_Putus,
+            penjualan.potong_gantung as Potong_Gantung,
+            penjualan.pon as Pon_Garis,
+            penjualan.perporasi as Perporasi,
+            penjualan.CuttingSticker as Cutting_Stiker,
+            penjualan.Hekter_Tengah as Hekter_Tengah,
+            penjualan.Blok,
+            penjualan.Spiral,
+            penjualan.ditunggu as Ditunggu,
+            penjualan.Proffing,
+            penjualan.urgent as Urgent
+        FROM
+            penjualan
+        LEFT JOIN 
+            (select customer.cid, customer.nama_client from customer) customer
+        ON
+            penjualan.client = customer.cid  
+        LEFT JOIN 
+            (select barang.id_barang, barang.nama_barang from barang) Bahan
+        ON
+            penjualan.ID_Bahan = Bahan.id_barang  
+        WHERE
+            penjualan.oid = '$_POST[id_Order]'
+    ";
+
+    $result = mysqli_query($conn, $Sql_Log);
+    if (mysqli_num_rows($result) === 1) :
+        $row = mysqli_fetch_assoc($result);
+
+        if ($_POST['panjang'] == "") :
+            $Panjang = "0";
+        else :
+            $Panjang = "$_POST[panjang]";
+        endif;
+
+        if ($_POST['lebar'] == "") :
+            $Lebar = "0";
+        else :
+            $Lebar = "$_POST[lebar]";
+        endif;
+
+        $array = array(
+            "Kode_barang"                  => "$_POST[Desc_Kode_Brg]",
+            "ID_Yes"                       => "$_POST[id_yescom]",
+            "SO_Yes"                       => "$_POST[so_yescom]",
+            "Jenis_WO"                     => "$_POST[wo_yescom]",
+            "Warna_Cetak"                  => "$_POST[warna_cetakan]",
+            "Nama_Client"                  => "$Nama_Client",
+            "Deskripsi"                    => "$Deskripsi",
+            "Ukuran"                       => "$_POST[ukuran]",
+            "Panjang"                      => "$Panjang",
+            "Lebar"                        => "$Lebar",
+            "Sisi"                         => "$_POST[Sisi]",
+            "Nama_Bahan"                   => "$Nama_Bahan",
+            "Notes"                        => "$Notes",
+            "Laminating"                   => "$_POST[Desc_Laminating]",
+            "Alat_Tambahan"                => "$_POST[Desc_alat_tambahan]",
+            "Potong_Putus"                 => "$_POST[Ptg_Pts]",
+            "Potong_Gantung"               => "$_POST[Ptg_Gantung]",
+            "Pon_Garis"                    => "$_POST[Pon_Garis]",
+            "Perporasi"                    => "$_POST[Perporasi]",
+            "Cutting_Stiker"               => "$_POST[CuttingSticker]",
+            "Hekter_Tengah"                => "$_POST[Hekter_Tengah]",
+            "Blok"                         => "$_POST[Blok]",
+            "Spiral"                       => "$_POST[Spiral]",
+            "Qty"                          => "$_POST[qty]",
+            "Satuan"                       => "$Satuan",
+            "Proffing"                     => "$_POST[Proffing]",
+            "Ditunggu"                     => "$_POST[Ditunggu]",
+            "Urgent"                       => "$_POST[urgent]"
+        );
+        $log = "";
+
+        foreach ($array as $key => $value) :
+            $a = $row[$key];
+            if ($value != "$row[$key]") {
+                if (is_numeric($value)) {
+                    $Input_Value = number_format($value);
+                } else {
+                    $Input_Value = "$value";
+                }
+                $deskripsi = str_replace("_", " ", $key);
+                $log  .= "<b>$deskripsi</b> : $a <i class=\"far fa-angle-double-right\"></i> $Input_Value<br>";
+            } else {
+                $log  .= "";
+            }
+        endforeach;
+
+        if ($log != null) :
+            $Final_log = "
+                    <tr>
+                        <td>$timestamps</td>
+                        <td>" . $_SESSION['username'] . " Mengubah data</td>
+                        <td>$log</td>
+                    </tr>
+                ";
+        else :
+            $Final_log = "";
+        endif;
+    else :
+        $Final_log = "";
+    endif;
+
+    $sql =
+        "UPDATE penjualan SET 
+            kode            = '$_POST[Kode_Brg]', 
+            client_yes      = '$_POST[Nama_Client]',
+            id_yes          = '$_POST[id_yescom]',
+            so_yes          = '$_POST[so_yescom]',
+            jenis_wo        = '$_POST[wo_yescom]',
+            warna_cetak     = '$_POST[warna_cetakan]',
+            description     = '$Deskripsi',
+            ukuran          = '$_POST[ukuran]',
+            panjang         = '$_POST[panjang]',
+            lebar           = '$_POST[lebar]',
+            sisi            = '$_POST[Sisi]',
+            ID_Bahan        = '$_POST[id_bahan]',
+            keterangan      = '$Notes',
+            laminate        = '$_POST[Laminating]',
+            alat_tambahan   = '$_POST[alat_tambahan]',
+            potong          = '$_POST[Ptg_Pts]',
+            potong_gantung  = '$_POST[Ptg_Gantung]',
+            pon             = '$_POST[Pon_Garis]',
+            perporasi       = '$_POST[Perporasi]',
+            CuttingSticker  = '$_POST[CuttingSticker]',
+            Hekter_Tengah   = '$_POST[Hekter_Tengah]',
+            Blok            = '$_POST[Blok]',
+            Spiral          = '$_POST[Spiral]',
+            qty             = '$_POST[qty]',
+            satuan          = '$Satuan',
+            Proffing        = '$_POST[Proffing]',
+            ditunggu        = '$_POST[Ditunggu]',
+            urgent          = '$_POST[urgent]',
+            history         =  CONCAT('$Final_log', history)
+        WHERE 
+            oid             = $_POST[id_Order]
+    ;";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
-    echo "New records created successfully. $sql_data<br> <br> $sql";
+    echo "New records created successfully. $sql <br><br> $sql_Price";
 } else {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully. $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br> <br> $sql_data <br><br>" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br><br>" . mysqli_error($conn) . "</br>";
     }
 }
 

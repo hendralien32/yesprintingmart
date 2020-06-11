@@ -1,10 +1,10 @@
 <?php
 
-    session_start();
-    require_once "../../function.php";
+session_start();
+require_once "../../function.php";
 
-    $sql = 
-        "SELECT
+$sql =
+    "SELECT
             penjualan.id_yes,
             penjualan.client_yes,
             penjualan.description,
@@ -42,28 +42,28 @@
         WHERE
             penjualan.oid = '$_POST[ID_Order]'
     ";
-    $result = $conn_OOP -> query($sql);
-    if ($result->num_rows > 0) :
-        $row = $result->fetch_assoc();
+$result = $conn_OOP->query($sql);
+if ($result->num_rows > 0) :
+    $row = $result->fetch_assoc();
 
-        if($row['dead_line']!="-") {
-            $deadline = date("d M Y",strtotime($row['dead_line']));
-        } else {
-            $deadline = "-";
-        }
+    if ($row['dead_line'] != "-") {
+        $deadline = date("d M Y", strtotime($row['dead_line']));
+    } else {
+        $deadline = "-";
+    }
 
-        $selisih = $row['Nilai_Jual_Yes'] - $row['Nilai_Jual_YesPrint'];
+    $selisih = $row['Nilai_Jual_Yes'] - $row['Nilai_Jual_YesPrint'];
 
-        if( $selisih > 0 ) {
-            $nilai_selisih = "<span style='color:green'> ( Surplus + ". number_format($selisih) ." )</span>";
-        } else {
-            $nilai_selisih = "<span style='color:red'> ( Minus - ". number_format($selisih) ." )</span>";
-        }
+    if ($selisih > 0) {
+        $nilai_selisih = "<span style='color:green'> ( Surplus + " . number_format($selisih) . " )</span>";
+    } else {
+        $nilai_selisih = "<span style='color:red'> ( Minus - " . number_format($selisih) . " )</span>";
+    }
 
-        $DateSO_Yes = new DateTime($row['DateSO_Yes']);
-        $date_create = new DateTime($row['date_create']);
+    $DateSO_Yes = new DateTime($row['DateSO_Yes']);
+    $date_create = new DateTime($row['date_create']);
 
-    endif;
+endif;
 
 ?>
 
@@ -73,76 +73,76 @@
     <div class="col-6">
         <table class='table-form'>
             <tr>
-                <td style='width:175px'>ID Yes</td>
+                <td style='width:145px'>ID Yes</td>
                 <td><?= $row['id_yes'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Date Send</td>
-                <td><?= date("d M Y h:i",strtotime($row['date_create'])) . $DateSO_Yes->diff($date_create)->format("<b><i>( %d Hari, %h Jam : %i Menit )</i></b>"); ?></td>
+                <td style='width:145px'>Date Send</td>
+                <td><?= date("d M Y h:i", strtotime($row['date_create'])) . $DateSO_Yes->diff($date_create)->format("<b><i>( %d Hari, %h Jam : %i Menit )</i></b>"); ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Client</td>
+                <td style='width:145px'>Client</td>
                 <td><?= $row['client_yes'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Deskripsi</td>
+                <td style='width:145px'>Deskripsi</td>
                 <td><?= $row['description'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Ukuran</td>
+                <td style='width:145px'>Ukuran</td>
                 <td><?= $row['ukuran_jadi'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Qty</td>
+                <td style='width:145px'>Qty</td>
                 <td><?= $row['qty_jadi'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Deadline</td>
+                <td style='width:145px'>Deadline</td>
                 <td><?= $deadline ?></td>
             </tr>
-            <?php if($_SESSION['level']=="admin" || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting" ) : ?>
-            <tr>
-                <td style='width:175px'>@Harga Jual YES</td>
-                <td><?= number_format($row['Nilai_Jual_Yes']) . '( Tax ' .number_format($row['Tax']) . ' )' ?></td>
-            </tr>
+            <?php if ($_SESSION['level'] == "admin" || $_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting") : ?>
+                <tr>
+                    <td style='width:145px'>@Harga Jual YES</td>
+                    <td><?= number_format($row['Nilai_Jual_Yes']) . '( Tax ' . number_format($row['Tax']) . ' )' ?></td>
+                </tr>
             <?php endif; ?>
         </table>
     </div>
     <div class="col-6">
         <table class='table-form'>
             <tr>
-                <td style='width:175px'>SO YES</td>
+                <td style='width:145px'>SO YES</td>
                 <td><?= $row['so_yes'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>SO Date</td>
-                <td><?= date("d M Y h:i",strtotime($row['DateSO_Yes'])) ?></td>
+                <td style='width:145px'>SO Date</td>
+                <td><?= date("d M Y h:i", strtotime($row['DateSO_Yes'])) ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>AE Yes</td>
+                <td style='width:145px'>AE Yes</td>
                 <td><?= $row['marketing'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>CS Yes</td>
+                <td style='width:145px'>CS Yes</td>
                 <td><?= $row['cs_YES'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>DS Yes</td>
+                <td style='width:145px'>DS Yes</td>
                 <td><?= $row['designer_YES'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>CS Generete Data</td>
+                <td style='width:145px'>CS Generete Data</td>
                 <td><?= $row['CS_Generate'] ?></td>
             </tr>
             <tr>
-                <td style='width:175px'>Ship To</td>
+                <td style='width:145px'>Ship To</td>
                 <td><?= $row['Shipto_YES'] ?></td>
             </tr>
-            <?php if($_SESSION['level']=="admin" || $_SESSION['level']=="CS" || $_SESSION['level']=="accounting" ) : ?>
-            <tr>
-                <td style='width:175px'>@Harga Jual YESPrint</td>
-                <td><?= number_format($row['Nilai_Jual_YesPrint']) . $nilai_selisih ?></td>
-            </tr>
+            <?php if ($_SESSION['level'] == "admin" || $_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting") : ?>
+                <tr>
+                    <td style='width:145px'>@Harga Jual YESPrint</td>
+                    <td><?= number_format($row['Nilai_Jual_YesPrint']) . $nilai_selisih ?></td>
+                </tr>
             <?php endif; ?>
         </table>
     </div>

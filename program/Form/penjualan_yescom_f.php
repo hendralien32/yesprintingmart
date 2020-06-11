@@ -333,7 +333,7 @@ else :
                     <tr>
                         <td style='width:150px;'>ID</td>
                         <td>
-                            <input type="text" class='form sd' i id="id_yescom" value="<?= $id_yes ?>" class="form md">
+                            <input type="text" class='form sd' i id="id_yescom" value="<?= $id_yes ?>" autocomplete="off" class="form md">
                             <?php
                             echo "<span style='padding:5px 15px; background-color:#f76c35; cursor:pointer; color:white;margin-left:10px' onClick='LaodSubForm(\"Detail_YesID\",\"$_POST[ID_Order]\")'>View Detail</span>";
                             ?>

@@ -144,6 +144,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 oid,
                 kode,
                 ID_Bahan_Order,
+                test,
                 Qty_FINAL,
                 (CASE
                     WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN 500_lembar
@@ -420,8 +421,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         $arr_data['b_laminate'] = round($row['b_laminate']);
     }
 
-    // echo "$sql_query";
-    echo json_encode($arr_data);
+    echo "$qty <br><br><br><br> $sql_query";
+    // echo json_encode($arr_data);
 } elseif ($tipe_validasi == "Auto_YesOrder_Data") {
     $sql =
         "SELECT 

@@ -89,10 +89,11 @@ Next Progressive
    - Edit Order Penjualan Yescom [SOLVED]
       ` Show Form saat order edit Lock [SOLVED]
       ` SubForm Untuk Detail ID Yescom [SOLVED]
-   - Create Invoice Yescom
-      ` Bug Update Order Tidak Berfungsi
+   - Create Invoice Yescom [SOLVED]
+      ` Bug Update Order Tidak Berfungsi [SOLVED]
    - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart [SOLVED]
    - Print Yescom Daily Invoice [SOLVED]
+      `Bug AutoCalc() error nilai tidak sesuai sama dengan submit invoice dan update order
    
 * Digital Printing
    - Order List Digital Printing

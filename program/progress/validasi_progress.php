@@ -141,12 +141,14 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
 
     $sql_query =
         "SELECT
-                oid,
-                kode,
-                ID_Bahan_Order,
-                test,
-                Qty_FINAL,
-                (CASE
+            ID_Order,
+            auto_check.Sisi_Order,
+            auto_check.Qty_FINAL,
+            auto_check.test,
+            leminating_kilat,
+            leminating_doff,
+            auto_check.Satuan_Order,
+            (CASE
                     WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN 500_lembar
                     WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 250 THEN 250_lembar
                     WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 100 THEN 100_lembar
@@ -245,167 +247,177 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     WHEN kode = 'digital' and ID_Cutting = '71' and test >= 1 THEN COALESCE((1_lembar_Cutting + potong),0)
                     ELSE COALESCE(potong,0)
                 END) as b_potong
-            FROM
-                (   
-                    SELECT
-                        penjualan.oid,
-                        (CASE
-                            WHEN penjualan.satuan != '$_POST[Satuan]' THEN '$_POST[Satuan]'
-                            ELSE penjualan.satuan
-                        END) as Satuan_Order,
-                        (COALESCE(invoice.Qty,0) + $qty) as Qty_FINAL,
-                        (COALESCE(invoice.test,0) + $_POST[Qty]) as test,
-                        (CASE
-                            WHEN penjualan.sisi != '$_POST[Sisi]' THEN '$_POST[Sisi]'
-                            ELSE penjualan.sisi
-                        END) as Sisi_Order,
-                        (CASE
-                            WHEN penjualan.ID_Bahan != '$_POST[ID_Bahan]' THEN '$_POST[ID_Bahan]'
-                            ELSE penjualan.ID_Bahan
-                        END) as ID_Bahan_Order,
-                        (CASE
-                            WHEN penjualan.kode != '$_POST[Kode_Brg]' THEN '$_POST[Kode_Brg]'
-                            ELSE penjualan.kode
-                        END) as kode,
-                        penjualan.ID_Bahan,
-                        penjualan.sisi,
-                        (CASE
-                            WHEN penjualan.laminate != '$_POST[Laminating]' THEN '$_POST[Laminating]'
-                            ELSE penjualan.laminate
-                        END) as laminate,
-                        (COALESCE(invoice.leminating_kilat,0) + $Qty_Kilat) as leminating_kilat,
-                        (COALESCE(invoice.leminating_doff,0) + $Qty_Doff) as leminating_doff,
-                        (CASE
-                            WHEN penjualan.alat_tambahan != '' THEN '$ID_AT'
-                            ELSE '$ID_AT'
-                        END) as ID_AT,
-                        (CASE
-                            WHEN penjualan.CuttingSticker != '' THEN '$ID_CuttingStiker'
-                            ELSE '$ID_CuttingStiker'
-                        END) as ID_Cutting,
-                        (CASE
-                            WHEN penjualan.potong != '' THEN '$potong'
-                            WHEN penjualan.potong_gantung != '' THEN '$potong'
-                            WHEN penjualan.pon != '' THEN '$potong'
-                            WHEN penjualan.perporasi != '' THEN '$potong'
-                            ELSE '$potong'
-                        END) as potong
-                    FROM
-                        penjualan
-                    LEFT JOIN
-                        (
-                            SELECT
-                                penjualan.no_invoice,
-                                (CASE
-                                    WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3))
-                                    ELSE sum(FORMAT(penjualan.qty,0))
-                                END) as Qty,
-                                sum(penjualan.qty) as test,
-                                SUM(CASE 
-                                    WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
-                                    WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
-                                    WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
-                                    WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
-                                    ELSE 0 
-                                END) AS leminating_kilat,
-                                SUM(CASE 
-                                    WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
-                                    WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
-                                    WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
-                                    WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
-                                    ELSE 0 
-                                END) AS leminating_doff
-                            FROM
-                                penjualan
-                            WHERE
-                                penjualan.no_invoice = $_POST[no_invoice] and
-                                penjualan.oid != $_POST[ID_Order] and
-                                penjualan.ID_Bahan = $_POST[ID_Bahan] and
-                                penjualan.satuan = '$_POST[Satuan]'
-                            GROUP BY
-                                penjualan.no_invoice
-                        ) invoice
-                    ON 
-                        penjualan.no_invoice = invoice.no_invoice
-                    WHERE
-                        penjualan.oid = $_POST[ID_Order]
-                ) auto_check
-                LEFT JOIN 
+        FROM
+            (
+                SELECT
+                    penjualan.oid as ID_Order,
+                    invoice.oid,
+                    invoice.sisi AS Sisi_Order,
+                    (CASE
+                        WHEN invoice.satuan != '$_POST[Satuan]' THEN '$_POST[Satuan]'
+                        ELSE invoice.satuan
+                    END) AS Satuan_Order,
+                    COALESCE(invoice.Qty,0) AS Qty_FINAL,
+                    COALESCE(invoice.test,0) AS test,
+                    (CASE
+                        WHEN penjualan.ID_Bahan != '$_POST[ID_Bahan]' THEN '$_POST[ID_Bahan]'
+                        ELSE penjualan.ID_Bahan
+                    END) as ID_Bahan_Order,
+                    (CASE
+                        WHEN penjualan.kode != '$_POST[Kode_Brg]' THEN '$_POST[Kode_Brg]'
+                        ELSE penjualan.kode
+                    END) as kode,
+                    penjualan.ID_Bahan,
+                    penjualan.sisi,
+                    (CASE
+                        WHEN penjualan.laminate != '$_POST[Laminating]' THEN '$_POST[Laminating]'
+                        ELSE penjualan.laminate
+                    END) as laminate,
+                    (COALESCE(invoice.leminating_kilat,0) + $Qty_Kilat) as leminating_kilat,
+                    (COALESCE(invoice.leminating_doff,0) + $Qty_Doff) as leminating_doff,
+                    (CASE
+                        WHEN penjualan.alat_tambahan != '' THEN '$ID_AT'
+                        ELSE '$ID_AT'
+                    END) as ID_AT,
+                    (CASE
+                        WHEN penjualan.CuttingSticker != '' THEN '$ID_CuttingStiker'
+                        ELSE '$ID_CuttingStiker'
+                    END) as ID_Cutting,
+                    (CASE
+                        WHEN penjualan.potong != '' THEN '$potong'
+                        WHEN penjualan.potong_gantung != '' THEN '$potong'
+                        WHEN penjualan.pon != '' THEN '$potong'
+                        WHEN penjualan.perporasi != '' THEN '$potong'
+                        ELSE '$potong'
+                    END) as potong
+                FROM
+                    penjualan
+                LEFT JOIN
                     (
                         SELECT
-                            pricelist.sisi,
-                            pricelist.bahan,
-                            pricelist.jenis,
-                            pricelist.1_lembar,
-                            pricelist.2_lembar,
-                            pricelist.3sd5_lembar,
-                            pricelist.6sd9_lembar,
-                            pricelist.10_lembar,
-                            pricelist.20_lembar,
-                            pricelist.50_lembar,
-                            pricelist.100_lembar,
-                            pricelist.250_lembar,
-                            pricelist.500_lembar,
-                            pricelist.1sd2m,
-                            pricelist.3sd9m,
-                            pricelist.10m,
-                            pricelist.50m,
-                            pricelist.20_kotak,
-                            pricelist.2sd19_kotak,
-                            pricelist.1_kotak
-                        FROM 
-                            pricelist
-                    ) pricelist
-                ON
-                    auto_check.Sisi_Order = pricelist.sisi and auto_check.ID_Bahan_Order = pricelist.bahan and auto_check.kode = pricelist.jenis 
-                LEFT JOIN 
-                    (
-                        SELECT
-                            pricelist.sisi,
-                            pricelist.bahan,
-                            pricelist.jenis,
-                            pricelist.1_lembar AS 1_lembar_AT,
-                            pricelist.2_lembar AS 2_lembar_AT,
-                            pricelist.3sd5_lembar AS 3sd5_lembar_AT,
-                            pricelist.6sd9_lembar AS 6sd9_lembar_AT,
-                            pricelist.10_lembar AS 10_lembar_AT,
-                            pricelist.20_lembar AS 20_lembar_AT,
-                            pricelist.50_lembar AS 50_lembar_AT,
-                            pricelist.100_lembar AS 100_lembar_AT,
-                            pricelist.250_lembar AS 250_lembar_AT,
-                            pricelist.500_lembar AS 500_lembar_AT
-                        FROM 
-                            pricelist
-                    ) pricelist1
-                ON
-                    auto_check.ID_AT = pricelist1.bahan
-                LEFT JOIN 
-                    (
-                        SELECT
-                            pricelist.sisi,
-                            pricelist.bahan,
-                            pricelist.jenis,
-                            pricelist.1_lembar AS 1_lembar_Cutting,
-                            pricelist.2_lembar AS 2_lembar_Cutting,
-                            pricelist.3sd5_lembar AS 3sd5_lembar_Cutting,
-                            pricelist.6sd9_lembar AS 6sd9_lembar_Cutting,
-                            pricelist.10_lembar AS 10_lembar_Cutting,
-                            pricelist.20_lembar AS 20_lembar_Cutting,
-                            pricelist.50_lembar AS 50_lembar_Cutting,
-                            pricelist.100_lembar AS 100_lembar_Cutting,
-                            pricelist.250_lembar AS 250_lembar_Cutting,
-                            pricelist.500_lembar AS 500_lembar_Cutting,
-                            pricelist.1sd2m AS 1sd2m_Cutting,
-                            pricelist.3sd9m AS 3sd9m_Cutting,
-                            pricelist.10m AS 10m_Cutting,
-                            pricelist.50m AS 50m_Cutting
-                        FROM 
-                            pricelist
-                    ) Pricelist_Cutting
-                ON
-                    auto_check.ID_Cutting = Pricelist_Cutting.bahan and auto_check.kode = Pricelist_Cutting.jenis 
-            GROUP BY
-                oid
+                            penjualan.oid,
+                            penjualan.no_invoice,
+                            penjualan.sisi,
+                            penjualan.satuan,
+                            (CASE
+                                WHEN penjualan.sisi = '$_POST[Sisi]' THEN (sum(FORMAT(penjualan.qty,0))+$_POST[Qty])
+                                ELSE sum(FORMAT(penjualan.qty,0))
+                            END) AS test,
+                            (CASE
+                                WHEN penjualan.sisi = '$_POST[Sisi]' and penjualan.kode = 'digital' THEN (sum(penjualan.qty)+$_POST[Qty])
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and (penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli')) THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3))+ $qty)
+                                else sum(FORMAT(penjualan.qty,0))
+                            END) AS Qty,
+                            SUM(CASE 
+                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
+                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
+                                ELSE 0 
+                            END) AS leminating_kilat,
+                            SUM(CASE 
+                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
+                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
+                                ELSE 0 
+                            END) AS leminating_doff
+                        FROM
+                            penjualan
+                        WHERE
+                            penjualan.no_invoice = $_POST[no_invoice] and
+                            penjualan.oid != $_POST[ID_Order] and
+                            penjualan.ID_Bahan = $_POST[ID_Bahan] and
+                            penjualan.sisi = $_POST[Sisi] and
+                            penjualan.satuan = '$_POST[Satuan]'
+                        GROUP BY
+                            penjualan.no_invoice, penjualan.sisi
+                    ) invoice
+                ON 
+                    penjualan.no_invoice = invoice.no_invoice
+                WHERE
+                    penjualan.oid = $_POST[ID_Order]
+            ) auto_check
+
+        LEFT JOIN 
+            (
+                SELECT
+                    pricelist.sisi,
+                    pricelist.bahan,
+                    pricelist.jenis,
+                    pricelist.1_lembar,
+                    pricelist.2_lembar,
+                    pricelist.3sd5_lembar,
+                    pricelist.6sd9_lembar,
+                    pricelist.10_lembar,
+                    pricelist.20_lembar,
+                    pricelist.50_lembar,
+                    pricelist.100_lembar,
+                    pricelist.250_lembar,
+                    pricelist.500_lembar,
+                    pricelist.1sd2m,
+                    pricelist.3sd9m,
+                    pricelist.10m,
+                    pricelist.50m,
+                    pricelist.20_kotak,
+                    pricelist.2sd19_kotak,
+                    pricelist.1_kotak
+                FROM 
+                    pricelist
+            ) pricelist
+        ON
+            auto_check.Sisi_Order = pricelist.sisi and auto_check.ID_Bahan_Order = pricelist.bahan and auto_check.kode = pricelist.jenis 
+
+        LEFT JOIN 
+            (
+                SELECT
+                    pricelist.sisi,
+                    pricelist.bahan,
+                    pricelist.jenis,
+                    pricelist.1_lembar AS 1_lembar_AT,
+                    pricelist.2_lembar AS 2_lembar_AT,
+                    pricelist.3sd5_lembar AS 3sd5_lembar_AT,
+                    pricelist.6sd9_lembar AS 6sd9_lembar_AT,
+                    pricelist.10_lembar AS 10_lembar_AT,
+                    pricelist.20_lembar AS 20_lembar_AT,
+                    pricelist.50_lembar AS 50_lembar_AT,
+                    pricelist.100_lembar AS 100_lembar_AT,
+                    pricelist.250_lembar AS 250_lembar_AT,
+                    pricelist.500_lembar AS 500_lembar_AT
+                FROM 
+                    pricelist
+            ) pricelist1
+        ON
+            auto_check.ID_AT = pricelist1.bahan
+        LEFT JOIN 
+            (
+                SELECT
+                    pricelist.sisi,
+                    pricelist.bahan,
+                    pricelist.jenis,
+                    pricelist.1_lembar AS 1_lembar_Cutting,
+                    pricelist.2_lembar AS 2_lembar_Cutting,
+                    pricelist.3sd5_lembar AS 3sd5_lembar_Cutting,
+                    pricelist.6sd9_lembar AS 6sd9_lembar_Cutting,
+                    pricelist.10_lembar AS 10_lembar_Cutting,
+                    pricelist.20_lembar AS 20_lembar_Cutting,
+                    pricelist.50_lembar AS 50_lembar_Cutting,
+                    pricelist.100_lembar AS 100_lembar_Cutting,
+                    pricelist.250_lembar AS 250_lembar_Cutting,
+                    pricelist.500_lembar AS 500_lembar_Cutting,
+                    pricelist.1sd2m AS 1sd2m_Cutting,
+                    pricelist.3sd9m AS 3sd9m_Cutting,
+                    pricelist.10m AS 10m_Cutting,
+                    pricelist.50m AS 50m_Cutting
+                FROM 
+                    pricelist
+            ) Pricelist_Cutting
+        ON
+            auto_check.ID_Cutting = Pricelist_Cutting.bahan and auto_check.kode = Pricelist_Cutting.jenis 
+        WHERE
+            ID_Order = $_POST[ID_Order]
+        GROUP BY
+            oid
         ";
 
     $result = mysqli_query($conn, $sql_query);
@@ -421,8 +433,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         $arr_data['b_laminate'] = round($row['b_laminate']);
     }
 
-    echo "$qty <br><br><br><br> $sql_query";
-    // echo json_encode($arr_data);
+    echo json_encode($arr_data);
+    // echo "$qty <br><br> $_POST[Qty]<br><br> $sql_query";
 } elseif ($tipe_validasi == "Auto_YesOrder_Data") {
     $sql =
         "SELECT 

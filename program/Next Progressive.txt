@@ -93,7 +93,11 @@ Next Progressive
       ` Bug Update Order Tidak Berfungsi [SOLVED]
    - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart [SOLVED]
    - Print Yescom Daily Invoice [SOLVED]
-      `Bug AutoCalc() error nilai tidak sesuai sama dengan submit invoice dan update order
+      ` Bug AutoCalc() [SOLVED]
+      ` Bug Nilai harga tidak sesuai saat Update Order Invoice ( di Sales Order Yesprinting )
+      ` Bug Nilai harga tidak sesuai saat Re-Add Sales Invoice ( di Sales Order Yesprinting )
+
+      ` Perbaiki Form Pricelist tambah Xuli
    
 * Digital Printing
    - Order List Digital Printing

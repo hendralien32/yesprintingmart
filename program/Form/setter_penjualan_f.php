@@ -496,7 +496,7 @@ elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION
                 <tr>
                     <td>Kode Barang</td>
                     <td>
-                        <select class="myselect" id="kode_barng" onchange="ChangeKodeBrg()">
+                        <select class="myselect" id="kode_barng" onChange="ChangeKodeBrg(); autoCalc();">
                             <?php
                             $array_kode = array(
                                 "digital" => "Digital Printing",

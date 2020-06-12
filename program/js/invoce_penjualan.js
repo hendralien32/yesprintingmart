@@ -62,7 +62,7 @@ function autoCalc() {
     }
     var CuttingSticker;
     if ($('#CuttingSticker').prop("checked") == true) {
-        CuttingSticker = "71";
+        CuttingSticker = "78";
     } else {
         CuttingSticker = "";
     }

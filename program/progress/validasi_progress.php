@@ -347,7 +347,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                             penjualan.oid != $_POST[ID_Order] and
                             penjualan.ID_Bahan = $_POST[ID_Bahan] and
                             penjualan.sisi = $_POST[Sisi] and
-                            penjualan.satuan = '$_POST[Satuan]'
+                            penjualan.satuan = '$_POST[Satuan]' and
+                            penjualan.kode = '$_POST[Kode_Brg]'
                         GROUP BY
                             penjualan.no_invoice, penjualan.sisi
                     ) invoice

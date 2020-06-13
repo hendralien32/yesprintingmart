@@ -606,119 +606,136 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
     // SEARCH INVOICE END
     $sql_data =
         "SELECT
-                oid,
-                (CASE
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 500 THEN 500_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 250 THEN 250_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 100 THEN 100_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 50 THEN 50_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 20 THEN 20_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 10 THEN 10_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 6 THEN 6sd9_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 3 THEN 3sd5_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 2 THEN 2_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and qty >= 1 THEN 1_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and qty >= 20 THEN 20_kotak
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and qty >= 2 THEN 2sd19_kotak
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and qty >= 1 THEN 1_kotak
-                    ELSE '0'
-                END) as b_digital,
-                (CASE
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
-                    ELSE '0'
-                END) as b_lf,
-                (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
-                    ELSE '0'
-                END) as indoor,
-                (CASE
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 500 THEN 500_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 250 THEN 250_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 100 THEN 100_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 50 THEN 50_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 20 THEN 20_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 10 THEN 10_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 6 THEN 6sd9_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 3 THEN 3sd5_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 2 THEN 2_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and qty >= 1 THEN 1_lembar_AT
-                    ELSE '0'
-                END) as b_kotak,
-                (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 500 THEN 500_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 250 THEN 250_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 100 THEN 100_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 50 THEN 50_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
-                    ELSE '0'
-                END) as b_AlatTambahan,
-                (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 50 THEN ( 50m_Cutting * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 10 THEN ( 10m_Cutting * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 3 THEN ( 3sd9m_Cutting * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty >= 1 THEN ( 1sd2m_Cutting * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '71' and qty < 1 THEN ( 1sd2m_Cutting ) / test 
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 500 THEN 500_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 250 THEN 250_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 100 THEN 100_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 50 THEN 50_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 20 THEN 20_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 10 THEN 10_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 6 THEN 6sd9_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 3 THEN 3sd5_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 2 THEN 2_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '71' and test >= 1 THEN 1_lembar_Cutting + potong
-                    ELSE ( potong + potong_gantung + pon + perporasi )
-                END) as b_potong,
-                (CASE
-                    WHEN laminate = 'kilat1'and leminating_kilat >=20 and satuan = 'lembar' THEN 750
-                    WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'lembar' THEN 1500
-                    WHEN laminate = 'kilat1'and leminating_kilat >=20 and satuan = 'kotak' THEN 750*4
-                    WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'kotak' THEN 1500*4
-                    WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
-                    WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2),0)
-                    WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
-                    WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2)*4,0)
-                    WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'lembar' THEN 750
-                    WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'lembar' THEN 1500
-                    WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'kotak' THEN 750*4
-                    WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'kotak' THEN 1500*4
-                    WHEN laminate = 'doff1' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
-                    WHEN laminate = 'doff2' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2),0)
-                    WHEN laminate = 'doff1' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
-                    WHEN laminate = 'doff2' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2)*4,0)
-                    WHEN laminate = 'hard_lemit' THEN 10000
-                    WHEN laminate = 'laminating_floor' and ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) THEN ( 40000 * qty ) / test
-                    WHEN laminate = 'laminating_floor' and kode = 'digital' THEN 10000
-                    WHEN ( laminate = 'kilatdingin1' or laminate = 'doffdingin1' ) and kode = 'digital' and satuan = 'lembar' THEN 5000
-                    ELSE '0'
-                END) as b_laminate
-            FROM 
-                (
+            oid,
+            kode,
+            ID_Bahan,
+            ID_AT,
+            ID_Cutting,
+            Qty,
+            Qty_LF,
+            Qty_Cutting,
+            leminating_kilat,
+            leminating_doff,
+            (CASE
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                ELSE '0'
+            END) as b_digital,
+            (CASE
+                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                ELSE '0'
+            END) as b_lf,
+            (CASE
+                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                ELSE '0'
+            END) as indoor,
+            (CASE
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 500 THEN 500_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 250 THEN 250_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 100 THEN 100_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 50 THEN 50_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
+                ELSE '0'
+            END) as b_kotak,
+            (CASE
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 500 THEN 500_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 250 THEN 250_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 100 THEN 100_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 50 THEN 50_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
+                ELSE '0'
+            END) as b_AlatTambahan,
+            (CASE
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '78' and qty >= 50 THEN ( 50m_Cutting * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '78' and qty >= 10 THEN ( 10m_Cutting * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '78' and qty >= 3 THEN ( 3sd9m_Cutting * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '78' and qty >= 1 THEN ( 1sd2m_Cutting * Uk_PxL )
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_Cutting = '78' and qty < 1 THEN ( 1sd2m_Cutting ) / Qty 
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 500 THEN 500_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 250 THEN 250_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 100 THEN 100_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 50 THEN 50_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 20 THEN 20_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 10 THEN 10_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 6 THEN 6sd9_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 2 THEN 2_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 1 THEN 1_lembar_Cutting + potong
+                ELSE ( potong + potong_gantung + pon + perporasi )
+            END) as b_potong,
+            (CASE
+                WHEN laminate = 'kilat1'and leminating_kilat >=20 and satuan = 'lembar' THEN 750
+                WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'lembar' THEN 1500
+                WHEN laminate = 'kilat1'and leminating_kilat >=20 and satuan = 'kotak' THEN 750*4
+                WHEN laminate = 'kilat2' and leminating_kilat >=20 and satuan = 'kotak' THEN 1500*4
+                WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
+                WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'lembar' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2),0)
+                WHEN laminate = 'kilat1' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
+                WHEN laminate = 'kilat2' and leminating_kilat and satuan = 'kotak' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2)*4,0)
+                WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'lembar' THEN 750
+                WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'lembar' THEN 1500
+                WHEN laminate = 'doff1'and leminating_doff >=20 and satuan = 'kotak' THEN 750*4
+                WHEN laminate = 'doff2' and leminating_doff >=20 and satuan = 'kotak' THEN 1500*4
+                WHEN laminate = 'doff1' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
+                WHEN laminate = 'doff2' and leminating_doff and satuan = 'lembar' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2),0)
+                WHEN laminate = 'doff1' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
+                WHEN laminate = 'doff2' and leminating_doff and satuan = 'kotak' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2)*4,0)
+                WHEN laminate = 'hard_lemit' THEN 10000
+                WHEN laminate = 'laminating_floor' and ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) THEN ( 40000 * Qty ) / Qty
+                WHEN laminate = 'laminating_floor' and kode = 'digital' THEN 10000
+                WHEN ( laminate = 'kilatdingin1' or laminate = 'doffdingin1' ) and kode = 'digital' and satuan = 'lembar' THEN 5000
+                ELSE '0'
+            END) as b_laminate
+        FROM
+            (
                 SELECT
                     penjualan.oid,
                     penjualan.kode,
                     penjualan.ID_Bahan,
-                    barang.nama_barang,
                     penjualan.sisi,
                     penjualan.laminate,
                     ((penjualan.panjang * penjualan.lebar)/10000) as Uk_PxL,
-                    penjualan.qty AS test,
+                    (CASE
+                        WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN 'meter'
+                        ELSE LOWER(penjualan.satuan) 
+                    END) AS satuan,
+                    Qty_ID_Penjualan.ID_AT,
+                    Qty_ID_Penjualan.ID_Cutting,
+                    barang.leminating_kilat,
+                    barang.leminating_doff,
+                    barang.Qty,
                     barang.Qty_LF,
-                    barang.qty,
+                    barang.Qty_Cutting,
+                    barang.kode_barang,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
                     pricelist.3sd5_lembar,
@@ -760,57 +777,29 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     pricelist.20_kotak,
                     pricelist.2sd19_kotak,
                     pricelist.1_kotak,
-                    barang.ID_AT,
-                    barang.ID_Cutting,
                     (CASE
-                        WHEN potong = 'Y' and satuan = 'lembar' THEN '500'
-                        WHEN potong = 'Y' and satuan = 'kotak' THEN '2000'
+                        WHEN penjualan.potong = 'Y' and penjualan.satuan = 'lembar' THEN '500'
+                        WHEN penjualan.potong = 'Y' and penjualan.satuan = 'kotak' THEN '2000'
                         ELSE '0'
                     END) as potong,
                     (CASE
-                        WHEN potong_gantung = 'Y' THEN '500'
+                        WHEN penjualan.potong_gantung = 'Y' THEN '500'
                         ELSE '0'
                     END) as potong_gantung,
                     (CASE
-                        WHEN pon = 'Y' THEN '500'
+                        WHEN penjualan.pon = 'Y' THEN '500'
                         ELSE '0'
                     END) as pon,
                     (CASE
-                        WHEN perporasi = 'Y' THEN '500'
+                        WHEN penjualan.perporasi = 'Y' THEN '500'
                         ELSE '0'
-                    END) as perporasi,
-                    (CASE
-                        WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN 'meter'
-                        ELSE LOWER(penjualan.satuan) 
-                    END) AS satuan,
-                    (CASE
-                        WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)
-                        ELSE FORMAT(penjualan.qty,0)
-                    END) AS qty_order,
-                    leminating_kilat,
-                    leminating_doff
+                    END) as perporasi
                 FROM
                     penjualan
-                LEFT JOIN 
-                    (SELECT 
-                        barang.id_barang,
-                        barang.nama_barang,
-                        total_qty.Qty AS qty,
-                        total_qty.Qty_LF,
-                        total_qty.sisi,
-                        total_qty.satuan as Satuan_Order,
-                        total_qty.ID_AT,
-                        total_qty.ID_Cutting,
-                        total_laminate.leminating_kilat,
-                        total_laminate.leminating_doff
-                    FROM
-                        barang
-                    LEFT JOIN
-                        (SELECT
-                            penjualan.kode,
-                            penjualan.ID_Bahan,
-                            penjualan.sisi,
-                            penjualan.satuan,
+                LEFT JOIN
+                    (
+                        SELECT
+                            penjualan.oid,
                             (CASE
                                 WHEN penjualan.alat_tambahan = 'KotakNC' THEN '31'
                                 WHEN penjualan.alat_tambahan = 'Ybanner' THEN '32'
@@ -821,82 +810,109 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                                 ELSE '0'
                             END) as ID_AT,
                             (CASE
-                                WHEN penjualan.CuttingSticker = 'Y' THEN '71'
+                                WHEN penjualan.CuttingSticker = 'Y' THEN '78'
                                 ELSE '0'
-                            END) as ID_Cutting,
-                            (CASE
-                                WHEN penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli' THEN FORMAT(sum(((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)
-                                ELSE FORMAT(sum(penjualan.qty),0)
-                            END) AS Qty,
-                            FORMAT(sum(penjualan.qty),0) as Qty_LF
+                            END) as ID_Cutting
                         FROM
                             penjualan
                         WHERE
                             penjualan.oid IN ('$aid')
                         GROUP BY
-                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan
-                        ) total_qty
-                    ON
-                        barang.id_barang = total_qty.ID_Bahan
-                    LEFT JOIN
-                        (SELECT
-                            penjualan.ID_Bahan,
-                            SUM(CASE 
-                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
-                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
-                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
-                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
-                                ELSE 0 
-                            END) AS leminating_kilat,
-                            SUM(CASE 
-                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
-                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
-                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
-                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
-                                ELSE 0 
-                            END) AS leminating_doff
+                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                    ) Qty_ID_Penjualan
+                ON
+                    penjualan.oid = Qty_ID_Penjualan.oid
+
+                LEFT JOIN 
+                    (
+                        SELECT 
+                            barang.id_barang,
+                            barang.nama_barang,
+                            total_qty.ID_Bahan,
+                            total_qty.sisi,
+                            total_qty.satuan,
+                            total_qty.leminating_kilat,
+                            total_qty.leminating_doff,
+                            total_qty.Qty,
+                            total_qty.Qty_LF,
+                            total_qty.Qty_Cutting,
+                            total_qty.kode as kode_barang
                         FROM
-                            penjualan
-                        WHERE
-                            penjualan.oid IN ('$aid')
-                        GROUP BY
-                            penjualan.ID_Bahan
-                        ) total_laminate
-                    ON
-                        barang.id_barang = total_laminate.ID_Bahan
+                            barang
+                        LEFT JOIN
+                            (SELECT
+                                penjualan.oid,
+                                penjualan.ID_Bahan,
+                                penjualan.sisi,
+                                penjualan.satuan,
+                                penjualan.kode,
+                                SUM(CASE 
+                                    WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                    WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                    WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
+                                    WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
+                                    ELSE 0 
+                                END) AS leminating_kilat,
+                                SUM(CASE 
+                                    WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                    WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                    WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
+                                    WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
+                                    ELSE 0 
+                                END) AS leminating_doff,
+                                (CASE
+                                    WHEN penjualan.kode = 'large format' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'indoor' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'Xuli' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    ELSE FORMAT(SUM(penjualan.qty),0)
+                                END) AS Qty,
+                                FORMAT(SUM(penjualan.qty),0) as Qty_LF,
+                                SUM(CASE 
+                                    WHEN (penjualan.CuttingSticker = 'Y') THEN penjualan.qty
+                                    ELSE 0 
+                                END) AS Qty_Cutting
+                            FROM
+                                penjualan
+                            WHERE
+                                penjualan.oid IN ('$aid')
+                            GROUP BY
+                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                            ) total_qty
+                        ON
+                            barang.id_barang = total_qty.ID_Bahan
                     ) barang
                 ON
                     penjualan.ID_Bahan = barang.id_barang
+                
                 LEFT JOIN 
                     (
-                    SELECT
-                        pricelist.sisi,
-                        pricelist.bahan,
-                        pricelist.jenis,
-                        pricelist.1_lembar,
-                        pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
-                        pricelist.6sd9_lembar,
-                        pricelist.10_lembar,
-                        pricelist.20_lembar,
-                        pricelist.50_lembar,
-                        pricelist.100_lembar,
-                        pricelist.250_lembar,
-                        pricelist.500_lembar,
-                        pricelist.1sd2m,
-                        pricelist.3sd9m,
-                        pricelist.10m,
-                        pricelist.50m,
-                        pricelist.20_kotak,
-                        pricelist.2sd19_kotak,
-                        pricelist.1_kotak
-                    FROM 
-                        pricelist
+                        SELECT
+                            pricelist.sisi,
+                            pricelist.bahan,
+                            pricelist.jenis,
+                            pricelist.1_lembar,
+                            pricelist.2_lembar,
+                            pricelist.3sd5_lembar,
+                            pricelist.6sd9_lembar,
+                            pricelist.10_lembar,
+                            pricelist.20_lembar,
+                            pricelist.50_lembar,
+                            pricelist.100_lembar,
+                            pricelist.250_lembar,
+                            pricelist.500_lembar,
+                            pricelist.1sd2m,
+                            pricelist.3sd9m,
+                            pricelist.10m,
+                            pricelist.50m,
+                            pricelist.20_kotak,
+                            pricelist.2sd19_kotak,
+                            pricelist.1_kotak
+                        FROM 
+                            pricelist
                     ) pricelist
                 ON
-                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis 
-
-                LEFT JOIN 
+                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis
+                    LEFT JOIN 
                     (
                     SELECT
                         pricelist.sisi,
@@ -916,8 +932,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                         pricelist
                     ) pricelist1
                 ON
-                    barang.ID_AT = pricelist1.bahan
-
+                    Qty_ID_Penjualan.ID_AT = pricelist1.bahan
                 LEFT JOIN 
                     (
                     SELECT
@@ -942,16 +957,18 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                         pricelist
                     ) Pricelist_Cutting
                 ON
-                    barang.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
-
+                    Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
                 WHERE
                     penjualan.oid IN ('$aid') and
-                    penjualan.ID_Bahan = barang.id_barang and
+                    penjualan.ID_Bahan = barang.ID_Bahan and
                     penjualan.sisi = barang.sisi and
-                    penjualan.satuan = barang.Satuan_Order
-                ) table_invoice
+                    penjualan.satuan = barang.satuan and
+                    penjualan.kode = barang.Kode_barang
                 GROUP BY
-                    oid
+                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid
+            ) Group_ID
+        GROUP BY
+            oid
         "; // OK WORKING FINE
 
     $data = mysqli_query($conn, $sql_data);
@@ -4882,12 +4899,12 @@ elseif ($_POST['jenis_submit'] == 'Update_OrderYESCOM') :
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
-    echo "New records created successfully. $sql <br><br> $sql_Price";
+    echo "New records created successfully. $sql <br><br> $sql_data";
 } else {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully. $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br><br>" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql_data <br><br><br><br> $sql" . mysqli_error($conn) . "</br>";
     }
 }
 

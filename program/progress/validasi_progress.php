@@ -448,8 +448,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         $arr_data['b_laminate'] = round($row['b_laminate']);
     }
 
-    echo json_encode($arr_data);
-    // echo "$sql_query";
+    // echo json_encode($arr_data);
+    echo "$sql_query";
 } elseif ($tipe_validasi == "Auto_YesOrder_Data") {
     $sql =
         "SELECT 

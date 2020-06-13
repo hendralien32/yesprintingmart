@@ -330,9 +330,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
         </div>
     </div>
 
-<?php
-
-elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION['level'] == "setter"  || $_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting") && $_POST['AksesEdit'] == "Y") : // Update
+<?php elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION['level'] == "setter"  || $_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting") && $_POST['AksesEdit'] == "Y") : // Update
     if (isset($_POST['ID_Order']) != "") {
         $ID_Order = "$_POST[ID_Order]";
         $sql =
@@ -483,8 +481,7 @@ elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION
             } else :
 
         endif;
-    }
-?>
+    } ?>
     <div class="row">
         <div class="col-6">
             <input type="hidden" id="id_user" value="<?= $_SESSION['uid']; ?>">
@@ -531,7 +528,12 @@ elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION
                 </tr>
                 <tr>
                     <td>Ukuran</td>
-                    <td><input type='text' class='form' id='ukuran' value="<?= $row['ukuran']; ?>"> <span id="ukuran_LF"><input type='number' class='form sd' id='panjang' value="<?= $row['panjang']; ?>" onkeyup="autoCalc()" onkeyup="calc_meter()"> x <input type='number' class='form sd' id='lebar' onkeyup="calc_meter()" onkeyup="autoCalc()" value="<?= $row['lebar']; ?>"></span><span id="perhitungan_meter"></span></td>
+                    <td>
+                        <input type='text' class='form' id='ukuran' value="<?= $row['ukuran']; ?>">
+                        <span id="ukuran_LF">
+                            <input type='number' class='form sd' id='panjang' value="<?= $row['panjang']; ?>" onkeyup="autoCalc();calc_meter();"> x <input type='number' class='form sd' id='lebar' onkeyup="calc_meter();autoCalc();" value="<?= $row['lebar']; ?>"></span><span id="perhitungan_meter">
+                        </span>
+                    </td>
                 </tr>
                 <tr>
                     <td>sisi</td>
@@ -721,7 +723,8 @@ elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION
                     <td>Admin Menu</td>
                     <td>
                         <div class="contact100-form-checkbox">
-                            <input class="input-checkbox100" id="Auto_Calc" type="checkbox" name="remember" onclick="AksesEdit()" <?php if ($_SESSION["level"] != "admin") {
+                            <input class="input-checkbox100" id="Auto_Calc" type="checkbox" name="remember" onclick="AksesEdit()" <?php
+                                                                                                                                    if ($_SESSION["level"] != "admin") {
                                                                                                                                         echo "Disabled";
                                                                                                                                     } else {
                                                                                                                                     } ?>>
@@ -832,10 +835,8 @@ elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION
 
         </div>
     </div>
-<?php
-else : // insert 
+<?php else : // insert  
 ?>
-
     <div class="row">
         <div class="col-6">
             <input type="hidden" id="id_user" value="<?= $_SESSION['uid']; ?>">

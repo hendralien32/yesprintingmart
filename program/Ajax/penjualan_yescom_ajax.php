@@ -45,7 +45,6 @@
             penjualan.oid,
             penjualan.kode as kode_barang,
             penjualan.sisi,
-            penjualan.no_invoice as Nomor_Invoice,
             (CASE
                 WHEN penjualan.sisi = '1' THEN 'satu'
                 WHEN penjualan.sisi = '2' THEN 'dua'
@@ -191,7 +190,7 @@
                 <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['id_yes']) ."</center></td>
                 <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['so_yes']) ."</center></td>
                 <td onclick='". $edit ."' class='pointer'><Center><span class='KodeProject ".$kode_class."'>". strtoupper($d['code']) ."</span></Center></td>
-                <td onclick='". $edit ."' class='pointer'><b style='color:$status;'>▐</b> $d[Nomor_Invoice] - <strong>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['client_yes']) ."</strong> - ". str_ireplace($cari_keyword,$bold_cari_keyword,$d['description']) ." $d[ukuran]</td>
+                <td onclick='". $edit ."' class='pointer'><b style='color:$status;'>▐</b> <strong>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['client_yes']) ."</strong> - ". str_ireplace($cari_keyword,$bold_cari_keyword,$d['description']) ." $d[ukuran]</td>
                 <td>
                     <center>
                         <span class='icon_status $pointer' ondblclick='$acc'><i class='fas fa-thumbs-up ". $check_acc ."'></i></span>

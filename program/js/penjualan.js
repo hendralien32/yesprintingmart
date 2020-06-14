@@ -752,80 +752,97 @@ function submit(id) {
   var Ukuran = $("#ukuran").val();
   var Panjang = $("#panjang").val();
   var Lebar = $("#lebar").val();
-  var Sisi;
-  if ($("#satu_sisi").prop("checked") == true) {
-    Sisi = "1";
-  } else {
-    Sisi = "2";
-  }
+  var warna_cetakan = $("#warna_cetakan").val();
   var ID_Bahan = $("#id_bahan").val();
   var Nama_Bahan = $("#bahan").val();
   var Notes = $("#notes").val();
   var Laminating = $("#laminating").val().split(".");
   var alat_tambahan = $("#alat_tambahan").val().split(".");
+  var inv_check = $("#inv_check").val();
+  var Qty = $("#qty").val();
+  var Satuan = $("#satuan").val();
   var Ptg_Pts;
+  var Ptg_Gantung;
+  var Pon_Garis;
+  var Perporasi;
+  var CuttingSticker;
+  var Hekter_Tengah;
+  var Blok;
+  var Spiral;
+  var Proffing;
+  var Ditunggu;
+  var Design;
+  var Auto_Calc;
+  var akses_edit;
+  var Sisi;
+  var b_digital;
+  var b_kotak;
+  var b_lain;
+  var b_potong;
+  var b_large;
+  var b_indoor;
+  var b_xbanner;
+  var b_offset;
+  var b_laminate;
+  var b_design;
+  var b_delivery;
+  var discount;
+
+  if ($("#satu_sisi").prop("checked") == true) {
+    Sisi = "1";
+  } else {
+    Sisi = "2";
+  }
   if ($("#Ptg_Pts").prop("checked") == true) {
     Ptg_Pts = "Y";
   } else {
     Ptg_Pts = "N";
   }
-  var Ptg_Gantung;
   if ($("#Ptg_Gantung").prop("checked") == true) {
     Ptg_Gantung = "Y";
   } else {
     Ptg_Gantung = "N";
   }
-  var Pon_Garis;
   if ($("#Pon_Garis").prop("checked") == true) {
     Pon_Garis = "Y";
   } else {
     Pon_Garis = "N";
   }
-  var Perporasi;
   if ($("#Perporasi").prop("checked") == true) {
     Perporasi = "Y";
   } else {
     Perporasi = "N";
   }
-  var CuttingSticker;
   if ($("#CuttingSticker").prop("checked") == true) {
     CuttingSticker = "Y";
   } else {
     CuttingSticker = "N";
   }
-  var Hekter_Tengah;
   if ($("#Hekter_Tengah").prop("checked") == true) {
     Hekter_Tengah = "Y";
   } else {
     Hekter_Tengah = "N";
   }
-  var Blok;
   if ($("#Blok").prop("checked") == true) {
     Blok = "Y";
   } else {
     Blok = "N";
   }
-  var Spiral;
   if ($("#Spiral").prop("checked") == true) {
     Spiral = "Y";
   } else {
     Spiral = "N";
   }
-  var Qty = $("#qty").val();
-  var Satuan = $("#satuan").val();
-  var Proffing;
   if ($("#proffing").prop("checked") == true) {
     Proffing = "Y";
   } else {
     Proffing = "N";
   }
-  var Ditunggu;
   if ($("#ditunggu").prop("checked") == true) {
     Ditunggu = "Y";
   } else {
     Ditunggu = "N";
   }
-  var Design;
   if ($("#Design").prop("checked") == true) {
     Design = "Y";
   } else {
@@ -841,31 +858,76 @@ function submit(id) {
   } else {
     deskripsi_alat_tambahan = alat_tambahan[1];
   }
-  var b_digital = $("#b_digital").val();
-  var b_kotak = $("#b_kotak").val();
-  var b_lain = $("#b_lain").val();
-  var b_potong = $("#b_finishing").val();
-  var b_large = $("#b_lf").val();
-  var b_indoor = $("#b_indoor").val();
-  var b_xbanner = $("#b_xbanner").val();
-  var b_offset = $("#b_offset").val();
-  var b_laminate = $("#b_laminate").val();
-  var b_design = $("#b_design").val();
-  var b_delivery = $("#b_delivery").val();
-  var discount = $("#discount").val();
-  var Auto_Calc;
   if ($("#Auto_Calc").prop("checked") == true) {
     Auto_Calc = "Y";
   } else {
     Auto_Calc = "N";
   }
-  var akses_edit;
   if ($("#akses_edit").prop("checked") == true) {
     akses_edit = "Y";
   } else {
     akses_edit = "N";
   }
-  var inv_check = $("#inv_check").val();
+  if ($("#b_digital").val() == undefined) {
+    b_digital = "0";
+  } else {
+    b_digital = $("#b_digital").val();
+  }
+  if ($("#b_kotak").val() == undefined) {
+    b_kotak = "0";
+  } else {
+    b_kotak = $("#b_kotak").val();
+  }
+  if ($("#b_lain").val() == undefined) {
+    b_lain = "0";
+  } else {
+    b_lain = $("#b_lain").val();
+  }
+  if ($("#b_finishing").val() == undefined) {
+    b_potong = "0";
+  } else {
+    b_potong = $("#b_finishing").val();
+  }
+  if ($("#b_lf").val() == undefined) {
+    b_large = "0";
+  } else {
+    b_large = $("#b_lf").val();
+  }
+  if ($("#b_indoor").val() == undefined) {
+    b_indoor = "0";
+  } else {
+    b_indoor = $("#b_indoor").val();
+  }
+  if ($("#b_xbanner").val() == undefined) {
+    b_xbanner = "0";
+  } else {
+    b_xbanner = $("#b_xbanner").val();
+  }
+  if ($("#b_offset").val() == undefined) {
+    b_offset = "0";
+  } else {
+    b_offset = $("#b_offset").val();
+  }
+  if ($("#b_laminate").val() == undefined) {
+    b_laminate = "0";
+  } else {
+    b_laminate = $("#b_laminate").val();
+  }
+  if ($("#b_design").val() == undefined) {
+    b_design = "0";
+  } else {
+    b_design = $("#b_design").val();
+  }
+  if ($("#b_delivery").val() == undefined) {
+    b_delivery = "0";
+  } else {
+    b_delivery = $("#b_delivery").val();
+  }
+  if ($("#discount").val() == undefined) {
+    discount = "0";
+  } else {
+    discount = $("#discount").val();
+  }
 
   var fdata = new FormData();
 
@@ -880,6 +942,7 @@ function submit(id) {
   fdata.append("Ukuran", Ukuran);
   fdata.append("Panjang", Panjang);
   fdata.append("Lebar", Lebar);
+  fdata.append("warna_cetakan", warna_cetakan);
   fdata.append("Sisi", Sisi);
   fdata.append("ID_Bahan", ID_Bahan);
   fdata.append("Nama_Bahan", Nama_Bahan);

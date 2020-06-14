@@ -149,7 +149,7 @@ if ($kode_barang != "" and $_POST['data'] == "") {
                     $icon = "<i class='fas fa-undo-alt text-success'></i>";
                 endif;
 
-                if ($row['warna'] == "FC") : $status = "color: rgb(131,58,180);";
+                if ($row['warna'] == "FC") : $status = "color:#f76c35;";
                 elseif ($row['warna'] == "BW") : $status = "color:#535353;";
                 else : $status = "#000000";
                 endif;

@@ -379,6 +379,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                     penjualan.b_indoor,
                     penjualan.b_delivery,
                     penjualan.discount,
+                    penjualan.warna_cetak as Warna_Cetak,
                     (CASE
                         WHEN penjualan.akses_edit = 'Y' THEN 'Y'
                         WHEN penjualan.akses_edit = 'N' THEN 'N'
@@ -509,6 +510,21 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                                 endif;
                                 echo "<option value='$kode.$kd' $pilih>$kd</option>";
                             endforeach;
+                            ?>
+                        </select>
+                        -
+                        <select class="myselect" id="warna_cetakan">
+                            <?php
+                            $array_kode = array(
+                                "FC" => "Fullcolor",
+                                "BW" => "Grayscale"
+                            );
+                            foreach ($array_kode as $kode => $kd) {
+                                if ($kode == "$row[Warna_Cetak]") : $pilih = "selected";
+                                else : $pilih = "";
+                                endif;
+                                echo "<option value='$kode' $pilih>$kd</option>";
+                            }
                             ?>
                         </select>
                     </td>
@@ -859,6 +875,18 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                             }
                             ?>
                         </select>
+                        -
+                        <select class="myselect" id="warna_cetakan">
+                            <?php
+                            $array_kode = array(
+                                "FC" => "Fullcolor",
+                                "BW" => "Grayscale"
+                            );
+                            foreach ($array_kode as $kode => $kd) {
+                                echo "<option value='$kode'>$kd</option>";
+                            }
+                            ?>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -904,6 +932,10 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                     <td>Notes / Finishing LF</td>
                     <td><textarea id='notes' class='form ld' style="height:50px;"></textarea></td>
                 </tr>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class='table-form'>
                 <tr>
                     <td>Qty</td>
                     <td colspan="3">
@@ -919,10 +951,6 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                         </datalist>
                     </td>
                 </tr>
-            </table>
-        </div>
-        <div class="col-6">
-            <table class='table-form'>
                 <tr>
                     <td>Laminating</td>
                     <td colspan="3">

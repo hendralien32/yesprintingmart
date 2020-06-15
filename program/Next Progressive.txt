@@ -94,10 +94,9 @@ Next Progressive
    - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart [SOLVED]
    - Print Yescom Daily Invoice [SOLVED]
       ` Bug AutoCalc() [SOLVED]
-      ` Bug Nilai harga tidak sesuai saat Update Order Invoice ( di Sales Order Yesprinting )
-      ` Bug Nilai harga tidak sesuai saat Re-Add Sales Invoice ( di Sales Order Yesprinting )
-
-      ` Perbaiki Form Pricelist tambah Xuli
+      ` Bug Nilai harga tidak sesuai saat Update Order Invoice ( di Sales Order Yesprinting ) [SOLVED]
+      ` Bug Nilai harga tidak sesuai saat Re-Add Sales Invoice ( di Sales Order Yesprinting ) [SOLVED]
+      ` Perbaiki Form Pricelist tambah Xuli [SOLVED]
    
 * Digital Printing
    - Order List Digital Printing

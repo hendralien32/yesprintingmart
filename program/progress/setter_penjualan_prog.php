@@ -613,37 +613,42 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
     $sql_data =
         "SELECT
             oid,
-            kode,
-            ID_Bahan,
-            ID_AT,
-            ID_Cutting,
-            Qty,
-            Qty_LF,
-            Qty_Cutting,
-            leminating_kilat,
-            leminating_doff,
             (CASE
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 1 THEN 1_kotak
                 ELSE '0'
             END) as b_digital,
             (CASE
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'large format' ) and special = 'Y' and sisi = '1' and qty > 0 THEN ( special_price_LF * Uk_PxL )
                 ELSE '0'
             END) as b_lf,
             (CASE
@@ -736,10 +741,12 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     END) AS satuan,
                     Qty_ID_Penjualan.ID_AT,
                     Qty_ID_Penjualan.ID_Cutting,
+                    barang.warna_cetak,
                     barang.leminating_kilat,
                     barang.leminating_doff,
                     barang.Qty,
                     barang.Qty_LF,
+                    barang.Qty_BW,
                     barang.Qty_Cutting,
                     barang.kode_barang,
                     pricelist.1_lembar,
@@ -752,6 +759,14 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     pricelist.100_lembar,
                     pricelist.250_lembar,
                     pricelist.500_lembar,
+                    pricelist.20_kotak,
+                    pricelist.2sd19_kotak,
+                    pricelist.1_kotak,
+                    pricelist.1sd2m,
+                    pricelist.3sd9m,
+                    pricelist.10m,
+                    pricelist.50m,
+                    pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
                     pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
@@ -776,13 +791,6 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     Pricelist_Cutting.3sd9m AS 3sd9m_Cutting,
                     Pricelist_Cutting.10m AS 10m_Cutting,
                     Pricelist_Cutting.50m AS 50m_Cutting,
-                    pricelist.1sd2m,
-                    pricelist.3sd9m,
-                    pricelist.10m,
-                    pricelist.50m,
-                    pricelist.20_kotak,
-                    pricelist.2sd19_kotak,
-                    pricelist.1_kotak,
                     (CASE
                         WHEN penjualan.potong = 'Y' and penjualan.satuan = 'lembar' THEN '500'
                         WHEN penjualan.potong = 'Y' and penjualan.satuan = 'kotak' THEN '2000'
@@ -799,7 +807,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     (CASE
                         WHEN penjualan.perporasi = 'Y' THEN '500'
                         ELSE '0'
-                    END) as perporasi
+                    END) as perporasi,
+                    customer.special
                 FROM
                     penjualan
                 LEFT JOIN
@@ -824,7 +833,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                         WHERE
                             penjualan.oid IN ('$aid')
                         GROUP BY
-                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                     ) Qty_ID_Penjualan
                 ON
                     penjualan.oid = Qty_ID_Penjualan.oid
@@ -840,9 +849,11 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             total_qty.leminating_kilat,
                             total_qty.leminating_doff,
                             total_qty.Qty,
+                            total_qty.Qty_BW,
                             total_qty.Qty_LF,
                             total_qty.Qty_Cutting,
-                            total_qty.kode as kode_barang
+                            total_qty.kode as kode_barang,
+                            total_qty.warna_cetak
                         FROM
                             barang
                         LEFT JOIN
@@ -852,6 +863,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                                 penjualan.sisi,
                                 penjualan.satuan,
                                 penjualan.kode,
+                                penjualan.warna_cetak,
                                 SUM(CASE 
                                     WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
                                     WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
@@ -867,11 +879,16 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                                     ELSE 0 
                                 END) AS leminating_doff,
                                 (CASE
-                                    WHEN penjualan.kode = 'large format' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    WHEN penjualan.kode = 'indoor' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    WHEN penjualan.kode = 'Xuli' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    ELSE FORMAT(SUM(penjualan.qty),0)
+                                    WHEN penjualan.kode = 'large format' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'indoor' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'Xuli' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(penjualan.qty),0)
+                                    ELSE 0
                                 END) AS Qty,
+                                (CASE
+                                    WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'BW' THEN FORMAT(SUM(penjualan.qty),0)
+                                    ELSE 0
+                                END) AS Qty_BW,
                                 FORMAT(SUM(penjualan.qty),0) as Qty_LF,
                                 SUM(CASE 
                                     WHEN (penjualan.CuttingSticker = 'Y') THEN penjualan.qty
@@ -882,7 +899,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             WHERE
                                 penjualan.oid IN ('$aid')
                             GROUP BY
-                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                             ) total_qty
                         ON
                             barang.id_barang = total_qty.ID_Bahan
@@ -896,6 +913,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             pricelist.sisi,
                             pricelist.bahan,
                             pricelist.jenis,
+                            pricelist.warna,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
                             pricelist.3sd5_lembar,
@@ -906,19 +924,21 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             pricelist.100_lembar,
                             pricelist.250_lembar,
                             pricelist.500_lembar,
+                            pricelist.20_kotak,
+                            pricelist.2sd19_kotak,
+                            pricelist.1_kotak,
+                            pricelist.harga_indoor,
                             pricelist.1sd2m,
                             pricelist.3sd9m,
                             pricelist.10m,
                             pricelist.50m,
-                            pricelist.20_kotak,
-                            pricelist.2sd19_kotak,
-                            pricelist.1_kotak
+                            pricelist.special_price_LF
                         FROM 
                             pricelist
                     ) pricelist
                 ON
-                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis
-                    LEFT JOIN 
+                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis  and penjualan.warna_cetak = pricelist.warna 
+                LEFT JOIN 
                     (
                     SELECT
                         pricelist.sisi,
@@ -964,14 +984,30 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     ) Pricelist_Cutting
                 ON
                     Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
+                LEFT JOIN
+                    (
+                        SELECT
+                            customer.cid, 
+                            customer.nama_client,
+                            (CASE
+                            WHEN customer.special = '' THEN 'N'
+                            WHEN customer.special = 'N' THEN 'N'
+                            ELSE 'Y'
+                            END) AS special
+                        FROM
+                            customer
+                    ) customer
+                ON
+                    penjualan.client = customer.cid
                 WHERE
                     penjualan.oid IN ('$aid') and
                     penjualan.ID_Bahan = barang.ID_Bahan and
                     penjualan.sisi = barang.sisi and
                     penjualan.satuan = barang.satuan and
+                    penjualan.warna_cetak = barang.warna_cetak and
                     penjualan.kode = barang.Kode_barang
                 GROUP BY
-                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid
+                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
             ) Group_ID
         GROUP BY
             oid
@@ -1369,27 +1405,33 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
     $sql_data =
         "SELECT
             oid,
-            kode,
-            ID_Bahan,
-            ID_AT,
-            ID_Cutting,
-            Qty,
-            Qty_LF,
-            Qty_BW,
             (CASE
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 1 THEN 1_kotak
                 ELSE '0'
             END) as b_digital,
             (CASE
@@ -1491,6 +1533,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     END) AS satuan,
                     Qty_ID_Penjualan.ID_AT,
                     Qty_ID_Penjualan.ID_Cutting,
+                    barang.warna_cetak,
                     barang.leminating_kilat,
                     barang.leminating_doff,
                     barang.Qty,
@@ -1601,7 +1644,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             total_qty.Qty_BW,
                             total_qty.Qty_LF,
                             total_qty.Qty_Cutting,
-                            total_qty.kode as kode_barang
+                            total_qty.kode as kode_barang,
+                            total_qty.warna_cetak
                         FROM
                             barang
                         LEFT JOIN
@@ -1611,6 +1655,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                                 penjualan.sisi,
                                 penjualan.satuan,
                                 penjualan.kode,
+                                penjualan.warna_cetak,
                                 SUM(CASE 
                                     WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
                                     WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
@@ -1751,9 +1796,10 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     penjualan.ID_Bahan = barang.ID_Bahan and
                     penjualan.sisi = barang.sisi and
                     penjualan.satuan = barang.satuan and
+                    penjualan.warna_cetak = barang.warna_cetak and
                     penjualan.kode = barang.Kode_barang
                 GROUP BY
-                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid
+                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
             ) Group_ID
         GROUP BY
             oid
@@ -1890,7 +1936,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 history   = CONCAT((CASE 
                                 $Final_log
                             END), history)
-            WHERE oid IN ('$aid')s;
+            WHERE oid IN ('$aid');
         ";
 elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] == 'N') :
     $sql_Data_OID =
@@ -1963,6 +2009,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             penjualan.b_design AS Biaya_Design,
             penjualan.b_delivery AS Biaya_Delivery,
             penjualan.discount as Discount,
+            penjualan.warna_cetak as Warna_Cetak,
             (CASE
                 WHEN penjualan.akses_edit = 'Y' THEN 'Y'
                 WHEN penjualan.akses_edit = 'N' THEN 'N'
@@ -2129,6 +2176,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             "Panjang"                      => "$Panjang",
             "Lebar"                        => "$Lebar",
             "Sisi"                         => "$_POST[Sisi]",
+            "Warna_Cetak"                  => "$_POST[warna_cetakan]",
             "Nama_Bahan"                   => "$Nama_Bahan",
             "Notes"                        => "$Notes",
             "Laminating"                   => "$_POST[Desc_Laminating]",
@@ -2213,6 +2261,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             panjang          = '$_POST[Panjang]',
             lebar            = '$_POST[Lebar]',
             sisi             = '$_POST[Sisi]',
+            warna_cetak      = '$_POST[warna_cetakan]',
             ID_Bahan         = '$_POST[ID_Bahan]',
             keterangan       = '$Notes',
             laminate         = '$_POST[Laminating]',
@@ -2324,37 +2373,42 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
     $sql_data =
         "SELECT
             oid,
-            kode,
-            ID_Bahan,
-            ID_AT,
-            ID_Cutting,
-            Qty,
-            Qty_LF,
-            Qty_Cutting,
-            leminating_kilat,
-            leminating_doff,
             (CASE
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 1 THEN 1_kotak
                 ELSE '0'
             END) as b_digital,
             (CASE
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'large format' ) and special = 'Y' and sisi = '1' and qty > 0 THEN ( special_price_LF * Uk_PxL )
                 ELSE '0'
             END) as b_lf,
             (CASE
@@ -2447,10 +2501,12 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     END) AS satuan,
                     Qty_ID_Penjualan.ID_AT,
                     Qty_ID_Penjualan.ID_Cutting,
+                    barang.warna_cetak,
                     barang.leminating_kilat,
                     barang.leminating_doff,
                     barang.Qty,
                     barang.Qty_LF,
+                    barang.Qty_BW,
                     barang.Qty_Cutting,
                     barang.kode_barang,
                     pricelist.1_lembar,
@@ -2463,6 +2519,14 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     pricelist.100_lembar,
                     pricelist.250_lembar,
                     pricelist.500_lembar,
+                    pricelist.20_kotak,
+                    pricelist.2sd19_kotak,
+                    pricelist.1_kotak,
+                    pricelist.1sd2m,
+                    pricelist.3sd9m,
+                    pricelist.10m,
+                    pricelist.50m,
+                    pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
                     pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
@@ -2487,13 +2551,6 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     Pricelist_Cutting.3sd9m AS 3sd9m_Cutting,
                     Pricelist_Cutting.10m AS 10m_Cutting,
                     Pricelist_Cutting.50m AS 50m_Cutting,
-                    pricelist.1sd2m,
-                    pricelist.3sd9m,
-                    pricelist.10m,
-                    pricelist.50m,
-                    pricelist.20_kotak,
-                    pricelist.2sd19_kotak,
-                    pricelist.1_kotak,
                     (CASE
                         WHEN penjualan.potong = 'Y' and penjualan.satuan = 'lembar' THEN '500'
                         WHEN penjualan.potong = 'Y' and penjualan.satuan = 'kotak' THEN '2000'
@@ -2510,7 +2567,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     (CASE
                         WHEN penjualan.perporasi = 'Y' THEN '500'
                         ELSE '0'
-                    END) as perporasi
+                    END) as perporasi,
+                    customer.special
                 FROM
                     penjualan
                 LEFT JOIN
@@ -2535,7 +2593,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                         WHERE
                             penjualan.oid IN ('$aid')
                         GROUP BY
-                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                     ) Qty_ID_Penjualan
                 ON
                     penjualan.oid = Qty_ID_Penjualan.oid
@@ -2551,9 +2609,11 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             total_qty.leminating_kilat,
                             total_qty.leminating_doff,
                             total_qty.Qty,
+                            total_qty.Qty_BW,
                             total_qty.Qty_LF,
                             total_qty.Qty_Cutting,
-                            total_qty.kode as kode_barang
+                            total_qty.kode as kode_barang,
+                            total_qty.warna_cetak
                         FROM
                             barang
                         LEFT JOIN
@@ -2563,6 +2623,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                                 penjualan.sisi,
                                 penjualan.satuan,
                                 penjualan.kode,
+                                penjualan.warna_cetak,
                                 SUM(CASE 
                                     WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
                                     WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
@@ -2578,11 +2639,16 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                                     ELSE 0 
                                 END) AS leminating_doff,
                                 (CASE
-                                    WHEN penjualan.kode = 'large format' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    WHEN penjualan.kode = 'indoor' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    WHEN penjualan.kode = 'Xuli' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    ELSE FORMAT(SUM(penjualan.qty),0)
+                                    WHEN penjualan.kode = 'large format' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'indoor' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'Xuli' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(penjualan.qty),0)
+                                    ELSE 0
                                 END) AS Qty,
+                                (CASE
+                                    WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'BW' THEN FORMAT(SUM(penjualan.qty),0)
+                                    ELSE 0
+                                END) AS Qty_BW,
                                 FORMAT(SUM(penjualan.qty),0) as Qty_LF,
                                 SUM(CASE 
                                     WHEN (penjualan.CuttingSticker = 'Y') THEN penjualan.qty
@@ -2593,7 +2659,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             WHERE
                                 penjualan.oid IN ('$aid')
                             GROUP BY
-                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                             ) total_qty
                         ON
                             barang.id_barang = total_qty.ID_Bahan
@@ -2607,6 +2673,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             pricelist.sisi,
                             pricelist.bahan,
                             pricelist.jenis,
+                            pricelist.warna,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
                             pricelist.3sd5_lembar,
@@ -2617,19 +2684,21 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             pricelist.100_lembar,
                             pricelist.250_lembar,
                             pricelist.500_lembar,
+                            pricelist.20_kotak,
+                            pricelist.2sd19_kotak,
+                            pricelist.1_kotak,
+                            pricelist.harga_indoor,
                             pricelist.1sd2m,
                             pricelist.3sd9m,
                             pricelist.10m,
                             pricelist.50m,
-                            pricelist.20_kotak,
-                            pricelist.2sd19_kotak,
-                            pricelist.1_kotak
+                            pricelist.special_price_LF
                         FROM 
                             pricelist
                     ) pricelist
                 ON
-                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis
-                    LEFT JOIN 
+                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis  and penjualan.warna_cetak = pricelist.warna 
+                LEFT JOIN 
                     (
                     SELECT
                         pricelist.sisi,
@@ -2675,14 +2744,30 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     ) Pricelist_Cutting
                 ON
                     Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
+                LEFT JOIN
+                    (
+                        SELECT
+                            customer.cid, 
+                            customer.nama_client,
+                            (CASE
+                            WHEN customer.special = '' THEN 'N'
+                            WHEN customer.special = 'N' THEN 'N'
+                            ELSE 'Y'
+                            END) AS special
+                        FROM
+                            customer
+                    ) customer
+                ON
+                    penjualan.client = customer.cid
                 WHERE
                     penjualan.oid IN ('$aid') and
                     penjualan.ID_Bahan = barang.ID_Bahan and
                     penjualan.sisi = barang.sisi and
                     penjualan.satuan = barang.satuan and
+                    penjualan.warna_cetak = barang.warna_cetak and
                     penjualan.kode = barang.Kode_barang
                 GROUP BY
-                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid
+                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
             ) Group_ID
         GROUP BY
             oid
@@ -4284,37 +4369,42 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
         $sql_Price =
             "SELECT
                 oid,
-                kode,
-                ID_Bahan,
-                ID_AT,
-                ID_Cutting,
-                Qty,
-                Qty_LF,
-                Qty_Cutting,
-                leminating_kilat,
-                leminating_doff,
                 (CASE
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 100 THEN 100_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 50 THEN 50_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 2 THEN 2sd19_kotak
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 1 THEN 1_kotak
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 500 THEN 500_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 250 THEN 250_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 100 THEN 100_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 50 THEN 50_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 2 THEN 2sd19_kotak
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 1 THEN 1_kotak
                     ELSE '0'
                 END) as b_digital,
                 (CASE
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                    WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                    WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                    WHEN ( kode = 'large format' ) and special = 'Y' and sisi = '1' and qty > 0 THEN ( special_price_LF * Uk_PxL )
                     ELSE '0'
                 END) as b_lf,
                 (CASE
@@ -4407,10 +4497,12 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         END) AS satuan,
                         Qty_ID_Penjualan.ID_AT,
                         Qty_ID_Penjualan.ID_Cutting,
+                        barang.warna_cetak,
                         barang.leminating_kilat,
                         barang.leminating_doff,
                         barang.Qty,
                         barang.Qty_LF,
+                        barang.Qty_BW,
                         barang.Qty_Cutting,
                         barang.kode_barang,
                         pricelist.1_lembar,
@@ -4423,6 +4515,14 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         pricelist.100_lembar,
                         pricelist.250_lembar,
                         pricelist.500_lembar,
+                        pricelist.20_kotak,
+                        pricelist.2sd19_kotak,
+                        pricelist.1_kotak,
+                        pricelist.1sd2m,
+                        pricelist.3sd9m,
+                        pricelist.10m,
+                        pricelist.50m,
+                        pricelist.special_price_LF,
                         pricelist1.1_lembar AS 1_lembar_AT,
                         pricelist1.2_lembar AS 2_lembar_AT,
                         pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
@@ -4447,13 +4547,6 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         Pricelist_Cutting.3sd9m AS 3sd9m_Cutting,
                         Pricelist_Cutting.10m AS 10m_Cutting,
                         Pricelist_Cutting.50m AS 50m_Cutting,
-                        pricelist.1sd2m,
-                        pricelist.3sd9m,
-                        pricelist.10m,
-                        pricelist.50m,
-                        pricelist.20_kotak,
-                        pricelist.2sd19_kotak,
-                        pricelist.1_kotak,
                         (CASE
                             WHEN penjualan.potong = 'Y' and penjualan.satuan = 'lembar' THEN '500'
                             WHEN penjualan.potong = 'Y' and penjualan.satuan = 'kotak' THEN '2000'
@@ -4470,7 +4563,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         (CASE
                             WHEN penjualan.perporasi = 'Y' THEN '500'
                             ELSE '0'
-                        END) as perporasi
+                        END) as perporasi,
+                        customer.special
                     FROM
                         penjualan
                     LEFT JOIN
@@ -4495,7 +4589,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                             WHERE
                                 penjualan.no_invoice = $_POST[no_invoice]
                             GROUP BY
-                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                                penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                         ) Qty_ID_Penjualan
                     ON
                         penjualan.oid = Qty_ID_Penjualan.oid
@@ -4511,9 +4605,11 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 total_qty.leminating_kilat,
                                 total_qty.leminating_doff,
                                 total_qty.Qty,
+                                total_qty.Qty_BW,
                                 total_qty.Qty_LF,
                                 total_qty.Qty_Cutting,
-                                total_qty.kode as kode_barang
+                                total_qty.kode as kode_barang,
+                                total_qty.warna_cetak
                             FROM
                                 barang
                             LEFT JOIN
@@ -4523,6 +4619,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                     penjualan.sisi,
                                     penjualan.satuan,
                                     penjualan.kode,
+                                    penjualan.warna_cetak,
                                     SUM(CASE 
                                         WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
                                         WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
@@ -4538,11 +4635,16 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                         ELSE 0 
                                     END) AS leminating_doff,
                                     (CASE
-                                        WHEN penjualan.kode = 'large format' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                        WHEN penjualan.kode = 'indoor' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                        WHEN penjualan.kode = 'Xuli' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                        ELSE FORMAT(SUM(penjualan.qty),0)
+                                        WHEN penjualan.kode = 'large format' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                        WHEN penjualan.kode = 'indoor' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                        WHEN penjualan.kode = 'Xuli' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                        WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(penjualan.qty),0)
+                                        ELSE 0
                                     END) AS Qty,
+                                    (CASE
+                                        WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'BW' THEN FORMAT(SUM(penjualan.qty),0)
+                                        ELSE 0
+                                    END) AS Qty_BW,
                                     FORMAT(SUM(penjualan.qty),0) as Qty_LF,
                                     SUM(CASE 
                                         WHEN (penjualan.CuttingSticker = 'Y') THEN penjualan.qty
@@ -4553,7 +4655,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 WHERE
                                     penjualan.no_invoice = $_POST[no_invoice]
                                 GROUP BY
-                                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode
+                                    penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                                 ) total_qty
                             ON
                                 barang.id_barang = total_qty.ID_Bahan
@@ -4567,6 +4669,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 pricelist.sisi,
                                 pricelist.bahan,
                                 pricelist.jenis,
+                                pricelist.warna,
                                 pricelist.1_lembar,
                                 pricelist.2_lembar,
                                 pricelist.3sd5_lembar,
@@ -4577,19 +4680,21 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 pricelist.100_lembar,
                                 pricelist.250_lembar,
                                 pricelist.500_lembar,
+                                pricelist.20_kotak,
+                                pricelist.2sd19_kotak,
+                                pricelist.1_kotak,
+                                pricelist.harga_indoor,
                                 pricelist.1sd2m,
                                 pricelist.3sd9m,
                                 pricelist.10m,
                                 pricelist.50m,
-                                pricelist.20_kotak,
-                                pricelist.2sd19_kotak,
-                                pricelist.1_kotak
+                                pricelist.special_price_LF
                             FROM 
                                 pricelist
                         ) pricelist
                     ON
-                        penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis
-                        LEFT JOIN 
+                        penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis  and penjualan.warna_cetak = pricelist.warna 
+                    LEFT JOIN 
                         (
                         SELECT
                             pricelist.sisi,
@@ -4635,14 +4740,30 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         ) Pricelist_Cutting
                     ON
                         Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
+                    LEFT JOIN
+                        (
+                            SELECT
+                                customer.cid, 
+                                customer.nama_client,
+                                (CASE
+                                WHEN customer.special = '' THEN 'N'
+                                WHEN customer.special = 'N' THEN 'N'
+                                ELSE 'Y'
+                                END) AS special
+                            FROM
+                                customer
+                        ) customer
+                    ON
+                        penjualan.client = customer.cid
                     WHERE
                         penjualan.no_invoice = $_POST[no_invoice] and
                         penjualan.ID_Bahan = barang.ID_Bahan and
                         penjualan.sisi = barang.sisi and
                         penjualan.satuan = barang.satuan and
+                        penjualan.warna_cetak = barang.warna_cetak and
                         penjualan.kode = barang.Kode_barang
                     GROUP BY
-                        penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid
+                        penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
                 ) Group_ID
             GROUP BY
                 oid

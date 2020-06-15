@@ -153,7 +153,9 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $sql_query =
         "SELECT
             Penjualan_ID.oid,
+            customer.special,
             Penjualan_ID.test,
+            Penjualan_ID.Color,
             Penjualan_ID.Qty_FINAL,
             Penjualan_ID.Qty_Cut,
             (CASE
@@ -173,11 +175,12 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 ELSE '0'
             END) as b_digital,
             (CASE
-                WHEN ( kode = 'large format' ) and Sisi_Order = '1' and Qty_FINAL >= 50 THEN ( 50m * $ukuran )
-                WHEN ( kode = 'large format' ) and Sisi_Order = '1' and Qty_FINAL >= 10 THEN ( 10m * $ukuran )
-                WHEN ( kode = 'large format' ) and Sisi_Order = '1' and Qty_FINAL >= 3 THEN ( 3sd9m * $ukuran )
-                WHEN ( kode = 'large format' ) and Sisi_Order = '1' and Qty_FINAL >= 1 THEN ( 1sd2m * $ukuran )
-                WHEN ( kode = 'large format' ) and Sisi_Order = '1' and Qty_FINAL < 1 THEN ( 1sd2m ) / test
+                WHEN ( kode = 'large format' ) and special = 'N' and Sisi_Order = '1' and Qty_FINAL >= 50 THEN ( 50m * $ukuran )
+                WHEN ( kode = 'large format' ) and special = 'N' and Sisi_Order = '1' and Qty_FINAL >= 10 THEN ( 10m * $ukuran )
+                WHEN ( kode = 'large format' ) and special = 'N' and Sisi_Order = '1' and Qty_FINAL >= 3 THEN ( 3sd9m * $ukuran )
+                WHEN ( kode = 'large format' ) and special = 'N' and Sisi_Order = '1' and Qty_FINAL >= 1 THEN ( 1sd2m * $ukuran )
+                WHEN ( kode = 'large format' ) and special = 'N' and Sisi_Order = '1' and Qty_FINAL < 1 THEN ( 1sd2m ) / test
+                WHEN ( kode = 'large format' ) and special = 'Y' and Sisi_Order = '1' and Qty_FINAL > 0 THEN ( special_price_LF * $ukuran )
                 ELSE '0'
             END) as b_lf,
             (CASE
@@ -261,8 +264,11 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
             (
                 SELECT
                     penjualan.oid,
+                    penjualan.client,
                     invoice.oid as OID_Invoice,
-                    (COALESCE(invoice.Qty,0)+$qty) AS Qty_FINAL,
+                    penjualan.warna_cetak as Color,
+                    (COALESCE(invoice.Qty_FC,0)+$qty) AS Qty_FINAL,
+                    (COALESCE(invoice.Qty_BW,0)+$qty) AS Qty_FINAL_BW,
                     (COALESCE(invoice.test,0)+$_POST[Qty]) AS test,
                     (COALESCE(invoice.Qty_Cutting,0) + $qty_Cutting) AS Qty_Cut,
                     (CASE
@@ -316,12 +322,16 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                                 ELSE sum(FORMAT(penjualan.qty,0))
                             END) AS test,
                             (CASE
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.kode = 'digital') THEN (sum(penjualan.qty))
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.kode = 'large format') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.kode = 'indoor') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.kode = 'Xuli') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'digital') THEN (sum(penjualan.qty))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'large format') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'indoor') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'Xuli') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
                                 else sum(FORMAT(penjualan.qty,0))
-                            END) AS Qty,
+                            END) AS Qty_FC,
+                            (CASE
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'BW' and penjualan.kode = 'digital') THEN (sum(penjualan.qty))
+                                else sum(FORMAT(penjualan.qty,0))
+                            END) AS Qty_BW,
                             SUM(CASE 
                                 WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
                                 WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
@@ -348,6 +358,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                             penjualan.ID_Bahan = $_POST[ID_Bahan] and
                             penjualan.sisi = $_POST[Sisi] and
                             penjualan.satuan = '$_POST[Satuan]' and
+                            penjualan.warna_cetak = '$_POST[warna_cetakan]' and
                             penjualan.kode = '$_POST[Kode_Brg]'
                         GROUP BY
                             penjualan.no_invoice, penjualan.sisi
@@ -361,6 +372,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     pricelist.sisi,
                     pricelist.bahan,
                     pricelist.jenis,
+                    pricelist.warna,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
                     pricelist.3sd5_lembar,
@@ -371,19 +383,20 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     pricelist.100_lembar,
                     pricelist.250_lembar,
                     pricelist.500_lembar,
+                    pricelist.20_kotak,
+                    pricelist.2sd19_kotak,
+                    pricelist.1_kotak,
+                    pricelist.harga_indoor,
                     pricelist.1sd2m,
                     pricelist.3sd9m,
                     pricelist.10m,
                     pricelist.50m,
-                    pricelist.20_kotak,
-                    pricelist.2sd19_kotak,
-                    pricelist.1_kotak,
-                    pricelist.harga_indoor
+                    pricelist.special_price_LF
                 FROM 
                     pricelist
             ) pricelist
         ON
-            Penjualan_ID.Sisi_Order = pricelist.sisi and Penjualan_ID.ID_Bahan_Order = pricelist.bahan and Penjualan_ID.kode = pricelist.jenis 
+            Penjualan_ID.Sisi_Order = pricelist.sisi and Penjualan_ID.ID_Bahan_Order = pricelist.bahan and Penjualan_ID.kode = pricelist.jenis and Penjualan_ID.Color = pricelist.warna 
         LEFT JOIN 
             (
                 SELECT
@@ -430,6 +443,21 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
             ) Pricelist_Cutting
         ON
             Penjualan_ID.ID_Cutting = Pricelist_Cutting.bahan and Penjualan_ID.kode = Pricelist_Cutting.jenis 
+        LEFT JOIN
+            (
+                SELECT
+                    customer.cid, 
+                    customer.nama_client,
+                    (CASE
+                    WHEN customer.special = '' THEN 'N'
+                    WHEN customer.special = 'N' THEN 'N'
+                    ELSE 'Y'
+                    END) AS special
+                FROM
+                    customer
+            ) customer
+        ON
+            Penjualan_ID.client = customer.cid
         WHERE
             Penjualan_ID.oid = '$_POST[ID_Order]'
         GROUP BY

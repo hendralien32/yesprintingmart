@@ -1123,7 +1123,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             penjualan.b_laminate AS Biaya_Laminate,
             penjualan.b_design AS Biaya_Design,
             penjualan.b_delivery AS Biaya_Delivery,
-            penjualan.discount as Discount
+            penjualan.discount as Discount,
+            penjualan.warna_cetak as Warna_Cetak
         FROM
             penjualan
         LEFT JOIN 
@@ -1250,6 +1251,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             "Panjang"                      => "$Panjang",
             "Lebar"                        => "$Lebar",
             "Sisi"                         => "$_POST[Sisi]",
+            "Warna_Cetak"                  => "$_POST[warna_cetakan]",
             "Nama_Bahan"                   => "$Nama_Bahan",
             "Notes"                        => "$Notes",
             "Laminating"                   => "$_POST[Desc_Laminating]",
@@ -1332,6 +1334,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             panjang          = '$_POST[Panjang]',
             lebar            = '$_POST[Lebar]',
             sisi             = '$_POST[Sisi]',
+            warna_cetak      = '$_POST[warna_cetakan]',
             ID_Bahan         = '$_POST[ID_Bahan]',
             keterangan       = '$Notes',
             laminate         = '$_POST[Laminating]',
@@ -1372,9 +1375,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             ID_Cutting,
             Qty,
             Qty_LF,
-            Qty_Cutting,
-            leminating_kilat,
-            leminating_doff,
+            Qty_BW,
             (CASE
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
@@ -1392,11 +1393,12 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 ELSE '0'
             END) as b_digital,
             (CASE
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                WHEN ( kode = 'large format' ) and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'large format' ) and special = 'N' and sisi = '1' and qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'large format' ) and special = 'Y' and sisi = '1' and qty > 0 THEN ( special_price_LF * Uk_PxL )
                 ELSE '0'
             END) as b_lf,
             (CASE
@@ -1493,6 +1495,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     barang.leminating_doff,
                     barang.Qty,
                     barang.Qty_LF,
+                    barang.Qty_BW,
                     barang.Qty_Cutting,
                     barang.kode_barang,
                     pricelist.1_lembar,
@@ -1505,6 +1508,14 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     pricelist.100_lembar,
                     pricelist.250_lembar,
                     pricelist.500_lembar,
+                    pricelist.20_kotak,
+                    pricelist.2sd19_kotak,
+                    pricelist.1_kotak,
+                    pricelist.1sd2m,
+                    pricelist.3sd9m,
+                    pricelist.10m,
+                    pricelist.50m,
+                    pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
                     pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
@@ -1529,13 +1540,6 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     Pricelist_Cutting.3sd9m AS 3sd9m_Cutting,
                     Pricelist_Cutting.10m AS 10m_Cutting,
                     Pricelist_Cutting.50m AS 50m_Cutting,
-                    pricelist.1sd2m,
-                    pricelist.3sd9m,
-                    pricelist.10m,
-                    pricelist.50m,
-                    pricelist.20_kotak,
-                    pricelist.2sd19_kotak,
-                    pricelist.1_kotak,
                     (CASE
                         WHEN penjualan.potong = 'Y' and penjualan.satuan = 'lembar' THEN '500'
                         WHEN penjualan.potong = 'Y' and penjualan.satuan = 'kotak' THEN '2000'
@@ -1552,7 +1556,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     (CASE
                         WHEN penjualan.perporasi = 'Y' THEN '500'
                         ELSE '0'
-                    END) as perporasi
+                    END) as perporasi,
+                    customer.special
                 FROM
                     penjualan
                 LEFT JOIN
@@ -1593,6 +1598,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             total_qty.leminating_kilat,
                             total_qty.leminating_doff,
                             total_qty.Qty,
+                            total_qty.Qty_BW,
                             total_qty.Qty_LF,
                             total_qty.Qty_Cutting,
                             total_qty.kode as kode_barang
@@ -1620,11 +1626,16 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                                     ELSE 0 
                                 END) AS leminating_doff,
                                 (CASE
-                                    WHEN penjualan.kode = 'large format' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    WHEN penjualan.kode = 'indoor' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    WHEN penjualan.kode = 'Xuli' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
-                                    ELSE FORMAT(SUM(penjualan.qty),0)
+                                    WHEN penjualan.kode = 'large format' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'indoor' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'Xuli' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(((penjualan.panjang * penjualan.lebar)/10000) * penjualan.qty),3)
+                                    WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'FC' THEN FORMAT(SUM(penjualan.qty),0)
+                                    ELSE 0
                                 END) AS Qty,
+                                (CASE
+                                    WHEN penjualan.kode = 'digital' and penjualan.warna_cetak = 'BW' THEN FORMAT(SUM(penjualan.qty),0)
+                                    ELSE 0
+                                END) AS Qty_BW,
                                 FORMAT(SUM(penjualan.qty),0) as Qty_LF,
                                 SUM(CASE 
                                     WHEN (penjualan.CuttingSticker = 'Y') THEN penjualan.qty
@@ -1649,6 +1660,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             pricelist.sisi,
                             pricelist.bahan,
                             pricelist.jenis,
+                            pricelist.warna,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
                             pricelist.3sd5_lembar,
@@ -1659,19 +1671,21 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             pricelist.100_lembar,
                             pricelist.250_lembar,
                             pricelist.500_lembar,
+                            pricelist.20_kotak,
+                            pricelist.2sd19_kotak,
+                            pricelist.1_kotak,
+                            pricelist.harga_indoor,
                             pricelist.1sd2m,
                             pricelist.3sd9m,
                             pricelist.10m,
                             pricelist.50m,
-                            pricelist.20_kotak,
-                            pricelist.2sd19_kotak,
-                            pricelist.1_kotak
+                            pricelist.special_price_LF
                         FROM 
                             pricelist
                     ) pricelist
                 ON
-                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis
-                    LEFT JOIN 
+                    penjualan.sisi = pricelist.sisi and penjualan.ID_Bahan = pricelist.bahan and penjualan.kode = pricelist.jenis  and penjualan.warna_cetak = pricelist.warna 
+                LEFT JOIN 
                     (
                     SELECT
                         pricelist.sisi,
@@ -1717,6 +1731,21 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     ) Pricelist_Cutting
                 ON
                     Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
+                LEFT JOIN
+                    (
+                        SELECT
+                            customer.cid, 
+                            customer.nama_client,
+                            (CASE
+                            WHEN customer.special = '' THEN 'N'
+                            WHEN customer.special = 'N' THEN 'N'
+                            ELSE 'Y'
+                            END) AS special
+                        FROM
+                            customer
+                    ) customer
+                ON
+                    penjualan.client = customer.cid
                 WHERE
                     penjualan.no_invoice = $_POST[no_invoice] and
                     penjualan.ID_Bahan = barang.ID_Bahan and
@@ -1861,7 +1890,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 history   = CONCAT((CASE 
                                 $Final_log
                             END), history)
-            WHERE oid IN ('$aid');
+            WHERE oid IN ('$aid')s;
         ";
 elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] == 'N') :
     $sql_Data_OID =
@@ -3320,7 +3349,7 @@ elseif ($_POST['jenis_submit'] == 'submit_pricelist') :
             pricelist.6sd8pass_indoor,
             pricelist.12pass_indoor,
             pricelist.20pass_indoor,
-            pricelist.special_price,
+            pricelist.special_price_LF,
             pricelist.status_pricelist
         ) VALUES (
             '$_POST[bahanFC]',
@@ -3382,7 +3411,7 @@ elseif ($_POST['jenis_submit'] == 'update_pricelist') :
             pricelist.6sd8pass_indoor = '$_POST[f_6sd8pass_indoor]', 
             pricelist.12pass_indoor = '$_POST[f_12pass_indoor]', 
             pricelist.20pass_indoor = '$_POST[f_20pass_indoor]', 
-            pricelist.special_price = '$_POST[SpecialPrice]'
+            pricelist.special_price_LF = '$_POST[SpecialPrice]'
         WHERE
             price_id 		        = '$_POST[id_pricelist]'
         ";
@@ -4956,7 +4985,7 @@ if ($conn->multi_query($sql) === TRUE) {
     echo "New records created successfully. $sql <br><br> $sql_data";
 } else {
     if (mysqli_query($conn, $sql)) {
-        echo "Records inserted or Update successfully. $sql";
+        echo "Records inserted or Update successfully.<br><br> $sql_data <br><br> <br><br>  $sql";
     } else {
         echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql_data <br><br><br><br> $sql" . mysqli_error($conn) . "</br>";
     }

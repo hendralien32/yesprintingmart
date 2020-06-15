@@ -118,7 +118,7 @@ if ($kode_barang != "" and $_POST['data'] == "") {
                     pricelist.6sd8pass_indoor,
                     pricelist.12pass_indoor,
                     pricelist.20pass_indoor,
-                    pricelist.special_price,
+                    pricelist.special_price_LF,
                     pricelist.status_pricelist
                 FROM
                     pricelist
@@ -191,7 +191,7 @@ if ($kode_barang != "" and $_POST['data'] == "") {
                             <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['6sd8pass_indoor']) . "</center></td>
                             <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['12pass_indoor']) . "</center></td>
                             <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['20pass_indoor']) . "</center></td>
-                            <td onClick='$edit' class='pointer'><center>" . number_format($row['special_price']) . "</center></td>
+                            <td onClick='$edit' class='pointer'><center>" . number_format($row['special_price_LF']) . "</center></td>
                             <td class='pointer' ondblclick='hapus(\"" . $row['price_id'] . "\", \"" . $row['nama_barang'] . "\", \"" . $row['status_pricelist'] . "\")'>$icon</td>
                         </tr>
                         ";

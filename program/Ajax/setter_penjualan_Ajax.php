@@ -269,10 +269,10 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
             endwhile;
         } else {
             echo "
-            <tr>
-                <td colspan='13'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
-            </tr>
-        ";
+                <tr>
+                    <td colspan='13'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                </tr>
+            ";
         }
         ?>
     </tbody>

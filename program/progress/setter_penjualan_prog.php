@@ -4087,6 +4087,7 @@ elseif ($_POST['jenis_submit'] == 'Submit_Generator_Code') :
             bahan_sendiri,
             client,
             sales,
+            inv_check,
             history
         ) values (
             '$array[1]', 
@@ -4134,6 +4135,7 @@ elseif ($_POST['jenis_submit'] == 'Submit_Generator_Code') :
             '$array[45]',
             '1',
             '$_SESSION[uid]',
+            'Y',
             '$Final_log'
         )
         ";

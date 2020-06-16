@@ -228,7 +228,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
             ?>
         </table>
         <?php
-        if ($Invoice_Number == "") : 
+        if ($Invoice_Number == "") :
         ?>
             <center><input type="button" class="myinput" value="Create Yescom Invoice" onclick="submitInvoice('create_invoice')"></center>
         <?php

@@ -1,29 +1,29 @@
 <?php
-    session_start();
-    require_once '../../function.php';
+session_start();
+require_once '../../function.php';
 
-    if($_POST['search']!="") {
-        $add_where = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%' or penjualan.so_yes LIKE '%$_POST[data]%')";
-    } else {
-        if($_POST['Dari_Tanggal']!="" and $_POST['Ke_Tanggal']!="") :
-            $add_where="and (LEFT( penjualan.waktu, 10 )>='$_POST[Dari_Tanggal]' and LEFT( penjualan.waktu, 10 )<='$_POST[Ke_Tanggal]')";
-        elseif($_POST['Dari_Tanggal']!="" and $_POST['Ke_Tanggal']=="") :
-            $add_where="and (LEFT( penjualan.waktu, 10 )='$_POST[Dari_Tanggal]')";
-        elseif($_POST['Dari_Tanggal']=="" and $_POST['Ke_Tanggal']!="") :
-            $add_where="and (LEFT( penjualan.waktu, 10 )='$_POST[Ke_Tanggal]')";
-        else :
-            $add_where = "";
-        endif;
-    }
+if ($_POST['search'] != "") {
+    $add_where = "and ( penjualan.description LIKE '%$_POST[search]%' or penjualan.client_yes LIKE '%$_POST[search]%' or penjualan.id_yes LIKE '%$_POST[search]%' or penjualan.so_yes LIKE '%$_POST[search]%')";
+} else {
+    if ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] != "") :
+        $add_where = "and (LEFT( penjualan.waktu, 10 )>='$_POST[Dari_Tanggal]' and LEFT( penjualan.waktu, 10 )<='$_POST[Ke_Tanggal]')";
+    elseif ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] == "") :
+        $add_where = "and (LEFT( penjualan.waktu, 10 )='$_POST[Dari_Tanggal]')";
+    elseif ($_POST['Dari_Tanggal'] == "" and $_POST['Ke_Tanggal'] != "") :
+        $add_where = "and (LEFT( penjualan.waktu, 10 )='$_POST[Ke_Tanggal]')";
+    else :
+        $add_where = "";
+    endif;
+}
 
-    $cari_keyword = $_POST['search'];
-    $bold_cari_keyword = "<strong style='text-decoration:underline'>".$_POST['search']."</strong>";
+$cari_keyword = $_POST['search'];
+$bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['search'] . "</strong>";
 
 ?>
 
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
 <table>
-     <tbody>
+    <tbody>
         <tr>
             <th width="2%">#</th>
             <th width="7%">Tanggal</th>
@@ -40,7 +40,7 @@
         </tr>
     </tbody>
     <?php
-        $sql = 
+    $sql =
         "SELECT
             penjualan.oid,
             penjualan.kode as kode_barang,
@@ -124,59 +124,58 @@
 
     if ($result->num_rows > 0) :
         // output data of each row
-        while($d = $result->fetch_assoc()) :
+        while ($d = $result->fetch_assoc()) :
             $no++;
-            $kode_class = str_replace(" ","_",$d['kode_barang']);
-            
-            if($d['jenis_wo']=="Kuning") : 
+            $kode_class = str_replace(" ", "_", $d['kode_barang']);
+
+            if ($d['jenis_wo'] == "Kuning") :
                 $status = "#eed428";
-            else : 
+            else :
                 $status = "#00ab34";
             endif;
 
-            $array_kode = array( "ditunggu", "Finished", "acc", "no_invoice" );
-            foreach($array_kode as $kode) {
-                if($d[$kode]!="" && $d[$kode]!="N") : ${'check_'.$kode} = "active";
-                else : ${'check_'.$kode} = "deactive";
+            $array_kode = array("ditunggu", "Finished", "acc", "no_invoice");
+            foreach ($array_kode as $kode) {
+                if ($d[$kode] != "" && $d[$kode] != "N") : ${'check_' . $kode} = "active";
+                else : ${'check_' . $kode} = "deactive";
                 endif;
             }
-            
-            if($_SESSION['level']=="admin_yes" or $_SESSION['level']=="admin") :
-                if($d['cancel']=="Y") :
+
+            if ($_SESSION['level'] == "admin_yes" or $_SESSION['level'] == "admin") :
+                if ($d['cancel'] == "Y") :
                     $icon = "<i class='fas fa-undo-alt text-success'></i>";
                 else :
                     $icon = "<i class='far fa-trash-alt text-danger'></i>";
                 endif;
 
-                $Delete_icon = "<span class='icon_status' ondblclick='hapus(\"". $d['oid'] ."\", \"". $d['oid'] ."\", \"". $d['cancel'] ."\")'>$icon</span>";
+                $Delete_icon = "<span class='icon_status' ondblclick='hapus(\"" . $d['oid'] . "\", \"" . $d['oid'] . "\", \"" . $d['cancel'] . "\")'>$icon</span>";
                 $css_cancel = "";
             else :
-                $Delete_icon ="";
+                $Delete_icon = "";
                 $css_cancel = "cancel";
             endif;
 
-            if($d['akses_edit']=="Y") :
-                if($_SESSION["level"] == "admin") { 
-                    $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"". $d['oid'] ."\")'><i class='fad fa-lock-open-alt'></i></span>";
+            if ($d['akses_edit'] == "Y") :
+                if ($_SESSION["level"] == "admin") {
+                    $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"" . $d['oid'] . "\")'><i class='fad fa-lock-open-alt'></i></span>";
                     $Akses_Edit = "Y";
-                } else { 
+                } else {
                     $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
                     $Akses_Edit = "$d[akses_edit]";
-                }
-            else :
-                if($_SESSION["level"] == "admin") { 
-                    $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"". $d['oid'] ."\")'><i class='fad fa-lock-alt'></i></span>";
+                } else :
+                if ($_SESSION["level"] == "admin") {
+                    $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $d['oid'] . "\")'><i class='fad fa-lock-alt'></i></span>";
                     $Akses_Edit = "Y";
-                } else { 
+                } else {
                     $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
                     $Akses_Edit = "$d[akses_edit]";
                 }
             endif;
 
-            $edit = "LaodForm(\"penjualan_yescom\", \"". $d['oid'] ."\", \"". $Akses_Edit ."\")";
+            $edit = "LaodForm(\"penjualan_yescom\", \"" . $d['oid'] . "\", \"" . $Akses_Edit . "\")";
 
-            if($d['acc']=="N") :
-                $acc = "acc_progress(\"". $d['id_yes'] . "/" . $d['so_yes'] . " | " . $d['client_yes'] . " - " . $d['description'] ."\", \"". $d['oid'] ."\")";
+            if ($d['acc'] == "N") :
+                $acc = "acc_progress(\"" . $d['id_yes'] . "/" . $d['so_yes'] . " | " . $d['client_yes'] . " - " . $d['description'] . "\", \"" . $d['oid'] . "\")";
                 $pointer = "pointer";
             else :
                 $acc = "";
@@ -185,32 +184,32 @@
 
             echo "
             <tr>
-                <td onclick='". $edit ."' class='pointer'>$no</td>
-                <td onclick='". $edit ."' class='pointer'>". date("d M Y",strtotime($d['tanggal'] ))."</td>
-                <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['id_yes']) ."</center></td>
-                <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['so_yes']) ."</center></td>
-                <td onclick='". $edit ."' class='pointer'><Center><span class='KodeProject ".$kode_class."'>". strtoupper($d['code']) ."</span></Center></td>
-                <td onclick='". $edit ."' class='pointer'><b style='color:$status;'>▐</b> <strong>". str_ireplace($cari_keyword,$bold_cari_keyword,$d['client_yes']) ."</strong> - ". str_ireplace($cari_keyword,$bold_cari_keyword,$d['description']) ." $d[ukuran]</td>
+                <td onclick='" . $edit . "' class='pointer'>$no</td>
+                <td onclick='" . $edit . "' class='pointer'>" . date("d M Y", strtotime($d['tanggal'])) . "</td>
+                <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['id_yes']) . "</center></td>
+                <td onClick='LaodSubForm(\"Detail_YesID\",\"$d[oid]\")' class='pointer'><center>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['so_yes']) . "</center></td>
+                <td onclick='" . $edit . "' class='pointer'><Center><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></Center></td>
+                <td onclick='" . $edit . "' class='pointer'><b style='color:$status;'>▐</b> <strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client_yes']) . "</strong> - " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . " $d[ukuran]</td>
                 <td>
                     <center>
-                        <span class='icon_status $pointer' ondblclick='$acc'><i class='fas fa-thumbs-up ". $check_acc ."'></i></span>
+                        <span class='icon_status $pointer' ondblclick='$acc'><i class='fas fa-thumbs-up " . $check_acc . "'></i></span>
                         $icon_akses_edit
-                        <span class='icon_status'><i class='fas fa-check-double ". $check_Finished ."'></i></span>
-                        <span class='icon_status'><i class='fas fa-user-clock ". $check_ditunggu ."'></i></span>
-                        <span class='icon_status'><i class='fas fa-receipt ". $check_no_invoice ."'></i>
+                        <span class='icon_status'><i class='fas fa-check-double " . $check_Finished . "'></i></span>
+                        <span class='icon_status'><i class='fas fa-user-clock " . $check_ditunggu . "'></i></span>
+                        <span class='icon_status'><i class='fas fa-receipt " . $check_no_invoice . "'></i>
                     </center>
                 </td>
-                <td onclick='". $edit ."' class='pointer'><center><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></center></td>
-                <td onclick='". $edit ."' class='pointer'>$d[bahan]</td>
-                <td onclick='". $edit ."' class='pointer'>$d[qty]</td>
-                <td onclick='". $edit ."' class='pointer'>$d[Nama_Setter]</td>
+                <td onclick='" . $edit . "' class='pointer'><center><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></center></td>
+                <td onclick='" . $edit . "' class='pointer'>$d[bahan]</td>
+                <td onclick='" . $edit . "' class='pointer'>$d[qty]</td>
+                <td onclick='" . $edit . "' class='pointer'>$d[Nama_Setter]</td>
                 <td>
                     $Delete_icon
-                    <span class='icon_status' onclick='LaodForm(\"log\", \"". $d['oid'] ."\")'><i class='fad fa-file-alt'></i></span>
+                    <span class='icon_status' onclick='LaodForm(\"log\", \"" . $d['oid'] . "\")'><i class='fad fa-file-alt'></i></span>
                  </td>
             </tr>
             ";
-        
+
         endwhile;
     else :
         echo "

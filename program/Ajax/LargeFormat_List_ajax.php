@@ -1,6 +1,23 @@
 <?php
 session_start();
 require_once '../../function.php';
+$test = "";
+$bahan_Sort = isset($_POST['session_bahan']) ? $_POST['session_bahan'] : ' ';
+
+if (isset($bahan_Sort)) :
+    $test .= $bahan_Sort;
+else :
+    $test .= "$_SESSION[ListOrder_BahanLF]";
+endif;
+
+$_SESSION['ListOrder_BahanLF'] = "$test";
+
+if ($_SESSION['ListOrder_BahanLF'] != '') :
+    $Add_Bahan = "and bahan='$_SESSION[ListOrder_BahanLF]'";
+else :
+    $Add_Bahan = "";
+endif;
+
 ?>
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
 
@@ -11,10 +28,11 @@ require_once '../../function.php';
                 <input class="input-checkbox100" id="Check_box" type="checkbox" name="remember" onclick='toggle(this)'>
                 <label class="label-checkbox100" for="Check_box"></label>
             </th>
-            <th width="4%">ID Order</th>
-            <th width="45%">Client - Description</th>
+            <th width="6%">ID Order</th>
+            <th width="3%">K</th>
+            <th width="42%">Client - Description</th>
             <th width="12%">
-                <select name="SetterSearch" id="SetterSearch" onchange="SetterSearch();">
+                <select name="BahanSearch" id="BahanSearch" onchange="BahanSearch();">
                     <option value="">Bahan</option>
                     <?php
                     $sql =
@@ -57,7 +75,12 @@ require_once '../../function.php';
                     if ($result->num_rows > 0) :
                         // output data of each row
                         while ($d = $result->fetch_assoc()) :
-                            echo "<option value='$d[bahan]'>$d[bahan] ($d[qty])</option>";
+                            if ($d['bahan'] == "$test") {
+                                $pilih = "selected";
+                            } else {
+                                $pilih = "";
+                            }
+                            echo "<option value='$d[bahan]' $pilih>$d[bahan] ($d[qty])</option>";
                         endwhile;
                     else :
 
@@ -75,6 +98,8 @@ require_once '../../function.php';
         $sql =
             "SELECT
                 penjualan.oid,
+                LEFT(penjualan.kode, 1) as code,
+                penjualan.kode as kode_barang,
                 (CASE
                     WHEN penjualan.id_yes != '' THEN penjualan.id_yes
                     ELSE ''
@@ -145,10 +170,11 @@ require_once '../../function.php';
             ON
                 penjualan.oid = large_format.oid 
             WHERE
-                penjualan.kode = 'large format' and
+                ( penjualan.kode = 'large format' or penjualan.kode='indoor' or penjualan.kode='Xuli' ) and
                 penjualan.inv_check = 'Y' and
                 penjualan.status != 'selesai' and
                 penjualan.cancel != 'Y'
+                $Add_Bahan
         ";
 
         $n = 0;
@@ -159,13 +185,20 @@ require_once '../../function.php';
                 $n++;
 
                 $array_kode = array("Invoice_Check", "urgent", "laminating");
-                foreach ($array_kode as $kode) {
+                foreach ($array_kode as $kode) :
                     if ($d[$kode] != "" && $d[$kode] != "N") : ${'check_' . $kode} = "active";
                     else : ${'check_' . $kode} = "deactive";
                     endif;
-                }
+                endforeach;
 
+                $kode_class = str_replace(" ", "_", $d['kode_barang']);
                 $sisa_cetak = $d['total'] - $d['total_cetak'];
+
+                if ($d['id_yes'] != '') {
+                    $id_yes = "$d[id_yes] - ";
+                } else {
+                    $id_yes = "";
+                }
 
                 echo "
                     <tr>
@@ -173,8 +206,9 @@ require_once '../../function.php';
                             <input class='input-checkbox100' id='cek_$n' type='checkbox' name='option' value='$d[oid]'>
                             <label class='label-checkbox100' for='cek_$n'></label>
                         </td>
-                        <td>$d[oid]</td>
-                        <td><strong>$d[id_yes] $d[client]</strong> - $d[description]</td>
+                        <td><center>$d[oid]</center></td>
+                        <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
+                        <td><strong>$id_yes $d[client]</strong> - $d[description]</td>
                         <td>$d[bahan]</td>
                         <td><center>$d[ukuran]</center></td>
                         <td>
@@ -189,8 +223,12 @@ require_once '../../function.php';
                         <td><center>$d[Qty_Ctk] / $d[Qty_Order]</center></td>
                     </tr>
                 ";
+
+                $total_SisaCtk[]   = $sisa_cetak;
+                $Nilai_total_SisaCtk = number_format(array_sum($total_SisaCtk), 2);
             endwhile;
         else :
+            $Nilai_Total = 0;
             echo "
                 <tr>
                     <td colspan='10'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
@@ -198,5 +236,11 @@ require_once '../../function.php';
             ";
         endif;
         ?>
+        <tr>
+            <th colspan="8">Total Order Large Format <?= $hr . ", " . date("d M Y", strtotime($date)); ?></th>
+            <th style='text-align:right'>
+                <center><?= $Nilai_total_SisaCtk; ?> M<sup>2</sup></center>
+            </th>
+        </tr>
     </tbody>
 </table>

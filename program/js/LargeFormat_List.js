@@ -47,3 +47,10 @@ function onload() {
         },
     });
 }
+
+function BahanSearch() {
+    var Bahan_Sort = $("#BahanSearch").val();
+    $("#session_bahan").val(Bahan_Sort);
+    $("#loader").show();
+    onload();
+}

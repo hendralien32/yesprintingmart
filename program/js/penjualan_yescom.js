@@ -807,9 +807,9 @@ function print_report() {
 
   window.open(
     "print_WOList_report.php?Status_Print=print_invoice&dari_tgl=" +
-      dari_tanggal +
-      "&ke_tgl=" +
-      ke_tanggal,
+    dari_tanggal +
+    "&ke_tgl=" +
+    ke_tanggal,
     "_blank"
   );
 }

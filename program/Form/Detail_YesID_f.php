@@ -57,15 +57,20 @@ if ($result->num_rows > 0) :
     if ($selisih > 0) {
         $nilai_selisih = "<span style='color:green'> ( Surplus + " . number_format($selisih) . " )</span>";
     } else {
-        $nilai_selisih = "<span style='color:red'> ( Minus - " . number_format($selisih) . " )</span>";
+        $nilai_selisih = "<span style='color:red'> ( Minus " . number_format($selisih) . " )</span>";
     }
 
     $DateSO_Yes = new DateTime($row['DateSO_Yes']);
     $date_create = new DateTime($row['date_create']);
 
 endif;
-
 ?>
+
+<style type='text/css'>
+    .table-form {
+        font-size: 1.1em;
+    }
+</style>
 
 <h3 class='title_form'><?= 'Preview YES ID No. ' . $row['id_yes'] ?></h3>
 
@@ -103,7 +108,7 @@ endif;
             <?php if ($_SESSION['level'] == "admin" || $_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting") : ?>
                 <tr>
                     <td style='width:145px'>@Harga Jual YES</td>
-                    <td><?= number_format($row['Nilai_Jual_Yes']) . '( Tax ' . number_format($row['Tax']) . ' )' ?></td>
+                    <td><?= number_format($row['Nilai_Jual_Yes']) . ' ( Tax ' . number_format($row['Tax']) . ' )' ?></td>
                 </tr>
             <?php endif; ?>
         </table>

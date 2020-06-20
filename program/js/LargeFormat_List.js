@@ -54,3 +54,21 @@ function BahanSearch() {
     $("#loader").show();
     onload();
 }
+
+function SearchDate() {
+    $("#loader").show();
+    onload();
+}
+
+function SearchData() {
+    $("#tanggal").val("");
+    var Validasi_Search = $("#search").val().length;
+
+    if (Validasi_Search > 3) {
+        $("#loader").show();
+        onload();
+    } else {
+        alert("Jumlah Character Harus Lebih dari 3 huruf");
+        return false;
+    }
+}

@@ -93,6 +93,12 @@
     font-size: 1.2vw;
 }
 
+.fa-check-double {
+    --fa-primary-color: orange;
+    --fa-secondary-color: #e0861a;
+    --fa-secondary-opacity: 0.80;
+}
+
 .fa-times-square {
     --fa-primary-color: red;
     --fa-secondary-color: dimgray;
@@ -226,6 +232,7 @@
     left: 0;
     color: white;
     display: block;
+    z-index: 1;
     visibility: hidden;
 }
 
@@ -239,7 +246,7 @@
     left: 0;
     color: white;
     display: block;
-    z-index: 1;
+    z-index: 2;
     visibility: hidden;
 }
 
@@ -248,7 +255,7 @@
     margin-top: 0px;
     position: fixed;
     display: block;
-    z-index: 1;
+    z-index: 2;
     visibility: hidden;
     background: white;
     overflow: scroll;
@@ -261,7 +268,7 @@
     position: fixed;
     text-align: center;
     display: inline-block;
-    z-index: 2;
+    z-index: 3;
     visibility: hidden;
     background: white;
     overflow: scroll;

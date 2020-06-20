@@ -18,6 +18,20 @@ else :
     $Add_Bahan = "";
 endif;
 
+
+if ($_POST['data'] != "" and $_POST['date'] == "") :
+    $add_where = "and ( customer.nama_client LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' )";
+    $tanggal = "";
+elseif ($_POST['date'] != "" and $_POST['data'] == "") :
+    $tanggal = ', Tanggal ' . date("d M Y", strtotime($_POST['date']));
+    $add_where = "and LEFT( penjualan.waktu, 10 ) = '$_POST[date]'";
+else :
+    $tanggal = "";
+    $add_where = "and penjualan.status != 'selesai'";
+endif;
+
+$cari_keyword = $_POST['data'];
+$bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data'] . "</strong>";
 ?>
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
 
@@ -30,7 +44,7 @@ endif;
             </th>
             <th width="6%">ID Order</th>
             <th width="3%">K</th>
-            <th width="42%">Client - Description</th>
+            <th width="40%">Client - Description</th>
             <th width="12%">
                 <select name="BahanSearch" id="BahanSearch" onchange="BahanSearch();">
                     <option value="">Bahan</option>
@@ -89,8 +103,8 @@ endif;
                 </select>
             </th>
             <th width="8%">Ukuran File</th>
-            <th width="7%">Icons</th>
-            <th width="7%">Qty</th>
+            <th width="8%">Icons</th>
+            <th width="5%">Qty</th>
             <th width="8%">Total (M<sup>2</sup>)</th>
             <th>Status</th>
         </tr>
@@ -126,9 +140,14 @@ endif;
                     WHEN penjualan.laminate !='' THEN 'Y'
                     ELSE 'N'
                 END) as laminating,
+                (CASE
+                    WHEN penjualan.alat_tambahan !='' THEN 'Y'
+                    ELSE 'N'
+                END) as alat_tambahan,
                 ((penjualan.panjang * penjualan.lebar * large_format.total_cetak) / 10000) as total_cetak,
                 IFNULL(penjualan.qty,0) as Qty_Order,
-                IFNULL(large_format.total_cetak,0) as Qty_Ctk
+                IFNULL(large_format.total_cetak,0) as Qty_Ctk,
+                penjualan.status
             FROM
                 penjualan
             LEFT JOIN 
@@ -172,24 +191,37 @@ endif;
             WHERE
                 ( penjualan.kode = 'large format' or penjualan.kode='indoor' or penjualan.kode='Xuli' ) and
                 penjualan.inv_check = 'Y' and
-                penjualan.status != 'selesai' and
                 penjualan.cancel != 'Y'
+                $add_where
                 $Add_Bahan
         ";
 
         $n = 0;
         $result = $conn_OOP->query($sql);
 
+        $jumlahQry = $result->num_rows;
+
         if ($result->num_rows > 0) :
             while ($d = $result->fetch_assoc()) :
                 $n++;
 
-                $array_kode = array("Invoice_Check", "urgent", "laminating");
+                $array_kode = array("Invoice_Check", "urgent", "laminating", "alat_tambahan");
                 foreach ($array_kode as $kode) :
                     if ($d[$kode] != "" && $d[$kode] != "N") : ${'check_' . $kode} = "active";
                     else : ${'check_' . $kode} = "deactive";
                     endif;
                 endforeach;
+
+
+                if (($d['status']) == "selesai") {
+                    $status = "<i class='fad fa-check-double'></i> Selesai";
+                } else {
+                    if (($d['Qty_Order'] - $d['Qty_Ctk']) == 0) {
+                        $status = "<button>Selesai</button>";
+                    } else {
+                        $status = "$d[Qty_Ctk] / $d[Qty_Order]";
+                    }
+                }
 
                 $kode_class = str_replace(" ", "_", $d['kode_barang']);
                 $sisa_cetak = $d['total'] - $d['total_cetak'];
@@ -200,27 +232,35 @@ endif;
                     $id_yes = "";
                 }
 
+                $detail = "LaodSubForm(\"Detail_LargeFormat\",\"$d[oid]\")";
+                if ($d['Invoice_Check'] == "Y") :
+                    $detail_SO = "LaodForm(\"Detail_SO_Pemotongan\",\"$d[oid]\")";
+                else :
+                    $detail_SO = "";
+                endif;
+
                 echo "
                     <tr>
                         <td class='contact100-form-checkbox' style='padding-top:16px;'>
                             <input class='input-checkbox100' id='cek_$n' type='checkbox' name='option' value='$d[oid]'>
                             <label class='label-checkbox100' for='cek_$n'></label>
                         </td>
-                        <td><center>$d[oid]</center></td>
+                        <td onClick='$detail' class='pointer'><center>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</center></td>
                         <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
-                        <td><strong>$id_yes $d[client]</strong> - $d[description]</td>
-                        <td>$d[bahan]</td>
-                        <td><center>$d[ukuran]</center></td>
+                        <td onClick='$detail' class='pointer'><strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $id_yes) . " " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</strong> - $d[description]</td>
+                        <td onClick='$detail' class='pointer'>$d[bahan]</td>
+                        <td onClick='$detail' class='pointer'><center>$d[ukuran]</center></td>
                         <td>
                             <center>
+                                <span onClick='$detail_SO' class='icon_status pointer'><i class='fas fa-receipt " . $check_Invoice_Check . "'></i></span>
                                 <span class='icon_status'><i class='fas fa-exclamation-triangle " . $check_urgent . "'></i></span>
-                                <span class='icon_status'><i class='fas fa-receipt " . $check_Invoice_Check . "'></i></span>
                                 <span class='icon_status'><i class='fas fa-toilet-paper-alt " . $check_laminating . "'></i></span>
+                                <span class='icon_status'><i class='fas fa-building " . $check_alat_tambahan . "'></i></span>
                             </center>
                         </td>
-                        <td>$d[qty]</td>
-                        <td><center><strong>" . number_format($d['total'], 2) . " <i style='color:red'>( " . number_format($sisa_cetak, 2) . " )</i></strong> M<sup>2</sup></center></td>
-                        <td><center>$d[Qty_Ctk] / $d[Qty_Order]</center></td>
+                        <td onClick='$detail' class='pointer'>$d[qty]</td>
+                        <td onClick='$detail' class='pointer'><center><strong>" . number_format($d['total'], 2) . " <i style='color:red'>( " . number_format($sisa_cetak, 2) . " )</i></strong> M<sup>2</sup></center></td>
+                        <td><center>$status</center></td>
                     </tr>
                 ";
 
@@ -237,7 +277,7 @@ endif;
         endif;
         ?>
         <tr>
-            <th colspan="8">Total Order Large Format <?= $hr . ", " . date("d M Y", strtotime($date)); ?></th>
+            <th colspan="8">Total Meter dari <?= $jumlahQry . ' Work Order' . $tanggal; ?></th>
             <th style='text-align:right'>
                 <center><?= $Nilai_total_SisaCtk; ?> M<sup>2</sup></center>
             </th>

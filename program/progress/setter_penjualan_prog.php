@@ -524,7 +524,7 @@ elseif ($_POST['jenis_submit'] == 'Cancel') :
             history         =  CONCAT('$Final_log', history)
         WHERE
             oid				= '$_POST[ID_Order]'
-        ";
+    ";
 
 elseif ($_POST['jenis_submit'] == 'force_paid') :
 
@@ -5102,6 +5102,45 @@ elseif ($_POST['jenis_submit'] == 'Update_OrderYESCOM') :
         WHERE 
             oid             = $_POST[id_Order]
     ;";
+
+elseif ($_POST['jenis_submit'] == 'LF_Selesai') :
+
+    $sql =
+        "SELECT
+            GROUP_CONCAT(large_format.so_kerja) as so_kerja 
+        FROM
+            large_format
+        WHERE
+            large_format.oid = '$_POST[oid]' and
+            large_format.cancel != 'Y'
+        GROUP BY
+            large_format.oid
+        limit
+            1
+    ";
+
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        $d = $result->fetch_assoc();
+    endif;
+
+    $Final_log = "
+        <tr>
+            <td>$hr, $timestamps</td>
+            <td>" . $_SESSION['username'] . " Cancel data</td>
+            <td><b>Status</b> : selesai<br><b>SO Kerja</b> : $d[so_kerja]</td>
+        </tr>
+    ";
+
+    $sql =
+        "UPDATE
+            penjualan
+        SET
+            status			= 'selesai',
+            history         =  CONCAT('$Final_log', history)
+        WHERE
+            oid				= '$_POST[oid]'
+    ";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

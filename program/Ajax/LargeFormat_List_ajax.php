@@ -112,12 +112,10 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
         $sql =
             "SELECT
                 penjualan.oid,
+                LEFT( penjualan.waktu, 10 ) as tanggal,
                 LEFT(penjualan.kode, 1) as code,
                 penjualan.kode as kode_barang,
-                (CASE
-                    WHEN penjualan.id_yes != '' THEN penjualan.id_yes
-                    ELSE ''
-                END) AS id_yes,
+                penjualan.id_yes,
                 (CASE
                     WHEN penjualan.client_yes != '' THEN penjualan.client_yes
                     ELSE customer.nama_client 
@@ -217,7 +215,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     $status = "<i class='fad fa-check-double'></i> Selesai";
                 } else {
                     if (($d['Qty_Order'] - $d['Qty_Ctk']) == 0) {
-                        $status = "<button>Selesai</button>";
+                        $status = "<button id='tombol_selesai' onClick='tombol_selesai($d[oid])'>Selesai</button>";
                     } else {
                         $status = "$d[Qty_Ctk] / $d[Qty_Order]";
                     }
@@ -226,7 +224,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 $kode_class = str_replace(" ", "_", $d['kode_barang']);
                 $sisa_cetak = $d['total'] - $d['total_cetak'];
 
-                if ($d['id_yes'] != '') {
+                if ($d['id_yes'] != '0') {
                     $id_yes = "$d[id_yes] - ";
                 } else {
                     $id_yes = "";
@@ -247,7 +245,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                         </td>
                         <td onClick='$detail' class='pointer'><center>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</center></td>
                         <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
-                        <td onClick='$detail' class='pointer'><strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $id_yes) . " " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</strong> - $d[description]</td>
+                        <td onClick='$detail' class='pointer'><strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $id_yes) . " " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</strong> - $d[description] <i>(".  date("d M Y", strtotime($d['tanggal'])) .")</i></td>
                         <td onClick='$detail' class='pointer'>$d[bahan]</td>
                         <td onClick='$detail' class='pointer'><center>$d[ukuran]</center></td>
                         <td>
@@ -268,7 +266,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 $Nilai_total_SisaCtk = number_format(array_sum($total_SisaCtk), 2);
             endwhile;
         else :
-            $Nilai_Total = 0;
+            $Nilai_total_SisaCtk = 0;
             echo "
                 <tr>
                     <td colspan='10'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>

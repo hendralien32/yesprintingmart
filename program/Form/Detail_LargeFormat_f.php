@@ -7,6 +7,7 @@ $sql =
     "SELECT
         penjualan.oid,
         penjualan.id_yes,
+        LEFT( penjualan.waktu, 10 ) as tanggal,
         (CASE
             WHEN penjualan.client_yes = '1' THEN penjualan.client_yes
             ELSE customer.nama_client
@@ -99,6 +100,10 @@ endif;
             <tr>
                 <td style='width:120px'>Client</td>
                 <td><?= $row['nama_client'] ?></td>
+            </tr>
+            <tr>
+                <td style='width:120px'>Tanggal</td>
+                <td><?= date("d M Y", strtotime($row['tanggal'])) ?></td>
             </tr>
             <tr>
                 <td style='width:120px'>Project</td>

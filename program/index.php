@@ -176,6 +176,9 @@ endif;
                     <a href="?page=Client_YPM&tab=DatabaseYPM">
                         <li class='<?= ($page == 'Client_YPM') ? 'active' : ''; ?>'>Client Database</li>
                     </a>
+                    <a href="?page=Supplier_YPM&tab=DatabaseYPM">
+                        <li class='<?= ($page == 'Supplier_YPM') ? 'active' : ''; ?>'>Supplier Database</li>
+                    </a>
                     <a href="?page=User_YPM&tab=DatabaseYPM">
                         <li class='<?= ($page == 'User_YPM') ? 'active' : ''; ?>'>User Database</li>
                     </a>
@@ -253,6 +256,9 @@ endif;
                             break;
                         case 'LF_List':
                             require_once('LargeFormat_List.php');
+                            break;
+                        case 'Supplier_YPM':
+                            require_once('database_supplier.php');
                             break;
                         default:
                             require_once('test.php');

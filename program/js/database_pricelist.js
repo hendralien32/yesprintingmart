@@ -61,7 +61,8 @@ function ChangeKodeBrg() {
   var All_Element_Input = [
     "1_lembar",
     "2_lembar",
-    "3sd5_lembar",
+    "3_lembar",
+    "4sd5_lembar",
     "6sd9_lembar",
     "10_lembar",
     "20_lembar",
@@ -87,7 +88,8 @@ function ChangeKodeBrg() {
   var digital_input = [
     "1_lembar",
     "2_lembar",
-    "3sd5_lembar",
+    "3_lembar",
+    "4sd5_lembar",
     "6sd9_lembar",
     "10_lembar",
     "20_lembar",
@@ -179,7 +181,10 @@ function test_valid(id) {
 
   $.ajax({
     type: "POST",
-    data: { tipe_validasi: "Search_" + id, term: ID_Data },
+    data: {
+      tipe_validasi: "Search_" + id,
+      term: ID_Data
+    },
     url: "progress/validasi_progress.php",
     success: function (data) {
       if (data > 0) {
@@ -291,7 +296,8 @@ function submit(id) {
   }
   var f_1_lembar = $("#1_lembar").val();
   var f_2_lembar = $("#2_lembar").val();
-  var f_3sd5_lembar = $("#3sd5_lembar").val();
+  var f_3_lembar = $("#3_lembar").val();
+  var f_4sd5_lembar = $("#4sd5_lembar").val();
   var f_6sd9_lembar = $("#6sd9_lembar").val();
   var f_10_lembar = $("#10_lembar").val();
   var f_20_lembar = $("#20_lembar").val();
@@ -331,7 +337,8 @@ function submit(id) {
   fdata.append("Sisi", Sisi);
   fdata.append("f_1_lembar", f_1_lembar);
   fdata.append("f_2_lembar", f_2_lembar);
-  fdata.append("f_3sd5_lembar", f_3sd5_lembar);
+  fdata.append("f_3_lembar", f_3_lembar);
+  fdata.append("f_4sd5_lembar", f_4sd5_lembar);
   fdata.append("f_6sd9_lembar", f_6sd9_lembar);
   fdata.append("f_10_lembar", f_10_lembar);
   fdata.append("f_20_lembar", f_20_lembar);

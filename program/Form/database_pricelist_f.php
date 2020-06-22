@@ -15,7 +15,8 @@ if (isset($_POST['ID_Order'])) {
             pricelist.warna,
             pricelist.1_lembar,
             pricelist.2_lembar,
-            pricelist.3sd5_lembar,
+            pricelist.3_lembar,
+            pricelist.4sd5_lembar,
             pricelist.6sd9_lembar,
             pricelist.10_lembar,
             pricelist.20_lembar,
@@ -34,8 +35,7 @@ if (isset($_POST['ID_Order'])) {
             pricelist.6sd8pass_indoor,
             pricelist.12pass_indoor,
             pricelist.20pass_indoor,
-            pricelist.special_price,
-            pricelist.status_pricelist
+            pricelist.special_price_LF
         FROM
             pricelist
         LEFT JOIN
@@ -51,6 +51,7 @@ if (isset($_POST['ID_Order'])) {
         WHERE
             pricelist.price_id = '$_POST[ID_Order]'
         ";
+
     $result = $conn_OOP->query($sql);
 
     if ($result->num_rows > 0) :
@@ -80,7 +81,8 @@ if (isset($row)) {
     $f_warna = $row['warna'];
     $f_1_lembar = $row['1_lembar'];
     $f_2_lembar = $row['2_lembar'];
-    $f_3sd5_lembar = $row['3sd5_lembar'];
+    $f_3_lembar = $row['3_lembar'];
+    $f_4sd5_lembar = $row['4sd5_lembar'];
     $f_6sd9_lembar = $row['6sd9_lembar'];
     $f_10_lembar = $row['10_lembar'];
     $f_20_lembar = $row['20_lembar'];
@@ -99,7 +101,7 @@ if (isset($row)) {
     $f_6sd8pass_indoor = $row['6sd8pass_indoor'];
     $f_12pass_indoor = $row['12pass_indoor'];
     $f_20pass_indoor = $row['20pass_indoor'];
-    $f_special_price = $row['special_price'];
+    $f_special_price = $row['special_price_LF'];
     $alert = "<b style='color:green'> Pricelist Nama Bahan Sama</b>";
 } else {
     $f_price_id = "";
@@ -120,7 +122,8 @@ if (isset($row)) {
     $f_warna = "FC";
     $f_1_lembar = "";
     $f_2_lembar = "";
-    $f_3sd5_lembar = "";
+    $f_3_lembar = "";
+    $f_4sd5_lembar = "";
     $f_6sd9_lembar = "";
     $f_10_lembar = "";
     $f_20_lembar = "";
@@ -186,49 +189,53 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             <tr>
                 <td style="width:120px">Special Price</td>
                 <td><input type="number" id="SpecialPrice" value="<?= $f_special_price ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td style="width:120px">1 Lembar</td>
                 <td><input type="number" id="1_lembar" value="<?= $f_1_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td style="width:120px">2 Lembar</td>
                 <td><input type="number" id="2_lembar" value="<?= $f_2_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
-                <td style="width:120px">3-5 Lembar</td>
-                <td><input type="number" id="3sd5_lembar" value="<?= $f_3sd5_lembar ?>" class='form md'></td>
-                </td>
+                <td style="width:120px">3 Lembar</td>
+                <td><input type="number" id="3_lembar" value="<?= $f_3_lembar ?>" class='form md'></td>
+            </tr>
+            <tr id='digital'>
+                <td style="width:120px">4-5 Lembar</td>
+                <td><input type="number" id="4sd5_lembar" value="<?= $f_4sd5_lembar ?>" class='form md'></td>
+            </tr>
             <tr id='digital'>
                 <td style="width:120px">6-9 Lembar</td>
                 <td><input type="number" id="6sd9_lembar" value="<?= $f_6sd9_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td style="width:120px">10 Lembar</td>
                 <td><input type="number" id="10_lembar" value="<?= $f_10_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td style="width:120px">20 Lembar</td>
                 <td><input type="number" id="20_lembar" value="<?= $f_20_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
 
             <tr id='large_format'>
                 <td style="width:120px">1-2 Meter</td>
                 <td><input type="number" id="1sd2m" value="<?= $f_1sd2m ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='large_format'>
                 <td style="width:120px">3-9 Meter</td>
                 <td><input type="number" id="3sd9m" value="<?= $f_3sd9m ?>" class='form md'></td>
-                </td>
+            </tr>
 
             <tr id='indoor'>
                 <td style="width:120px">Harga Indoor</td>
                 <td><input type="number" id="harga_indoor" value="<?= $f_harga_indoor ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='indoor'>
                 <td style="width:120px">6-8 Pass</td>
                 <td><input type="number" id="6sd8pass_indoor" value="<?= $f_6sd8pass_indoor ?>" class='form md'></td>
-                </td>
+            </tr>
         </table>
     </div>
     <div class="col-6">
@@ -271,49 +278,49 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             <tr id='digital'>
                 <td style="width:120px">50 Lembar</td>
                 <td><input type="number" id="50_lembar" value="<?= $f_50_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td>100 Lembar</td>
                 <td><input type="number" id="100_lembar" value="<?= $f_100_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td>250 Lembar</td>
                 <td><input type="number" id="250_lembar" value="<?= $f_250_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td>500 Lembar</td>
                 <td><input type="number" id="500_lembar" value="<?= $f_500_lembar ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td>1 Kotak</td>
                 <td><input type="number" id="1_kotak" value="<?= $f_1_kotak ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td>2-19 Kotak</td>
                 <td><input type="number" id="2sd19_kotak" value="<?= $f_2sd19_kotak ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='digital'>
                 <td>20 Kotak</td>
                 <td><input type="number" id="20_kotak" value="<?= $f_20_kotak ?>" class='form md'></td>
-                </td>
+            </tr>
 
             <tr id='large_format'>
                 <td>10 Meter</td>
                 <td><input type="number" id="10m" value="<?= $f_10m ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='large_format'>
                 <td>50 Meter</td>
                 <td><input type="number" id="50m" value="<?= $f_50m ?>" class='form md'></td>
-                </td>
+            </tr>
 
             <tr id='indoor'>
                 <td>12 Pass</td>
                 <td><input type="number" id="12pass_indoor" value="<?= $f_12pass_indoor ?>" class='form md'></td>
-                </td>
+            </tr>
             <tr id='indoor'>
                 <td>20 Pass</td>
                 <td><input type="number" id="20pass_indoor" value="<?= $f_20pass_indoor ?>" class='form md'></td>
-                </td>
+            </tr>
         </table>
     </div>
     <div id="submit_menu">

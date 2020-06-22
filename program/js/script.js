@@ -99,6 +99,10 @@ function LaodForm(id, nid, Akses_Edit) {
         var judul = "Form YES Communication Work Order";
     } else if (id == "penjualan_yescom") {
         var judul = "Form Sales Order YESCOM"
+    } else if (id == "LargeFormat") {
+        var judul = "Form Order Kerja Large Format"
+    } else if (id == "database_supplier") {
+        var judul = "Form Database Supplier"
     } else {
         var judul = "404 Not Found";
     }

@@ -57,6 +57,14 @@ Next Progressive
 * Fix Bug Form Setter & Invoice [SOLVED]
 * Bug Di Sales Invoice Penjualan YPM [SOLVED]
 
+* ada perubahan database Pricelist
+   ` Update_SO_Invoice [SOLVED]
+   ` create_invoice [SOLVED]
+   ` ReAdd_Invoice [SOLVED]
+   ` Update_PenjualanYESCOM [SOLVED]
+   ` elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc'] == 'N')
+   ` Autocalc Price ( ada bug di perhitungan BW / hitam putih )
+
 * Laporan Penjualan
    - penjualan Yesprintingmart
    - Penjualan Yescom
@@ -82,7 +90,7 @@ Next Progressive
          * Time Generate [SOLVED]
       ` Print Daily Report WO List  [SOLVED]
 
-* Penjualan Yescom
+* Penjualan Yescom [SOLVED]
    - Generator Input Form Yescom [SOLVED]
    - List Penjualan Yescom [SOLVED]
    - Hapus Penjualan YESCOM [SOLVED]
@@ -108,8 +116,9 @@ Next Progressive
       ` Pengeluaran Bahan
 
 * Large Format
-   - Order List Large Format
-   - Laporan Pemotongan Stock
+   - Order List Large Format [SOLVED]
+      ` Insert
+   - Pemotongan Stock LF
    - Stock Bahan
       ` Penerimaan Bahan
       ` Pengeluaran Bahan 

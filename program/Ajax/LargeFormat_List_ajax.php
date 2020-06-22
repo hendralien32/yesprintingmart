@@ -199,6 +199,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
 
         $jumlahQry = $result->num_rows;
 
+        echo "<input type='hidden' id='total_check' value='$jumlahQry'>";
+
         if ($result->num_rows > 0) :
             while ($d = $result->fetch_assoc()) :
                 $n++;
@@ -212,12 +214,15 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
 
 
                 if (($d['status']) == "selesai") {
-                    $status = "<i class='fad fa-check-double'></i> Selesai";
+                    $status = "<i class='fad fa-check-double'></input> Selesai";
+                    $disabled = "disabled";
                 } else {
                     if (($d['Qty_Order'] - $d['Qty_Ctk']) == 0) {
                         $status = "<button id='tombol_selesai' onClick='tombol_selesai($d[oid])'>Selesai</button>";
+                        $disabled = "disabled";
                     } else {
                         $status = "$d[Qty_Ctk] / $d[Qty_Order]";
+                        $disabled = "";
                     }
                 }
 
@@ -240,12 +245,12 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 echo "
                     <tr>
                         <td class='contact100-form-checkbox' style='padding-top:16px;'>
-                            <input class='input-checkbox100' id='cek_$n' type='checkbox' name='option' value='$d[oid]'>
+                            <input class='input-checkbox100' id='cek_$n' type='checkbox' name='option' value='$d[oid]' $disabled>
                             <label class='label-checkbox100' for='cek_$n'></label>
                         </td>
                         <td onClick='$detail' class='pointer'><center>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</center></td>
                         <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
-                        <td onClick='$detail' class='pointer'><strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $id_yes) . " " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</strong> - $d[description] <i>(".  date("d M Y", strtotime($d['tanggal'])) .")</i></td>
+                        <td onClick='$detail' class='pointer'><strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $id_yes) . " " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</strong> - $d[description] <i>(" .  date("d M Y", strtotime($d['tanggal'])) . ")</i></td>
                         <td onClick='$detail' class='pointer'>$d[bahan]</td>
                         <td onClick='$detail' class='pointer'><center>$d[ukuran]</center></td>
                         <td>

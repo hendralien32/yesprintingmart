@@ -621,7 +621,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
@@ -634,7 +635,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
@@ -667,7 +669,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -680,7 +683,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
-                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 4 THEN 4sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -698,7 +702,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 20 THEN 20_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 10 THEN 10_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 6 THEN 6sd9_lembar_Cutting + potong
-                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 4 THEN 4sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 2 THEN 2_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 1 THEN 1_lembar_Cutting + potong
                 ELSE ( potong + potong_gantung + pon + perporasi )
@@ -751,7 +756,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     barang.kode_barang,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
-                    pricelist.3sd5_lembar,
+                    pricelist.3_lembar,
+                    pricelist.4sd5_lembar,
                     pricelist.6sd9_lembar,
                     pricelist.10_lembar,
                     pricelist.20_lembar,
@@ -769,7 +775,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
-                    pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
+                    pricelist1.3_lembar AS 3_lembar_AT,
+                    pricelist1.4sd5_lembar AS 4sd5_lembar_AT,
                     pricelist1.6sd9_lembar AS 6sd9_lembar_AT,
                     pricelist1.10_lembar AS 10_lembar_AT,
                     pricelist1.20_lembar AS 20_lembar_AT,
@@ -779,7 +786,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     pricelist1.500_lembar AS 500_lembar_AT,
                     Pricelist_Cutting.1_lembar AS 1_lembar_Cutting,
                     Pricelist_Cutting.2_lembar AS 2_lembar_Cutting,
-                    Pricelist_Cutting.3sd5_lembar AS 3sd5_lembar_Cutting,
+                    Pricelist_Cutting.3_lembar AS 3_lembar_Cutting,
+                    Pricelist_Cutting.4sd5_lembar AS 4sd5_lembar_Cutting,
                     Pricelist_Cutting.6sd9_lembar AS 6sd9_lembar_Cutting,
                     Pricelist_Cutting.10_lembar AS 10_lembar_Cutting,
                     Pricelist_Cutting.20_lembar AS 20_lembar_Cutting,
@@ -916,7 +924,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             pricelist.warna,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
-                            pricelist.3sd5_lembar,
+                            pricelist.3_lembar,
+                            pricelist.4sd5_lembar,
                             pricelist.6sd9_lembar,
                             pricelist.10_lembar,
                             pricelist.20_lembar,
@@ -946,7 +955,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                         pricelist.jenis,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -967,7 +977,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                         pricelist.jenis,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -1413,7 +1424,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
@@ -1426,7 +1438,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
@@ -1459,7 +1472,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -1472,7 +1486,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
-                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 4 THEN 4sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -1490,7 +1505,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 20 THEN 20_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 10 THEN 10_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 6 THEN 6sd9_lembar_Cutting + potong
-                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 4 THEN 4sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 2 THEN 2_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 1 THEN 1_lembar_Cutting + potong
                 ELSE ( potong + potong_gantung + pon + perporasi )
@@ -1543,7 +1559,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     barang.kode_barang,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
-                    pricelist.3sd5_lembar,
+                    pricelist.3_lembar,
+                    pricelist.4sd5_lembar,
                     pricelist.6sd9_lembar,
                     pricelist.10_lembar,
                     pricelist.20_lembar,
@@ -1561,7 +1578,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
-                    pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
+                    pricelist1.3_lembar AS 3_lembar_AT,
+                    pricelist1.4sd5_lembar AS 4sd5_lembar_AT,
                     pricelist1.6sd9_lembar AS 6sd9_lembar_AT,
                     pricelist1.10_lembar AS 10_lembar_AT,
                     pricelist1.20_lembar AS 20_lembar_AT,
@@ -1571,7 +1589,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     pricelist1.500_lembar AS 500_lembar_AT,
                     Pricelist_Cutting.1_lembar AS 1_lembar_Cutting,
                     Pricelist_Cutting.2_lembar AS 2_lembar_Cutting,
-                    Pricelist_Cutting.3sd5_lembar AS 3sd5_lembar_Cutting,
+                    Pricelist_Cutting.3_lembar AS 3_lembar_Cutting,
+                    Pricelist_Cutting.4sd5_lembar AS 4sd5_lembar_Cutting,
                     Pricelist_Cutting.6sd9_lembar AS 6sd9_lembar_Cutting,
                     Pricelist_Cutting.10_lembar AS 10_lembar_Cutting,
                     Pricelist_Cutting.20_lembar AS 20_lembar_Cutting,
@@ -1708,7 +1727,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             pricelist.warna,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
-                            pricelist.3sd5_lembar,
+                            pricelist.3_lembar,
+                            pricelist.4sd5_lembar,
                             pricelist.6sd9_lembar,
                             pricelist.10_lembar,
                             pricelist.20_lembar,
@@ -1738,7 +1758,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                         pricelist.jenis,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -1759,7 +1780,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                         pricelist.jenis,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -1776,6 +1798,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     ) Pricelist_Cutting
                 ON
                     Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
+
                 LEFT JOIN
                     (
                         SELECT
@@ -2233,7 +2256,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                         <td>$log</td>
                     </tr>
                 ";
-            if ($_POST[akses_edit] == "Y") {
+            if ($_POST['akses_edit'] == "Y") {
                 $akses_edit = "N";
             } else {
                 $akses_edit = "$_POST[akses_edit]";
@@ -2381,7 +2404,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
@@ -2394,7 +2418,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
@@ -2427,7 +2452,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -2440,7 +2466,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
-                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 4 THEN 4sd5_lembar_AT
+                WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
                 WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -2458,7 +2485,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 20 THEN 20_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 10 THEN 10_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 6 THEN 6sd9_lembar_Cutting + potong
-                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 4 THEN 4sd5_lembar_Cutting + potong
+                WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 2 THEN 2_lembar_Cutting + potong
                 WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 1 THEN 1_lembar_Cutting + potong
                 ELSE ( potong + potong_gantung + pon + perporasi )
@@ -2511,7 +2539,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     barang.kode_barang,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
-                    pricelist.3sd5_lembar,
+                    pricelist.3_lembar,
+                    pricelist.4sd5_lembar,
                     pricelist.6sd9_lembar,
                     pricelist.10_lembar,
                     pricelist.20_lembar,
@@ -2529,7 +2558,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
-                    pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
+                    pricelist1.3_lembar AS 3_lembar_AT,
+                    pricelist1.4sd5_lembar AS 4sd5_lembar_AT,
                     pricelist1.6sd9_lembar AS 6sd9_lembar_AT,
                     pricelist1.10_lembar AS 10_lembar_AT,
                     pricelist1.20_lembar AS 20_lembar_AT,
@@ -2539,7 +2569,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                     pricelist1.500_lembar AS 500_lembar_AT,
                     Pricelist_Cutting.1_lembar AS 1_lembar_Cutting,
                     Pricelist_Cutting.2_lembar AS 2_lembar_Cutting,
-                    Pricelist_Cutting.3sd5_lembar AS 3sd5_lembar_Cutting,
+                    Pricelist_Cutting.3_lembar AS 3_lembar_Cutting,
+                    Pricelist_Cutting.4sd5_lembar AS 4sd5_lembar_Cutting,
                     Pricelist_Cutting.6sd9_lembar AS 6sd9_lembar_Cutting,
                     Pricelist_Cutting.10_lembar AS 10_lembar_Cutting,
                     Pricelist_Cutting.20_lembar AS 20_lembar_Cutting,
@@ -2676,7 +2707,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             pricelist.warna,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
-                            pricelist.3sd5_lembar,
+                            pricelist.3_lembar,
+                            pricelist.4sd5_lembar,
                             pricelist.6sd9_lembar,
                             pricelist.10_lembar,
                             pricelist.20_lembar,
@@ -2706,7 +2738,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                         pricelist.jenis,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -2727,7 +2760,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                         pricelist.jenis,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -3415,7 +3449,8 @@ elseif ($_POST['jenis_submit'] == 'submit_pricelist') :
             pricelist.warna,
             pricelist.1_lembar,
             pricelist.2_lembar,
-            pricelist.3sd5_lembar,
+            pricelist.3_lembar,
+            pricelist.4sd5_lembar,
             pricelist.6sd9_lembar,
             pricelist.10_lembar,
             pricelist.20_lembar,
@@ -3443,7 +3478,8 @@ elseif ($_POST['jenis_submit'] == 'submit_pricelist') :
             '$_POST[form_Warna]',
             '$_POST[f_1_lembar]',
             '$_POST[f_2_lembar]',
-            '$_POST[f_3sd5_lembar]',
+            '$_POST[f_3_lembar]',
+            '$_POST[f_4sd5_lembar]',
             '$_POST[f_6sd9_lembar]',
             '$_POST[f_10_lembar]',
             '$_POST[f_20_lembar]',
@@ -3477,7 +3513,8 @@ elseif ($_POST['jenis_submit'] == 'update_pricelist') :
             pricelist.warna = '$_POST[form_Warna]', 
             pricelist.1_lembar = '$_POST[f_1_lembar]', 
             pricelist.2_lembar = '$_POST[f_2_lembar]', 
-            pricelist.3sd5_lembar = '$_POST[f_3sd5_lembar]', 
+            pricelist.3_lembar = '$_POST[f_3_lembar]', 
+            pricelist.4sd5_lembar = '$_POST[f_4sd5_lembar]', 
             pricelist.6sd9_lembar = '$_POST[f_6sd9_lembar]', 
             pricelist.10_lembar = '$_POST[f_10_lembar]', 
             pricelist.20_lembar = '$_POST[f_20_lembar]', 
@@ -4379,7 +4416,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 20 THEN 20_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 10 THEN 10_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 6 THEN 6sd9_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3sd5_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 4 THEN 4sd5_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 3 THEN 3_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 2 THEN 2_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 1 THEN 1_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'kotak' and Qty >= 20 THEN 20_kotak
@@ -4392,7 +4430,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 20 THEN 20_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 10 THEN 10_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 6 THEN 6sd9_lembar
-                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3sd5_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 4 THEN 4sd5_lembar
+                    WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 3 THEN 3_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 2 THEN 2_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'lembar' and Qty_BW >= 1 THEN 1_lembar
                     WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'BW' and satuan = 'kotak' and Qty_BW >= 20 THEN 20_kotak
@@ -4425,7 +4464,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
                     WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
                     WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                    WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3sd5_lembar_AT
+                    WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
+                    WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
                     WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
                     WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
                     ELSE '0'
@@ -4438,7 +4478,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 20 THEN 20_lembar_AT
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 10 THEN 10_lembar_AT
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 6 THEN 6sd9_lembar_AT
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3sd5_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 4 THEN 4sd5_lembar_AT
+                    WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 3 THEN 3_lembar_AT
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 2 THEN 2_lembar_AT
                     WHEN ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) and ID_AT != '31' and Qty_LF >= 1 THEN 1_lembar_AT
                     ELSE '0'
@@ -4456,7 +4497,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 20 THEN 20_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 10 THEN 10_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 6 THEN 6sd9_lembar_Cutting + potong
-                    WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3sd5_lembar_Cutting + potong
+                    WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 4 THEN 4sd5_lembar_Cutting + potong
+                    WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 3 THEN 3_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 2 THEN 2_lembar_Cutting + potong
                     WHEN kode = 'digital' and ID_Cutting = '78' and satuan = 'lembar' and Qty_Cutting >= 1 THEN 1_lembar_Cutting + potong
                     ELSE ( potong + potong_gantung + pon + perporasi )
@@ -4509,7 +4551,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         barang.kode_barang,
                         pricelist.1_lembar,
                         pricelist.2_lembar,
-                        pricelist.3sd5_lembar,
+                        pricelist.3_lembar,
+                        pricelist.4sd5_lembar,
                         pricelist.6sd9_lembar,
                         pricelist.10_lembar,
                         pricelist.20_lembar,
@@ -4527,7 +4570,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         pricelist.special_price_LF,
                         pricelist1.1_lembar AS 1_lembar_AT,
                         pricelist1.2_lembar AS 2_lembar_AT,
-                        pricelist1.3sd5_lembar AS 3sd5_lembar_AT,
+                        pricelist1.3_lembar AS 3_lembar_AT,
+                        pricelist1.4sd5_lembar AS 4sd5_lembar_AT,
                         pricelist1.6sd9_lembar AS 6sd9_lembar_AT,
                         pricelist1.10_lembar AS 10_lembar_AT,
                         pricelist1.20_lembar AS 20_lembar_AT,
@@ -4537,7 +4581,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         pricelist1.500_lembar AS 500_lembar_AT,
                         Pricelist_Cutting.1_lembar AS 1_lembar_Cutting,
                         Pricelist_Cutting.2_lembar AS 2_lembar_Cutting,
-                        Pricelist_Cutting.3sd5_lembar AS 3sd5_lembar_Cutting,
+                        Pricelist_Cutting.3_lembar AS 3_lembar_Cutting,
+                        Pricelist_Cutting.4sd5_lembar AS 4sd5_lembar_Cutting,
                         Pricelist_Cutting.6sd9_lembar AS 6sd9_lembar_Cutting,
                         Pricelist_Cutting.10_lembar AS 10_lembar_Cutting,
                         Pricelist_Cutting.20_lembar AS 20_lembar_Cutting,
@@ -4674,7 +4719,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 pricelist.warna,
                                 pricelist.1_lembar,
                                 pricelist.2_lembar,
-                                pricelist.3sd5_lembar,
+                                pricelist.3_lembar,
+                                pricelist.4sd5_lembar,
                                 pricelist.6sd9_lembar,
                                 pricelist.10_lembar,
                                 pricelist.20_lembar,
@@ -4704,7 +4750,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                             pricelist.jenis,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
-                            pricelist.3sd5_lembar,
+                            pricelist.3_lembar,
+                            pricelist.4sd5_lembar,
                             pricelist.6sd9_lembar,
                             pricelist.10_lembar,
                             pricelist.20_lembar,
@@ -4725,7 +4772,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                             pricelist.jenis,
                             pricelist.1_lembar,
                             pricelist.2_lembar,
-                            pricelist.3sd5_lembar,
+                            pricelist.3_lembar,
+                            pricelist.4sd5_lembar,
                             pricelist.6sd9_lembar,
                             pricelist.10_lembar,
                             pricelist.20_lembar,
@@ -4742,6 +4790,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         ) Pricelist_Cutting
                     ON
                         Qty_ID_Penjualan.ID_Cutting = Pricelist_Cutting.bahan and penjualan.kode = Pricelist_Cutting.jenis 
+
                     LEFT JOIN
                         (
                             SELECT
@@ -5140,6 +5189,27 @@ elseif ($_POST['jenis_submit'] == 'LF_Selesai') :
             history         =  CONCAT('$Final_log', history)
         WHERE
             oid				= '$_POST[oid]'
+    ";
+elseif ($_POST['jenis_submit'] == 'submit_supplier') :
+    $sql =
+        "INSERT INTO supplier (
+            nama_supplier,
+            keterangan,
+            hapus
+        ) VALUES (
+            '$_POST[Namasupplier]',
+            '$_POST[NoTelp]',
+            'N'
+        )";
+elseif ($_POST['jenis_submit'] == 'update_supplier') :
+    $sql =
+        "UPDATE
+            supplier
+        SET
+            nama_supplier         = '$_POST[Namasupplier]',
+            keterangan            = '$_POST[NoTelp]'
+        WHERE
+            id_supplier  		  = '$_POST[IdSupplier]'
     ";
 endif;
 

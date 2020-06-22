@@ -3,7 +3,7 @@
 <?php $bahan_Session = isset($_SESSION['ListOrder_BahanLF']) ? $_SESSION['ListOrder_BahanLF'] : ""; ?>
 
 <div class="left_content">
-    <button type="button" onclick="LaodForm('LargeFormat_Order')"><i class="far fa-plus-circle"></i> Buka Order Cetak</button>
+    <button type="button" onclick="LaodFormLF('LargeFormat')"><i class="far fa-plus-circle"></i> Buka Order Cetak</button>
     <input type='text' value="" placeholder="Search ID Yescom, ID Yesprint, No. Invoice, Nama Client" class='search data' id='search' onchange="SearchData()" autocomplete="off">
     <input type="date" value="" data-placeholder="Tanggal" id="tanggal" onblur="SearchDate()" max="<?= $date; ?>" style="width:200px;">
     <input type="hidden" id="session_bahan" value="<?= $bahan_Session; ?>">

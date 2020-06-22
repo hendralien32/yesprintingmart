@@ -34,6 +34,12 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $row = mysqli_fetch_assoc($result);
 
     echo mysqli_num_rows($result);
+} elseif ($term != "" and $tipe_validasi == "Search_supplier") {
+    $result = mysqli_query($conn, "SELECT supplier.id_supplier, supplier.nama_supplier FROM supplier where supplier.nama_supplier = '$_POST[term]'");
+
+    $row = mysqli_fetch_assoc($result);
+
+    echo mysqli_num_rows($result);
 } elseif ($term != "" and $tipe_validasi == "Search_bahanFC") {
     $result = mysqli_query(
         $conn,
@@ -166,7 +172,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 20 THEN 20_lembar
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 10 THEN 10_lembar
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 3 THEN 3sd5_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 3 THEN 3_lembar
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 2 THEN 2_lembar
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 1 THEN 1_lembar
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'kotak' and Qty_FINAL >= 20 THEN 20_kotak
@@ -224,7 +231,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 20 THEN 20_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 10 THEN 10_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 3 THEN 3sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 3 THEN 3_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 2 THEN 2_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Qty_FINAL >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -237,7 +245,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 20 THEN 20_lembar_AT
                 WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 10 THEN 10_lembar_AT
                 WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 6 THEN 6sd9_lembar_AT
-                WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 3 THEN 3sd5_lembar_AT
+                WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 4 THEN 4sd5_lembar_AT
+                WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 3 THEN 3_lembar_AT
                 WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 2 THEN 2_lembar_AT
                 WHEN ( kode = 'large format' or kode = 'Xuli' or kode = 'indoor' ) and ID_AT != '31' and test >= 1 THEN 1_lembar_AT
                 ELSE '0'
@@ -255,7 +264,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 20 THEN COALESCE((20_lembar_Cutting + potong),0)
                 WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 10 THEN COALESCE((10_lembar_Cutting + potong),0)
                 WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 6 THEN COALESCE((6sd9_lembar_Cutting + potong),0)
-                WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 3 THEN COALESCE((3sd5_lembar_Cutting + potong),0)
+                WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 4 THEN COALESCE((4sd5_lembar_Cutting + potong),0)
+                WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 3 THEN COALESCE((3_lembar_Cutting + potong),0)
                 WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 2 THEN COALESCE((2_lembar_Cutting + potong),0)
                 WHEN kode = 'digital' and ID_Cutting = '78' and Satuan_Order = 'lembar' and Qty_Cut >= 1 THEN COALESCE((1_lembar_Cutting + potong),0)
                 ELSE COALESCE(potong,0)
@@ -375,7 +385,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     pricelist.warna,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
-                    pricelist.3sd5_lembar,
+                    pricelist.3_lembar,
+                    pricelist.4sd5_lembar,
                     pricelist.6sd9_lembar,
                     pricelist.10_lembar,
                     pricelist.20_lembar,
@@ -405,7 +416,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     pricelist.jenis,
                     pricelist.1_lembar AS 1_lembar_AT,
                     pricelist.2_lembar AS 2_lembar_AT,
-                    pricelist.3sd5_lembar AS 3sd5_lembar_AT,
+                    pricelist.3_lembar AS 3_lembar_AT,
+                    pricelist.4sd5_lembar AS 4sd5_lembar_AT,
                     pricelist.6sd9_lembar AS 6sd9_lembar_AT,
                     pricelist.10_lembar AS 10_lembar_AT,
                     pricelist.20_lembar AS 20_lembar_AT,
@@ -426,7 +438,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     pricelist.jenis,
                     pricelist.1_lembar AS 1_lembar_Cutting,
                     pricelist.2_lembar AS 2_lembar_Cutting,
-                    pricelist.3sd5_lembar AS 3sd5_lembar_Cutting,
+                    pricelist.3_lembar AS 3_lembar_Cutting,
+                    pricelist.4sd5_lembar AS 4sd5_lembar_Cutting,
                     pricelist.6sd9_lembar AS 6sd9_lembar_Cutting,
                     pricelist.10_lembar AS 10_lembar_Cutting,
                     pricelist.20_lembar AS 20_lembar_Cutting,

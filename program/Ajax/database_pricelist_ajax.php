@@ -53,12 +53,13 @@ if ($kode_barang != "" and $_POST['data'] == "") {
     <tbody>
         <tr>
             <th width="2%">#</th>
-            <th width="16%">Nama Bahan</th>
+            <th width="12%">Nama Bahan</th>
             <th width="7%">Jenis</th>
             <th width="3%">Sisi</th>
             <th width="4%" style="display:<?= $digital ?>">1 Lbr</th>
             <th width="4%" style="display:<?= $digital ?>">2 Lbr</th>
-            <th width="5%" style="display:<?= $digital ?>">3-5 Lbr</th>
+            <th width="4%" style="display:<?= $digital ?>">3 Lbr</th>
+            <th width="5%" style="display:<?= $digital ?>">4-5 Lbr</th>
             <th width="5%" style="display:<?= $digital ?>">6-9 Lbr</th>
             <th width="5%" style="display:<?= $digital ?>">10 Lbr</th>
             <th width="4%" style="display:<?= $digital ?>">20 Lbr</th>
@@ -99,7 +100,8 @@ if ($kode_barang != "" and $_POST['data'] == "") {
                     pricelist.warna,
                     pricelist.1_lembar,
                     pricelist.2_lembar,
-                    pricelist.3sd5_lembar,
+                    pricelist.3_lembar,
+                    pricelist.4sd5_lembar,
                     pricelist.6sd9_lembar,
                     pricelist.10_lembar,
                     pricelist.20_lembar,
@@ -161,47 +163,48 @@ if ($kode_barang != "" and $_POST['data'] == "") {
                 endif;
 
                 echo "
-                        <tr>
-                            <td>$no</td>
-                            <td onClick='$edit' class='pointer'><b style='$status'>▐</b> $row[nama_barang]</td>
-                            <td onClick='$edit' class='pointer'>" . ucfirst($row['jenis']) . "</td>
-                            <td onClick='$edit' class='pointer'><span class='" . $row['css_sisi'] . " KodeProject'>" . $row['sisi'] . "</span></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['1_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['2_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['3sd5_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['6sd9_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['10_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['20_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['50_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['100_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['250_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['500_lembar']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['1_kotak']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['2sd19_kotak']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['20_kotak']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['1sd2m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['3sd9m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['10m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['50m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['1sd2m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['3sd9m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['10m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['50m']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['harga_indoor']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['6sd8pass_indoor']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['12pass_indoor']) . "</center></td>
-                            <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['20pass_indoor']) . "</center></td>
-                            <td onClick='$edit' class='pointer'><center>" . number_format($row['special_price_LF']) . "</center></td>
-                            <td class='pointer' ondblclick='hapus(\"" . $row['price_id'] . "\", \"" . $row['nama_barang'] . "\", \"" . $row['status_pricelist'] . "\")'>$icon</td>
-                        </tr>
-                        ";
+                    <tr>
+                        <td>$no</td>
+                        <td onClick='$edit' class='pointer'><b style='$status'>▐</b> $row[nama_barang]</td>
+                        <td onClick='$edit' class='pointer'>" . ucfirst($row['jenis']) . "</td>
+                        <td onClick='$edit' class='pointer'><span class='" . $row['css_sisi'] . " KodeProject'>" . $row['sisi'] . "</span></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['1_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['2_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['3_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['4sd5_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['6sd9_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['10_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['20_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['50_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['100_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['250_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['500_lembar']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['1_kotak']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['2sd19_kotak']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$digital'><center>" . number_format($row['20_kotak']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['1sd2m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['3sd9m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['10m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$lf'><center>" . number_format($row['50m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['1sd2m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['3sd9m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['10m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$xuli'><center>" . number_format($row['50m']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['harga_indoor']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['6sd8pass_indoor']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['12pass_indoor']) . "</center></td>
+                        <td onClick='$edit' class='pointer' style='display:$latex'><center>" . number_format($row['20pass_indoor']) . "</center></td>
+                        <td onClick='$edit' class='pointer'><center>" . number_format($row['special_price_LF']) . "</center></td>
+                        <td class='pointer' ondblclick='hapus(\"" . $row['price_id'] . "\", \"" . $row['nama_barang'] . "\", \"" . $row['status_pricelist'] . "\")'>$icon</td>
+                    </tr>
+                ";
             endwhile;
         else :
             echo "
-                        <tr>
-                            <td colspan='20'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
-                        </tr>
-                    ";
+                <tr>
+                    <td colspan='20'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                </tr>
+            ";
         endif;
         ?>
     </tbody>

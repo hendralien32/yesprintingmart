@@ -2,7 +2,7 @@
 require_once "../function.php";
 ?>
 
-<script src="js/penjualan_yescom.js" async type="text/javascript"></script>
+<script src="js/invoice_Penjualan_yescom.js" async type="text/javascript"></script>
 
 <div class="left_content">
     <button type="button" onclick="print_report()"><i class='fas fa-print' style='color:#fff'></i> Daily Invoice</button>

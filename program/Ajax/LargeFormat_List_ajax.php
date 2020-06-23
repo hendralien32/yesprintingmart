@@ -44,7 +44,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             </th>
             <th width="6%">ID Order</th>
             <th width="3%">K</th>
-            <th width="40%">Client - Description</th>
+            <th width="39%">Client - Description</th>
             <th width="12%">
                 <select name="BahanSearch" id="BahanSearch" onchange="BahanSearch();">
                     <option value="">Bahan</option>
@@ -105,7 +105,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             <th width="8%">Ukuran File</th>
             <th width="8%">Icons</th>
             <th width="5%">Qty</th>
-            <th width="8%">Total (M<sup>2</sup>)</th>
+            <th width="9%">Total (M<sup>2</sup>)</th>
             <th>Status</th>
         </tr>
         <?php

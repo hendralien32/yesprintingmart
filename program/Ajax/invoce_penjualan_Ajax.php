@@ -1,54 +1,59 @@
 <?php
-    session_start();
+session_start();
 
-    require_once '../../function.php';
+require_once '../../function.php';
 
-    $n = 0;
-    $Nilai_Total = null;
+$n = 0;
+$Nilai_Total = null;
 
-    if($_POST['data'] != '' && $_POST['client'] == '' && $_POST['invoice']=='') :
-        $Add_Search = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or bahan LIKE '%$_POST[data]%')";
-    elseif($_POST['data'] == '' && $_POST['client'] != '' && $_POST['invoice']=="") :
-        $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%'";
-    elseif($_POST['data'] != '' && $_POST['client'] != '' && $_POST['invoice']=="") :
-        $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%' and penjualan.description LIKE '%$_POST[data]%'";
-    elseif($_POST['invoice']!="") :
-        $Add_Search = "and penjualan.no_invoice LIKE '%$_POST[invoice]%'";
-    else :
-        $Add_Search = "and penjualan.cancel!='Y'";
-    endif;
+if ($_POST['data'] != '' && $_POST['client'] == '' && $_POST['invoice'] == '') :
+    $Add_Search = "and ( penjualan.description LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or bahan LIKE '%$_POST[data]%')";
+elseif ($_POST['data'] == '' && $_POST['client'] != '' && $_POST['invoice'] == "") :
+    $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%'";
+elseif ($_POST['data'] != '' && $_POST['client'] != '' && $_POST['invoice'] == "") :
+    $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%' and penjualan.description LIKE '%$_POST[data]%'";
+elseif ($_POST['invoice'] != "") :
+    $Add_Search = "and penjualan.no_invoice LIKE '%$_POST[invoice]%'";
+else :
+    $Add_Search = "and penjualan.cancel!='Y'";
+endif;
 
-    if($_POST['date'] != '' ) : $Add_date = "and LEFT( penjualan.invoice_date, 10 ) = '$_POST[date]'";
-    else : $Add_date = "";
-    endif;
+if ($_POST['date'] != '') :
+    $Add_date = "and LEFT( penjualan.invoice_date, 10 ) = '$_POST[date]'";
+    $tanggal_total = date("d M Y", strtotime($_POST['date']));
+else :
+    $Add_date = "";
+    $tanggal_total = date("d M Y", strtotime($date));
+endif;
 
-    $cari_keyword = $_POST['data'];
-    $bold_cari_keyword = "<strong style='text-decoration:underline'>".$_POST['data']."</strong>";
+$cari_keyword = $_POST['data'];
+$bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data'] . "</strong>";
 
-    $cari_keyword_client = $_POST['client'];
-    $bold_cari_keyword_client = "<strong style='text-decoration:underline'>".$_POST['client']."</strong>";
+$cari_keyword_client = $_POST['client'];
+$bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POST['client'] . "</strong>";
 ?>
 
 <script>
-    $(function () {
-        $("td").hover(function () {
+    $(function() {
+        $("td").hover(function() {
             $el = $(this);
             $el.parent().addClass("hover");
             var tdIndex = $('tr').index($el.parent());
             if ($el.parent().has('td[rowspan]').length == 0) {
                 $el.parent().prevAll('tr:has(td[rowspan]):first')
-                .find('td[rowspan]').filter(function () {
-                    return checkRowSpan(this, tdIndex);
-                }).addClass("hover");
+                    .find('td[rowspan]').filter(function() {
+                        return checkRowSpan(this, tdIndex);
+                    }).addClass("hover");
             }
-        }, function () {
+        }, function() {
             $el.parent()
-            .removeClass("hover")
-            .prevAll('tr:has(td[rowspan]):first')
-            .find('td[rowspan]')
-            .removeClass("hover");
+                .removeClass("hover")
+                .prevAll('tr:has(td[rowspan]):first')
+                .find('td[rowspan]')
+                .removeClass("hover");
         });
     });
+
     function checkRowSpan(element, pIndex) {
         var rowSpan = parseInt($(element).attr('rowspan'));
         var cIndex = $('tr').index($(element).parent());
@@ -56,28 +61,28 @@
     }
 </script>
 
-    <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
-    <table>
-        <tbody>
-            <tr>
-                <th width="1%">#</th>
-                <th width="8%">Tanggal</th>
-                <th width="12%">Client</th>
-                <th width="6%">No. Invoice</th>
-                <th width="3%">K</th>
-                <th width="26%">Description</th>
-                <th width="7%">Icon</th>
-                <th width="3%">S</th>
-                <th width="9%">Bahan</th>
-                <th width="7%">Qty</th>
-                <th width="6%">Harga @</th>
-                <th width="4%">Disc.</th>
-                <th width="7%">Total Harga</th>
-                <th width="1%"></th>
-            </tr>
-            <?php
-                $sql = 
-                    "SELECT
+<center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
+<table>
+    <tbody>
+        <tr>
+            <th width="1%">#</th>
+            <th width="8%">Tanggal</th>
+            <th width="12%">Client</th>
+            <th width="6%">No. Invoice</th>
+            <th width="3%">K</th>
+            <th width="26%">Description</th>
+            <th width="7%">Icon</th>
+            <th width="3%">S</th>
+            <th width="9%">Bahan</th>
+            <th width="7%">Qty</th>
+            <th width="6%">Harga @</th>
+            <th width="4%">Disc.</th>
+            <th width="7%">Total Harga</th>
+            <th width="1%"></th>
+        </tr>
+        <?php
+        $sql =
+            "SELECT
                         penjualan.no_invoice,
                         GROUP_CONCAT((CASE
                             WHEN penjualan.akses_edit = 'Y' THEN 'Y'
@@ -152,209 +157,206 @@
                     desc
                 ";
 
-                $result = $conn_OOP->query($sql);
+        $result = $conn_OOP->query($sql);
 
-                if ($result->num_rows > 0) :
-                    while($d = $result->fetch_assoc()) :
-                        $n++;
-                        $kode_class=str_replace(" ","_",$d['kode_barang']);
-                        $oid = explode("," , "$d[oid]");
-                        $description = explode("*_*" , $d['description']);
-                        $ukuran = explode("," , "$d[ukuran]");
-                        $kode_barang = explode("," , "$kode_class");
-                        $code = explode("," , "$d[code]");
-                        $sisi = explode("," , "$d[sisi]");
-                        $css_sisi = explode("," , "$d[css_sisi]");
-                        $bahan = explode("," , "$d[bahan]");
-                        $qty = explode("," , "$d[qty]");
-                        $Finished = explode("," , "$d[Finished]");
-                        $discount = explode("," , "$d[discount]");
-                        $harga_satuan = explode("," , "$d[harga_satuan]");
-                        $total = explode("," , "$d[total]");
-                        $akses_edit = explode("," , "$d[akses_edit]");
-                        $array_sum = array_sum($total);
-                        $array_kode = array( "Finished" );
-                        foreach($array_kode as $kode) {
-                            if($Finished[0]!="" && $Finished[0]!="N") : ${'check_'.$kode} = "active";
-                            else :
-                                ${'check_'.$kode} = "deactive";
-                            endif;
-                        }
-                        
-                        $count_oid = count($oid);
+        if ($result->num_rows > 0) :
+            while ($d = $result->fetch_assoc()) :
+                $n++;
+                $kode_class = str_replace(" ", "_", $d['kode_barang']);
+                $oid = explode(",", "$d[oid]");
+                $description = explode("*_*", $d['description']);
+                $ukuran = explode(",", "$d[ukuran]");
+                $kode_barang = explode(",", "$kode_class");
+                $code = explode(",", "$d[code]");
+                $sisi = explode(",", "$d[sisi]");
+                $css_sisi = explode(",", "$d[css_sisi]");
+                $bahan = explode(",", "$d[bahan]");
+                $qty = explode(",", "$d[qty]");
+                $Finished = explode(",", "$d[Finished]");
+                $discount = explode(",", "$d[discount]");
+                $harga_satuan = explode(",", "$d[harga_satuan]");
+                $total = explode(",", "$d[total]");
+                $akses_edit = explode(",", "$d[akses_edit]");
+                $array_sum = array_sum($total);
+                $array_kode = array("Finished");
+                foreach ($array_kode as $kode) {
+                    if ($Finished[0] != "" && $Finished[0] != "N") : ${'check_' . $kode} = "active";
+                    else :
+                        ${'check_' . $kode} = "deactive";
+                    endif;
+                }
 
-                        if($d['pembayaran']=="lunas") : $check_Lunas = "active";
-                        elseif($d['Total_keseluruhan'] == $d['total_bayar']) : $check_Lunas = "active";
-                        else : $check_Lunas = "deactive";
-                        endif;
+                $count_oid = count($oid);
 
-                        if($akses_edit['0']=="Y") :
-                            if($_SESSION["level"] == "admin") { 
-                                $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"". $oid['0'] ."\")'><i class='fad fa-lock-open-alt'></i></span>";
-                                $Akses_Edit = "Y";
-                            } else { 
-                                $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
-                                $Akses_Edit = "$akses_edit[0]";
-                            }
-                        else :
-                            if($_SESSION["level"] == "admin") { 
-                                $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"". $oid['0'] ."\")'><i class='fad fa-lock-alt'></i></span>";
-                                $Akses_Edit = "Y";
-                            } else { 
-                                $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
-                                $Akses_Edit = "$akses_edit[0]";
-                            }
-                        endif;
+                if ($d['pembayaran'] == "lunas") : $check_Lunas = "active";
+                elseif ($d['Total_keseluruhan'] == $d['total_bayar']) : $check_Lunas = "active";
+                else : $check_Lunas = "deactive";
+                endif;
 
-                        if($_SESSION["level"] == "admin") :
-                            if($d['pembayaran']=="lunas" and $_SESSION["level"] == "admin") {
-                                $force_paid = "";
-                            } elseif($d['Total_keseluruhan'] == $d['total_bayar'] and $_SESSION["level"] == "admin") {
-                                $force_paid = "";
-                            } else {
-                                $force_paid = "<i class='fas fa-hand-holding-usd pointer text-danger' ondblclick='force_paid(\"". $d['no_invoice'] ."\")'></i>";
-                            }
+                if ($akses_edit['0'] == "Y") :
+                    if ($_SESSION["level"] == "admin") {
+                        $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"" . $oid['0'] . "\")'><i class='fad fa-lock-open-alt'></i></span>";
+                        $Akses_Edit = "Y";
+                    } else {
+                        $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
+                        $Akses_Edit = "$akses_edit[0]";
+                    } else :
+                    if ($_SESSION["level"] == "admin") {
+                        $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $oid['0'] . "\")'><i class='fad fa-lock-alt'></i></span>";
+                        $Akses_Edit = "Y";
+                    } else {
+                        $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
+                        $Akses_Edit = "$akses_edit[0]";
+                    }
+                endif;
 
-                            if($d['cancel']!="Y") { 
-                                $button_Cancel = "<span class='icon_status' onclick='LaodForm(\"setter_penjualan_cancel\", \"". $d['no_invoice'] ."\", \"cancel_invoice\")'><i class='far fa-trash-alt text-danger'></i></span>"; 
-                                $css_cancel = ""; 
-                                $sub_css_cancel = "background-color:#b5d0f5;";
-                            } else { 
-                                $button_Cancel = ""; 
-                                $css_cancel = "cancel"; 
-                                $sub_css_cancel = "background-color:red;";
-                            }
-                        else :
-                            $force_paid = "";
-                            $button_Cancel = ""; 
-                            if($d['cancel']!="Y") { 
-                                $css_cancel = ""; 
-                                $sub_css_cancel = "background-color:#b5d0f5;";
-                            } else {
-                                $css_cancel = "cancel"; 
-                                $sub_css_cancel = "background-color:red;";
-                            }
-                        endif;
-                        
-                        if($d['inv_check'] == "N") :
-                            $check_invoice = "<span style='background-color:green; padding:3px 10px; margin-left:10px; color:white; border-radius:5px; box-sizing:border-box; cursor:pointer; user-select: none;' onclick='check_invoice_form(\"". $d['no_invoice'] ."\")'>Cek Invoice</span>";
-                            $print_invoice = "";
-                        else :
-                            $check_invoice = "";
-                            $print_invoice = "<a href='print.php?type=sales_invoice&no_invoice=$d[no_invoice]' target='_blank' class='pointer'><i class='fad fa-print'></i></a>";
-                        endif;
-                        
-                        $edit = "LaodForm(\"setter_penjualan\", \"". $oid['0'] ."\", \"". $Akses_Edit ."\")";
+                if ($_SESSION["level"] == "admin") :
+                    if ($d['pembayaran'] == "lunas" and $_SESSION["level"] == "admin") {
+                        $force_paid = "";
+                    } elseif ($d['Total_keseluruhan'] == $d['total_bayar'] and $_SESSION["level"] == "admin") {
+                        $force_paid = "";
+                    } else {
+                        $force_paid = "<i class='fas fa-hand-holding-usd pointer text-danger' ondblclick='force_paid(\"" . $d['no_invoice'] . "\")'></i>";
+                    }
 
-                        echo "
-                            <tr class='". $css_cancel ."'>
+                    if ($d['cancel'] != "Y") {
+                        $button_Cancel = "<span class='icon_status' onclick='LaodForm(\"setter_penjualan_cancel\", \"" . $d['no_invoice'] . "\", \"cancel_invoice\")'><i class='far fa-trash-alt text-danger'></i></span>";
+                        $css_cancel = "";
+                        $sub_css_cancel = "background-color:#b5d0f5;";
+                    } else {
+                        $button_Cancel = "";
+                        $css_cancel = "cancel";
+                        $sub_css_cancel = "background-color:red;";
+                    } else :
+                    $force_paid = "";
+                    $button_Cancel = "";
+                    if ($d['cancel'] != "Y") {
+                        $css_cancel = "";
+                        $sub_css_cancel = "background-color:#b5d0f5;";
+                    } else {
+                        $css_cancel = "cancel";
+                        $sub_css_cancel = "background-color:red;";
+                    }
+                endif;
+
+                if ($d['inv_check'] == "N") :
+                    $check_invoice = "<span style='background-color:green; padding:3px 10px; margin-left:10px; color:white; border-radius:5px; box-sizing:border-box; cursor:pointer; user-select: none;' onclick='check_invoice_form(\"" . $d['no_invoice'] . "\")'>Cek Invoice</span>";
+                    $print_invoice = "";
+                else :
+                    $check_invoice = "";
+                    $print_invoice = "<a href='print.php?type=sales_invoice&no_invoice=$d[no_invoice]' target='_blank' class='pointer'><i class='fad fa-print'></i></a>";
+                endif;
+
+                $edit = "LaodForm(\"setter_penjualan\", \"" . $oid['0'] . "\", \"" . $Akses_Edit . "\")";
+
+                echo "
+                            <tr class='" . $css_cancel . "'>
                                 <td rowspan='$count_oid' style='vertical-align:top'>$n</td>
-                                <td rowspan='$count_oid' style='vertical-align:top'>". date("d M Y",strtotime($d['tanggal'] ))."</td>
-                                <td rowspan='$count_oid' style='vertical-align:top'>". str_ireplace($cari_keyword_client,$bold_cari_keyword_client,$d['nama_client']) ."</td>
-                                <td rowspan='$count_oid' style='vertical-align:top'>#". str_ireplace($cari_keyword,$bold_cari_keyword,$d['no_invoice']) ."</td>
-                                <td><span class='KodeProject $kode_barang[0]'>". strtoupper($code['0']) ."</span></td>
-                                <td onclick='$edit' class='pointer'> ". str_ireplace($cari_keyword,$bold_cari_keyword,$oid['0']) ." - ". str_ireplace($cari_keyword,$bold_cari_keyword,$description['0']) ." $ukuran[0] </td>
+                                <td rowspan='$count_oid' style='vertical-align:top'>" . date("d M Y", strtotime($d['tanggal'])) . "</td>
+                                <td rowspan='$count_oid' style='vertical-align:top'>" . str_ireplace($cari_keyword_client, $bold_cari_keyword_client, $d['nama_client']) . "</td>
+                                <td rowspan='$count_oid' style='vertical-align:top'>#" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['no_invoice']) . "</td>
+                                <td><span class='KodeProject $kode_barang[0]'>" . strtoupper($code['0']) . "</span></td>
+                                <td onclick='$edit' class='pointer'> " . str_ireplace($cari_keyword, $bold_cari_keyword, $oid['0']) . " - " . str_ireplace($cari_keyword, $bold_cari_keyword, $description['0']) . " $ukuran[0] </td>
                                 <td>
                                     $icon_akses_edit
                                     <span class='icon_status'><i class='fas fa-check-double $check_Finished'></i></span>
                                     <span class='icon_status'><i class='fas fa-cash-register $check_Lunas'></i></span>
                                 </td>
                                 <td><span class='$css_sisi[0] KodeProject'>$sisi[0]</span></td>
-                                <td>". str_ireplace($cari_keyword,$bold_cari_keyword,$bahan['0']) ."</td>
+                                <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $bahan['0']) . "</td>
                                 <td>$qty[0]</td>
-                                <td style='text-align:right'>". number_format($harga_satuan['0']) ."</td>
-                                <td style='text-align:right'>". number_format($discount['0']) ."</td>
-                                <td style='text-align:right'>". number_format($total['0']) ."</td>
+                                <td style='text-align:right'>" . number_format($harga_satuan['0']) . "</td>
+                                <td style='text-align:right'>" . number_format($discount['0']) . "</td>
+                                <td style='text-align:right'>" . number_format($total['0']) . "</td>
                                 <td rowspan='$count_oid' style='vertical-align:top'>$print_invoice</td>
                             </tr>
                         ";
 
-                        for($i=1; $i<$count_oid ;$i++) {
-                            $X_oid              = $oid[$i];
-                            $X_description      = $description[$i];
-                            $X_ukuran           = $ukuran[$i];
-                            $X_kode_barang      = $kode_barang[$i];
-                            $X_code             = $code[$i];
-                            $X_sisi             = $sisi[$i];
-                            $X_css_sisi         = $css_sisi[$i];
-                            $X_bahan            = $bahan[$i];
-                            $X_qty              = $qty[$i];
-                            $X_harga_satuan     = $harga_satuan[$i];
-                            $X_total            = $total[$i];
-                            $X_Finished         = $Finished[$i];
-                            $X_akses_edit       = $akses_edit[$i];
-                            $X_discount         = $discount[$i];
+                for ($i = 1; $i < $count_oid; $i++) {
+                    $X_oid              = $oid[$i];
+                    $X_description      = $description[$i];
+                    $X_ukuran           = $ukuran[$i];
+                    $X_kode_barang      = $kode_barang[$i];
+                    $X_code             = $code[$i];
+                    $X_sisi             = $sisi[$i];
+                    $X_css_sisi         = $css_sisi[$i];
+                    $X_bahan            = $bahan[$i];
+                    $X_qty              = $qty[$i];
+                    $X_harga_satuan     = $harga_satuan[$i];
+                    $X_total            = $total[$i];
+                    $X_Finished         = $Finished[$i];
+                    $X_akses_edit       = $akses_edit[$i];
+                    $X_discount         = $discount[$i];
 
-                            if($X_akses_edit=="Y") :
-                                if($_SESSION["level"] == "admin") { 
-                                    $Xicon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"". $X_oid ."\")'><i class='fad fa-lock-open-alt'></i></span>";
-                                    $XAkses_Edit = "Y";
-                                } else { 
-                                    $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
-                                    $XAkses_Edit = "$X_akses_edit ";
-                                }
-                            else :
-                                if($_SESSION["level"] == "admin") { 
-                                    $Xicon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"". $X_oid ."\")'><i class='fad fa-lock-alt'></i></span>";
-                                    $XAkses_Edit = "Y";
-                                } else { 
-                                    $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
-                                    $XAkses_Edit = "$X_akses_edit";
-                                }
-                            endif;
+                    if ($X_akses_edit == "Y") :
+                        if ($_SESSION["level"] == "admin") {
+                            $Xicon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"" . $X_oid . "\")'><i class='fad fa-lock-open-alt'></i></span>";
+                            $XAkses_Edit = "Y";
+                        } else {
+                            $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
+                            $XAkses_Edit = "$X_akses_edit ";
+                        } else :
+                        if ($_SESSION["level"] == "admin") {
+                            $Xicon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $X_oid . "\")'><i class='fad fa-lock-alt'></i></span>";
+                            $XAkses_Edit = "Y";
+                        } else {
+                            $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
+                            $XAkses_Edit = "$X_akses_edit";
+                        }
+                    endif;
 
-                            $array_kode = array( "Finished" );
-                            foreach($array_kode as $kode) {
-                                if($X_Finished !="" && $X_Finished !="N") : ${'X_check_'.$kode} = "active";
-                                else : ${'X_check_'.$kode} = "deactive";
-                                endif;
-                            }
+                    $array_kode = array("Finished");
+                    foreach ($array_kode as $kode) {
+                        if ($X_Finished != "" && $X_Finished != "N") : ${'X_check_' . $kode} = "active";
+                        else : ${'X_check_' . $kode} = "deactive";
+                        endif;
+                    }
 
-                            $X_edit = "LaodForm(\"setter_penjualan\", \"". $X_oid ."\", \"". $XAkses_Edit ."\")";
+                    $X_edit = "LaodForm(\"setter_penjualan\", \"" . $X_oid . "\", \"" . $XAkses_Edit . "\")";
 
-                            echo "
-                                <tr class='". $css_cancel ."'>
-                                    <td><span class='KodeProject $X_kode_barang'>". strtoupper($X_code) ."</span></td>
-                                    <td onclick='$X_edit' class='pointer'>". str_ireplace($cari_keyword,$bold_cari_keyword,$X_oid) ." - ". str_ireplace($cari_keyword,$bold_cari_keyword,$X_description) ." $X_ukuran</td>
+                    echo "
+                                <tr class='" . $css_cancel . "'>
+                                    <td><span class='KodeProject $X_kode_barang'>" . strtoupper($X_code) . "</span></td>
+                                    <td onclick='$X_edit' class='pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $X_oid) . " - " . str_ireplace($cari_keyword, $bold_cari_keyword, $X_description) . " $X_ukuran</td>
                                     <td>
                                         $Xicon_akses_edit
                                         <span class='icon_status'><i class='fas fa-check-double $X_check_Finished'></i></span>
                                         <span class='icon_status'><i class='fas fa-cash-register $check_Lunas'></i></span>
                                     </td>
                                     <td><span class='$X_css_sisi KodeProject'>$X_sisi</span></td>
-                                    <td>". str_ireplace($cari_keyword,$bold_cari_keyword,$X_bahan) ."</td>
+                                    <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $X_bahan) . "</td>
                                     <td>$X_qty</td>
-                                    <td style='text-align:right'>". number_format($X_harga_satuan) ."</td>
-                                    <td style='text-align:right'>". number_format($X_discount) ."</td>
-                                    <td style='text-align:right'>". number_format($X_total) ."</td>
+                                    <td style='text-align:right'>" . number_format($X_harga_satuan) . "</td>
+                                    <td style='text-align:right'>" . number_format($X_discount) . "</td>
+                                    <td style='text-align:right'>" . number_format($X_total) . "</td>
                                 </tr>
                             ";
-                        }
+                }
 
-                        $total_penjualan[]   = $array_sum;
-                        $Nilai_Total = number_format(array_sum($total_penjualan));
-  
-                        echo "
-                        <tr style='$sub_css_cancel font-weight:bold; display:". $_POST['display'] ."' id='total_invoice'>
+                $total_penjualan[]   = $array_sum;
+                $Nilai_Total = number_format(array_sum($total_penjualan));
+
+                echo "
+                        <tr style='$sub_css_cancel font-weight:bold; display:" . $_POST['display'] . "' id='total_invoice'>
                             <td colspan='12'>Total Invoice $button_Cancel $force_paid $check_invoice</td>
-                            <td style='text-align:right'>". number_format($array_sum) ."</td>
+                            <td style='text-align:right'>" . number_format($array_sum) . "</td>
                         </tr>
                         ";
-                    endwhile;
-                else :
-                    $Nilai_Total = 0 ;
-                    echo "
+            endwhile;
+        else :
+            $Nilai_Total = 0;
+            echo "
                         <tr>
                             <td colspan='14'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
                         </tr>
                     ";
-                endif;
-            ?>
-            <tr>
-            <th colspan="12">Total Penjualan <?= $hr . ", " . date("d M Y",strtotime($date)); ?></th>
+        endif;
+        ?>
+        <tr>
+            <th colspan="12">Total Penjualan <?= $tanggal_total ?></th>
             <th style='text-align:right'><?= $Nilai_Total; ?></th>
-            </tr>
-        </tbody>
-    </table>
+        </tr>
+    </tbody>
+</table>
 
-<?php $conn -> close(); ?>
+<?php $conn->close(); ?>

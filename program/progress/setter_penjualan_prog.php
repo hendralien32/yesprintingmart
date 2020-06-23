@@ -4944,7 +4944,263 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
     else :
         $sql = "SELECT * FROM penjualan limit 1";
     endif;
+elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc'] == 'N') :
+    $Sql_Log =
+        "SELECT
+            penjualan.id_yes as ID_Yes,
+            penjualan.so_yes as SO_Yes,
+            penjualan.jenis_wo as Jenis_WO,
+            penjualan.warna_cetak as Warna_Cetak,
+            penjualan.description as Deskripsi,
+            (CASE
+                WHEN penjualan.kode = 'large format' THEN 'Large Format'
+                WHEN penjualan.kode = 'digital' THEN 'Digital Printing'
+                WHEN penjualan.kode = 'indoor' THEN 'Indoor HP Latex'
+                WHEN penjualan.kode = 'Xuli' THEN 'Indoor Xuli'
+                WHEN penjualan.kode = 'offset' THEN 'Offset Printing'
+                WHEN penjualan.kode = 'etc' THEN 'ETC'
+                ELSE '- - -'
+            END) as Kode_barang,
+            (CASE
+                WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
+                WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
+                WHEN penjualan.laminate = 'doff1' THEN 'Laminating Doff 1 Sisi'
+                WHEN penjualan.laminate = 'doff2' THEN 'Laminating Doff 2 Sisi'
+                WHEN penjualan.laminate = 'kilatdingin1' THEN 'Laminating Kilat Dingin'
+                WHEN penjualan.laminate = 'doffdingin1' THEN 'Laminating Doff Dingin'
+                WHEN penjualan.laminate = 'hard_lemit' THEN 'Hard Laminating / Lamit KTP'
+                WHEN penjualan.laminate = 'laminating_floor' THEN 'Laminating Floor'
+                ELSE ''
+            END) as Laminating,
+            (CASE
+                WHEN penjualan.alat_tambahan = 'Ybanner' THEN 'Ybanner'
+                WHEN penjualan.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
+                WHEN penjualan.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
+                WHEN penjualan.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
+                WHEN penjualan.alat_tambahan = 'Tripod' THEN 'Tripod'
+                WHEN penjualan.alat_tambahan = 'Softboard' THEN 'Softboard'
+                WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
+                ELSE ''
+            END) as Alat_Tambahan,
+            penjualan.client_yes as Nama_Client,
+            penjualan.ukuran as Ukuran,
+            penjualan.panjang as Panjang,
+            penjualan.lebar as Lebar,
+            penjualan.sisi as Sisi,
+            penjualan.ID_Bahan,
+            Bahan.nama_barang as Nama_Bahan,
+            penjualan.keterangan as Notes,
+            penjualan.qty as Qty,
+            penjualan.satuan as Satuan,
+            penjualan.potong as Potong_Putus,
+            penjualan.potong_gantung as Potong_Gantung,
+            penjualan.pon as Pon_Garis,
+            penjualan.perporasi as Perporasi,
+            penjualan.CuttingSticker as Cutting_Stiker,
+            penjualan.Hekter_Tengah as Hekter_Tengah,
+            penjualan.Blok,
+            penjualan.Spiral,
+            penjualan.ditunggu as Ditunggu,
+            penjualan.Proffing,
+            penjualan.urgent as Urgent,
+            penjualan.b_digital AS Biaya_Digital,
+            penjualan.b_kotak AS Biaya_Kotak,
+            penjualan.b_lain AS Biaya_Lain,
+            penjualan.b_potong AS Biaya_Potong,
+            penjualan.b_large AS Biaya_Large,
+            penjualan.b_indoor AS Biaya_Indoor,
+            penjualan.b_xbanner AS Biaya_Xbanner,
+            penjualan.b_laminate AS Biaya_Laminate,
+            (CASE
+                WHEN penjualan.akses_edit = 'Y' THEN 'Y'
+                WHEN penjualan.akses_edit = 'N' THEN 'N'
+                ELSE 'N'
+            END) as Akses_Edit
+        FROM
+            penjualan
+        LEFT JOIN 
+            (select customer.cid, customer.nama_client from customer) customer
+        ON
+            penjualan.client = customer.cid  
+        LEFT JOIN 
+            (select barang.id_barang, barang.nama_barang from barang) Bahan
+        ON
+            penjualan.ID_Bahan = Bahan.id_barang  
+        WHERE
+            penjualan.oid = '$_POST[id_Order]'
+    ";
 
+    $result = mysqli_query($conn, $Sql_Log);
+    if (mysqli_num_rows($result) === 1) :
+        $row = mysqli_fetch_assoc($result);
+
+        if ($_POST['panjang'] == "") :
+            $Panjang = "0";
+        else :
+            $Panjang = "$_POST[panjang]";
+        endif;
+
+        if ($_POST['lebar'] == "") :
+            $Lebar = "0";
+        else :
+            $Lebar = "$_POST[lebar]";
+        endif;
+
+        if ($_POST['b_digital'] == "undefined" or $_POST['b_digital'] == "") {
+            $b_digital = "0";
+        } else {
+            $b_digital = "$_POST[b_digital]";
+        }
+        if ($_POST['b_large'] == "undefined" or $_POST['b_large'] == "") {
+            $b_large = "0";
+        } else {
+            $b_large = "$_POST[b_large]";
+        }
+        if ($_POST['b_kotak'] == "undefined" or $_POST['b_kotak'] == "") {
+            $b_kotak = "0";
+        } else {
+            $b_kotak = "$_POST[b_kotak]";
+        }
+        if ($_POST['b_laminate'] == "undefined" or $_POST['b_laminate'] == "") {
+            $b_laminate = "0";
+        } else {
+            $b_laminate = "$_POST[b_laminate]";
+        }
+        if ($_POST['b_potong'] == "undefined" or $_POST['b_potong'] == "") {
+            $b_potong = "0";
+        } else {
+            $b_potong = "$_POST[b_potong]";
+        }
+        if ($_POST['b_indoor'] == "undefined" or $_POST['b_indoor'] == "") {
+            $b_indoor = "0";
+        } else {
+            $b_indoor = "$_POST[b_indoor]";
+        }
+        if ($_POST['b_xbanner'] == "undefined" or $_POST['b_xbanner'] == "") {
+            $b_xbanner = "0";
+        } else {
+            $b_xbanner = "$_POST[b_xbanner]";
+        }
+        if ($_POST['b_lain'] == "undefined" or $_POST['b_lain'] == "") {
+            $b_lain = "0";
+        } else {
+            $b_lain = "$_POST[b_lain]";
+        }
+
+        $array = array(
+            "Kode_barang"                  => "$_POST[Desc_Kode_Brg]",
+            "ID_Yes"                       => "$_POST[id_yescom]",
+            "SO_Yes"                       => "$_POST[so_yescom]",
+            "Jenis_WO"                     => "$_POST[wo_yescom]",
+            "Warna_Cetak"                  => "$_POST[warna_cetakan]",
+            "Nama_Client"                  => "$Nama_Client",
+            "Deskripsi"                    => "$Deskripsi",
+            "Ukuran"                       => "$_POST[ukuran]",
+            "Panjang"                      => "$Panjang",
+            "Lebar"                        => "$Lebar",
+            "Sisi"                         => "$_POST[Sisi]",
+            "Nama_Bahan"                   => "$Nama_Bahan",
+            "Notes"                        => "$Notes",
+            "Laminating"                   => "$_POST[Desc_Laminating]",
+            "Alat_Tambahan"                => "$_POST[Desc_alat_tambahan]",
+            "Potong_Putus"                 => "$_POST[Ptg_Pts]",
+            "Potong_Gantung"               => "$_POST[Ptg_Gantung]",
+            "Pon_Garis"                    => "$_POST[Pon_Garis]",
+            "Perporasi"                    => "$_POST[Perporasi]",
+            "Cutting_Stiker"               => "$_POST[CuttingSticker]",
+            "Hekter_Tengah"                => "$_POST[Hekter_Tengah]",
+            "Blok"                         => "$_POST[Blok]",
+            "Spiral"                       => "$_POST[Spiral]",
+            "Qty"                          => "$_POST[qty]",
+            "Satuan"                       => "$Satuan",
+            "Proffing"                     => "$_POST[Proffing]",
+            "Ditunggu"                     => "$_POST[Ditunggu]",
+            "Urgent"                       => "$_POST[urgent]",
+            "Biaya_Digital"                => "$b_digital",
+            "Biaya_Large"                  => "$b_large",
+            "Biaya_Kotak"                  => "$b_kotak",
+            "Biaya_Laminate"               => "$b_laminate",
+            "Biaya_Potong"                 => "$b_potong",
+            "Biaya_Indoor"                 => "$b_indoor",
+            "Biaya_Xbanner"                => "$b_xbanner",
+            "Biaya_Lain"                   => "$b_lain"
+        );
+        $log = "";
+
+        foreach ($array as $key => $value) :
+            $a = $row[$key];
+            if ($value != "$row[$key]") {
+                if (is_numeric($value)) {
+                    $Input_Value = number_format($value);
+                } else {
+                    $Input_Value = "$value";
+                }
+                $deskripsi = str_replace("_", " ", $key);
+                $log  .= "<b>$deskripsi</b> : $a <i class=\"far fa-angle-double-right\"></i> $Input_Value<br>";
+            } else {
+                $log  .= "";
+            }
+        endforeach;
+
+        if ($log != null) :
+            $Final_log = "
+                    <tr>
+                        <td>$timestamps</td>
+                        <td>" . $_SESSION['username'] . " Mengubah data</td>
+                        <td>$log</td>
+                    </tr>
+                ";
+        else :
+            $Final_log = "";
+        endif;
+    else :
+        $Final_log = "";
+    endif;
+
+    
+
+    $sql =
+        "UPDATE penjualan SET 
+            kode            = '$_POST[Kode_Brg]', 
+            client_yes      = '$_POST[Nama_Client]',
+            id_yes          = '$_POST[id_yescom]',
+            so_yes          = '$_POST[so_yescom]',
+            jenis_wo        = '$_POST[wo_yescom]',
+            warna_cetak     = '$_POST[warna_cetakan]',
+            description     = '$Deskripsi',
+            ukuran          = '$_POST[ukuran]',
+            panjang         = '$_POST[panjang]',
+            lebar           = '$_POST[lebar]',
+            sisi            = '$_POST[Sisi]',
+            ID_Bahan        = '$_POST[id_bahan]',
+            keterangan      = '$Notes',
+            laminate        = '$_POST[Laminating]',
+            alat_tambahan   = '$_POST[alat_tambahan]',
+            potong          = '$_POST[Ptg_Pts]',
+            potong_gantung  = '$_POST[Ptg_Gantung]',
+            pon             = '$_POST[Pon_Garis]',
+            perporasi       = '$_POST[Perporasi]',
+            CuttingSticker  = '$_POST[CuttingSticker]',
+            Hekter_Tengah   = '$_POST[Hekter_Tengah]',
+            Blok            = '$_POST[Blok]',
+            Spiral          = '$_POST[Spiral]',
+            qty             = '$_POST[qty]',
+            satuan          = '$Satuan',
+            Proffing        = '$_POST[Proffing]',
+            ditunggu        = '$_POST[Ditunggu]',
+            urgent          = '$_POST[urgent]',
+            b_digital       = '$_POST[b_digital]',
+            b_large         = '$_POST[b_large]',
+            b_kotak         = '$_POST[b_kotak]',
+            b_laminate      = '$_POST[b_laminate]',
+            b_potong        = '$_POST[b_finishing]',
+            b_indoor        = '$_POST[b_indoor]',
+            b_xbanner       = '$_POST[b_xbanner]',
+            b_lain          = '$_POST[b_lain]',
+            history         =  CONCAT('$Final_log', history)
+        WHERE 
+            oid             = $_POST[id_Order]
+    ;";
 elseif ($_POST['jenis_submit'] == 'acc_penjualan') :
 
     $Final_log = "

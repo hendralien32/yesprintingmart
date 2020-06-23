@@ -42,6 +42,8 @@
                 ORDER BY
                     customer.cid
                 DESC
+                LIMIT
+                    150
                 ";
                 $no = 0;
                 $result = $conn_OOP -> query($sql);

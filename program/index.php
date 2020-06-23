@@ -40,7 +40,7 @@ if (isset($page)) :
             $title = 'List Pelunasan Invoice Yesprintingmart';
             break;
         case 'Client_YPM':
-            $title = 'Database Client Yesprintingmart';
+            $title = 'Database Client';
             break;
         case 'User_YPM':
             $title = 'Database User';
@@ -49,7 +49,7 @@ if (isset($page)) :
             $title = 'Database Pricelist';
             break;
         case 'Bahan_YPM':
-            $title = 'Database Bahan';
+            $title = 'Database Barang';
             break;
         case 'database_pricelist':
             $title = 'Database Pricelist';
@@ -59,6 +59,12 @@ if (isset($page)) :
             break;
         case 'penjualan_YESCOM':
             $title = 'Sales Order Yescom';
+            break;
+        case 'Supplier_YPM':
+            $title = 'Database Supplier';
+            break;
+        case 'LF_List':
+            $title = 'Large Format Order List';
             break;
 
         default:
@@ -198,6 +204,9 @@ endif;
                     <a href="?page=penjualan_YESCOM&tab=SalesYescom">
                         <li class='<?= ($page == 'penjualan_YESCOM') ? 'active' : ''; ?>'>Sales Order Yescom</li>
                     </a>
+                    <a href="?page=SI_YESCOM&tab=SalesYescom">
+                        <li class='<?= ($page == 'SI_YESCOM') ? 'active' : ''; ?>'>Sales Invoice Yescom</li>
+                    </a>
                     <div class="clear"></div>
                 </ul>
             <?php elseif ($tab == 'Large_Format') : ?>
@@ -253,6 +262,9 @@ endif;
                             break;
                         case 'penjualan_YESCOM':
                             require_once('penjualan_yescom.php');
+                            break;
+                        case 'SI_YESCOM':
+                            require_once('invoice_Penjualan_yescom.php');
                             break;
                         case 'LF_List':
                             require_once('LargeFormat_List.php');

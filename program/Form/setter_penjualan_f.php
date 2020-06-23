@@ -513,7 +513,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                             ?>
                         </select>
                         -
-                        <select class="myselect" id="warna_cetakan">
+                        <select class="myselect" id="warna_cetakan" onChange="ChangeKodeBrg(); autoCalc();">
                             <?php
                             $array_kode = array(
                                 "FC" => "Fullcolor",

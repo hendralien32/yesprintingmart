@@ -63,7 +63,7 @@ Next Progressive
    ` ReAdd_Invoice [SOLVED]
    ` Update_PenjualanYESCOM [SOLVED]
    ` elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc'] == 'N')
-   ` Autocalc Price ( ada bug di perhitungan BW / hitam putih )
+   ` Autocalc Price ( ada bug di perhitungan BW / hitam putih ) [SOLVED]
 
 * Laporan Penjualan
    - penjualan Yesprintingmart

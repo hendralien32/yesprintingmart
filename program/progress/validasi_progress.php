@@ -159,26 +159,37 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $sql_query =
         "SELECT
             Penjualan_ID.oid,
-            customer.special,
-            Penjualan_ID.test,
-            Penjualan_ID.Color,
-            Penjualan_ID.Qty_FINAL,
-            Penjualan_ID.Qty_Cut,
+            warna_cetakan,
+            Qty_FINAL,
             (CASE
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN 500_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 250 THEN 250_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 100 THEN 100_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 50 THEN 50_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 20 THEN 20_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 10 THEN 10_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 6 THEN 6sd9_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 4 THEN 4sd5_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 3 THEN 3_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 2 THEN 2_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'lembar' and Qty_FINAL >= 1 THEN 1_lembar
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'kotak' and Qty_FINAL >= 20 THEN 20_kotak
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'kotak' and Qty_FINAL >= 2 THEN 2sd19_kotak
-                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and Satuan_Order = 'kotak' and Qty_FINAL >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 3 THEN 3_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'kotak' and Qty_FINAL >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'kotak' and Qty_FINAL >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'kotak' and Qty_FINAL >= 1 THEN 1_kotak
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN 500_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 250 THEN 250_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 100 THEN 100_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 50 THEN 50_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 20 THEN 20_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 10 THEN 10_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 6 THEN 6sd9_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 4 THEN 4sd5_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 3 THEN 3_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 2 THEN 2_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'lembar' and Qty_FINAL >= 1 THEN 1_lembar
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'kotak' and Qty_FINAL >= 20 THEN 20_kotak
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'kotak' and Qty_FINAL >= 2 THEN 2sd19_kotak
+                WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'BW' and Satuan_Order = 'kotak' and Qty_FINAL >= 1 THEN 1_kotak
                 ELSE '0'
             END) as b_digital,
             (CASE
@@ -276,9 +287,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     penjualan.oid,
                     penjualan.client,
                     invoice.oid as OID_Invoice,
-                    penjualan.warna_cetak as Color,
+                    ('$_POST[warna_cetakan]') as warna_cetakan,
                     (COALESCE(invoice.Qty_FC,0)+$qty) AS Qty_FINAL,
-                    (COALESCE(invoice.Qty_BW,0)+$qty) AS Qty_FINAL_BW,
                     (COALESCE(invoice.test,0)+$_POST[Qty]) AS test,
                     (COALESCE(invoice.Qty_Cutting,0) + $qty_Cutting) AS Qty_Cut,
                     (CASE
@@ -332,16 +342,12 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                                 ELSE sum(FORMAT(penjualan.qty,0))
                             END) AS test,
                             (CASE
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'digital') THEN (sum(penjualan.qty))
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'large format') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'indoor') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'FC' and penjualan.kode = 'Xuli') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = '$_POST[warna_cetakan]' and penjualan.kode = 'digital') THEN (sum(penjualan.qty))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = '$_POST[warna_cetakan]' and penjualan.kode = 'large format') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = '$_POST[warna_cetakan]' and penjualan.kode = 'indoor') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
+                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = '$_POST[warna_cetakan]' and penjualan.kode = 'Xuli') THEN (sum(FORMAT((((penjualan.panjang * penjualan.lebar)/10000)  * penjualan.qty),3)))
                                 else sum(FORMAT(penjualan.qty,0))
                             END) AS Qty_FC,
-                            (CASE
-                                WHEN (penjualan.sisi = '$_POST[Sisi]' and penjualan.warna_cetak = 'BW' and penjualan.kode = 'digital') THEN (sum(penjualan.qty))
-                                else sum(FORMAT(penjualan.qty,0))
-                            END) AS Qty_BW,
                             SUM(CASE 
                                 WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
                                 WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
@@ -407,7 +413,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     pricelist
             ) pricelist
         ON
-            Penjualan_ID.Sisi_Order = pricelist.sisi and Penjualan_ID.ID_Bahan_Order = pricelist.bahan and Penjualan_ID.kode = pricelist.jenis and Penjualan_ID.Color = pricelist.warna 
+            Penjualan_ID.Sisi_Order = pricelist.sisi and Penjualan_ID.ID_Bahan_Order = pricelist.bahan and Penjualan_ID.kode = pricelist.jenis and Penjualan_ID.warna_cetakan = pricelist.warna 
         LEFT JOIN 
             (
                 SELECT

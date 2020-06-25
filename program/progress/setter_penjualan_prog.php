@@ -5157,7 +5157,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
         $Final_log = "";
     endif;
 
-    
+
 
     $sql =
         "UPDATE penjualan SET 
@@ -5467,15 +5467,59 @@ elseif ($_POST['jenis_submit'] == 'update_supplier') :
         WHERE
             id_supplier  		  = '$_POST[IdSupplier]'
     ";
+elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
+    $jumlahArray = $_POST['jumlah_array'];
+    $ID_bahanSubLF = explode(",", "$_POST[ID_bahanSubLF]");
+    $panjang = explode(",", "$_POST[panjang]");
+    $lebar = explode(",", "$_POST[lebar]");
+    $qty = explode(",", "$_POST[qty]");
+    $Harga = explode(",", "$_POST[Harga]");
+
+    if ($jumlahArray >= 1) {
+
+        $insert = array();
+        for ($i = 0; $i < $jumlahArray; $i++) {
+            for ($n = 0; $n < $qty[$i]; $n++) {
+                $t = $n + 1;
+                $insert[] = "
+                    (
+                        '$_POST[supplier]',
+                        '$panjang[$i]',
+                        '$lebar[$i]',
+                        '$ID_bahanSubLF[$i]',
+                        '$Harga[$i]',
+                        'N',
+                        '$t'
+                    )
+                ";
+            }
+        }
+        $New_Insert = implode(',', $insert);
+
+        $sql =
+            "X INSERT INTO flow_bahanlf 
+            (
+                id_supplier,
+                panjang,
+                lebar,
+                id_bahanLF,
+                harga,
+                hapus,
+                no_bahan
+            )  VALUES $New_Insert
+        ";
+    } else {
+        $sql = "ERROR";
+    }
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
-    echo "New records created successfully. $sql <br><br> $sql_data";
+    echo "New records created successfully. <br> $sql";
 } else {
     if (mysqli_query($conn, $sql)) {
-        echo "Records inserted or Update successfully.<br><br> $sql_data <br><br> <br><br>  $sql";
+        echo "Records inserted or Update successfully.<br><br>  $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql_data <br><br><br><br> $sql" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql |" . mysqli_error($conn) . "</br>";
     }
 }
 

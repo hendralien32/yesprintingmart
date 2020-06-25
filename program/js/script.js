@@ -103,6 +103,8 @@ function LaodForm(id, nid, Akses_Edit) {
         var judul = "Form Order Kerja Large Format"
     } else if (id == "database_supplier") {
         var judul = "Form Database Supplier"
+    } else if (id == "StockBahan_LF") {
+        var judul = "Form Stock Large Format"
     } else {
         var judul = "404 Not Found";
     }

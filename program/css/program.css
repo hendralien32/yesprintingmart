@@ -86,12 +86,14 @@
     cursor: pointer;
 }
 
-.fa-check-square {
+.fa-check-square,
+.fa-plus-square {
     --fa-primary-color: orange;
     --fa-secondary-color: dimgray;
     --fa-secondary-opacity: 0.10;
     font-size: 1.2vw;
 }
+
 
 .fa-check-double {
     --fa-primary-color: orange;
@@ -99,7 +101,8 @@
     --fa-secondary-opacity: 0.80;
 }
 
-.fa-times-square {
+.fa-times-square,
+.fa-minus-square {
     --fa-primary-color: red;
     --fa-secondary-color: dimgray;
     --fa-secondary-opacity: 0.10;

@@ -189,6 +189,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['sear
 
         endwhile;
     else :
+        $Nilai_total_invoice = 0;
         echo "
             <tr>
                 <td colspan='13'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>

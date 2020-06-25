@@ -66,7 +66,9 @@ if (isset($page)) :
         case 'LF_List':
             $title = 'Large Format Order List';
             break;
-
+        case 'Stock_LF':
+            $title = 'Stock Large Format';
+            break;
         default:
             $title = 'YES Program V.5.0';
     endswitch;
@@ -217,8 +219,8 @@ endif;
                     <a href="?page=asd&tab=Large_Format">
                         <li class='<?= ($page == 'asd') ? 'active' : ''; ?>'>Pemotongan Stock LF</li>
                     </a>
-                    <a href="?page=Stock&tab=Large_Format">
-                        <li class='<?= ($page == 'Stock') ? 'active' : ''; ?>'>Stock Bahan LF</li>
+                    <a href="?page=Stock_LF&tab=Large_Format">
+                        <li class='<?= ($page == 'Stock_LF') ? 'active' : ''; ?>'>Stock Bahan LF</li>
                     </a>
                     <div class="clear"></div>
                 </ul>
@@ -271,6 +273,9 @@ endif;
                             break;
                         case 'Supplier_YPM':
                             require_once('database_supplier.php');
+                            break;
+                        case 'Stock_LF':
+                            require_once('Stock_LF.php');
                             break;
                         default:
                             require_once('test.php');

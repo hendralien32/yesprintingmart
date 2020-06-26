@@ -5476,13 +5476,53 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
     $Harga = explode(",", "$_POST[Harga]");
 
     if ($jumlahArray >= 1) {
-
         $insert = array();
+        $dateSO = date("ymd");
+        $Sql_OrderNo =
+            "SELECT
+                REPLACE(flow_bahanlf.kode_pemesanan,'ORD-$dateSO','') AS no_order
+            FROM
+                flow_bahanlf
+            GROUP BY
+                flow_bahanlf.kode_pemesanan
+            ORDER BY
+                REPLACE(flow_bahanlf.kode_pemesanan,'ORD-$dateSO','')
+            DESC
+            LIMIT
+                1
+        ";
+        $result = $conn_OOP->query($Sql_OrderNo);
+        if ($result->num_rows > 0) :
+            $row = $result->fetch_assoc();
+
+            $no_order_2 = $row['no_order'] + 1;
+        else :
+            $no_order_2 = 1;
+        endif;
+        $no_order_1 = 'ORD-' . $dateSO . $no_order_2;
         for ($i = 0; $i < $jumlahArray; $i++) {
+            $Sql_number =
+                "SELECT
+                    MAX(flow_bahanlf.no_bahan) AS No_Bahan
+                FROM
+                    flow_bahanlf
+                WHERE
+                    flow_bahanlf.id_bahanLF = '$ID_bahanSubLF[$i]'
+            ";
+            $result = $conn_OOP->query($Sql_number);
+            if ($result->num_rows > 0) :
+                $row = $result->fetch_assoc();
+
+                $no_bahan = $row['No_Bahan'];
+            else :
+                $no_bahan = 0;
+            endif;
+
             for ($n = 0; $n < $qty[$i]; $n++) {
-                $t = $n + 1;
+                $t = $no_bahan + $n + 1;
                 $insert[] = "
                     (
+                        '$no_order_1',
                         '$_POST[supplier]',
                         '$panjang[$i]',
                         '$lebar[$i]',
@@ -5499,6 +5539,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
         $sql =
             "X INSERT INTO flow_bahanlf 
             (
+                kode_pemesanan,
                 id_supplier,
                 panjang,
                 lebar,

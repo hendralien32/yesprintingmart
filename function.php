@@ -18,5 +18,3 @@ $months = date('Y-m');
 $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
 $hr = $array_hr[date('N')];
 $timestamps   = date('Y-m-d H:i:s');
-
-?>

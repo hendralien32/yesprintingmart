@@ -5529,6 +5529,8 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
                         '$ID_bahanSubLF[$i]',
                         '$Harga[$i]',
                         'N',
+                        'N',
+                        'N',
                         '$t'
                     )
                 ";
@@ -5537,7 +5539,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
         $New_Insert = implode(',', $insert);
 
         $sql =
-            "X INSERT INTO flow_bahanlf 
+            "INSERT INTO flow_bahanlf 
             (
                 kode_pemesanan,
                 id_supplier,
@@ -5546,6 +5548,8 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
                 id_bahanLF,
                 harga,
                 hapus,
+                habis,
+                diterima,
                 no_bahan
             )  VALUES $New_Insert
         ";

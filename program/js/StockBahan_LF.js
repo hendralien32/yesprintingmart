@@ -152,18 +152,46 @@ function submit(id) {
         contentType: false,
         data: fdata,
         beforeSend: function () {
-            // $('#submitBtn').attr("disabled", "disabled");
-            // $(".icon-close").removeAttr('onclick');
+            $('#submitBtn').attr("disabled", "disabled");
+            $(".icon-close").removeAttr('onclick');
         },
         success: function (data) {
-            $("#Result").html(data);
-            // hideBox();
-            // onload();
-            // return false;
+            // $("#Result").html(data);
+            hideBox();
+            onload();
+            return false;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             $("#bagDetail").html(XMLHttpRequest);
         }
     });
 
+}
+
+function habis(bid, status_bahan, kode_bahan) {
+    if (status_bahan == "N") {
+        var abc = "Sudah Habis";
+    } else {
+        var abc = "Belum Habis";
+    }
+
+    if (confirm('Kode Bahan "' + kode_bahan + '" ' + abc + ' ?')) {
+        $.ajax({
+            type: "POST",
+            url: "progress/setter_penjualan_prog.php",
+            data: {
+                bid: bid,
+                jenis_submit: "bahan_habis",
+                status_bahan: status_bahan
+            },
+            success: function (data) {
+                alert('Kode Bahan "' + kode_bahan + '" ' + abc);
+                onload();
+                return false;
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $("#bagDetail").html(XMLHttpRequest);
+            }
+        });
+    }
 }

@@ -77,6 +77,10 @@
     cursor: pointer;
 }
 
+.a-center {
+    text-align: center;
+}
+
 /*==================================================================
 [ Duotone Fontawesome Check Box ]*/
 .fa-file-alt {

@@ -12,15 +12,23 @@ require_once "../../function.php";
             <th width="1%">#</th>
             <th width="8%">Supplier</th>
             <th width="8%">Kode Order</th>
-            <th width="25%">Kode Bahan</th>
+            <th width="16%">Kode Bahan</th>
+            <th width="8%">Tgl Buka</th>
+            <th width="8%">Tgl Habis</th>
             <th width="10%">Ukuran Bahan (M<sup>2</sup>)</th>
             <th width="10%">Pemakaian Bahan (M<sup>2</sup>)</th>
             <th width="10%">Sisa Bahan (M<sup>2</sup>)</th>
-            <th width="13%">Icon</th>
+            <th width="7%">Icon</th>
             <th width="1%"></th>
         </tr>
 
         <?php
+        if($_POST['search_data']!="") {
+            $add_where = "and ( flow_bahanlf.kode_pemesanan LIKE '%$_POST[search_data]%' or supplier.nama_supplier LIKE '%$_POST[search_data]%' or CONCAT(barang.nama_bahan,'.',flow_bahanlf.no_bahan) LIKE '%$_POST[search_data]%' )";
+        } else{
+            $add_where = "and flow_bahanlf.habis = '$_POST[show_habis]' ";
+        }
+
         $sql =
             "SELECT
                 flow_bahanlf.bid,
@@ -31,7 +39,13 @@ require_once "../../function.php";
                 IFNULL(large_format.Total_cetak, 0) as Total_cetak,
                 (((flow_bahanlf.panjang*flow_bahanlf.lebar)/10000)-IFNULL(large_format.Total_cetak, 0)) as sisa,
                 flow_bahanlf.diterima,
-                flow_bahanlf.habis
+                flow_bahanlf.habis,
+                (CASE
+                    WHEN flow_bahanlf.tanggal_buka = '0000-00-00' THEN 'N'
+                    ELSE 'Y'
+                END) as buka,
+                flow_bahanlf.tanggal_buka,
+                flow_bahanlf.tanggal_habis
             FROM
                 flow_bahanlf
             LEFT JOIN
@@ -53,8 +67,6 @@ require_once "../../function.php";
                         ) barang
                     ON
                         barang.ID_barang = barang_sub_lf.id_barang
-                    WHERE
-                        barang_sub_lf.hapus='N'
                 ) barang
             ON
                 barang.ID_BarangLF = flow_bahanlf.id_bahanLF
@@ -70,7 +82,6 @@ require_once "../../function.php";
                 ) large_format
             ON
                 large_format.id_BrngFlow = flow_bahanlf.bid
-
             LEFT JOIN
                 (
                     SELECT
@@ -82,8 +93,8 @@ require_once "../../function.php";
             ON
                 supplier.id_supplier = flow_bahanlf.id_supplier
             WHERE
-                flow_bahanlf.habis = 'N' and 
                 flow_bahanlf.hapus = 'N'
+                $add_where
             ";
 
         $no = 0;
@@ -92,25 +103,52 @@ require_once "../../function.php";
             while ($row = $result->fetch_assoc()) :
                 $no++;
                 $sisa = $row['Ukuran'] - $row['Total_cetak'];
-                $array_kode = array("diterima", "habis");
+                $array_kode = array("diterima", "habis", "buka");
                 foreach ($array_kode as $kode) {
                     if ($row[$kode] != "" && $row[$kode] != "N") : ${'check_' . $kode} = "active";
                     else : ${'check_' . $kode} = "deactive";
                     endif;
                 }
 
+                if($row['buka'] == "Y") {
+                    $habis_action = "habis(\"$row[bid]\",\"$row[habis]\",\"$row[kode_bahan]\",\"$row[sisa]\",\"bahan_habis\",\"$row[buka]\", \"$row[diterima]\")";
+                    $tanggal_buka = date("d M Y", strtotime($row['tanggal_buka']));
+                } else {
+                    $habis_action = "";
+                    $tanggal_buka = "- - -";
+                }
+
+                if($row['tanggal_habis']!= "0000-00-00") {
+                    $tanggal_habis = date("d M Y", strtotime($row['tanggal_habis']));
+                    $buka_action = "";
+                } else {
+                    $tanggal_habis = "- - -";
+                    $buka_action = "habis(\"$row[bid]\",\"$row[habis]\",\"$row[kode_bahan]\",\"$row[sisa]\",\"buka_bahan\",\"$row[buka]\", \"$row[diterima]\")";
+                }
+
+                $terima_action = "habis(\"$row[bid]\",\"$row[habis]\",\"$row[kode_bahan]\",\"$row[sisa]\",\"terima_bahan\",\"$row[buka]\", \"$row[diterima]\")";
+
+                if($row['diterima'] != "Y" or $_SESSION["level"] == "admin") {
+                    $edit = "LaodForm(\"StockBahan_LF\", \"" . $row['kode_pemesanan'] . "\")";
+                } else {
+                    $edit = "";
+                }
+
                 echo "
                     <tr>
                         <td>$no</td>
                         <td>$row[nama_supplier]</td>
-                        <td>$row[kode_pemesanan]</td>
+                        <td class='pointer' onclick='$edit'>$row[kode_pemesanan]</td>
                         <td>$row[kode_bahan]</td>
+                        <td class='a-center'>$tanggal_buka</td>
+                        <td class='a-center'>$tanggal_habis</td>
                         <td class='a-center'>" . number_format($row['Ukuran'], 2) . "</td>
                         <td class='a-center'>" . number_format($row['Total_cetak'], 2) . "</td>
                         <td class='a-center'>" . number_format($row['sisa'], 2) . "</td>
                         <td>
-                            <span class='icon_status'><i class='fas fa-hand-holding-box $check_diterima'></i></span>
-                            <span class='icon_status pointer' ondblclick='habis(\"$row[bid]\",\"$row[habis]\",\"$row[kode_bahan]\")'><i class='fas fa-empty-set $check_habis'></i></span>
+                            <span class='icon_status pointer' ondblclick='$terima_action'><i class='fas fa-hand-holding-box $check_diterima'></i></span>
+                            <span class='icon_status pointer' ondblclick='$buka_action'><i class='fas fa-box-open $check_buka'></i></span>
+                            <span class='icon_status pointer' ondblclick='$habis_action'><i class='fas fa-empty-set $check_habis'></i></span>
                         </td>
                     </tr>
                 ";

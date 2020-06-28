@@ -6,7 +6,7 @@
 
 <div class="left_content">
     <?php if($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting") : ?>
-    <button type="button" onclick="LaodForm('database_client')"><i class="far fa-plus-circle"></i> Add Client</button>
+        <button type="button" onclick="LaodForm('database_client')"><i class="far fa-plus-circle"></i> Add Client</button>
     <?php endif; ?>
     <input type="text" id="nama_client" class='search data' placeholder="Nama Client, Nomor Hp & Email" onchange="search_data()">
     <select id="type_client" onchange="search_typedata()">

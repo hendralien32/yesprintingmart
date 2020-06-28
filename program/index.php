@@ -222,6 +222,9 @@ endif;
                     <a href="?page=Stock_LF&tab=Large_Format">
                         <li class='<?= ($page == 'Stock_LF') ? 'active' : ''; ?>'>Stock Bahan LF</li>
                     </a>
+                    <a href="?page=List_PemesananStock&tab=Large_Format">
+                        <li class='<?= ($page == 'List_PemesananStock') ? 'active' : ''; ?>'>List Pemesanan Bahan LF</li>
+                    </a>
                     <div class="clear"></div>
                 </ul>
             <?php endif; ?>
@@ -276,6 +279,9 @@ endif;
                             break;
                         case 'Stock_LF':
                             require_once('Stock_LF.php');
+                            break;
+                        case 'List_PemesananStock':
+                            require_once('List_PemesananStock.php');
                             break;
                         default:
                             require_once('test.php');

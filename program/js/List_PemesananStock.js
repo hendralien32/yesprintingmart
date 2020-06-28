@@ -5,21 +5,14 @@ $(document).ready(function () {
 function onload() {
   $("#loader").show();
 
-  var show_habis;
-  if ($("#Check_box").prop("checked") == true) {
-    show_habis = "Y";
-  } else {
-    show_habis = "N";
-  }
   var search_data = $("#search_data").val();
 
   $.ajax({
     type: "POST",
     data: {
-      show_habis: show_habis,
       search_data: search_data,
     },
-    url: "Ajax/StockBahan_LF_ajax.php",
+    url: "Ajax/List_PemesananStock_ajax.php",
     cache: false,
     success: function (data) {
       $("#loader").hide();
@@ -241,23 +234,28 @@ function habis(
 }
 
 function terima_Barang(kode_pemesanan) {
-  $.ajax({
-    type: "POST",
-    url: "progress/setter_penjualan_prog.php",
-    data: {
-      kode_pemesanan: kode_pemesanan,
-      jenis_submit: "terima_barangFULL",
-    },
-    success: function (data) {
-      // $("#Result").html(data);
-      onload();
-      hideBox();
-      return false;
-    },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
-      $("#bagDetail").html(XMLHttpRequest);
-    },
-  });
+  var abc = "Sudah diterima";
+
+  if (confirm('Kode Order "' + kode_pemesanan + '" ' + abc + " ?")) {
+    $.ajax({
+      type: "POST",
+      url: "progress/setter_penjualan_prog.php",
+      data: {
+        kode_pemesanan: kode_pemesanan,
+        jenis_submit: "terima_barangFULL",
+      },
+      success: function (data) {
+        alert('Kode Order "' + kode_pemesanan + '" ' + abc);
+        // $("#Result").html(data);
+        onload();
+        hideBox();
+        return false;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        $("#bagDetail").html(XMLHttpRequest);
+      },
+    });
+  }
 }
 
 function update(id) {

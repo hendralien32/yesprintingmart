@@ -43,6 +43,16 @@ $sql =
             WHEN penjualan.laminate = 'laminating_floor' THEN 'Laminating Floor'
             ELSE '- - -'
         END) as Laminating,
+        (CASE
+            WHEN penjualan.alat_tambahan = 'Ybanner' THEN 'Ybanner'
+            WHEN penjualan.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
+            WHEN penjualan.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
+            WHEN penjualan.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
+            WHEN penjualan.alat_tambahan = 'Tripod' THEN 'Tripod'
+            WHEN penjualan.alat_tambahan = 'Softboard' THEN 'Softboard'
+            WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
+            ELSE '- - -'
+        END) as Alat_Tambahan,
         penjualan.date_create
     FROM
         penjualan
@@ -146,6 +156,10 @@ endif;
             <tr>
                 <td style='width:120px'>Lamanating</td>
                 <td><?= $row['Laminating'] ?></td>
+            </tr>
+            <tr>
+                <td style='width:120px'>Alat Tambahan</td>
+                <td><?= $row['Alat_Tambahan'] ?></td>
             </tr>
         </table>
     </div>

@@ -118,7 +118,12 @@ Next Progressive
 * Large Format
    - Order List Large Format [SOLVED]
       ` Insert
+         • Auto Ganti status orderan 'Selesai' saat Nilai Order dan Nilai Cetak sama
+         • Auto Create Log Untuk Order Penjualan
+         • Auto
    - Pemotongan Stock LF
    - Stock Bahan
-      ` Penerimaan Bahan
-      ` Pengeluaran Bahan 
+      ` Penerimaan Bahan [SOLVED]
+      ` Pengeluaran Bahan [SOLVED]
+   - List Pemesanan Bahan LF
+      ` Tambahakan Pencarian Dari Tanggal Ke tanggal pada List

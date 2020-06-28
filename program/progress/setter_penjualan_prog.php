@@ -5556,6 +5556,95 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
     } else {
         $sql = "ERROR";
     }
+elseif ($_POST['jenis_submit'] == 'bahan_habis') : 
+    if ($_POST['status_bahan'] == "Y") :
+        $status_habis = "N";
+        $penyesuaian = 0.00;
+        $tanggal_habis = "0000-00-00";
+    else :
+        $status_habis = "Y";
+        $penyesuaian = 0-$_POST['sisa_bahan'];
+        $tanggal_habis = $date;
+    endif;
+
+    $sql =
+    "UPDATE
+        flow_bahanlf
+    SET
+        habis	        = '$status_habis',
+        tanggal_habis   = '$tanggal_habis',
+        penyesuaian     = '$penyesuaian'
+    WHERE
+        bid				= '$_POST[bid]'
+    ";
+elseif ($_POST['jenis_submit'] == 'buka_bahan') : 
+    if ($_POST['Status_buka'] == "Y") :
+        $status_habis = "0000-00-00";
+    else :
+        $status_habis = $date;
+    endif;
+
+    $sql =
+    "UPDATE
+        flow_bahanlf
+    SET
+        tanggal_buka   = '$status_habis'
+    WHERE
+        bid				= '$_POST[bid]'
+    ";
+elseif ($_POST['jenis_submit'] == 'terima_bahan') : 
+    if ($_POST['Status_diterima'] == "Y") :
+        $status_habis = "N";
+    else :
+        $status_habis = "Y";
+    endif;
+
+    $sql =
+    "UPDATE
+        flow_bahanlf
+    SET
+        diterima	        = '$status_habis'
+    WHERE
+        bid				= '$_POST[bid]'
+    ";
+elseif ($_POST['jenis_submit'] == 'terima_barangFULL') : 
+    $sql =
+    "UPDATE
+        flow_bahanlf
+    SET
+        diterima	        = 'Y'
+    WHERE
+        kode_pemesanan		= '$_POST[kode_pemesanan]'
+    ";
+elseif ($_POST['jenis_submit'] == 'Update_StockFlowLF') : 
+    $bid = explode(",", "$_POST[bid]");
+    $lebar = explode(",", "$_POST[lebar]");
+    $Harga = explode(",", "$_POST[Harga]");
+    foreach ($bid as $yes) {
+        if ($yes != "") {
+            $y[] = "$yes";
+        }
+    }
+    $aid = implode("','", $y);
+
+    $Case_Lebar = "";
+    $Case_Harga = "";
+    for ($i = 0; $i < $_POST['jumlah_array']; $i++) {
+        $Case_Lebar .= "when bid = $bid[$i] then '$lebar[$i]' ";
+        $Case_Harga .= "when bid = $bid[$i] then '$Harga[$i]' ";
+    }
+
+    $sql =
+        "UPDATE flow_bahanlf
+            SET lebar = (CASE 
+                            $Case_Lebar
+                        END),
+                harga = (CASE 
+                            $Case_Harga
+                        END),
+                id_supplier = $_POST[supplier]
+            WHERE bid IN ('$aid');
+        ";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

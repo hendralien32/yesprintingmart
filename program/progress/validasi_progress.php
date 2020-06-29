@@ -94,6 +94,26 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $num = $result->num_rows;
 
     echo $num;
+} elseif ($term != "" and $tipe_validasi == "Search_nomor_bahan") {
+    $sql =
+        "SELECT
+            flow_bahanlf.id_bahanLF,
+            flow_bahanlf.no_bahan
+        FROM
+            flow_bahanlf
+        WHERE
+            flow_bahanlf.no_bahan = '$_POST[term]' and
+            flow_bahanlf.habis='N' and 
+            flow_bahanlf.hapus='N' and
+            flow_bahanlf.diterima='Y' and
+            flow_bahanlf.tanggal_buka!='0000-00-00' and
+            flow_bahanlf.id_bahanLF='$_POST[id_NamaBahan]'
+    ";
+
+    $result = $conn_OOP->query($sql);
+    $num = $result->num_rows;
+
+    echo $num;
 } elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
     $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
 
@@ -125,6 +145,30 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         WHERE
             barang_sub_lf.hapus='N' and
             concat(barang.nama_barang,'.',barang_sub_lf.ukuran) LIKE '%$_POST[term]%'
+        LIMIT
+            8
+    ";
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
+            $json[] = $row;
+        endwhile;
+        echo json_encode($json);
+    endif;
+} elseif ($term != "" and $tipe_validasi == "autocomplete_NoBahan") {
+    $sql =
+        "SELECT
+            flow_bahanlf.bid,
+            flow_bahanlf.no_bahan
+        FROM
+            flow_bahanlf
+        WHERE
+            flow_bahanlf.habis='N' and 
+            flow_bahanlf.hapus='N' and
+            flow_bahanlf.diterima='Y' and
+            flow_bahanlf.tanggal_buka!='0000-00-00' and
+            flow_bahanlf.id_bahanLF='$_POST[id_NamaBahan]' and 
+            flow_bahanlf.no_bahan LIKE '%$_POST[term]%'
         LIMIT
             8
     ";

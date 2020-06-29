@@ -13,8 +13,15 @@ $string = strlen($_POST['idy']);
             <tr>
                 <td style='width:145px'>Kode Bahan</td>
                 <td>
-                    <input class='form md' type="text" id='kode_bahan'> - <input class='form sd' type="number" id='nomor_bahan'>
-                    <span><i class="fas fa-times-octagon" style='color:red; margin-left:10px;'></i></span>
+                    <input type="text" class="form md" id="NamaBahan" autocomplete="off" onkeyup="test('NamaBahan')" onChange="validasi('NamaBahan')">
+                    <input type="hidden" name="nama_bahan" id="id_NamaBahan" class="form sd" readonly disabled>
+                    <input type="hidden" name="validasi_bahan" id="validasi_NamaBahan" class="form sd" readonly disabled>
+                    <span id="Alert_ValNamaBahan"></span>
+                    -
+                    <input type="text" class="form sd" id="nomor_bahan" autocomplete="off" onkeyup="nomor_bahanSearch('nomor_bahan')" onkeyup="validasi_NoBahan('nomor_bahan')">
+                    <input type="hidden" name="nama_bahan" id="id_nomor_bahan" class="form sd" readonly disabled>
+                    <input type="hidden" name="validasi_bahan" id="validasi_nomor_bahan" class="form sd" readonly disabled>
+                    <span id="Alert_Valnomor_bahan"></span>
                 </td>
             </tr>
             <tr>
@@ -159,14 +166,14 @@ $string = strlen($_POST['idy']);
                 echo "
                     <tr>
                         <td>$n</td>
-                        <td><center>$d[oid]</center></td>
+                        <td><center>$d[oid] <input type='hidden' name='oid[]' value='$d[oid]'></center></td>
                         <td><strong>$id_yes $d[client]</strong> - $d[description]</td>
                         <td>$d[bahan]</td>
                         <td><center>$d[ukuran]</center></td>
                         <td class='pointer' onclick='copy_sisa($sisa_cetak,$n)'><center><strong>$d[Qty_Order] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs </center></td>
                         <td name='Jmlh_Data'>
-                            <input id='CopyQty_$n' type='hidden' value='$sisa_cetak'>
-                            <center><input type='number' class='form sd' id='qty_$n' min='0' max='$sisa_cetak'></center>
+                            <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
+                            <center><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak'></center>
                         </td>
                     </tr>
                 ";

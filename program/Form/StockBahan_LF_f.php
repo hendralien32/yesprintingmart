@@ -2,11 +2,11 @@
 session_start();
 require_once "../../function.php";
 
-if(isset($_POST['ID_Order'])) {
+if (isset($_POST['ID_Order'])) {
     $status_submit = "update('Update_StockFlowLF')";
     $nama_submit = "Update Stock";
-    $sql = 
-    "SELECT
+    $sql =
+        "SELECT
         flow_bahanlf.kode_pemesanan,
         flow_bahanlf.id_supplier,
         flow_bahanlf.tanggal_order,
@@ -20,7 +20,8 @@ if(isset($_POST['ID_Order'])) {
                 WHEN flow_bahanlf.diterima = 'Y' THEN 'active'
                 ELSE ''
             END)
-        ) AS css_diterima
+        ) AS css_diterima,
+        flow_bahanlf.diterima
     FROM
         flow_bahanlf
     LEFT JOIN
@@ -51,7 +52,7 @@ if(isset($_POST['ID_Order'])) {
     GROUP BY
         flow_bahanlf.kode_pemesanan
     ";
-    $result = $conn_OOP -> query($sql);
+    $result = $conn_OOP->query($sql);
 
     if ($result->num_rows > 0) :
         $d = $result->fetch_assoc();
@@ -61,7 +62,8 @@ if(isset($_POST['ID_Order'])) {
     $nama_submit = "Order Stock";
 }
 
-if(isset($d)) {
+if (isset($d)) {
+    $diterima = $d['diterima'];
     $kode_pemesanan = $d['kode_pemesanan'];
     $id_supplier = $d['id_supplier'];
     $tanggal_order = $d['tanggal_order'];
@@ -74,6 +76,7 @@ if(isset($d)) {
     $css_diterima = explode(",", "$d[css_diterima]");
     $disabled_tglOrdr = "disabled";
 } else {
+    $diterima = "";
     $kode_pemesanan = "";
     $id_supplier = "";
     $tanggal_order = "$date";
@@ -145,7 +148,11 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                         $result = $conn_OOP->query($sql);
                         if ($result->num_rows > 0) :
                             while ($row = $result->fetch_assoc()) :
-                                if($id_supplier=="$row[id_supplier]") {$pilih = "selected";} else {$pilih = "";}
+                                if ($id_supplier == "$row[id_supplier]") {
+                                    $pilih = "selected";
+                                } else {
+                                    $pilih = "";
+                                }
                                 echo "<option value='$row[id_supplier]' $pilih>$row[nama_supplier]</option>";
                             endwhile;
                         endif;
@@ -180,8 +187,8 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             </thead>
             <tbody id="dynamic_field">
                 <?php
-                    if($count_NamaBahan > 0) :
-                        for ($i = 0; $i < $count_NamaBahan; $i++) {
+                if ($count_NamaBahan > 0) :
+                    for ($i = 0; $i < $count_NamaBahan; $i++) {
                         echo "
                             <tr>
                                 <input type='hidden' name='bid[]' value='$bid[$i]'>
@@ -194,38 +201,38 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                                 </td>
                             </tr>
                         ";
-                        }
-                    endif;  
-                    if(!isset($_POST['ID_Order'])) :
+                    }
+                endif;
+                if (!isset($_POST['ID_Order'])) :
                 ?>
-                <tr>
-                    <td>
-                        <input type="text" class="form md" id="NamaBahan1" autocomplete="off" onkeyup="test('NamaBahan','1')" onChange="validasi('NamaBahan','1')">
-                        <input type="hidden" name="nama_bahan[]" id="id_NamaBahan1" class="form sd" readonly disabled>
-                        <input type="hidden" name="validasi_bahan[]" id="validasi_NamaBahan1" class="form sd" readonly disabled>
-                        <span id="Alert_ValNamaBahan1"></span>
-                    </td>
-                    <td>
-                        <center>
-                            <input class="form sd" type="number" name="panjang[]" id="form_Panjang1" disabled> x <input class="form sd" type="number" name="lebar[]" id="form_Lebar" autocomplete="off">
-                        </center>
-                    </td>
-                    <td>
-                        <center>
-                            <input class="form sd" type="text" name="qty[]" id="form_Qty" autocomplete="off"> Roll
-                        </center>
-                    </td>
-                    <td>
-                        <center>
-                            <input class="form md" type="number" name="Harga[]" id="Harga" autocomplete="off">
-                        </center>
-                    </td>
-                    <td id="add" class='pointer'>
-                        <i class="fad fa-plus-square" name="add"></i>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <input type="text" class="form md" id="NamaBahan1" autocomplete="off" onkeyup="test('NamaBahan','1')" onChange="validasi('NamaBahan','1')">
+                            <input type="hidden" name="nama_bahan[]" id="id_NamaBahan1" class="form sd" readonly disabled>
+                            <input type="hidden" name="validasi_bahan[]" id="validasi_NamaBahan1" class="form sd" readonly disabled>
+                            <span id="Alert_ValNamaBahan1"></span>
+                        </td>
+                        <td>
+                            <center>
+                                <input class="form sd" type="number" name="panjang[]" id="form_Panjang1" disabled> x <input class="form sd" type="number" name="lebar[]" id="form_Lebar" autocomplete="off">
+                            </center>
+                        </td>
+                        <td>
+                            <center>
+                                <input class="form sd" type="text" name="qty[]" id="form_Qty" autocomplete="off"> Roll
+                            </center>
+                        </td>
+                        <td>
+                            <center>
+                                <input class="form md" type="number" name="Harga[]" id="Harga" autocomplete="off">
+                            </center>
+                        </td>
+                        <td id="add" class='pointer'>
+                            <i class="fad fa-plus-square" name="add"></i>
+                        </td>
+                    </tr>
                 <?php
-                    endif;
+                endif;
                 ?>
             </tbody>
         </table>
@@ -233,8 +240,14 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
     <div id="submit_menu">
         <?php if ($_SESSION["level"] == "admin") : ?>
             <button onclick="<?= $status_submit; ?>" id="submitBtn"><?= $nama_submit; ?></button>
-        <?php endif; ?>
-        <button onclick="terima_Barang('<?= $kode_pemesanan ?>')" id="submitBtn">Terima Barang</button>
+        <?php
+        endif;
+        if (isset($_POST['ID_Order']) && $diterima == "N") :
+        ?>
+            <button onclick="terima_Barang('<?= $kode_pemesanan ?>')" id="submitBtn">Terima Barang</button>
+        <?php
+        endif;
+        ?>
     </div>
     <div id="Result">
 

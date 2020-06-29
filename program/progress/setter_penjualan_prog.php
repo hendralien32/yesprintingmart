@@ -5555,20 +5555,19 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
         ";
     } else {
         $sql = "ERROR";
-    }
-elseif ($_POST['jenis_submit'] == 'bahan_habis') : 
+    } elseif ($_POST['jenis_submit'] == 'bahan_habis') :
     if ($_POST['status_bahan'] == "Y") :
         $status_habis = "N";
         $penyesuaian = 0.00;
         $tanggal_habis = "0000-00-00";
     else :
         $status_habis = "Y";
-        $penyesuaian = 0-$_POST['sisa_bahan'];
+        $penyesuaian = 0 - $_POST['sisa_bahan'];
         $tanggal_habis = $date;
     endif;
 
     $sql =
-    "UPDATE
+        "UPDATE
         flow_bahanlf
     SET
         habis	        = '$status_habis',
@@ -5577,7 +5576,7 @@ elseif ($_POST['jenis_submit'] == 'bahan_habis') :
     WHERE
         bid				= '$_POST[bid]'
     ";
-elseif ($_POST['jenis_submit'] == 'buka_bahan') : 
+elseif ($_POST['jenis_submit'] == 'buka_bahan') :
     if ($_POST['Status_buka'] == "Y") :
         $status_habis = "0000-00-00";
     else :
@@ -5585,14 +5584,14 @@ elseif ($_POST['jenis_submit'] == 'buka_bahan') :
     endif;
 
     $sql =
-    "UPDATE
+        "UPDATE
         flow_bahanlf
     SET
         tanggal_buka   = '$status_habis'
     WHERE
         bid				= '$_POST[bid]'
     ";
-elseif ($_POST['jenis_submit'] == 'terima_bahan') : 
+elseif ($_POST['jenis_submit'] == 'terima_bahan') :
     if ($_POST['Status_diterima'] == "Y") :
         $status_habis = "N";
     else :
@@ -5600,23 +5599,23 @@ elseif ($_POST['jenis_submit'] == 'terima_bahan') :
     endif;
 
     $sql =
-    "UPDATE
+        "UPDATE
         flow_bahanlf
     SET
         diterima	        = '$status_habis'
     WHERE
         bid				= '$_POST[bid]'
     ";
-elseif ($_POST['jenis_submit'] == 'terima_barangFULL') : 
+elseif ($_POST['jenis_submit'] == 'terima_barangFULL') :
     $sql =
-    "UPDATE
+        "UPDATE
         flow_bahanlf
     SET
         diterima	        = 'Y'
     WHERE
         kode_pemesanan		= '$_POST[kode_pemesanan]'
     ";
-elseif ($_POST['jenis_submit'] == 'Update_StockFlowLF') : 
+elseif ($_POST['jenis_submit'] == 'Update_StockFlowLF') :
     $bid = explode(",", "$_POST[bid]");
     $lebar = explode(",", "$_POST[lebar]");
     $Harga = explode(",", "$_POST[Harga]");
@@ -5645,6 +5644,30 @@ elseif ($_POST['jenis_submit'] == 'Update_StockFlowLF') :
                 id_supplier = $_POST[supplier]
             WHERE bid IN ('$aid');
         ";
+elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
+    $jumlahArray = $_POST['jumlah_array'];
+    $oid = explode(",", "$_POST[oid]");
+    $qty_sisa = explode(",", "$_POST[qty_sisa]");
+    $qty = explode(",", "$_POST[qty]");
+
+    $New_Insert = "";
+
+    $sql =
+        "X INSERT INTO large_format 
+        (
+            oid,
+            uid,
+            mesin,
+            qty_cetak,
+            panjang_potong,
+            lebar_potong,
+            id_BrngFlow,
+            qty_jalan,
+            so_kerja,
+            pass,
+            cancel
+        )  VALUES $New_Insert
+    ";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

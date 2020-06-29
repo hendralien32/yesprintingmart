@@ -44,17 +44,28 @@ require_once "../../function.php";
             <th width="16%">Kode Bahan</th>
             <th width="6%">Ukuran Bahan (M<sup>2</sup>)</th>
             <?php if ($_SESSION["level"] == "admin") : ?>
-            <th width="6%">Harga</th>
-            <th width="6%">Total Harga</th>
+                <th width="6%">Harga</th>
+                <th width="6%">Total Harga</th>
             <?php endif; ?>
             <th width="2%">Diterima</th>
         </tr>
 
         <?php
-        if($_POST['search_data']!="") {
+
+        if ($_POST['search_data'] != "") {
             $add_where = "and ( flow_bahanlf.kode_pemesanan LIKE '%$_POST[search_data]%' or supplier.nama_supplier LIKE '%$_POST[search_data]%' )";
-        } else{
-            $add_where = "";
+        } elseif ($_POST['Check_box'] == "N") {
+            $add_where = "and flow_bahanlf.diterima = 'N'";
+        } else {
+            if ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] != "") :
+                $add_where = "and (flow_bahanlf.tanggal_order>='$_POST[Dari_Tanggal]' and flow_bahanlf.tanggal_order<='$_POST[Ke_Tanggal]')";
+            elseif ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] == "") :
+                $add_where = "and (flow_bahanlf.tanggal_order='$_POST[Dari_Tanggal]')";
+            elseif ($_POST['Dari_Tanggal'] == "" and $_POST['Ke_Tanggal'] != "") :
+                $add_where = "and (flow_bahanlf.tanggal_order='$_POST[Ke_Tanggal]')";
+            else :
+                $add_where = "and flow_bahanlf.diterima = 'Y'";
+            endif;
         }
 
         $sql =
@@ -103,7 +114,7 @@ require_once "../../function.php";
             ON
                 supplier.id_supplier = flow_bahanlf.id_supplier
             WHERE
-                flow_bahanlf.hapus = 'N'
+                flow_bahanlf.hapus = 'N' 
                 $add_where
             GROUP BY
                 flow_bahanlf.kode_pemesanan
@@ -119,33 +130,40 @@ require_once "../../function.php";
                 $harga = explode(",", "$row[harga]");
                 $total_harga = explode(",", "$row[total_harga]");
                 $ukuran_bahan = explode(",", "$row[ukuran_bahan]");
+                $array_sum = array_sum($total_harga);
                 $count_bid = count($bid);
 
-                if($row['diterima'] != "Y" or $_SESSION["level"] == "admin") {
+                if ($row['diterima'] == "Y") {
+                    $css_terima = "active";
+                } else {
+                    $css_terima = "";
+                }
+
+                if ($row['diterima'] != "Y" or $_SESSION["level"] == "admin") {
                     $edit = "LaodForm(\"StockBahan_LF\", \"" . $row['kode_pemesanan'] . "\")";
                 } else {
                     $edit = "";
                 }
-                
+
                 echo "
                     <tr>
                         <td rowspan='$count_bid'>$no</td>
                         <td rowspan='$count_bid'>$row[nama_supplier]</td>
-                        <td rowspan='$count_bid'>". date("d M Y", strtotime($row['tanggal_order'])) ."</td>
+                        <td rowspan='$count_bid'>" . date("d M Y", strtotime($row['tanggal_order'])) . "</td>
                         <td rowspan='$count_bid' class='pointer' onclick='$edit'>$row[kode_pemesanan]</td>
                         <td>$kode_bahan[0]</td>
-                        <td class='a-center'>". number_format($ukuran_bahan[0],2) ."</td>
+                        <td class='a-center'>" . number_format($ukuran_bahan[0], 2) . "</td>
                 ";
 
                 if ($_SESSION["level"] == "admin") :
                     echo "
-                        <td>". number_format($harga[0]) ."</td>
-                        <td>". number_format($total_harga[0]) ."</td>
+                        <td>" . number_format($harga[0]) . "</td>
+                        <td class='a-center'>" . number_format($total_harga[0]) . "</td>
                     ";
                 endif;
 
                 echo "
-                        <td rowspan='$count_bid' ondblclick='terima_Barang(\" $row[kode_pemesanan] \")' class='pointer a-center'> <span class='icon_status'><i class='fas fa-hand-holding-box'></i></span> </td>
+                        <td rowspan='$count_bid' ondblclick='terima_Barang(\" $row[kode_pemesanan] \")' class='pointer a-center'> <span class='icon_status'><i class='fas fa-hand-holding-box $css_terima'></i></span> </td>
                     </tr>
                 ";
 
@@ -153,13 +171,13 @@ require_once "../../function.php";
                     echo "
                         <tr>
                             <td>$kode_bahan[$i]</td>
-                            <td class='a-center'>". number_format($ukuran_bahan[$i],2) ."</td>
+                            <td class='a-center'>" . number_format($ukuran_bahan[$i], 2) . "</td>
                     ";
 
                     if ($_SESSION["level"] == "admin") :
                         echo "
-                            <td>". number_format($harga[$i]) ."</td>
-                            <td>". number_format($total_harga[$i]) ."</td>
+                            <td>" . number_format($harga[$i]) . "</td>
+                            <td class='a-center'>" . number_format($total_harga[$i]) . "</td>
                         ";
                     endif;
 
@@ -167,6 +185,12 @@ require_once "../../function.php";
                         </tr>
                     ";
                 }
+                echo "
+                    <tr style='background-color:#b5d0f5;' id='total_invoice'>
+                        <th colspan='7'>Total Kode Order</th>
+                        <th>" . number_format($array_sum) . "</th>
+                    </tr>
+                ";
             endwhile;
         endif;
         ?>

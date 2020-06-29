@@ -57,13 +57,13 @@ function validasi(id, no) {
       if (data > 0) {
         $("#validasi_" + id + no).val(data);
         $("#Alert_Val" + id + no).html(
-          "<i class='fad fa-check-double' style='margin-left:10px;'></i>"
+          "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
         );
       } else {
         $("#validasi_" + id + no).val("0");
         $("#id_" + id + no).val("");
         $("#Alert_Val" + id + no).html(
-          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
         );
       }
     },

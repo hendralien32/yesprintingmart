@@ -27,6 +27,7 @@ function onload() {
   var search = $("#search").val();
   var Tanggal = $("#tanggal").val();
   var session_bahan = $("#session_bahan").val();
+  var type_mesin = $("#type_mesin").val();
 
   $.ajax({
     type: "POST",
@@ -34,10 +35,16 @@ function onload() {
       data: search,
       date: Tanggal,
       session_bahan: session_bahan,
+      type_mesin: type_mesin,
     },
     url: "Ajax/LargeFormat_List_ajax.php",
     cache: false,
     success: function (data) {
+      if (type_mesin != "") {
+        $("#button_order").css("display", "");
+      } else {
+        $("#button_order").css("display", "none");
+      }
       $("#loader").hide();
       $("#setter_penjualan").html(data);
       return false;
@@ -51,6 +58,18 @@ function onload() {
 function BahanSearch() {
   var Bahan_Sort = $("#BahanSearch").val();
   $("#session_bahan").val(Bahan_Sort);
+  $("#loader").show();
+  onload();
+}
+
+function session_mesin() {
+  var type_mesin = $("#type_mesin").val();
+  $("#session_mesin").val(type_mesin);
+  if (type_mesin != "") {
+    $("#button_order").css("display", "");
+  } else {
+    $("#button_order").css("display", "none");
+  }
   $("#loader").show();
   onload();
 }
@@ -145,4 +164,221 @@ function copy_all() {
     abc = $('#CopyQty_' + [i]).val();
     $('#qty_' + [i]).val(abc);
   }
+}
+
+function validasi(id) {
+  var ID_Data = $("#" + id).val();
+
+  $.ajax({
+    type: "POST",
+    data: {
+      tipe_validasi: "Search_" + id,
+      term: ID_Data,
+    },
+    url: "progress/validasi_progress.php",
+    success: function (data) {
+      if (data > 0) {
+        $("#validasi_" + id).val(data);
+        $("#Alert_Val" + id).html(
+          "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
+        );
+      } else {
+        $("#validasi_" + id).val("0");
+        $("#id_" + id).val("");
+        $("#Alert_Val" + id).html(
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px; margin-right:5px;'></i>"
+        );
+      }
+    },
+  });
+}
+
+function validasi_NoBahan(id) {
+  var id_NamaBahan = $("#id_NamaBahan").val();
+  var ID_Data = $("#" + id).val();
+
+  $.ajax({
+    type: "POST",
+    data: {
+      tipe_validasi: "Search_" + id,
+      term: ID_Data,
+      id_NamaBahan: id_NamaBahan
+    },
+    url: "progress/validasi_progress.php",
+    success: function (data) {
+      if (data > 0) {
+        $("#id_" + id).val(ID_Data);
+        $("#validasi_" + id).val(data);
+        $("#Alert_Val" + id).html(
+          "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
+        );
+      } else {
+        $("#validasi_" + id).val("0");
+        $("#id_" + id).val("");
+        $("#Alert_Val" + id).html(
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px; margin-right:5px;'></i>"
+        );
+      }
+    },
+  });
+}
+
+function test(id) {
+  $("#NamaBahan").autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "progress/validasi_progress.php",
+        type: "POST",
+        data: {
+          tipe_validasi: "autocomplete_stockLF",
+          term: request.term,
+        },
+        dataType: "json",
+        success: function (data) {
+          response(
+            $.map(data, function (item) {
+              return {
+                label: item.nama_barang + "." + item.ukuran,
+                value: item.nama_bahan,
+                id: item.ID_BarangLF,
+                ukuran: item.ukuran,
+              };
+            })
+          );
+        },
+      });
+    },
+    minLength: 2,
+    autoFocus: true,
+    select: function (event, ui) {
+      $("#NamaBahan").val(ui.item.value);
+      $("#id_NamaBahan").val(ui.item.id);
+      $("#panjang_potong").val(ui.item.ukuran);
+    },
+    change: function (event, ui) {
+      $("#NamaBahan").val(ui.item.value);
+      $("#id_NamaBahan").val(ui.item.id);
+      $("#panjang_potong").val(ui.item.ukuran);
+    },
+  });
+
+  validasi(id);
+}
+
+function nomor_bahanSearch(id) {
+  var id_NamaBahan = $("#id_NamaBahan").val();
+
+  $("#nomor_bahan").autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "progress/validasi_progress.php",
+        type: "POST",
+        data: {
+          tipe_validasi: "autocomplete_NoBahan",
+          id_NamaBahan: id_NamaBahan,
+          term: request.term,
+        },
+        dataType: "json",
+        success: function (data) {
+          response(
+            $.map(data, function (item) {
+              return {
+                label: item.no_bahan,
+                value: item.no_bahan,
+                id: item.bid,
+              };
+            })
+          );
+        },
+      });
+    },
+    minLength: 1,
+    autoFocus: true,
+    select: function (event, ui) {
+      $("#nomor_bahan").val(ui.item.value);
+      $("#id_nomor_bahan").val(ui.item.id);
+    },
+    change: function (event, ui) {
+      $("#nomor_bahan").val(ui.item.value);
+      $("#id_nomor_bahan").val(ui.item.id);
+    },
+  });
+
+  validasi_NoBahan(id)
+}
+
+function submit(id) {
+  if ($("#validasi_NamaBahan").val() < 1) {
+    alert("Nama Bahan tidak ada dalam Daftar Stock Barang");
+    return false;
+  } else if ($("#validasi_nomor_bahan").val() < 1) {
+    alert("Nomor Bahan tidak ada dalam Daftar Stock Barang");
+    return false;
+  } else if ($("#lebar_potong").val() == "") {
+    alert("Lebar Potong Tidak boleh Kosong");
+    return false;
+  }
+
+  let id_NamaBahan = $("#id_NamaBahan").val();
+  let id_nomor_bahan = $("#id_nomor_bahan").val();
+  let panjang_potong = $("#panjang_potong").val();
+  let lebar_potong = $("#lebar_potong").val();
+  let qty_jalan = $("#qty_jalan").val();
+  let jumlah_pass = $("#jumlah_pass").val();
+
+  let oid = [];
+  $("input[name='oid[]']").each(function () {
+    oid.push($(this).val());
+  });
+
+  let qty_sisa = [];
+  $("input[name='qty_sisa[]']").each(function () {
+    qty_sisa.push($(this).val());
+  });
+
+  let qty = [];
+  $("input[name='qty[]']").each(function () {
+    if ($(this).val() == "" || $(this).val() <= 0) {
+      alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
+      return false;
+    }
+    qty.push($(this).val());
+  });
+
+  let jumlah_array = $('[name="oid[]"]').length;
+
+  var fdata = new FormData();
+  fdata.append("id_NamaBahan", id_NamaBahan);
+  fdata.append("id_nomor_bahan", id_nomor_bahan);
+  fdata.append("panjang_potong", panjang_potong);
+  fdata.append("lebar_potong", lebar_potong);
+  fdata.append("qty_jalan", qty_jalan);
+  fdata.append("jumlah_pass", jumlah_pass);
+  fdata.append("oid", oid);
+  fdata.append("qty_sisa", qty_sisa);
+  fdata.append("qty", qty);
+  fdata.append("jumlah_array", jumlah_array);
+  fdata.append("jenis_submit", id);
+
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    cache: false,
+    processData: false,
+    contentType: false,
+    data: fdata,
+    beforeSend: function () {
+      // $("#submitBtn").attr("disabled", "disabled");
+      // $(".icon-close").removeAttr("onclick");
+    },
+    success: function (data) {
+      $("#Result").html(data);
+      // hideBox();
+      // onload();
+      // return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#bagDetail").html(XMLHttpRequest);
+    },
+  });
 }

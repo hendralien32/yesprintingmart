@@ -6,11 +6,22 @@ function onload() {
   $("#loader").show();
 
   var search_data = $("#search_data").val();
+  var Dari_Tanggal = $('#dari_tanggal').val();
+  var Ke_Tanggal = $('#ke_tanggal').val();
+  var Check_box;
+  if ($('#Check_box').prop("checked") == true) {
+    Check_box = "N";
+  } else {
+    Check_box = "Y";
+  }
 
   $.ajax({
     type: "POST",
     data: {
       search_data: search_data,
+      Dari_Tanggal: Dari_Tanggal,
+      Ke_Tanggal: Ke_Tanggal,
+      Check_box: Check_box,
     },
     url: "Ajax/List_PemesananStock_ajax.php",
     cache: false,
@@ -25,8 +36,30 @@ function onload() {
   });
 }
 
-function Show_habis() {
+function Show_delete() {
+  $('#dari_tanggal').val('');
   $("#loader").show();
+  onload();
+}
+
+function SearchFrom() {
+  $('#search').val("");
+
+  var dari_tanggal = $('#dari_tanggal').val();
+  var All_Element = ["ke_tanggal", "Check_box"];
+
+  for (i = 0; i < All_Element.length; i++) {
+    $('#' + All_Element[i] + '').prop("disabled", false);
+    $('#' + All_Element[i] + '').prop("readonly", false);
+  }
+
+  $('#ke_tanggal').attr('min', dari_tanggal);
+  $('#loader').show();
+  onload();
+}
+
+function SearchTo() {
+  $('#loader').show();
   onload();
 }
 
@@ -178,59 +211,6 @@ function submit(id) {
       $("#bagDetail").html(XMLHttpRequest);
     },
   });
-}
-
-function habis(
-  bid,
-  status_bahan,
-  kode_bahan,
-  sisa_bahan,
-  jenis_submit,
-  Status_buka,
-  Status_diterima
-) {
-  if (jenis_submit == "bahan_habis") {
-    if (status_bahan == "N") {
-      var abc = "Sudah Habis";
-    } else {
-      var abc = "Belum Habis";
-    }
-  } else if (jenis_submit == "buka_bahan") {
-    if (status_bahan == "N") {
-      var abc = "Sudah Buka";
-    } else {
-      var abc = "belum dibuka";
-    }
-  } else if (jenis_submit == "terima_bahan") {
-    if (status_bahan == "N") {
-      var abc = "Sudah diterima";
-    } else {
-      var abc = "belum diterima";
-    }
-  }
-
-  if (confirm('Kode Bahan "' + kode_bahan + '" ' + abc + " ?")) {
-    $.ajax({
-      type: "POST",
-      url: "progress/setter_penjualan_prog.php",
-      data: {
-        bid: bid,
-        jenis_submit: jenis_submit,
-        status_bahan: status_bahan,
-        sisa_bahan: sisa_bahan,
-        Status_buka: Status_buka,
-        Status_diterima: Status_diterima,
-      },
-      success: function (data) {
-        alert('Kode Bahan "' + kode_bahan + '" ' + abc);
-        onload();
-        return false;
-      },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        $("#bagDetail").html(XMLHttpRequest);
-      },
-    });
-  }
 }
 
 function terima_Barang(kode_pemesanan) {

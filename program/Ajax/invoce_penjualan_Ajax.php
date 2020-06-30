@@ -312,7 +312,7 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                         endif;
                     }
 
-                    $X_edit = "LaodForm(\"setter_penjualan\", \"" . $X_oid . "\", \"" . $XAkses_Edit . "\")";
+                    $X_edit = "LaodForm(\"setter_penjualan\", \"" . $oid[$i] . "\", \"" . $XAkses_Edit . "\")";
 
                     echo "
                                 <tr class='" . $css_cancel . "'>

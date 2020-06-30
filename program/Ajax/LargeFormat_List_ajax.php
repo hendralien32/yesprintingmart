@@ -209,6 +209,9 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 penjualan.cancel != 'Y'
                 $add_where
                 $Add_Bahan
+            ORDER BY
+                penjualan.oid
+            ASC
         ";
 
         $n = 0;
@@ -231,7 +234,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
 
 
                 if (($d['status']) == "selesai") {
-                    $status = "<i class='fad fa-check-double'></input> Selesai";
+                    $status = "<i class='fad fa-check-double'></i> Selesai";
                     $disabled = "disabled";
                 } else {
                     if (($d['Qty_Order'] - $d['Qty_Ctk']) == 0) {

@@ -133,6 +133,7 @@ function submit(id) {
   var qty = [];
   $("input[name='qty[]']").each(function () {
     if ($(this).val() == "" || $(this).val() <= 0) {
+      check_qty = false;
       alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
       return false;
     }
@@ -148,10 +149,19 @@ function submit(id) {
 
   $("input[name='validasi_bahan[]']").each(function () {
     if ($(this).val() != "1") {
+      check_validasi_bahan = false;
       alert("Nama Bahan Bermasalah");
       return false;
     }
   });
+
+  if (!check_qty) {
+    return false;
+  }
+
+  if (!check_validasi_bahan) {
+    return false;
+  }
 
   var fdata = new FormData();
   fdata.append("supplier", supplier);

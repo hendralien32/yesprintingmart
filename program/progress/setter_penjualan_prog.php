@@ -5651,6 +5651,13 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
     $qty_sisa = explode(",", "$_POST[qty_sisa]");
     $qty = explode(",", "$_POST[qty]");
 
+    foreach ($oid as $yes) {
+        if ($yes != "") {
+            $y[] = "$yes";
+        }
+    }
+    $aid = implode("','", $y);
+
     $sql_BID_Bahan =
         "SELECT
             flow_bahanlf.bid
@@ -5682,6 +5689,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
             so_kerja desc
         limit 1
     ";
+
     $result = $conn_OOP->query($sql_SOKerja);
     if ($result->num_rows > 0) :
         $row = $result->fetch_assoc();
@@ -5702,15 +5710,25 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
     if ($jumlahArray >= 1) :
         $insert = array();
         $Case_selesai = "";
+        $Case_log = "";
+
+        $Final_log = "
+            <tr>
+                <td>$hr, $timestamps</td>
+                <td>" . $_SESSION['username'] . " Update data</td>
+                <td><b>Status</b> : selesai<br><b>SO Kerja</b> : $SO_Kerja</td>
+            </tr>
+        ";
 
         for ($i = 0; $i < $jumlahArray; $i++) {
 
             if ($qty[$i] == $qty_sisa[$i]) :
-                $Case_selesai .= "when oid = $oid[$i] then 'selesai' ";
+                $Case_selesai .= "WHEN oid = $oid[$i] THEN 'selesai'";
+                $Case_log .= "WHEN oid = $oid[$i] THEN CONCAT('$Final_log', history) ";
             else :
-                $Case_selesai .= "when oid = $oid[$i] then '' ";
+                $Case_selesai .= "WHEN oid = $oid[$i] THEN ''";
+                $Case_log .= "WHEN oid = $oid[$i] THEN history ";
             endif;
-
 
             $insert[] = "
                 (
@@ -5720,7 +5738,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
                     '$qty[$i]',
                     '$_POST[panjang_potong]',
                     '$_POST[lebar_potong]',
-                    '$bid'
+                    '$bid',
                     '$_POST[qty_jalan]',
                     '$SO_Kerja',
                     '$_POST[jumlah_pass]',
@@ -5729,33 +5747,39 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
             ";
         }
 
-        $sql_penjualan =
+        $sql_penjualan=
             "UPDATE 
-                flow_bahanlf
-            SET lebar = (CASE 
-                            $Case_Lebar
+                penjualan
+            SET status = (CASE 
+                            $Case_selesai
+                        END),
+                history = (CASE 
+                            $Case_log
                         END)
             WHERE oid IN ('$aid');
         ";
 
-        $New_Insert = implode(',', $insert);
-
-        $sql =
-            "X INSERT INTO large_format 
-                (
-                    oid,
-                    uid,
-                    mesin,
-                    qty_cetak,
-                    panjang_potong,
-                    lebar_potong,
-                    id_BrngFlow,
-                    qty_jalan,
-                    so_kerja,
-                    pass,
-                    cancel
-                )  VALUES $New_Insert
-        ";
+        if ($conn->multi_query($sql_penjualan) === TRUE) :
+            $New_Insert = implode(',', $insert);
+            $sql =
+                "INSERT INTO large_format 
+                    (
+                        oid,
+                        uid,
+                        mesin,
+                        qty_cetak,
+                        panjang_potong,
+                        lebar_potong,
+                        id_BrngFlow,
+                        qty_jalan,
+                        so_kerja,
+                        pass,
+                        cancel
+                    )  VALUES $New_Insert
+            ";
+        else :
+            $sql  = "ERROR";
+        endif;
     else :
         $sql = "ERROR";
     endif;

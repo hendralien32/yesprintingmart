@@ -143,14 +143,14 @@ function LaodFormLF(id) {
       data: id,
       judul_form: judul,
       idy: si_yes,
-      idx: si_no
+      idx: si_no,
     },
     url: "Form/" + id + "_f.php",
 
     success: function (data) {
       showBox();
       $("#bagDetail").html(data);
-    }
+    },
   });
 }
 
@@ -161,8 +161,8 @@ function copy_sisa(qty, no) {
 function copy_all() {
   checkboxes = $('[name="Jmlh_Data"]');
   for (let i = 1; i <= checkboxes.length; i++) {
-    abc = $('#CopyQty_' + [i]).val();
-    $('#qty_' + [i]).val(abc);
+    abc = $("#CopyQty_" + [i]).val();
+    $("#qty_" + [i]).val(abc);
   }
 }
 
@@ -202,7 +202,7 @@ function validasi_NoBahan(id) {
     data: {
       tipe_validasi: "Search_" + id,
       term: ID_Data,
-      id_NamaBahan: id_NamaBahan
+      id_NamaBahan: id_NamaBahan,
     },
     url: "progress/validasi_progress.php",
     success: function (data) {
@@ -304,7 +304,7 @@ function nomor_bahanSearch(id) {
     },
   });
 
-  validasi_NoBahan(id)
+  validasi_NoBahan(id);
 }
 
 function submit(id) {
@@ -314,8 +314,8 @@ function submit(id) {
   } else if ($("#validasi_nomor_bahan").val() < 1) {
     alert("Nomor Bahan tidak ada dalam Daftar Stock Barang");
     return false;
-  } else if ($("#lebar_potong").val() == "") {
-    alert("Lebar Potong Tidak boleh Kosong");
+  } else if ($("#lebar_potong").val() == "" || $("#lebar_potong").val() < 0) {
+    alert("Lebar Potong Tidak boleh Kosong / Kurang dari 0");
     return false;
   }
 
@@ -339,11 +339,17 @@ function submit(id) {
   let qty = [];
   $("input[name='qty[]']").each(function () {
     if ($(this).val() == "" || $(this).val() <= 0) {
+      check_qty = false;
       alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
       return false;
     }
+    check_qty = true;
     qty.push($(this).val());
   });
+
+  if (!check_qty) {
+    return false;
+  }
 
   let jumlah_array = $('[name="oid[]"]').length;
 
@@ -368,14 +374,14 @@ function submit(id) {
     contentType: false,
     data: fdata,
     beforeSend: function () {
-      // $("#submitBtn").attr("disabled", "disabled");
-      // $(".icon-close").removeAttr("onclick");
+      $("#submitBtn").attr("disabled", "disabled");
+      $(".icon-close").removeAttr("onclick");
     },
     success: function (data) {
-      $("#Result").html(data);
-      // hideBox();
-      // onload();
-      // return false;
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       $("#bagDetail").html(XMLHttpRequest);

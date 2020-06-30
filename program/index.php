@@ -69,6 +69,9 @@ if (isset($page)) :
         case 'Stock_LF':
             $title = 'Stock Large Format';
             break;
+        case 'List_PemesananStock':
+            $title = 'List Pemesanan Stock Large Format';
+            break;
         default:
             $title = 'YES Program V.5.0';
     endswitch;

@@ -6,10 +6,10 @@ function onload() {
   $("#loader").show();
 
   var search_data = $("#search_data").val();
-  var Dari_Tanggal = $('#dari_tanggal').val();
-  var Ke_Tanggal = $('#ke_tanggal').val();
+  var Dari_Tanggal = $("#dari_tanggal").val();
+  var Ke_Tanggal = $("#ke_tanggal").val();
   var Check_box;
-  if ($('#Check_box').prop("checked") == true) {
+  if ($("#Check_box").prop("checked") == true) {
     Check_box = "N";
   } else {
     Check_box = "Y";
@@ -37,29 +37,29 @@ function onload() {
 }
 
 function Show_delete() {
-  $('#dari_tanggal').val('');
+  $("#dari_tanggal").val("");
   $("#loader").show();
   onload();
 }
 
 function SearchFrom() {
-  $('#search').val("");
+  $("#search").val("");
 
-  var dari_tanggal = $('#dari_tanggal').val();
+  var dari_tanggal = $("#dari_tanggal").val();
   var All_Element = ["ke_tanggal", "Check_box"];
 
   for (i = 0; i < All_Element.length; i++) {
-    $('#' + All_Element[i] + '').prop("disabled", false);
-    $('#' + All_Element[i] + '').prop("readonly", false);
+    $("#" + All_Element[i] + "").prop("disabled", false);
+    $("#" + All_Element[i] + "").prop("readonly", false);
   }
 
-  $('#ke_tanggal').attr('min', dari_tanggal);
-  $('#loader').show();
+  $("#ke_tanggal").attr("min", dari_tanggal);
+  $("#loader").show();
   onload();
 }
 
 function SearchTo() {
-  $('#loader').show();
+  $("#loader").show();
   onload();
 }
 
@@ -159,9 +159,11 @@ function submit(id) {
   var qty = [];
   $("input[name='qty[]']").each(function () {
     if ($(this).val() == "" || $(this).val() <= 0) {
+      check_qty = false;
       alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
       return false;
     }
+    check_qty = true;
     qty.push($(this).val());
   });
 
@@ -174,10 +176,20 @@ function submit(id) {
 
   $("input[name='validasi_bahan[]']").each(function () {
     if ($(this).val() != "1") {
+      check_validasi_bahan = false;
       alert("Nama Bahan Bermasalah");
       return false;
     }
+    check_validasi_bahan = true;
   });
+
+  if (!check_qty) {
+    return false;
+  }
+
+  if (!check_validasi_bahan) {
+    return false;
+  }
 
   var fdata = new FormData();
   fdata.append("supplier", supplier);

@@ -10,15 +10,15 @@ require_once "../../function.php";
 <div class='row'>
     <table class='form_table'>
         <tr>
-            <th>#</th>
-            <th>Nomor SO</th>
-            <th>List ID</th>
-            <th>Bahan</th>
-            <th>Ukuran</th>
-            <th>Qty Cetak</th>
-            <th>Kode Bahan</th>
-            <th>Uk. Cetak</th>
-            <th>Qty Cetak</th>
+            <th width="1%">#</th>
+            <th width="9%">Nomor SO</th>
+            <th width="32%">List ID</th>
+            <th width="12%">Bahan</th>
+            <th width="8%">Ukuran</th>
+            <th width="8%">Qty Cetak</th>
+            <th width="15%">Kode Bahan</th>
+            <th width="9%">Uk. Cetak</th>
+            <th width="7%">Qty Cetak</th>
         </tr>
 
         <?php
@@ -137,14 +137,14 @@ require_once "../../function.php";
                 echo "
                     <tr>
                         <td rowspan='$count_oid'>$n</td>
-                        <td rowspan='$count_oid'><center>$d[so_kerja]</center></td>
+                        <td rowspan='$count_oid' class='a-center'>$d[so_kerja]</td>
                         <td>$oid[0] - <strong>$client[0] $Yes_ID</strong> - $deskripsi[0]</td>
                         <td>$bahan[0]</td>
-                        <td>$ukuran[0]</td>
-                        <td>$qty_cetak[0] Pcs</td>
+                        <td class='a-center'>$ukuran[0]</td>
+                        <td class='a-center'>$qty_cetak[0] Pcs</td>
                         <td rowspan='$count_oid'>$d[kode_bahan]</td>
                         <td rowspan='$count_oid'>$d[Uk_Potong]</td>
-                        <td rowspan='$count_oid'><center>$d[qty_jalan]x</center></td>
+                        <td rowspan='$count_oid' class='a-center'>$d[qty_jalan]x</td>
                     </tr>
                 ";
                 for ($i = 1; $i < $count_oid; $i++) :
@@ -158,8 +158,8 @@ require_once "../../function.php";
                         <tr>
                             <td>$oid[$i] - <strong>$client[$i] $XYes_ID</strong> - $deskripsi[$i]</td>
                             <td>$bahan[$i]</td>
-                            <td>$ukuran[$i]</td>
-                            <td>$qty_cetak[$i] Pcs</td>
+                            <td class='a-center'>$ukuran[$i]</td>
+                            <td class='a-center'>$qty_cetak[$i] Pcs</td>
                         </tr>
                     ";
                 endfor;

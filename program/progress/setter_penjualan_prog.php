@@ -5475,7 +5475,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
     $qty = explode(",", "$_POST[qty]");
     $Harga = explode(",", "$_POST[Harga]");
 
-    if ($jumlahArray >= 1) {
+    if ($jumlahArray >= 1) :
         $insert = array();
         $dateSO = date("ymd");
         $Sql_OrderNo =
@@ -5553,9 +5553,10 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
                 no_bahan
             )  VALUES $New_Insert
         ";
-    } else {
+    else :
         $sql = "ERROR";
-    } elseif ($_POST['jenis_submit'] == 'bahan_habis') :
+    endif;
+elseif ($_POST['jenis_submit'] == 'bahan_habis') :
     if ($_POST['status_bahan'] == "Y") :
         $status_habis = "N";
         $penyesuaian = 0.00;
@@ -5650,24 +5651,114 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
     $qty_sisa = explode(",", "$_POST[qty_sisa]");
     $qty = explode(",", "$_POST[qty]");
 
-    $New_Insert = "";
-
-    $sql =
-        "X INSERT INTO large_format 
-        (
-            oid,
-            uid,
-            mesin,
-            qty_cetak,
-            panjang_potong,
-            lebar_potong,
-            id_BrngFlow,
-            qty_jalan,
-            so_kerja,
-            pass,
-            cancel
-        )  VALUES $New_Insert
+    $sql_BID_Bahan =
+        "SELECT
+            flow_bahanlf.bid
+        FROM
+            flow_bahanlf
+        WHERE
+            flow_bahanlf.id_bahanLF = '$_POST[id_NamaBahan]' and
+            flow_bahanlf.no_bahan = '$_POST[id_nomor_bahan]'
     ";
+    $result = $conn_OOP->query($sql_BID_Bahan);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $bid = $row['bid'];
+    else :
+        $bid = 0;
+    endif;
+
+    $sql_SOKerja =
+        "SELECT
+            so_kerja,
+            left(so_kerja,6) as validasi
+        from
+            large_format
+        where
+            so_kerja != ''
+        group by
+            so_kerja
+        order by
+            so_kerja desc
+        limit 1
+    ";
+    $result = $conn_OOP->query($sql_SOKerja);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $dateSO = date("ymd");
+
+        if ($dateSO == $row['validasi']) :
+            $SO_Kerja = $row['so_kerja'] + 1;
+        elseif ($dateSO != $row['validasi'] or $row['validasi'] == '') :
+            $SO_Kerja = "$dateSO" . "001";
+        else :
+            $SO_Kerja = "";
+        endif;
+    else :
+        $SO_Kerja = "";
+    endif;
+
+
+    if ($jumlahArray >= 1) :
+        $insert = array();
+        $Case_selesai = "";
+
+        for ($i = 0; $i < $jumlahArray; $i++) {
+
+            if ($qty[$i] == $qty_sisa[$i]) :
+                $Case_selesai .= "when oid = $oid[$i] then 'selesai' ";
+            else :
+                $Case_selesai .= "when oid = $oid[$i] then '' ";
+            endif;
+
+
+            $insert[] = "
+                (
+                    '$oid[$i]',
+                    '$_SESSION[uid]',
+                    '$_SESSION[session_mesin]',
+                    '$qty[$i]',
+                    '$_POST[panjang_potong]',
+                    '$_POST[lebar_potong]',
+                    '$bid'
+                    '$_POST[qty_jalan]',
+                    '$SO_Kerja',
+                    '$_POST[jumlah_pass]',
+                    'N'
+                )
+            ";
+        }
+
+        $sql_penjualan =
+            "UPDATE 
+                flow_bahanlf
+            SET lebar = (CASE 
+                            $Case_Lebar
+                        END)
+            WHERE oid IN ('$aid');
+        ";
+
+        $New_Insert = implode(',', $insert);
+
+        $sql =
+            "X INSERT INTO large_format 
+                (
+                    oid,
+                    uid,
+                    mesin,
+                    qty_cetak,
+                    panjang_potong,
+                    lebar_potong,
+                    id_BrngFlow,
+                    qty_jalan,
+                    so_kerja,
+                    pass,
+                    cancel
+                )  VALUES $New_Insert
+        ";
+    else :
+        $sql = "ERROR";
+    endif;
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
@@ -5676,7 +5767,7 @@ if ($conn->multi_query($sql) === TRUE) {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully.<br><br>  $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql |" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql | <br> $sql_penjualan" . mysqli_error($conn) . "</br>";
     }
 }
 

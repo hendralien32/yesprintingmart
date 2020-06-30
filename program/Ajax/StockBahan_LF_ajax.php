@@ -11,8 +11,8 @@ require_once "../../function.php";
         <tr>
             <th width="1%">#</th>
             <th width="8%">Supplier</th>
-            <th width="8%">Kode Order</th>
-            <th width="16%">Kode Bahan</th>
+            <th width="7%">Kode Order</th>
+            <th width="17%">Kode Bahan</th>
             <th width="8%">Tgl Buka</th>
             <th width="8%">Tgl Habis</th>
             <th width="10%">Ukuran Bahan (M<sup>2</sup>)</th>
@@ -23,9 +23,9 @@ require_once "../../function.php";
         </tr>
 
         <?php
-        if($_POST['search_data']!="") {
+        if ($_POST['search_data'] != "") {
             $add_where = "and ( flow_bahanlf.kode_pemesanan LIKE '%$_POST[search_data]%' or supplier.nama_supplier LIKE '%$_POST[search_data]%' or CONCAT(barang.nama_bahan,'.',flow_bahanlf.no_bahan) LIKE '%$_POST[search_data]%' )";
-        } else{
+        } else {
             $add_where = "and flow_bahanlf.habis = '$_POST[show_habis]' ";
         }
 
@@ -34,6 +34,8 @@ require_once "../../function.php";
                 flow_bahanlf.bid,
                 flow_bahanlf.kode_pemesanan,
                 supplier.nama_supplier,
+                flow_bahanlf.panjang,
+                flow_bahanlf.lebar,
                 CONCAT(barang.nama_bahan,'.',flow_bahanlf.no_bahan) as kode_bahan,
                 ((flow_bahanlf.panjang*flow_bahanlf.lebar)/10000) as Ukuran,
                 IFNULL(large_format.Total_cetak, 0) as Total_cetak,
@@ -110,7 +112,7 @@ require_once "../../function.php";
                     endif;
                 }
 
-                if($row['buka'] == "Y") {
+                if ($row['buka'] == "Y") {
                     $habis_action = "habis(\"$row[bid]\",\"$row[habis]\",\"$row[kode_bahan]\",\"$row[sisa]\",\"bahan_habis\",\"$row[buka]\", \"$row[diterima]\")";
                     $tanggal_buka = date("d M Y", strtotime($row['tanggal_buka']));
                 } else {
@@ -118,7 +120,7 @@ require_once "../../function.php";
                     $tanggal_buka = "- - -";
                 }
 
-                if($row['tanggal_habis']!= "0000-00-00") {
+                if ($row['tanggal_habis'] != "0000-00-00") {
                     $tanggal_habis = date("d M Y", strtotime($row['tanggal_habis']));
                     $buka_action = "";
                 } else {
@@ -128,18 +130,21 @@ require_once "../../function.php";
 
                 $terima_action = "habis(\"$row[bid]\",\"$row[habis]\",\"$row[kode_bahan]\",\"$row[sisa]\",\"terima_bahan\",\"$row[buka]\", \"$row[diterima]\")";
 
-                if($row['diterima'] != "Y" or $_SESSION["level"] == "admin") {
+                if ($row['diterima'] != "Y" or $_SESSION["level"] == "admin") {
                     $edit = "LaodForm(\"StockBahan_LF\", \"" . $row['kode_pemesanan'] . "\")";
                 } else {
                     $edit = "";
                 }
 
+                $panjang = $row['panjang'] / 100;
+                $lebar = $row['lebar'] / 100;
+
                 echo "
                     <tr>
                         <td>$no</td>
                         <td>$row[nama_supplier]</td>
-                        <td class='pointer' onclick='$edit'>$row[kode_pemesanan]</td>
-                        <td>$row[kode_bahan]</td>
+                        <td class='pointer a-center' onclick='$edit'>$row[kode_pemesanan]</td>
+                        <td>$row[kode_bahan] <i>( Uk. $panjang x $lebar M )</i></td>
                         <td class='a-center'>$tanggal_buka</td>
                         <td class='a-center'>$tanggal_habis</td>
                         <td class='a-center'>" . number_format($row['Ukuran'], 2) . "</td>

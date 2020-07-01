@@ -65,22 +65,6 @@ Next Progressive
    ` elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc'] == 'N') [SOLVED]
    ` Autocalc Price ( ada bug di perhitungan BW / hitam putih ) [SOLVED]
 
-* Laporan Penjualan
-   - penjualan Yesprintingmart
-   - Penjualan Yescom
-   - Export Excel
-
-* Laporan Pelunasan
-   - Tampilkan Cash
-   - Tampilkan Debit / Kredit / Transfer
-   - Update Status Pelunasan apakah di setor bank / dijadikan peti cash
-   - Export Excel 
-
-* Laporan Peti Cash << OPTIONAL >>
-   - Export Excel
-
-* Laporan Kerja Large Format & Indoor   
-
 * YES WO List [SOLVED]
    - List Form Work Order List --> Show Log [SOLVED]
       ` Insert [SOLVED]
@@ -106,6 +90,19 @@ Next Progressive
       ` Bug Nilai harga tidak sesuai saat Re-Add Sales Invoice ( di Sales Order Yesprinting ) [SOLVED]
       ` Perbaiki Form Pricelist tambah Xuli [SOLVED]
    
+* Large Format
+   - Order List Large Format [SOLVED]
+      ` Insert[SOLVED]
+         • Auto Ganti status orderan 'Selesai' saat Nilai Order dan Nilai Cetak sama [SOLVED]
+         • Auto Create Log Untuk Order Penjualan [SOLVED]
+         • Auto [SOLVED]
+   - Pemotongan Stock LF
+   - Stock Bahan
+      ` Penerimaan Bahan [SOLVED]
+      ` Pengeluaran Bahan [SOLVED]
+   - List Pemesanan Bahan LF [SOLVED]
+      ` Tambahakan Pencarian Dari Tanggal Ke tanggal pada List [SOLVED]
+
 * Digital Printing
    - Order List Digital Printing
    - Laporan Pemotongan Stock
@@ -115,15 +112,20 @@ Next Progressive
       ` Penerimaan Bahan
       ` Pengeluaran Bahan
 
-* Large Format
-   - Order List Large Format [SOLVED]
-      ` Insert
-         • Auto Ganti status orderan 'Selesai' saat Nilai Order dan Nilai Cetak sama
-         • Auto Create Log Untuk Order Penjualan
-         • Auto
-   - Pemotongan Stock LF
-   - Stock Bahan
-      ` Penerimaan Bahan [SOLVED]
-      ` Pengeluaran Bahan [SOLVED]
-   - List Pemesanan Bahan LF
-      ` Tambahakan Pencarian Dari Tanggal Ke tanggal pada List
+* Laporan Penjualan
+   - penjualan Yesprintingmart
+   - Penjualan Yescom
+   - Export Excel
+
+* Laporan Pelunasan
+   - Tampilkan Cash
+   - Tampilkan Debit / Kredit / Transfer
+   - Update Status Pelunasan apakah di setor bank / dijadikan peti cash
+   - Export Excel 
+
+* Laporan Peti Cash << OPTIONAL >>
+   - Export Excel
+
+* Laporan Kerja Large Format & Indoor   
+
+* Bug Form Setter saat di di level Setter, Accounting, dan CS      

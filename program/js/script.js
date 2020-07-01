@@ -74,8 +74,6 @@ function LaodSubForm(id, nid, Akses_Edit) {
 }
 
 function LaodForm(id, nid, Akses_Edit) {
-  alert(nid + " - " + Akses_Edit);
-
   if (id == "setter_penjualan") {
     var judul = "Form Setter Penjualan";
   } else if (id == "setter_penjualan_cancel") {

@@ -72,6 +72,9 @@ if (isset($page)) :
         case 'List_PemesananStock':
             $title = 'List Pemesanan Stock Large Format';
             break;
+        case 'PemotonganStockLF':
+            $title = 'List Pemotongan Stock Large Format';
+            break;
         default:
             $title = 'YES Program V.5.0';
     endswitch;
@@ -219,8 +222,8 @@ endif;
                     <a href="?page=LF_List&tab=Large_Format">
                         <li class='<?= ($page == 'LF_List') ? 'active' : ''; ?>'>Large Format Order List</li>
                     </a>
-                    <a href="?page=asd&tab=Large_Format">
-                        <li class='<?= ($page == 'asd') ? 'active' : ''; ?>'>Pemotongan Stock LF</li>
+                    <a href="?page=PemotonganStockLF&tab=Large_Format">
+                        <li class='<?= ($page == 'PemotonganStockLF') ? 'active' : ''; ?>'>Pemotongan Stock LF</li>
                     </a>
                     <a href="?page=Stock_LF&tab=Large_Format">
                         <li class='<?= ($page == 'Stock_LF') ? 'active' : ''; ?>'>Stock Bahan LF</li>
@@ -285,6 +288,9 @@ endif;
                             break;
                         case 'List_PemesananStock':
                             require_once('List_PemesananStock.php');
+                            break;
+                        case 'PemotonganStockLF':
+                            require_once('List_PemotonganStockLF.php');
                             break;
                         default:
                             require_once('test.php');

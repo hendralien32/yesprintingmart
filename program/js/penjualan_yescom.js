@@ -93,7 +93,10 @@ function submit_GeneratorCode() {
   var Start_Val = str.includes("////// ACTION START ---->>>");
   var End_Val = str.includes("<<<---- ACTION END //////");
 
-  if (Start_Val == false && End_Val == false) {
+  if (Start_Val == false) {
+    alert("Error Code Submit");
+    return false;
+  } else if (End_Val == false) {
     alert("Error Code Submit");
     return false;
   } else {

@@ -120,7 +120,7 @@ require_once "../../function.php";
                     $tanggal_buka = "- - -";
                 }
 
-                if ($row['tanggal_habis'] != "0000-00-00") {
+                if ($row['tanggal_habis'] != "0000-00-00" && $row['Total_cetak'] != 0) {
                     $tanggal_habis = date("d M Y", strtotime($row['tanggal_habis']));
                     $buka_action = "";
                 } else {

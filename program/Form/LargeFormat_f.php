@@ -13,7 +13,7 @@ $string = strlen($_POST['idy']);
             <tr>
                 <td style='width:145px'>Kode Bahan</td>
                 <td>
-                    <input type="text" class="form md" id="NamaBahan" autocomplete="off" onkeyup="test('NamaBahan')" onChange="validasi('NamaBahan')">
+                    <input type="text" class="form md" style="width:145px" id="NamaBahan" autocomplete="off" onkeyup="test('NamaBahan')" onChange="validasi('NamaBahan')">
                     <input type="hidden" name="nama_bahan" id="id_NamaBahan" class="form sd" readonly disabled>
                     <input type="hidden" name="validasi_bahan" id="validasi_NamaBahan" class="form sd" readonly disabled>
                     <span id="Alert_ValNamaBahan"></span>
@@ -22,6 +22,11 @@ $string = strlen($_POST['idy']);
                     <input type="hidden" name="nama_bahan" id="id_nomor_bahan" class="form sd" readonly disabled>
                     <input type="hidden" name="validasi_bahan" id="validasi_nomor_bahan" class="form sd" readonly disabled>
                     <span id="Alert_Valnomor_bahan"></span>
+
+                    <div class="contact100-form-checkbox" style='float:right; margin-top:4px; margin-left:11px'>
+                        <input class="input-checkbox100" id="restan" type="checkbox" name="remember" onclick="restan();">
+                        <label class="label-checkbox100" for="restan"> Restan</label>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -172,6 +177,7 @@ $string = strlen($_POST['idy']);
                         <td><center>$d[ukuran]</center></td>
                         <td class='pointer' onclick='copy_sisa($sisa_cetak,$n)'><center><strong>$d[Qty_Order] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs </center></td>
                         <td name='Jmlh_Data'>
+                            <input id='oid_NamaBahan_$n' type='hidden' name='oid_NamaBahan[]' value='$d[bahan]'>
                             <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
                             <center><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak'></center>
                         </td>

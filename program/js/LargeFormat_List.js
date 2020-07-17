@@ -307,6 +307,30 @@ function nomor_bahanSearch(id) {
   validasi_NoBahan(id);
 }
 
+function restan() {
+
+  var Akses = [
+    "NamaBahan",
+    "nomor_bahan"
+  ];
+
+  if ($("#restan").is(":checked")) {
+    for (i = 0; i < Akses.length; i++) {
+      $("#" + Akses[i]).prop("disabled", true);
+      $("#validasi_" + Akses[i] + "").val(1);
+      $("#Alert_Val" + Akses[i] + "").html(
+        "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
+      );
+    }
+  } else {
+    for (i = 0; i < Akses.length; i++) {
+      $("#" + Akses[i]).prop("disabled", false);
+      $("#validasi_" + Akses[i] + "").val(0);
+      $("#Alert_Val" + Akses[i] + "").html("");
+    }
+  }
+}
+
 function submit(id) {
   if ($("#validasi_NamaBahan").val() < 1) {
     alert("Nama Bahan tidak ada dalam Daftar Stock Barang");
@@ -324,11 +348,22 @@ function submit(id) {
   let panjang_potong = $("#panjang_potong").val();
   let lebar_potong = $("#lebar_potong").val();
   let qty_jalan = $("#qty_jalan").val();
+  let restan;
+  if ($("#restan").prop("checked") == true) {
+    restan = "Y";
+  } else {
+    restan = "N";
+  }
   let jumlah_pass = $("#jumlah_pass").val();
 
   let oid = [];
   $("input[name='oid[]']").each(function () {
     oid.push($(this).val());
+  });
+
+  let NamaBahan = [];
+  $("input[name='oid_NamaBahan[]']").each(function () {
+    NamaBahan.push($(this).val());
   });
 
   let qty_sisa = [];
@@ -364,6 +399,8 @@ function submit(id) {
   fdata.append("qty_sisa", qty_sisa);
   fdata.append("qty", qty);
   fdata.append("jumlah_array", jumlah_array);
+  fdata.append("restan", restan);
+  fdata.append("NamaBahan", NamaBahan);
   fdata.append("jenis_submit", id);
 
   $.ajax({

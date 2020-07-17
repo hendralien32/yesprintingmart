@@ -19,20 +19,48 @@ if ($_POST['search'] != "") {
 
 ?>
 
+<script>
+    $(function() {
+        $("td").hover(function() {
+            $el = $(this);
+            $el.parent().addClass("hover");
+            var tdIndex = $('tr').index($el.parent());
+            if ($el.parent().has('td[rowspan]').length == 0) {
+                $el.parent().prevAll('tr:has(td[rowspan]):first')
+                    .find('td[rowspan]').filter(function() {
+                        return checkRowSpan(this, tdIndex);
+                    }).addClass("hover");
+            }
+        }, function() {
+            $el.parent()
+                .removeClass("hover")
+                .prevAll('tr:has(td[rowspan]):first')
+                .find('td[rowspan]')
+                .removeClass("hover");
+        });
+    });
+
+    function checkRowSpan(element, pIndex) {
+        var rowSpan = parseInt($(element).attr('rowspan'));
+        var cIndex = $('tr').index($(element).parent());
+        return rowSpan >= pIndex + 1 || (cIndex + rowSpan) > pIndex;
+    }
+</script>
+
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
 <table>
     <tbody>
         <tr>
             <th width="1%">#</th>
-            <th width="8%">Operator</th>
-            <th width="8%">Tanggal</th>
+            <th width="7%">Operator</th>
+            <th width="7%">Tanggal</th>
             <th width="8%">SO Pemotongan</th>
-            <th width="7%">ID</th>
-            <th width="33%">ID Order - Description</th>
+            <th width="6%">ID</th>
+            <th width="37%">ID Order - Description</th>
             <th width="15%">Kode Bahan</th>
             <th width="8%">Ukuran Cetak</th>
             <th width="5%">Qty Jln</th>
-            <th width="8%">Total Potong</th>
+            <th width="6%">Total</th>
         </tr>
         <?php
         $sql =
@@ -56,11 +84,46 @@ if ($_POST['search'] != "") {
                 large_format.qty_jalan as Jalan,
                 (CASE
                     WHEN large_format.kode_bahan != '' THEN large_format.kode_bahan
-                    else '- - -'
+                    else test.kode_bahan
                 END) as kode_bahan,
-                large_format.pass
+                large_format.pass,
+                large_format.restan
             FROM
                 large_format
+            
+            LEFT JOIN
+                (
+                    SELECT
+                        flow_bahanlf.bid,
+                        CONCAT(barang.nama_bahan,'.',flow_bahanlf.no_bahan) as kode_bahan
+                    FROM
+                        flow_bahanlf
+                    LEFT JOIN
+                        (
+                            SELECT
+                                barang_sub_lf.ID_BarangLF,
+                                barang.nama_barang,
+                                barang_sub_lf.ukuran, 
+                                concat(barang.nama_barang,'.',barang_sub_lf.ukuran) as nama_bahan
+                            FROM
+                                barang_sub_lf
+                            LEFT JOIN
+                                (
+                                    SELECT
+                                        barang.id_barang, 
+                                        barang.nama_barang
+                                    FROM
+                                        barang
+                                ) barang
+                            ON
+                                barang.ID_barang = barang_sub_lf.id_barang
+                        ) barang
+                    ON
+                        barang.ID_BarangLF = flow_bahanlf.id_bahanLF
+                ) test
+            ON
+                large_format.id_BrngFlow = test.bid
+
             LEFT JOIN
                 (
                     SELECT
@@ -85,6 +148,7 @@ if ($_POST['search'] != "") {
                 ) penjualan
             ON
                 penjualan.oid = large_format.oid
+
             LEFT JOIN
                 (
                     SELECT
@@ -96,7 +160,7 @@ if ($_POST['search'] != "") {
             ON
                 operator.uid = large_format.uid
             WHERE
-                large_format.cancel = ''
+                ( large_format.cancel = '' or large_format.cancel = 'N' )
                 $add_where
             GROUP BY
                 large_format.so_kerja
@@ -119,17 +183,23 @@ if ($_POST['search'] != "") {
                     $ID_YESCOM = "$id_yes[0] - ";
                 }
 
+                if ($d['restan'] == 'Y') :
+                    $icon_restan = "<i class='fad fa-recycle'></i>";
+                else :
+                    $icon_restan = "";
+                endif;
+
                 $total_cetak = (($d['panjang_potong'] * $d['lebar_potong']) / 10000) * $d['Jalan'];
 
                 echo "
                     <tr>
                         <td rowspan='$count_oid'>$n</td>
                         <td rowspan='$count_oid'>" . ucfirst($d['nama_operator']) . "</td>
-                        <td rowspan='$count_oid'>" . date("d M Y", strtotime($d['tgl_cetak'])) . "</td>
+                        <td class='a-center' rowspan='$count_oid'>" . date("d M Y", strtotime($d['tgl_cetak'])) . "</td>
                         <td rowspan='$count_oid' class='a-center'>$d[so_kerja]</td>
                         <td class='a-center'>$id_order[0]</td>
-                        <td><b>$ID_YESCOM $client[0]</b> - $description[0] Uk. $ukuran[0]</td>
-                        <td rowspan='$count_oid'><span style='background-color:#f86e2b; padding:3px 4px; margin-right:3px; color:white'>$d[pass]</span> $d[kode_bahan]</td>
+                        <td><b>$ID_YESCOM $client[0]</b> - $description[0] <b><i>Uk. $ukuran[0]</i></b></td>
+                        <td rowspan='$count_oid'><span style='background-color:#f86e2b; padding:3px 4px; margin-right:3px; color:white; font-weight:bold'>$d[pass]</span> $d[kode_bahan] $icon_restan</td>
                         <td rowspan='$count_oid'>$d[ukuran_cetak]</td>
                         <td class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
                         <td rowspan='$count_oid'>$total_cetak M<sup>2</sup></td>
@@ -145,7 +215,7 @@ if ($_POST['search'] != "") {
                     echo "
                         <tr>
                             <td class='a-center'>$id_order[$i]</td>
-                            <td><b>$ID_YESCOM $client[$i]</b>  - $description[$i] Uk. $ukuran[$i]</td>
+                            <td><b>$ID_YESCOM $client[$i]</b>  - $description[$i] <b><i>Uk. $ukuran[$i]</i></b></td>
                         </tr>
                     ";
                 endfor;

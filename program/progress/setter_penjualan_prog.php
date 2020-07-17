@@ -2926,7 +2926,8 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
     if ($list_no != "") {
         mysqli_query($conn, $query_no);
     } else {
-    } elseif ($_POST['jenis_submit'] == 'Payment') :
+    }
+elseif ($_POST['jenis_submit'] == 'Payment') :
 
     if (($_POST['sisa_bayar'] == $_POST['jumlah_bayar']) and $_POST['bank'] == "") {
         $type_pembayaran = "Cash";
@@ -3232,7 +3233,8 @@ elseif ($_POST['jenis_submit'] == 'multipayment') :
         } else {
             $sql .= "";
         }
-    } elseif ($_POST['jenis_submit'] == 'delete_client') :
+    }
+elseif ($_POST['jenis_submit'] == 'delete_client') :
     if ($_POST['status_client'] == "A") : $status_client = "T";
     else : $status_client = "A";
     endif;
@@ -5648,6 +5650,7 @@ elseif ($_POST['jenis_submit'] == 'Update_StockFlowLF') :
 elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
     $jumlahArray = $_POST['jumlah_array'];
     $oid = explode(",", "$_POST[oid]");
+    $NamaBahan = explode(",", "$_POST[NamaBahan]");
     $qty_sisa = explode(",", "$_POST[qty_sisa]");
     $qty = explode(",", "$_POST[qty]");
 
@@ -5673,6 +5676,14 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
         $bid = $row['bid'];
     else :
         $bid = 0;
+    endif;
+
+    if ($_POST['restan'] == 'Y') :
+        $status_restan = 'Y';
+        $kode_bahan = $NamaBahan[0] . "." . $_POST['panjang_potong'];
+    else :
+        $status_restan = 'N';
+        $kode_bahan = "";
     endif;
 
     $sql_SOKerja =
@@ -5716,7 +5727,11 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
             <tr>
                 <td>$hr, $timestamps</td>
                 <td>" . $_SESSION['username'] . " Update data</td>
-                <td><b>Status</b> : selesai<br><b>SO Kerja</b> : $SO_Kerja</td>
+                <td>
+                    <b>Operator</b> : $_SESSION[username]<br>
+                    <b>Status</b> : selesai<br>
+                    <b>SO Kerja</b> : $SO_Kerja
+                </td>
             </tr>
         ";
 
@@ -5742,12 +5757,14 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
                     '$_POST[qty_jalan]',
                     '$SO_Kerja',
                     '$_POST[jumlah_pass]',
-                    'N'
+                    'N',
+                    '$kode_bahan',
+                    '$status_restan'
                 )
             ";
         }
 
-        $sql_penjualan=
+        $sql_penjualan =
             "UPDATE 
                 penjualan
             SET status = (CASE 
@@ -5774,7 +5791,9 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
                         qty_jalan,
                         so_kerja,
                         pass,
-                        cancel
+                        cancel,
+                        kode_bahan,
+                        restan
                     )  VALUES $New_Insert
             ";
         else :

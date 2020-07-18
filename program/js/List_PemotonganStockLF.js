@@ -76,3 +76,23 @@ function SearchTo() {
     $('#loader').show();
     onload();
 }
+
+function LaodFormLF(id, SO_Kerja) {
+    var judul = "Edit Form Order Kerja Large Format";
+
+    $.ajax({
+        type: "POST",
+        data: {
+            data: id,
+            judul_form: judul,
+            SO_Kerja: SO_Kerja,
+            status: "Edit_PemotonganStockLF"
+        },
+        url: "Form/" + id + "_f.php",
+
+        success: function (data) {
+            showBox();
+            $("#bagDetail").html(data);
+        },
+    });
+}

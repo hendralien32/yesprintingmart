@@ -191,17 +191,19 @@ if ($_POST['search'] != "") {
 
                 $total_cetak = (($d['panjang_potong'] * $d['lebar_potong']) / 10000) * $d['Jalan'];
 
+                $edit = "LaodFormLF(\"LargeFormat\", \"" . $d['so_kerja'] . "\")";
+
                 echo "
                     <tr>
                         <td rowspan='$count_oid'>$n</td>
                         <td rowspan='$count_oid'>" . ucfirst($d['nama_operator']) . "</td>
                         <td class='a-center' rowspan='$count_oid'>" . date("d M Y", strtotime($d['tgl_cetak'])) . "</td>
-                        <td rowspan='$count_oid' class='a-center'>$d[so_kerja]</td>
-                        <td class='a-center'>$id_order[0]</td>
-                        <td><b>$ID_YESCOM $client[0]</b> - $description[0] <b><i>Uk. $ukuran[0]</i></b></td>
-                        <td rowspan='$count_oid'><span style='background-color:#f86e2b; padding:3px 4px; margin-right:3px; color:white; font-weight:bold'>$d[pass]</span> $d[kode_bahan] $icon_restan</td>
-                        <td rowspan='$count_oid'>$d[ukuran_cetak]</td>
-                        <td class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
+                        <td onClick='$edit' rowspan='$count_oid' class='a-center pointer'>$d[so_kerja]</td>
+                        <td onClick='$edit' class='a-center pointer'>$id_order[0]</td>
+                        <td onClick='$edit' class='pointer'><b>$ID_YESCOM $client[0]</b> - $description[0] <b><i>Uk. $ukuran[0]</i></b></td>
+                        <td onClick='$edit' class='pointer' rowspan='$count_oid'><span style='background-color:#f86e2b; padding:3px 4px; margin-right:3px; color:white; font-weight:bold'>$d[pass]</span> $d[kode_bahan] $icon_restan</td>
+                        <td onClick='$edit' class='pointer' rowspan='$count_oid'>$d[ukuran_cetak]</td>
+                        <td onClick='$edit' class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
                         <td rowspan='$count_oid'>$total_cetak M<sup>2</sup></td>
                     </tr>
                 ";

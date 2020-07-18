@@ -144,6 +144,7 @@ function LaodFormLF(id) {
       judul_form: judul,
       idy: si_yes,
       idx: si_no,
+      status: "",
     },
     url: "Form/" + id + "_f.php",
 

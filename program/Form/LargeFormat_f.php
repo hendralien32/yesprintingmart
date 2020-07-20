@@ -10,9 +10,47 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
             large_format.panjang_potong,
             large_format.lebar_potong,
             large_format.qty_jalan,
-            large_format.pass
+            large_format.pass,
+            flow_bahanlf.nama_bahan,
+            flow_bahanlf.no_bahan,
+            flow_bahanlf.bid,
+            flow_bahanlf.id_bahanLF
         FROM
             large_format
+        LEFT JOIN
+            (
+                SELECT
+                    flow_bahanlf.bid,
+                    flow_bahanlf.id_bahanLF,
+                    flow_bahanlf.no_bahan,
+                    concat(barang_sub_lf.nama_barang,'.',barang_sub_lf.ukuran) as nama_bahan
+                FROM
+                    flow_bahanlf
+                LEFT JOIN
+                    (
+                        SELECT
+                            barang_sub_lf.ID_BarangLF,
+                            barang_sub_lf.ID_barang,
+                            barang_sub_lf.ukuran,
+                            barang.nama_barang
+                        FROM
+                            barang_sub_lf
+                        LEFT JOIN
+                            (
+                                SELECT
+                                    barang.id_barang, 
+                                    barang.nama_barang
+                                FROM    
+                                    barang
+                            ) barang
+                        ON
+                            barang_sub_lf.ID_barang = barang.ID_barang
+                    ) barang_sub_lf
+                ON
+                    flow_bahanlf.id_bahanLF = barang_sub_lf.ID_BarangLF
+            ) flow_bahanlf
+        ON 
+            large_format.id_BrngFlow = flow_bahanlf.bid
         WHERE
             large_format.SO_Kerja = '$_POST[SO_Kerja]'
         GROUP BY
@@ -22,18 +60,29 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
     if ($result->num_rows > 0) :
         $d = $result->fetch_assoc();
 
+        $nama_bahan = "$d[nama_bahan]";
+        $bid = "$d[bid]";
+        $id_bahanLF = "$d[id_bahanLF]";
+        $no_bahan = "$d[no_bahan]";
         $panjang_potong = "$d[panjang_potong]";
         $lebar_potong = "$d[lebar_potong]";
         $qty_jalan = "$d[qty_jalan]";
         $pass = "$d[pass]";
     else :
+        $nama_bahan = "";
+        $bid = "";
+        $id_bahanLF = "";
+        $no_bahan = "";
         $panjang_potong = "";
         $lebar_potong = "";
         $qty_jalan = "1";
         $pass = "3";
     endif;
 else :
-
+    $panjang_potong = "";
+    $lebar_potong = "";
+    $qty_jalan = "1";
+    $pass = "3";
 endif;
 ?>
 
@@ -43,13 +92,13 @@ endif;
             <tr>
                 <td style='width:145px'>Kode Bahan</td>
                 <td>
-                    <input type="text" class="form md" style="width:145px" id="NamaBahan" autocomplete="off" onkeyup="test('NamaBahan')" onChange="validasi('NamaBahan')">
-                    <input type="hidden" name="nama_bahan" id="id_NamaBahan" class="form sd" readonly disabled>
+                    <input type="text" class="form md" style="width:145px" id="NamaBahan" autocomplete="off" onkeyup="test('NamaBahan')" onChange="validasi('NamaBahan')" value='<?= $nama_bahan ?>'>
+                    <input type="hidden" name="nama_bahan" id="id_NamaBahan" value='<?= $id_bahanLF ?>' class="form sd" readonly disabled>
                     <input type="hidden" name="validasi_bahan" id="validasi_NamaBahan" class="form sd" readonly disabled>
                     <span id="Alert_ValNamaBahan"></span>
                     -
-                    <input type="text" class="form sd" id="nomor_bahan" autocomplete="off" onkeyup="nomor_bahanSearch('nomor_bahan')" onkeyup="validasi_NoBahan('nomor_bahan')">
-                    <input type="hidden" name="nama_bahan" id="id_nomor_bahan" class="form sd" readonly disabled>
+                    <input type="text" class="form sd" id="nomor_bahan" autocomplete="off" onkeyup="nomor_bahanSearch('nomor_bahan')" onkeyup="validasi_NoBahan('nomor_bahan')" value='<?= $no_bahan ?>'>
+                    <input type="hidden" name="nama_bahan" value='<?= $bid ?>' id="id_nomor_bahan" class="form sd" readonly disabled>
                     <input type="hidden" name="validasi_bahan" id="validasi_nomor_bahan" class="form sd" readonly disabled>
                     <span id="Alert_Valnomor_bahan"></span>
 

@@ -205,6 +205,7 @@ if ($_POST['search'] != "") {
                         <td onClick='$edit' class='pointer' rowspan='$count_oid'>$d[ukuran_cetak]</td>
                         <td onClick='$edit' class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
                         <td rowspan='$count_oid'>$total_cetak M<sup>2</sup></td>
+                        <td rowspan='$count_oid'><span class='icon_status' ondblclick='hapus_SOLF($d[so_kerja])'><i class='far fa-trash-alt text-danger'></i></span></td>
                     </tr>
                 ";
                 for ($i = 1; $i < $count_oid; $i++) :

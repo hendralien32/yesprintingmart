@@ -3360,7 +3360,7 @@ elseif ($_POST['jenis_submit'] == 'delete_bahan') :
             status_bahan   = '$status_bahan'
         WHERE
             id_barang      = '$_POST[bahan_ID]'
-        ";
+    ";
 elseif ($_POST['jenis_submit'] == 'submit_bahan') :
     $query =
         "SELECT
@@ -5802,15 +5802,97 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF') :
     else :
         $sql = "ERROR";
     endif;
+elseif ($_POST['jenis_submit'] == 'hapus_SO_KerjaLF') :
+    $sql_lF =
+        "SELECT 
+            GROUP_CONCAT(large_format.oid) as oid,
+            GROUP_CONCAT(penjualan.status) as status_selesai
+        FROM
+            large_format
+        LEFT JOIN
+            (
+                SELECT
+                    penjualan.oid,
+                    penjualan.status
+                FROM
+                    penjualan
+            ) penjualan
+        ON
+            penjualan.oid = large_format.oid    
+        WHERE
+            large_format.so_kerja      = '$_POST[SO_LF]'
+        GROUP BY
+            large_format.so_kerja
+    ";
+    $result = $conn_OOP->query($sql_lF);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $oid = explode(",", "$row[oid]");
+        $status_selesai = explode(",", "$row[status_selesai]");
+        $count_oid = count($oid);
+
+        foreach ($oid as $yes) {
+            if ($yes != "") {
+                $y[] = "$yes";
+            }
+        }
+        $aid = implode("','", $y);
+
+    else :
+        $aid = "";
+    endif;
+
+    $Final_log = "";
+
+    for ($i = 0; $i < $count_oid; $i++) :
+        if ($status_selesai[$i] == 'selesai') :
+            $status = "<b>Status</b> : selesai <i class=\"far fa-angle-double-right\"></i> - - - <br>";
+        else :
+            $status = "";
+        endif;
+
+        $Final_log  .= "
+                when oid = $oid[$i] then '
+                    <tr>
+                        <td> $hr, $timestamps </td>
+                        <td> " . $_SESSION['username'] . " Mengubah data </td>
+                        <td> $status<b>So Kerja</b> : $_POST[SO_LF] <i class=\"far fa-angle-double-right\"></i> dihapus</td>
+                    </tr>
+                '";
+    endfor;
+
+    $sql_penjualan =
+        "UPDATE 
+            penjualan
+        SET 
+            status = '',
+            history   = CONCAT((CASE 
+                                    $Final_log
+                                END), history)
+        WHERE oid IN ('$aid');
+    ";
+
+    if ($conn->multi_query($sql_penjualan) === TRUE) :
+        $sql =
+            "UPDATE
+                large_format
+            SET
+                cancel   = 'Y'
+            WHERE
+                so_kerja      = '$_POST[SO_LF]'
+        ";
+    else :
+        $sql = "Error";
+    endif;
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
-    echo "New records created successfully. <br> $sql";
+    echo "New records created successfully. <br> $sql_penjualan";
 } else {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully.<br><br>  $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql | <br> $sql_penjualan" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql | <br> $sql_penjualan | <br> $sql_lF" . mysqli_error($conn) . "</br>";
     }
 }
 

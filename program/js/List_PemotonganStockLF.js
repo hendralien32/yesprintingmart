@@ -284,3 +284,15 @@ function restan() {
         }
     }
 }
+
+function copy_sisa(qty, no) {
+    $("#qty_" + no).val(qty);
+}
+
+function copy_all() {
+    checkboxes = $('[name="Jmlh_Data"]');
+    for (let i = 1; i <= checkboxes.length; i++) {
+        abc = $("#CopyQty_" + [i]).val();
+        $("#qty_" + [i]).val(abc);
+    }
+}

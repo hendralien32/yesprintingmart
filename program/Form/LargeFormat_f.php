@@ -79,6 +79,10 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $pass = "3";
     endif;
 else :
+    $nama_bahan = "";
+    $bid = "";
+    $id_bahanLF = "";
+    $no_bahan = "";
     $panjang_potong = "";
     $lebar_potong = "";
     $qty_jalan = "1";
@@ -163,7 +167,8 @@ endif;
                     GROUP_CONCAT(penjualan.bahan) as bahan,
                     GROUP_CONCAT(penjualan.ukuran) as ukuran,
                     GROUP_CONCAT(penjualan.Qty_Order) as Qty_Order,
-                    GROUP_CONCAT(large_format.qty_cetak) as qty_cetak
+                    GROUP_CONCAT(large_format.qty_cetak) as qty_cetak,
+                    GROUP_CONCAT(penjualan.test) as test
                 FROM
                     large_format
                 LEFT JOIN
@@ -186,9 +191,24 @@ endif;
                                 ELSE ''
                             END) as ukuran,
                             IFNULL(penjualan.qty,0) as Qty_Order,
-                            penjualan.status
+                            penjualan.status,
+                            IFNULL(jumlah_cetak.test,0) as test
                         FROM
                             penjualan
+                        LEFT JOIN
+                            (
+                                SELECT
+                                    large_format.oid,
+                                    sum(large_format.qty_cetak) as test
+                                FROM
+                                    large_format
+                                WHERE
+                                    large_format.SO_Kerja != '$_POST[so_kerja]'
+                                GROUP BY
+                                    large_format.oid
+                            ) jumlah_cetak
+                        ON
+                            jumlah_cetak.oid = penjualan.oid
                         LEFT JOIN 
                             (
                                 SELECT 
@@ -213,7 +233,7 @@ endif;
                 ON
                     large_format.oid = penjualan.oid
                 WHERE
-                    large_format.SO_Kerja = '$_POST[SO_Kerja]'
+                    large_format.SO_Kerja = '$_POST[so_kerja]'
                 GROUP BY
                     large_format.SO_Kerja
             ";
@@ -230,6 +250,7 @@ endif;
                 $ukuran = explode(",", "$d[ukuran]");
                 $Qty_Order = explode(",", "$d[Qty_Order]");
                 $qty_cetak = explode(",", "$d[qty_cetak]");
+                $test = explode(",", "$d[test]");
                 $count_lid = count($lid);
 
                 for ($i = 0; $i < $count_lid; $i++) :
@@ -241,6 +262,8 @@ endif;
                         $Detail_IdYes = "";
                     }
 
+                    $sisa_cetak = $qty_cetak[$i] - $test[$i];
+
                     echo "
                         <tr>
                             <td>$n</td>
@@ -248,8 +271,12 @@ endif;
                             <td><strong>$Detail_IdYes $client[$i]</strong> - $description[$i]</td>
                             <td>$bahan[$i]</td>
                             <td><center>$ukuran[$i]</center></td>
-                            <td><strong>$Qty_Order[$i]</strong> Pcs</td>
-                            <td><center><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' value='$qty_cetak[$i]'></center></td>
+                            <td onclick='copy_sisa($sisa_cetak,$n)'><strong>$Qty_Order[$i] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs</td>
+                            <td name='Jmlh_Data'>
+                                <center>
+                                <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
+                                <input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' value='$qty_cetak[$i]'></center>
+                            </td>
                             <td><span class='icon_status' ondblclick='hapus_lf()'><i class='far fa-trash-alt text-danger'></i></span></td>
                         </tr>
                     ";
@@ -392,5 +419,5 @@ endif;
     <button onclick="submit('Insert_PemotonganLF')" id="submitBtn">Buka Order</button>
 </div>
 <div id="Result">
-
+    <?php echo "$sql"; ?>
 </div>

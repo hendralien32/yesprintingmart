@@ -309,15 +309,12 @@ function nomor_bahanSearch(id) {
 }
 
 function restan() {
-
-  var Akses = [
-    "NamaBahan",
-    "nomor_bahan"
-  ];
+  var Akses = ["NamaBahan", "nomor_bahan"];
 
   if ($("#restan").is(":checked")) {
     for (i = 0; i < Akses.length; i++) {
       $("#" + Akses[i]).prop("disabled", true);
+      $("#" + Akses[i]).val("");
       $("#validasi_" + Akses[i] + "").val(1);
       $("#Alert_Val" + Akses[i] + "").html(
         "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
@@ -326,6 +323,7 @@ function restan() {
   } else {
     for (i = 0; i < Akses.length; i++) {
       $("#" + Akses[i]).prop("disabled", false);
+      $("#" + Akses[i]).val("");
       $("#validasi_" + Akses[i] + "").val(0);
       $("#Alert_Val" + Akses[i] + "").html("");
     }

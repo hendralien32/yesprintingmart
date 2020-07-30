@@ -90,7 +90,6 @@ if ($_POST['search'] != "") {
                 large_format.restan
             FROM
                 large_format
-            
             LEFT JOIN
                 (
                     SELECT
@@ -123,7 +122,6 @@ if ($_POST['search'] != "") {
                 ) test
             ON
                 large_format.id_BrngFlow = test.bid
-
             LEFT JOIN
                 (
                     SELECT
@@ -148,7 +146,6 @@ if ($_POST['search'] != "") {
                 ) penjualan
             ON
                 penjualan.oid = large_format.oid
-
             LEFT JOIN
                 (
                     SELECT
@@ -205,9 +202,18 @@ if ($_POST['search'] != "") {
                         <td onClick='$edit' class='pointer' rowspan='$count_oid'>$d[ukuran_cetak]</td>
                         <td onClick='$edit' class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
                         <td rowspan='$count_oid'>$total_cetak M<sup>2</sup></td>
-                        <td rowspan='$count_oid'><span class='icon_status' ondblclick='hapus_SOLF($d[so_kerja])'><i class='far fa-trash-alt text-danger'></i></span></td>
-                    </tr>
                 ";
+
+                if ($_SESSION["level"] == "admin") :
+                    echo "
+                        <td rowspan='$count_oid'><span class='icon_status' onClick='hapus_SOLF($d[so_kerja])'><i class='far fa-trash-alt text-danger'></i></span></td>
+                        </tr>
+                    ";
+                else :
+                    echo "</tr>";
+                endif;
+
+
                 for ($i = 1; $i < $count_oid; $i++) :
                     if ($id_yes[$i] == 0) {
                         $ID_YESCOM = "";
@@ -217,8 +223,8 @@ if ($_POST['search'] != "") {
 
                     echo "
                         <tr>
-                            <td class='a-center'>$id_order[$i]</td>
-                            <td><b>$ID_YESCOM $client[$i]</b>  - $description[$i] <b><i>Uk. $ukuran[$i]</i></b></td>
+                            <td onClick='$edit' class='a-center pointer'>$id_order[$i]</td>
+                            <td onClick='$edit' class='pointer'><b>$ID_YESCOM $client[$i]</b>  - $description[$i] <b><i>Uk. $ukuran[$i]</i></b></td>
                         </tr>
                     ";
                 endfor;

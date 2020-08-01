@@ -18,10 +18,10 @@ $(item).autocomplete({
 function onload() {
     $("#loader").show();
     var search = $("#search").val();
-    var Dari_Tanggal = $('#dari_tanggal').val();
-    var Ke_Tanggal = $('#ke_tanggal').val();
+    var Dari_Tanggal = $("#dari_tanggal").val();
+    var Ke_Tanggal = $("#ke_tanggal").val();
 
-    var fdata = new FormData()
+    var fdata = new FormData();
     fdata.append("search", search);
     fdata.append("Dari_Tanggal", Dari_Tanggal);
     fdata.append("Ke_Tanggal", Ke_Tanggal);
@@ -34,21 +34,21 @@ function onload() {
         contentType: false,
         data: fdata,
         success: function (data) {
-            $('#loader').hide();
+            $("#loader").hide();
             $("#List_PemotonganStockLF").html(data);
             return false;
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
-        }
+        },
     });
 }
 
 function search_data() {
-    var Validasi_Search = $('#search').val().length;
+    var Validasi_Search = $("#search").val().length;
 
     if (Validasi_Search >= 4) {
-        $('#loader').show();
+        $("#loader").show();
         onload();
     } else {
         alert("Jumlah Character Harus Lebih dari 3 huruf");
@@ -57,28 +57,28 @@ function search_data() {
 }
 
 function SearchFrom() {
-    $('#search').val("");
+    $("#search").val("");
 
-    var dari_tanggal = $('#dari_tanggal').val();
+    var dari_tanggal = $("#dari_tanggal").val();
     var All_Element = ["ke_tanggal"];
 
     for (i = 0; i < All_Element.length; i++) {
-        $('#' + All_Element[i] + '').prop("disabled", false);
-        $('#' + All_Element[i] + '').prop("readonly", false);
+        $("#" + All_Element[i] + "").prop("disabled", false);
+        $("#" + All_Element[i] + "").prop("readonly", false);
     }
 
-    $('#ke_tanggal').attr('min', dari_tanggal);
-    $('#loader').show();
+    $("#ke_tanggal").attr("min", dari_tanggal);
+    $("#loader").show();
     onload();
 }
 
 function SearchTo() {
-    $('#loader').show();
+    $("#loader").show();
     onload();
 }
 
 function LaodFormLF(id, SO_Kerja) {
-    var judul = "Edit Form Order Kerja Large Format";
+    var judul = "Edit Form Order Kerja Large Format Nomor SO " + SO_Kerja;
 
     $.ajax({
         type: "POST",
@@ -86,14 +86,16 @@ function LaodFormLF(id, SO_Kerja) {
             data: id,
             judul_form: judul,
             SO_Kerja: SO_Kerja,
-            status: "Edit_PemotonganStockLF"
+            status: "Edit_PemotonganStockLF",
         },
         url: "Form/" + id + "_f.php",
 
         success: function (data) {
             showBox();
-            validasi();
             $("#bagDetail").html(data);
+            restan();
+            validasi("NamaBahan");
+            validasi_NoBahan("nomor_bahan");
         },
     });
 }
@@ -105,7 +107,7 @@ function hapus_SOLF(no_so) {
             url: "progress/setter_penjualan_prog.php",
             data: {
                 SO_LF: no_so,
-                jenis_submit: "hapus_SO_KerjaLF"
+                jenis_submit: "hapus_SO_KerjaLF",
             },
             success: function (data) {
                 // $("#tesdt").html(data);
@@ -262,15 +264,12 @@ function nomor_bahanSearch(id) {
 }
 
 function restan() {
-
-    var Akses = [
-        "NamaBahan",
-        "nomor_bahan"
-    ];
+    var Akses = ["NamaBahan", "nomor_bahan"];
 
     if ($("#restan").is(":checked")) {
         for (i = 0; i < Akses.length; i++) {
             $("#" + Akses[i]).prop("disabled", true);
+            $("#" + Akses[i]).val("");
             $("#validasi_" + Akses[i] + "").val(1);
             $("#Alert_Val" + Akses[i] + "").html(
                 "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
@@ -279,6 +278,7 @@ function restan() {
     } else {
         for (i = 0; i < Akses.length; i++) {
             $("#" + Akses[i]).prop("disabled", false);
+            // $("#" + Akses[i]).val("");
             $("#validasi_" + Akses[i] + "").val(0);
             $("#Alert_Val" + Akses[i] + "").html("");
         }
@@ -295,4 +295,107 @@ function copy_all() {
         abc = $("#CopyQty_" + [i]).val();
         $("#qty_" + [i]).val(abc);
     }
+}
+
+function submit(id) {
+    if ($("#validasi_NamaBahan").val() < 1) {
+        alert("Nama Bahan tidak ada dalam Daftar Stock Barang");
+        return false;
+    } else if ($("#validasi_nomor_bahan").val() < 1) {
+        alert("Nomor Bahan tidak ada dalam Daftar Stock Barang");
+        return false;
+    } else if ($("#lebar_potong").val() == "" || $("#lebar_potong").val() < 0) {
+        alert("Lebar Potong Tidak boleh Kosong / Kurang dari 0");
+        return false;
+    }
+
+    let NO_SOKerja = $("#NO_SOKerja").val();
+    let id_NamaBahan = $("#id_NamaBahan").val();
+    let id_nomor_bahan = $("#id_nomor_bahan").val();
+    let panjang_potong = $("#panjang_potong").val();
+    let lebar_potong = $("#lebar_potong").val();
+    let qty_jalan = $("#qty_jalan").val();
+    let restan;
+    if ($("#restan").prop("checked") == true) {
+        restan = "Y";
+    } else {
+        restan = "N";
+    }
+    let jumlah_pass = $("#jumlah_pass").val();
+
+    let oid = [];
+    $("input[name='oid[]']").each(function () {
+        oid.push($(this).val());
+    });
+
+    let NamaBahan = [];
+    $("input[name='oid_NamaBahan[]']").each(function () {
+        NamaBahan.push($(this).val());
+    });
+
+    let qty_old = [];
+    $("input[name='qty_old[]']").each(function () {
+        qty_old.push($(this).val());
+    });
+
+    let qty_sisa = [];
+    $("input[name='qty_sisa[]']").each(function () {
+        qty_sisa.push($(this).val());
+    });
+
+    let qty = [];
+    $("input[name='qty[]']").each(function () {
+        if ($(this).val() == "" || $(this).val() <= 0) {
+            check_qty = false;
+            alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
+            return false;
+        }
+        check_qty = true;
+        qty.push($(this).val());
+    });
+
+    if (!check_qty) {
+        return false;
+    }
+
+    let jumlah_array = $('[name="oid[]"]').length;
+
+    var fdata = new FormData();
+    fdata.append("NO_SOKerja", NO_SOKerja);
+    fdata.append("id_NamaBahan", id_NamaBahan);
+    fdata.append("id_nomor_bahan", id_nomor_bahan);
+    fdata.append("panjang_potong", panjang_potong);
+    fdata.append("lebar_potong", lebar_potong);
+    fdata.append("qty_jalan", qty_jalan);
+    fdata.append("jumlah_pass", jumlah_pass);
+    fdata.append("oid", oid);
+    fdata.append("qty_sisa", qty_sisa);
+    fdata.append("qty", qty);
+    fdata.append("jumlah_array", jumlah_array);
+    fdata.append("restan", restan);
+    fdata.append("NamaBahan", NamaBahan);
+    fdata.append("qty_old", qty_old);
+    fdata.append("jenis_submit", id);
+
+    $.ajax({
+        type: "POST",
+        url: "progress/setter_penjualan_prog.php",
+        cache: false,
+        processData: false,
+        contentType: false,
+        data: fdata,
+        beforeSend: function () {
+            // $("#submitBtn").attr("disabled", "disabled");
+            // $(".icon-close").removeAttr("onclick");
+        },
+        success: function (data) {
+            $("#Result").html(data);
+            // hideBox();
+            // onload();
+            // return false;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $("#bagDetail").html(XMLHttpRequest);
+        },
+    });
 }

@@ -5612,11 +5612,11 @@ elseif ($_POST['jenis_submit'] == 'terima_bahan') :
 elseif ($_POST['jenis_submit'] == 'terima_barangFULL') :
     $sql =
         "UPDATE
-        flow_bahanlf
-    SET
-        diterima	        = 'Y'
-    WHERE
-        kode_pemesanan		= '$_POST[kode_pemesanan]'
+            flow_bahanlf
+        SET
+            diterima	        = 'Y'
+        WHERE
+            kode_pemesanan		= '$_POST[kode_pemesanan]'
     ";
 elseif ($_POST['jenis_submit'] == 'Update_StockFlowLF') :
     $bid = explode(",", "$_POST[bid]");
@@ -5884,10 +5884,68 @@ elseif ($_POST['jenis_submit'] == 'hapus_SO_KerjaLF') :
     else :
         $sql = "Error";
     endif;
+elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF') :
+    $NamaBahan = explode(",", "$_POST[NamaBahan]");
+    $oid = explode(",", "$_POST[oid]");
+    $qty = explode(",", "$_POST[qty]");
+
+    $sql_BID_Bahan =
+        "SELECT
+            flow_bahanlf.bid
+        FROM
+            flow_bahanlf
+        WHERE
+            flow_bahanlf.id_bahanLF = '$_POST[id_NamaBahan]' and
+            flow_bahanlf.no_bahan = '$_POST[id_nomor_bahan]'
+    ";
+    $result = $conn_OOP->query($sql_BID_Bahan);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $bid = $row['bid'];
+    else :
+        $bid = 0;
+    endif;
+
+    if ($_POST['restan'] == 'Y') :
+        $status_restan = 'Y';
+        $kode_bahan = $NamaBahan[0] . "." . $_POST['panjang_potong'];
+    else :
+        $status_restan = 'N';
+        $kode_bahan = "";
+    endif;
+
+    foreach ($oid as $yes) {
+        if ($yes != "") {
+            $y[] = "$yes";
+        }
+    }
+    $aid = implode("','", $y);
+
+    $Case_qty = "";
+    for ($i = 0; $i < $_POST['jumlah_array']; $i++) {
+        $Case_qty .= "when oid = $oid[$i] then '$qty[$i]' ";
+    }
+
+    $sql =
+        "UPDATE 
+            large_format
+        SET 
+            qty_cetak = (CASE 
+                            $Case_qty
+                        END),
+            panjang_potong = $_POST[panjang_potong],
+            lebar_potong = $_POST[lebar_potong],
+            pass = $_POST[jumlah_pass],
+            qty_jalan = $_POST[qty_jalan],
+            id_BrngFlow = '$bid',
+            kode_bahan = '$kode_bahan'
+        WHERE 
+            oid IN ('$aid');
+    ";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
-    echo "New records created successfully. <br> $sql_penjualan";
+    echo "New records created successfully. <br> $sql";
 } else {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully.<br><br>  $sql";

@@ -196,3 +196,5 @@ require_once "../../function.php";
         ?>
     </tbody>
 </table>
+
+<div id="Result"></div>

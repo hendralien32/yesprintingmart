@@ -150,6 +150,8 @@ function LaodFormLF(id) {
 
     success: function (data) {
       showBox();
+      validasi();
+      restan();
       $("#bagDetail").html(data);
     },
   });

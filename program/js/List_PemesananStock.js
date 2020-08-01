@@ -227,20 +227,20 @@ function submit(id) {
 
 function terima_Barang(kode_pemesanan) {
   var abc = "Sudah diterima";
+  const Final_kodePemesanan = kode_pemesanan.replace(/\s+/g, '');
 
-  if (confirm('Kode Order "' + kode_pemesanan + '" ' + abc + " ?")) {
+  if (confirm('Kode Order "' + Final_kodePemesanan + '" ' + abc + " ?")) {
     $.ajax({
       type: "POST",
       url: "progress/setter_penjualan_prog.php",
       data: {
-        kode_pemesanan: kode_pemesanan,
+        kode_pemesanan: Final_kodePemesanan,
         jenis_submit: "terima_barangFULL",
       },
       success: function (data) {
-        alert('Kode Order "' + kode_pemesanan + '" ' + abc);
+        alert('Kode Order "' + Final_kodePemesanan + '" ' + abc);
         // $("#Result").html(data);
         onload();
-        hideBox();
         return false;
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {

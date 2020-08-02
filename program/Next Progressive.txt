@@ -102,6 +102,7 @@ Next Progressive
       ` Pengeluaran Bahan [SOLVED]
    - List Pemesanan Bahan LF [SOLVED]
       ` Tambahakan Pencarian Dari Tanggal Ke tanggal pada List [SOLVED]
+      ` Fix bug saat double click icon diterima di "list pemesanan bahan LF" [SOLVED]
 
 * Digital Printing
    - Order List Digital Printing

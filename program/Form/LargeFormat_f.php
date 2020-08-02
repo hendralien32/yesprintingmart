@@ -59,7 +59,8 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
     $result = $conn_OOP->query($sql_PemotonganStock);
     if ($result->num_rows > 0) :
         $d = $result->fetch_assoc();
-
+        $submit = "Update";
+        $onclick = "Update_PemotonganLF";
         $nama_bahan = "$d[nama_bahan]";
         $bid = "$d[bid]";
         $id_bahanLF = "$d[id_bahanLF]";
@@ -69,6 +70,8 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $qty_jalan = "$d[qty_jalan]";
         $pass = "$d[pass]";
     else :
+        $submit = "Buka";
+        $onclick = "Insert_PemotonganLF";
         $nama_bahan = "";
         $bid = "";
         $id_bahanLF = "";
@@ -79,6 +82,12 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $pass = "3";
     endif;
 else :
+    $submit = "Buka";
+    $onclick = "Insert_PemotonganLF";
+    $nama_bahan = "";
+    $bid = "";
+    $id_bahanLF = "";
+    $no_bahan = "";
     $panjang_potong = "";
     $lebar_potong = "";
     $qty_jalan = "1";
@@ -163,7 +172,8 @@ endif;
                     GROUP_CONCAT(penjualan.bahan) as bahan,
                     GROUP_CONCAT(penjualan.ukuran) as ukuran,
                     GROUP_CONCAT(penjualan.Qty_Order) as Qty_Order,
-                    GROUP_CONCAT(large_format.qty_cetak) as qty_cetak
+                    GROUP_CONCAT(large_format.qty_cetak) as qty_cetak,
+                    GROUP_CONCAT(penjualan.qty_sisa) as qty_sisa
                 FROM
                     large_format
                 LEFT JOIN
@@ -186,7 +196,8 @@ endif;
                                 ELSE ''
                             END) as ukuran,
                             IFNULL(penjualan.qty,0) as Qty_Order,
-                            penjualan.status
+                            penjualan.status,
+                            IFNULL(qty_sisa.qty_cetak,0) as qty_sisa
                         FROM
                             penjualan
                         LEFT JOIN 
@@ -209,6 +220,18 @@ endif;
                             ) barang
                         ON
                             penjualan.ID_Bahan = barang.id_barang 
+                        LEFT JOIN 
+                            (
+                                SELECT 
+                                    large_format.oid,
+                                    sum(large_format.qty_cetak) as qty_cetak
+                                FROM 
+                                    large_format
+                                WHERE
+                                    large_format.SO_Kerja != '$_POST[SO_Kerja]'
+                            ) qty_sisa
+                        ON
+                            qty_sisa.oid = penjualan.oid
                     ) penjualan
                 ON
                     large_format.oid = penjualan.oid
@@ -230,6 +253,7 @@ endif;
                 $ukuran = explode(",", "$d[ukuran]");
                 $Qty_Order = explode(",", "$d[Qty_Order]");
                 $qty_cetak = explode(",", "$d[qty_cetak]");
+                $qty_sisa = explode(",", "$d[qty_sisa]");
                 $count_lid = count($lid);
 
                 for ($i = 0; $i < $count_lid; $i++) :
@@ -241,6 +265,8 @@ endif;
                         $Detail_IdYes = "";
                     }
 
+                    $sisa_cetak = $Qty_Order[$i] - $qty_sisa[$i];
+
                     echo "
                         <tr>
                             <td>$n</td>
@@ -248,7 +274,7 @@ endif;
                             <td><strong>$Detail_IdYes $client[$i]</strong> - $description[$i]</td>
                             <td>$bahan[$i]</td>
                             <td><center>$ukuran[$i]</center></td>
-                            <td><strong>$Qty_Order[$i]</strong> Pcs</td>
+                            <td class='pointer' onclick='copy_sisa($sisa_cetak,$n)'><strong>$Qty_Order[$i] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs</td>
                             <td><center><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' value='$qty_cetak[$i]'></center></td>
                             <td><span class='icon_status' ondblclick='hapus_lf()'><i class='far fa-trash-alt text-danger'></i></span></td>
                         </tr>
@@ -389,8 +415,10 @@ endif;
     </table>
 </div>
 <div id="submit_menu">
-    <button onclick="submit('Insert_PemotonganLF')" id="submitBtn">Buka Order</button>
+    <button onclick="submit('<?= $onclick ?>')" id="submitBtn"><?= $submit ?> Order <?= $onclick ?> </button>
 </div>
 <div id="Result">
-
+        
 </div>
+
+<?php echo "$sql"; ?>

@@ -144,7 +144,7 @@ if ($_POST['search'] != "") {
                     LEFT JOIN 
                         (select customer.cid, customer.nama_client from customer) customer
                     ON
-                        penjualan.client = customer.cid  
+                        penjualan.client = customer.cid 
                 ) penjualan
             ON
                 penjualan.oid = large_format.oid
@@ -159,6 +159,7 @@ if ($_POST['search'] != "") {
                 ) operator
             ON
                 operator.uid = large_format.uid
+            
             WHERE
                 ( large_format.cancel = '' or large_format.cancel = 'N' )
                 $add_where

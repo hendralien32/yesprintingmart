@@ -392,17 +392,23 @@ function submit(id) {
     contentType: false,
     data: fdata,
     beforeSend: function () {
-      // $("#submitBtn").attr("disabled", "disabled");
-      // $(".icon-close").removeAttr("onclick");
+      $("#submitBtn").attr("disabled", "disabled");
+      $(".icon-close").removeAttr("onclick");
     },
     success: function (data) {
-      $("#Result").html(data);
-      // hideBox();
-      // onload();
-      // return false;
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       $("#bagDetail").html(XMLHttpRequest);
     },
   });
+}
+
+function hapus_lf(qty_sisa, qty_cetak, lid, oid) {
+  if (confirm('Hapus orderan Cetak ID "' + oid + '" ?')) {
+    alert("masuk " + qty_sisa);
+  }
 }

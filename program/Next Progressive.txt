@@ -100,6 +100,7 @@ Next Progressive
    - Stock Bahan
       ` Penerimaan Bahan [SOLVED]
       ` Pengeluaran Bahan [SOLVED]
+      ` fix bug nilai "Pemakaian Bahan (M2)" [SOLVED]
    - List Pemesanan Bahan LF [SOLVED]
       ` Tambahakan Pencarian Dari Tanggal Ke tanggal pada List [SOLVED]
       ` Fix bug saat double click icon diterima di "list pemesanan bahan LF" [SOLVED]

@@ -76,11 +76,13 @@ require_once "../../function.php";
                 (
                     SELECT
                         large_format.id_BrngFlow, 
-                        SUM((large_format.panjang_potong*large_format.lebar_potong*large_format.qty_jalan)/ 10000) as Total_cetak
+                        sum((large_format.panjang_potong*large_format.lebar_potong*large_format.qty_jalan)/ 10000) as Total_cetak
                     FROM
                         large_format
                     WHERE
-                        large_format.cancel=''
+                        large_format.cancel='' or large_format.cancel='N'
+                    GROUP BY
+                        large_format.id_BrngFlow
                 ) large_format
             ON
                 large_format.id_BrngFlow = flow_bahanlf.bid

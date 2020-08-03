@@ -5888,6 +5888,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF') :
     $NamaBahan = explode(",", "$_POST[NamaBahan]");
     $oid = explode(",", "$_POST[oid]");
     $qty = explode(",", "$_POST[qty]");
+    $qty_sisa = explode(",", "$_POST[qty_sisa]");
+    $qty_old = explode(",", "$_POST[qty_old]");
 
     $sql_BID_Bahan =
         "SELECT
@@ -5922,26 +5924,80 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF') :
     $aid = implode("','", $y);
 
     $Case_qty = "";
+    $Case_log = "";
+    $update_penjualan = "";
     for ($i = 0; $i < $_POST['jumlah_array']; $i++) {
-        $Case_qty .= "when oid = $oid[$i] then '$qty[$i]' ";
+        // $qty[$i] 
+        // $qty_sisa[$i] 
+        // $qty_old[$i] 
+
+        if ($qty[$i] == $qty_old[$i]) :
+            $update_penjualan .= "when oid = $oid[$i] then status";
+            $Case_log .= "WHEN oid = $oid[$i] THEN history ";
+        elseif ($qty[$i] == $qty_sisa[$i]) :
+            $update_penjualan .= "when oid = $oid[$i] then 'selesai'";
+            $Final_log = "
+                <tr>
+                    <td>$hr, $timestamps</td>
+                    <td>" . $_SESSION['username'] . " Update data</td>
+                    <td>
+                        <b>Operator</b> : $_SESSION[username]<br>
+                        <b>Status</b> : selesai<br>
+                        <b>SO Kerja</b> : $_POST[NO_SOKerja]
+                    </td>
+                </tr>
+            ";
+            $Case_log .= "WHEN oid = $oid[$i] THEN CONCAT('$Final_log', history) ";
+        elseif ($qty[$i] < $qty_old[$i]) :
+            $update_penjualan .= "when oid = $oid[$i] then ''";
+            $Final_log = "
+                <tr>
+                    <td>$hr, $timestamps</td>
+                    <td>" . $_SESSION['username'] . " Update data</td>
+                    <td>
+                        <b>Status</b> : selesai <i class=\"far fa-angle-double-right\"></i> - - -
+                    </td>
+                </tr>
+            ";
+            $Case_log .= "WHEN oid = $oid[$i] THEN CONCAT('$Final_log', history) ";
+        endif;
+
+        $Case_qty .= "when oid = $oid[$i] then '$qty[$i]'";
     }
 
-    $sql =
+    $sql_penjualan =
         "UPDATE 
-            large_format
+            penjualan
         SET 
-            qty_cetak = (CASE 
-                            $Case_qty
-                        END),
-            panjang_potong = $_POST[panjang_potong],
-            lebar_potong = $_POST[lebar_potong],
-            pass = $_POST[jumlah_pass],
-            qty_jalan = $_POST[qty_jalan],
-            id_BrngFlow = '$bid',
-            kode_bahan = '$kode_bahan'
+            status = (CASE 
+                        $update_penjualan
+                    END),
+            history = (CASE 
+                        $Case_log
+                    END)
         WHERE 
             oid IN ('$aid');
     ";
+    if ($conn->multi_query($sql_penjualan) === TRUE) :
+        $sql =
+            "UPDATE 
+                large_format
+            SET 
+                qty_cetak = (CASE 
+                                $Case_qty
+                            END),
+                panjang_potong = $_POST[panjang_potong],
+                lebar_potong = $_POST[lebar_potong],
+                pass = $_POST[jumlah_pass],
+                qty_jalan = $_POST[qty_jalan],
+                id_BrngFlow = '$bid',
+                kode_bahan = '$kode_bahan'
+            WHERE 
+                oid IN ('$aid');
+        ";
+    else :
+        $sql  = "ERROR";
+    endif;
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

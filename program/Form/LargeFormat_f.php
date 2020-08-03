@@ -314,7 +314,7 @@ endif;
                                 <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
                                 <input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak' value='$qty_cetak[$i]'></center>
                             </td>
-                            <td><span class='icon_status' ondblclick='hapus_lf()'><i class='far fa-trash-alt text-danger'></i></span></td>
+                            <td><span class='icon_status' ondblclick='hapus_lf(\"$sisa_cetak\",\"$qty_cetak[$i]\",\"$lid[$i]\",\"$oid[$i]\")'><i class='far fa-trash-alt text-danger'></i></span></td>
                         </tr>
                     ";
                 endfor;
@@ -456,5 +456,5 @@ endif;
     <button onclick="submit('<?= $status_submit ?>')" id="submitBtn"><?= $nama_submit ?></button>
 </div>
 <div id="Result">
-        
+
 </div>

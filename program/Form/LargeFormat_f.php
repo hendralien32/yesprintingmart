@@ -60,14 +60,9 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
     $result = $conn_OOP->query($sql_PemotonganStock);
     if ($result->num_rows > 0) :
         $d = $result->fetch_assoc();
-<<<<<<< HEAD
-        $submit = "Update";
-        $onclick = "Update_PemotonganLF";
-=======
 
         $so_kerja = "$_POST[SO_Kerja]";
         $restan = "$d[restan]";
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
         $nama_bahan = "$d[nama_bahan]";
         $bid = "$d[bid]";
         $id_bahanLF = "$d[id_bahanLF]";
@@ -79,13 +74,8 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $status_submit = "Update_PemotonganLF";
         $nama_submit = "Update Order";
     else :
-<<<<<<< HEAD
-        $submit = "Buka";
-        $onclick = "Insert_PemotonganLF";
-=======
         $so_kerja = "";
         $restan = "";
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
         $nama_bahan = "";
         $bid = "";
         $id_bahanLF = "";
@@ -98,13 +88,8 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $nama_submit = "Buka Order";
     endif;
 else :
-<<<<<<< HEAD
-    $submit = "Buka";
-    $onclick = "Insert_PemotonganLF";
-=======
     $so_kerja = "";
     $restan = "";
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
     $nama_bahan = "";
     $bid = "";
     $id_bahanLF = "";
@@ -204,12 +189,8 @@ endif;
                     GROUP_CONCAT(penjualan.ukuran) as ukuran,
                     GROUP_CONCAT(penjualan.Qty_Order) as Qty_Order,
                     GROUP_CONCAT(large_format.qty_cetak) as qty_cetak,
-<<<<<<< HEAD
-                    GROUP_CONCAT(penjualan.qty_sisa) as qty_sisa
-=======
                     GROUP_CONCAT(penjualan.test) as test,
                     large_format.restan
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
                 FROM
                     large_format
                 LEFT JOIN
@@ -233,11 +214,7 @@ endif;
                             END) as ukuran,
                             IFNULL(penjualan.qty,0) as Qty_Order,
                             penjualan.status,
-<<<<<<< HEAD
-                            IFNULL(qty_sisa.qty_cetak,0) as qty_sisa
-=======
                             IFNULL(jumlah_cetak.test,0) as test
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
                         FROM
                             penjualan
                         LEFT JOIN
@@ -307,11 +284,8 @@ endif;
                 $ukuran = explode(",", "$d[ukuran]");
                 $Qty_Order = explode(",", "$d[Qty_Order]");
                 $qty_cetak = explode(",", "$d[qty_cetak]");
-<<<<<<< HEAD
-                $qty_sisa = explode(",", "$d[qty_sisa]");
-=======
                 $test = explode(",", "$d[test]");
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
+
                 $count_lid = count($lid);
 
                 for ($i = 0; $i < $count_lid; $i++) :
@@ -323,11 +297,7 @@ endif;
                         $Detail_IdYes = "";
                     }
 
-<<<<<<< HEAD
-                    $sisa_cetak = $Qty_Order[$i] - $qty_sisa[$i];
-=======
                     $sisa_cetak = ($Qty_Order[$i] - $test[$i]);
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
 
                     echo "
                         <tr>
@@ -336,19 +306,14 @@ endif;
                             <td><strong>$Detail_IdYes $client[$i]</strong> - $description[$i]</td>
                             <td>$bahan[$i]</td>
                             <td><center>$ukuran[$i]</center></td>
-<<<<<<< HEAD
-                            <td class='pointer' onclick='copy_sisa($sisa_cetak,$n)'><strong>$Qty_Order[$i] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs</td>
-                            <td><center><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' value='$qty_cetak[$i]'></center></td>
-=======
                             <td onclick='copy_sisa($sisa_cetak,$n)'><strong>$Qty_Order[$i] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs</td>
                             <td name='Jmlh_Data'>
                                 <center>
                                 <input id='oid_NamaBahan_$n' type='hidden' name='oid_NamaBahan[]' value='$bahan[$i]'>
                                 <input id='OldQty_$n' type='hidden' name='qty_old[]' value='$qty_cetak[$i]'>
                                 <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
-                                <input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' value='$qty_cetak[$i]'></center>
+                                <input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak' value='$qty_cetak[$i]'></center>
                             </td>
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
                             <td><span class='icon_status' ondblclick='hapus_lf()'><i class='far fa-trash-alt text-danger'></i></span></td>
                         </tr>
                     ";
@@ -488,14 +453,8 @@ endif;
     </table>
 </div>
 <div id="submit_menu">
-<<<<<<< HEAD
-    <button onclick="submit('<?= $onclick ?>')" id="submitBtn"><?= $submit ?> Order <?= $onclick ?> </button>
-=======
     <button onclick="submit('<?= $status_submit ?>')" id="submitBtn"><?= $nama_submit ?></button>
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
 </div>
 <div id="Result">
         
 </div>
-
-<?php echo "$sql"; ?>

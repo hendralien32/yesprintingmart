@@ -316,11 +316,7 @@ function restan() {
   if ($("#restan").is(":checked")) {
     for (i = 0; i < Akses.length; i++) {
       $("#" + Akses[i]).prop("disabled", true);
-<<<<<<< HEAD
-      $("#" + Akses[i] + "").val("");
-=======
       $("#" + Akses[i]).val("");
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
       $("#validasi_" + Akses[i] + "").val(1);
       $("#Alert_Val" + Akses[i] + "").html(
         "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
@@ -329,11 +325,7 @@ function restan() {
   } else {
     for (i = 0; i < Akses.length; i++) {
       $("#" + Akses[i]).prop("disabled", false);
-<<<<<<< HEAD
-      $("#" + Akses[i] + "").val("");
-=======
       $("#" + Akses[i]).val("");
->>>>>>> a24f1902d247471c19c12b82fda70d39bf0b61a7
       $("#validasi_" + Akses[i] + "").val(0);
       $("#Alert_Val" + Akses[i] + "").html("");
     }

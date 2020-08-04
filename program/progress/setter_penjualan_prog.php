@@ -5998,6 +5998,44 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF') :
     else :
         $sql  = "ERROR";
     endif;
+elseif ($_POST['jenis_submit'] == 'Hapus_OrderenPemotonganLF') :
+
+    if($_POST['qty_sisa'] == $_POST['qty_cetak']) {
+        $Final_log = "
+            <tr>
+                <td> $hr, $timestamps </td>
+                <td> " . $_SESSION['username'] . " Mengubah data </td>
+                <td> 
+                    <b>Status</b> : selesai <i class=\"far fa-angle-double-right\"></i> - - - <br>
+                </td>
+            </tr>
+        ";
+    } else {
+        $Final_log = "";
+    }
+
+    $sql_penjualan =
+        "UPDATE
+            penjualan
+        SET
+            status          = '',
+            history         =  CONCAT('$Final_log', history)
+        WHERE
+            oid				= '$_POST[oid]'
+    ";
+
+    if ($conn->query($sql_penjualan) === TRUE) :
+        $sql =
+            "UPDATE
+                large_format
+            SET
+                cancel   = 'Y'
+            WHERE
+                lid      = '$_POST[lid]'
+        ";
+    else :
+        $sql = "ERROR";
+    endif;
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

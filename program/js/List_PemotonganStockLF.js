@@ -409,6 +409,33 @@ function submit(id) {
 
 function hapus_lf(qty_sisa, qty_cetak, lid, oid) {
   if (confirm('Hapus orderan Cetak ID "' + oid + '" ?')) {
-    alert("masuk " + qty_sisa);
+    var fdata = new FormData();
+    fdata.append("qty_sisa", qty_sisa);
+    fdata.append("qty_cetak", qty_cetak);
+    fdata.append("lid", lid);
+    fdata.append("oid", oid);
+    fdata.append("jenis_submit", "Hapus_OrderenPemotonganLF");
+
+    $.ajax({
+      type: "POST",
+      url: "progress/setter_penjualan_prog.php",
+      cache: false,
+      processData: false,
+      contentType: false,
+      data: fdata,
+      beforeSend: function () {
+        // $("#submitBtn").attr("disabled", "disabled");
+        // $(".icon-close").removeAttr("onclick");
+      },
+      success: function (data) {
+        $("#Result").html(data);
+        // hideBox();
+        // onload();
+        // return false;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        $("#bagDetail").html(XMLHttpRequest);
+      },
+    });
   }
 }

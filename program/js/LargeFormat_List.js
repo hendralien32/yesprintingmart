@@ -42,8 +42,10 @@ function onload() {
     success: function (data) {
       if (type_mesin != "") {
         $("#button_order").css("display", "");
+        $("#button_rusak").css("display", "");
       } else {
         $("#button_order").css("display", "none");
+        $("#button_rusak").css("display", "none");
       }
       $("#loader").hide();
       $("#setter_penjualan").html(data);
@@ -67,8 +69,10 @@ function session_mesin() {
   $("#session_mesin").val(type_mesin);
   if (type_mesin != "") {
     $("#button_order").css("display", "");
+    $("#button_rusak").css("display", "");
   } else {
     $("#button_order").css("display", "none");
+    $("#button_rusak").css("display", "none");
   }
   $("#loader").show();
   onload();

@@ -225,7 +225,8 @@ endif;
                                 FROM
                                     large_format
                                 WHERE
-                                    large_format.SO_Kerja != '$_POST[SO_Kerja]'
+                                    large_format.SO_Kerja != '$_POST[SO_Kerja]' and
+                                    ( large_format.cancel = '' or large_format.cancel = 'N' )
                                 GROUP BY
                                     large_format.oid
                             ) jumlah_cetak
@@ -251,23 +252,25 @@ endif;
                             ) barang
                         ON
                             penjualan.ID_Bahan = barang.id_barang 
-                        LEFT JOIN 
-                            (
-                                SELECT 
-                                    large_format.oid,
-                                    sum(large_format.qty_cetak) as qty_cetak
-                                FROM 
-                                    large_format
-                                WHERE
-                                    large_format.SO_Kerja != '$_POST[SO_Kerja]'
-                            ) qty_sisa
-                        ON
-                            qty_sisa.oid = penjualan.oid
+                        -- LEFT JOIN 
+                        --     (
+                        --         SELECT 
+                        --             large_format.oid,
+                        --             sum(large_format.qty_cetak) as qty_cetak
+                        --         FROM 
+                        --             large_format
+                        --         WHERE
+                        --             large_format.SO_Kerja != '$_POST[SO_Kerja]' and
+                        --             ( large_format.cancel = '' or large_format.cancel = 'N' )
+                        --     ) qty_sisa
+                        -- ON
+                        --     qty_sisa.oid = penjualan.oid
                     ) penjualan
                 ON
                     large_format.oid = penjualan.oid
                 WHERE
-                    large_format.SO_Kerja = '$_POST[SO_Kerja]'
+                    large_format.SO_Kerja = '$_POST[SO_Kerja]' and
+                    ( large_format.cancel = '' or large_format.cancel = 'N' )
                 GROUP BY
                     large_format.SO_Kerja
             ";
@@ -314,7 +317,7 @@ endif;
                                 <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
                                 <input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak' value='$qty_cetak[$i]'></center>
                             </td>
-                            <td><span class='icon_status' ondblclick='hapus_lf(\"$sisa_cetak\",\"$qty_cetak[$i]\",\"$lid[$i]\",\"$oid[$i]\")'><i class='far fa-trash-alt text-danger'></i></span></td>
+                            <td><span class='icon_status' onclick='hapus_lf(\"$sisa_cetak\",\"$qty_cetak[$i]\",\"$lid[$i]\",\"$oid[$i]\")'><i class='far fa-trash-alt text-danger'></i></span></td>
                         </tr>
                     ";
                 endfor;
@@ -435,11 +438,11 @@ endif;
                             <td><strong>$id_yes $d[client]</strong> - $d[description]</td>
                             <td>$d[bahan]</td>
                             <td class='a-center'>$d[ukuran]</td>
-                            <td class='pointer' onclick='copy_sisa($sisa_cetak,$n)'><center><strong>$d[Qty_Order] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs </center></td>
-                            <td name='Jmlh_Data'>
+                            <td class='pointer a-center' onclick='copy_sisa($sisa_cetak,$n)'><strong>$d[Qty_Order] <i style='color:red'>( - $sisa_cetak )</i></strong> Pcs</td>
+                            <td name='Jmlh_Data' class='a-center'>
                                 <input id='oid_NamaBahan_$n' type='hidden' name='oid_NamaBahan[]' value='$d[bahan]'>
                                 <input id='CopyQty_$n' type='hidden' name='qty_sisa[]' value='$sisa_cetak'>
-                                <center><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak'></center>
+                                <input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak'>
                             </td>
                         </tr>
                     ";

@@ -46,7 +46,7 @@ require_once "../../function.php";
                         large_format
                     WHERE
                         large_format.oid = '$_POST[ID_Order]' and
-                        large_format.cancel != 'Y'
+                        ( large_format.cancel = '' or large_format.cancel = 'N' )
                 ) large_format
             LEFT JOIN
                 ( 
@@ -105,6 +105,8 @@ require_once "../../function.php";
                         ) penjualan
                     ON
                         large_format.oid = penjualan.oid
+                    WHERE
+                    ( large_format.cancel = '' or large_format.cancel = 'N' )
                 ) detail_LF
             ON
                 large_format.so_kerja = detail_LF.so_kerja

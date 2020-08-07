@@ -103,6 +103,26 @@ else :
 endif;
 ?>
 
+<script>
+    $(document).ready(function() {
+        var i = 1;
+
+        $('#add').click(function() {
+            i++;
+            $('#dynamic_field').append(
+                '<tr  id="row' + i + '"><td><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td id="add" class="pointer"><i class="fad fa-plus-square" name="add"></i></td></tr>'
+            );
+
+        });
+
+        $(document).on('click', '.btn_remove', function() {
+            var button_id = $(this).attr("id");
+            $('#row' + button_id + '').remove();
+        });
+
+    });
+</script>
+
 <div class='row'>
     <div class="col-6">
         <table class='table-form'>
@@ -163,28 +183,32 @@ endif;
 <br>
 <div class='row'>
     <table class='form_table'>
-        <tr>
-            <th width="10%">ID Order</th>
-            <th width="52%">Client - Deskripsi</th>
-            <th width="12%">Bahan</th>
-            <th width="13%">Ukuran</th>
-            <th width="10%">Qty Cetak</th>
-        </tr>
-        <tr>
-            <td>
-                <input type="text" class="form sd" id="OID1" autocomplete="off" onkeyup="test('oid','1')" onChange="validasi('oid','1')">
-                <input type="hidden" name="oid[]" id="id_OID1" class="form sd" readonly disabled>
-                <input type="hidden" name="validasi_oid[]" id="validasi_OID1" class="form sd" readonly disabled>
-                <span id="Alert_ValOID1"></span>
-            </td>
-            <td><span id='client1' style='font-weight:bold'></span> <span id='description1'></span></td>
-            <td><span id='bahan1'></span></td>
-            <td class='a-center'><span id='ukuran1'></span></td>
-            <td class='a-center'><input type='number' class='form sd' id='qty_$n' name='qty[]' min='0' max='$sisa_cetak'></td>
-            <td id="add" class='pointer'>
-                <i class="fad fa-plus-square" name="add"></i>
-            </td>
-        </tr>
+        <thead>
+            <tr>
+                <th width="10%">ID Order</th>
+                <th width="52%">Client - Deskripsi</th>
+                <th width="12%">Bahan</th>
+                <th width="13%">Ukuran</th>
+                <th width="10%">Qty Cetak</th>
+            </tr>
+        </thead>
+        <tbody id="dynamic_field">
+            <tr>
+                <td>
+                    <input type="text" class="form sd" id="OID1" autocomplete="off" onkeyup="find_ID('OID','1')" onChange="validasi_ID('OID','1')">
+                    <input type="hidden" name="OID[]" id="id_OID1" class="form sd" readonly disabled>
+                    <input type="hidden" name="validasi_OID[]" id="validasi_OID1" class="form sd" readonly disabled>
+                    <span id="Alert_ValOID1"></span>
+                </td>
+                <td><span id="client1" style="font-weight:bold"></span> <span id="description1"></span></td>
+                <td><span id="bahan1"></span></td>
+                <td class="a-center"><span id="ukuran1"></span></td>
+                <td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td>
+                <td id="add" class="pointer">
+                    <i class="fad fa-plus-square" name="add"></i>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </div>
                             

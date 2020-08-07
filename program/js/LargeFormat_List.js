@@ -430,3 +430,87 @@ function submit(id) {
     },
   });
 }
+
+function find_ID(id, no) {
+  $("#OID" + no).autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "progress/validasi_progress.php",
+        type: "POST",
+        data: {
+          tipe_validasi: "autocomplete_findOID",
+          term: request.term,
+        },
+        dataType: "json",
+        success: function (data) {
+          // alert(data);
+          response(
+            $.map(data, function (item) {
+              return {
+                label:
+                  item.oid + " - " + item.client + " " + item.detail_ukuran,
+                value: item.oid,
+                client: item.client,
+                desc: item.description,
+                bahan: item.bahan,
+                size: item.ukuran,
+              };
+            })
+          );
+        },
+      });
+    },
+    minLength: 3,
+    autoFocus: true,
+    select: function (event, ui) {
+      $("#OID" + no).val(ui.item.value);
+      $("#id_OID" + no).val(ui.item.value);
+      $("#client" + no).html(ui.item.client);
+      $("#description" + no).html(ui.item.desc);
+      $("#bahan" + no).html(ui.item.bahan);
+      $("#ukuran" + no).html(ui.item.size);
+    },
+    change: function (event, ui) {
+      $("#OID" + no).val(ui.item.value);
+      $("#id_OID" + no).val(ui.item.value);
+      $("#client" + no).html(ui.item.client);
+      $("#description" + no).html(ui.item.desc);
+      $("#bahan" + no).html(ui.item.bahan);
+      $("#ukuran" + no).html(ui.item.size);
+    },
+  });
+
+  validasi_ID(id, no);
+}
+
+function validasi_ID(id, no) {
+  var ID_Data = $("#" + id + no).val();
+
+  $.ajax({
+    type: "POST",
+    minLength: 3,
+    data: {
+      tipe_validasi: "Search_" + id,
+      term: ID_Data,
+    },
+    url: "progress/validasi_progress.php",
+    success: function (data) {
+      if (data > 0) {
+        $("#validasi_" + id + no).val(data);
+        $("#Alert_Val" + id + no).html(
+          "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
+        );
+      } else {
+        $("#validasi_" + id + no).val("0");
+        $("#id_" + id + no).val("");
+        $("#client" + no).html("");
+        $("#description" + no).html("");
+        $("#bahan" + no).html("");
+        $("#ukuran" + no).html("");
+        $("#Alert_Val" + id + no).html(
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+        );
+      }
+    },
+  });
+}

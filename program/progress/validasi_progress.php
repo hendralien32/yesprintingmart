@@ -94,6 +94,68 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $num = $result->num_rows;
 
     echo $num;
+} elseif ($term != "" and $tipe_validasi == "autocomplete_findOID") {
+    $sql =
+        "SELECT
+            penjualan.oid,
+            (CASE
+                WHEN (penjualan.client_yes != '' and penjualan.id_yes !='0') THEN concat(penjualan.id_yes,' - ',penjualan.client_yes)
+                ELSE customer.nama_client 
+            END) AS client,
+            concat(' - ', penjualan.description) as description,
+            (CASE
+                WHEN barang.id_barang > 0 THEN barang.nama_barang
+                ELSE penjualan.bahan
+            END) as bahan,
+            CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm') as ukuran,
+            CONCAT('Uk. ',penjualan.panjang, ' X ', penjualan.lebar, ' Cm') as detail_ukuran
+        FROM
+            penjualan
+        LEFT JOIN 
+            (select customer.cid, customer.nama_client from customer) customer
+        ON
+            penjualan.client = customer.cid  
+        LEFT JOIN 
+            (select barang.id_barang, barang.nama_barang from barang) barang
+        ON
+            penjualan.ID_Bahan = barang.id_barang  
+        WHERE
+            penjualan.oid LIKE '$_POST[term]%' and
+            ( penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli')
+        ORDER BY 
+            penjualan.oid 
+        LIMIT 
+            8
+    ";
+
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
+            $json[] = $row;
+        endwhile;
+        echo json_encode($json);
+    endif;
+} elseif ($term != "" and $tipe_validasi == "Search_OID") {
+    if(strlen($_POST['term']) >= 3) {
+
+    $sql =
+        "SELECT
+            penjualan.oid
+        FROM
+            penjualan
+        WHERE
+            penjualan.oid = '$_POST[term]' and
+            ( penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli')
+    ";
+
+    $result = $conn_OOP->query($sql);
+    $num = $result->num_rows;
+
+    } else {
+        $num = 0;
+    }
+
+    echo $num;
 } elseif ($term != "" and $tipe_validasi == "Search_nomor_bahan") {
     $sql =
         "SELECT

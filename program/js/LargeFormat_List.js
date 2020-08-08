@@ -447,8 +447,7 @@ function find_ID(id, no) {
           response(
             $.map(data, function (item) {
               return {
-                label:
-                  item.oid + " - " + item.client + " " + item.detail_ukuran,
+                label: item.oid + " - " + item.client + " " + item.detail_ukuran,
                 value: item.oid,
                 client: item.client,
                 desc: item.description,
@@ -486,31 +485,43 @@ function find_ID(id, no) {
 function validasi_ID(id, no) {
   var ID_Data = $("#" + id + no).val();
 
-  $.ajax({
-    type: "POST",
-    minLength: 3,
-    data: {
-      tipe_validasi: "Search_" + id,
-      term: ID_Data,
-    },
-    url: "progress/validasi_progress.php",
-    success: function (data) {
-      if (data > 0) {
-        $("#validasi_" + id + no).val(data);
-        $("#Alert_Val" + id + no).html(
-          "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
-        );
-      } else {
-        $("#validasi_" + id + no).val("0");
-        $("#id_" + id + no).val("");
-        $("#client" + no).html("");
-        $("#description" + no).html("");
-        $("#bahan" + no).html("");
-        $("#ukuran" + no).html("");
-        $("#Alert_Val" + id + no).html(
-          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
-        );
-      }
-    },
-  });
+  if (ID_Data.length > 3) {
+    $.ajax({
+      type: "POST",
+      minLength: 3,
+      data: {
+        tipe_validasi: "Search_" + id,
+        term: ID_Data,
+      },
+      url: "progress/validasi_progress.php",
+      success: function (data) {
+        if (data > 0) {
+          $("#validasi_" + id + no).val(data);
+          $("#Alert_Val" + id + no).html(
+            "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
+          );
+        } else {
+          $("#validasi_" + id + no).val("0");
+          $("#id_" + id + no).val("");
+          $("#client" + no).html("");
+          $("#description" + no).html("");
+          $("#bahan" + no).html("");
+          $("#ukuran" + no).html("");
+          $("#Alert_Val" + id + no).html(
+            "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+          );
+        }
+      },
+    });
+  } else {
+    $("#validasi_" + id + no).val("0");
+    $("#id_" + id + no).val("");
+    $("#client" + no).html("");
+    $("#description" + no).html("");
+    $("#bahan" + no).html("");
+    $("#ukuran" + no).html("");
+    $("#Alert_Val" + id + no).html(
+      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+    );
+  }
 }

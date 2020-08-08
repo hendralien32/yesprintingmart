@@ -136,8 +136,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         echo json_encode($json);
     endif;
 } elseif ($term != "" and $tipe_validasi == "Search_OID") {
-    if(strlen($_POST['term']) >= 3) {
-
+    // if (strlen($_POST['term']) >= 3) {
     $sql =
         "SELECT
             penjualan.oid
@@ -150,10 +149,9 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
 
     $result = $conn_OOP->query($sql);
     $num = $result->num_rows;
-
-    } else {
-        $num = 0;
-    }
+    // } else {
+    //     $num = 0;
+    // }
 
     echo $num;
 } elseif ($term != "" and $tipe_validasi == "Search_nomor_bahan") {

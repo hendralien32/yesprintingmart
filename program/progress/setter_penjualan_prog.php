@@ -6036,6 +6036,128 @@ elseif ($_POST['jenis_submit'] == 'Hapus_OrderenPemotonganLF') :
     else :
         $sql = "ERROR";
     endif;
+elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF_Rusak') :
+    $keterangan_rusak  = htmlspecialchars($_POST['keterangan_rusak'], ENT_QUOTES);
+    $kesalahan_siapa  = htmlspecialchars($_POST['kesalahan_siapa'], ENT_QUOTES);
+    $jumlahArray = $_POST['jumlah_array'];
+    $oid = explode(",", "$_POST[oid]");
+    $NamaBahan = explode(",", "$_POST[NamaBahan]");
+    $qty = explode(",", "$_POST[qty]");
+
+    foreach ($oid as $yes) {
+        if ($yes != "") {
+            $y[] = "$yes";
+        }
+    }
+    $aid = implode("','", $y);
+
+    $sql_BID_Bahan =
+        "SELECT
+            flow_bahanlf.bid
+        FROM
+            flow_bahanlf
+        WHERE
+            flow_bahanlf.id_bahanLF = '$_POST[id_NamaBahan]' and
+            flow_bahanlf.no_bahan = '$_POST[id_nomor_bahan]'
+    ";
+    $result = $conn_OOP->query($sql_BID_Bahan);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $bid = $row['bid'];
+    else :
+        $bid = 0;
+    endif;
+
+    if ($_POST['restan'] == 'Y') :
+        $status_restan = 'Y';
+        $kode_bahan = $NamaBahan[0] . "." . $_POST['panjang_potong'];
+    else :
+        $status_restan = 'N';
+        $kode_bahan = "";
+    endif;
+
+    $sql_SOKerja =
+        "SELECT
+            so_kerja,
+            left(so_kerja,6) as validasi
+        from
+            large_format
+        where
+            so_kerja != ''
+        group by
+            so_kerja
+        order by
+            so_kerja desc
+        limit 1
+    ";
+
+    $result = $conn_OOP->query($sql_SOKerja);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $dateSO = date("ymd");
+
+        if ($dateSO == $row['validasi']) :
+            $SO_Kerja = $row['so_kerja'] + 1;
+        elseif ($dateSO != $row['validasi'] or $row['validasi'] == '') :
+            $SO_Kerja = "$dateSO" . "001";
+        else :
+            $SO_Kerja = "";
+        endif;
+    else :
+        $SO_Kerja = "";
+    endif;
+
+
+    if ($jumlahArray >= 1) :
+        $insert = array();
+        for ($i = 0; $i < $jumlahArray; $i++) {
+            $insert[] = "
+                (
+                    '$oid[$i]',
+                    '$_SESSION[uid]',
+                    '$_SESSION[session_mesin]',
+                    '$qty[$i]',
+                    '$_POST[panjang_potong]',
+                    '$_POST[lebar_potong]',
+                    '$bid',
+                    '$_POST[qty_jalan]',
+                    '$SO_Kerja',
+                    '$_POST[jumlah_pass]',
+                    'N',
+                    '$kode_bahan',
+                    '$status_restan',
+                    '$keterangan_rusak',
+                    '$kesalahan_siapa',
+                    'rusak'
+                )
+            ";
+        }
+
+        $New_Insert = implode(',', $insert);
+        $sql =
+            "INSERT INTO large_format 
+                (
+                    oid,
+                    uid,
+                    mesin,
+                    qty_cetak,
+                    panjang_potong,
+                    lebar_potong,
+                    id_BrngFlow,
+                    qty_jalan,
+                    so_kerja,
+                    pass,
+                    cancel,
+                    kode_bahan,
+                    restan,
+                    keterangan,
+                    kesalahan,
+                    status
+                )  VALUES $New_Insert
+        ";
+    else :
+        $sql = "ERROR";
+    endif;
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

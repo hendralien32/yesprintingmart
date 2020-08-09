@@ -87,7 +87,9 @@ if ($_POST['search'] != "") {
                     else test.kode_bahan
                 END) as kode_bahan,
                 large_format.pass,
-                large_format.restan
+                large_format.restan,
+                large_format.status,
+                large_format.kesalahan
             FROM
                 large_format
             LEFT JOIN
@@ -189,7 +191,15 @@ if ($_POST['search'] != "") {
 
                 $total_cetak = (($d['panjang_potong'] * $d['lebar_potong']) / 10000) * $d['Jalan'];
 
-                $edit = "LaodFormLF(\"LargeFormat\", \"" . $d['so_kerja'] . "\")";
+                
+
+                if($d['status'] == 'rusak') :
+                    $edit = "LaodFormLF(\"LargeFormat_Rusak\", \"" . $d['so_kerja'] . "\")";
+                    $icon_rusak = "<i class='fas fa-window-close'></i> $d[kesalahan]";
+                else :
+                    $edit = "LaodFormLF(\"LargeFormat\", \"" . $d['so_kerja'] . "\")";
+                    $icon_rusak = "";
+                endif;
 
                 echo "
                     <tr>
@@ -198,7 +208,7 @@ if ($_POST['search'] != "") {
                         <td class='a-center' rowspan='$count_oid'>" . date("d M Y", strtotime($d['tgl_cetak'])) . "</td>
                         <td onClick='$edit' rowspan='$count_oid' class='a-center pointer'>$d[so_kerja]</td>
                         <td onClick='$edit' class='a-center pointer'>$id_order[0]</td>
-                        <td onClick='$edit' class='pointer'><b>$ID_YESCOM $client[0]</b> - $description[0] <b><i>Uk. $ukuran[0]</i></b></td>
+                        <td onClick='$edit' class='pointer'><b>$ID_YESCOM $client[0]</b> - $description[0] <b><i>Uk. $ukuran[0]</i></b> <span style='color:red; font-size:12px; padding-left:15px; font-style: italic;'>$icon_rusak</span></td>
                         <td onClick='$edit' class='pointer' rowspan='$count_oid'><span style='background-color:#f86e2b; padding:3px 4px; margin-right:3px; color:white; font-weight:bold'>$d[pass]</span> $d[kode_bahan] $icon_restan</td>
                         <td onClick='$edit' class='pointer' rowspan='$count_oid'>$d[ukuran_cetak]</td>
                         <td onClick='$edit' class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
@@ -225,7 +235,7 @@ if ($_POST['search'] != "") {
                     echo "
                         <tr>
                             <td onClick='$edit' class='a-center pointer'>$id_order[$i]</td>
-                            <td onClick='$edit' class='pointer'><b>$ID_YESCOM $client[$i]</b>  - $description[$i] <b><i>Uk. $ukuran[$i]</i></b></td>
+                            <td onClick='$edit' class='pointer'><b>$ID_YESCOM $client[$i]</b>  - $description[$i] <b><i>Uk. $ukuran[$i]</i></b> <span style='color:red; font-size:12px; padding-left:15px; font-style: italic;'>$icon_rusak</span></td>
                         </tr>
                     ";
                 endfor;

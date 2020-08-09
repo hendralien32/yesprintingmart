@@ -15,7 +15,9 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
             flow_bahanlf.no_bahan,
             flow_bahanlf.bid,
             flow_bahanlf.id_bahanLF,
-            large_format.restan
+            large_format.restan,
+            large_format.kesalahan,
+            large_format.keterangan
         FROM
             large_format
         LEFT JOIN
@@ -71,7 +73,9 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $lebar_potong = "$d[lebar_potong]";
         $qty_jalan = "$d[qty_jalan]";
         $pass = "$d[pass]";
-        $status_submit = "Update_PemotonganLF";
+        $kesalahan = "$d[kesalahan]";
+        $keterangan = "$d[keterangan]";
+        $status_submit = "Update_PemotonganLF_Rusak";
         $nama_submit = "Update Order";
     else :
         $so_kerja = "";
@@ -84,7 +88,9 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $lebar_potong = "";
         $qty_jalan = "1";
         $pass = "3";
-        $status_submit = "Insert_PemotonganLF";
+        $kesalahan = "";
+        $keterangan = "";
+        $status_submit = "Insert_PemotonganLF_Rusak";
         $nama_submit = "Buka Order";
     endif;
 else :
@@ -98,7 +104,9 @@ else :
     $lebar_potong = "";
     $qty_jalan = "1";
     $pass = "3";
-    $status_submit = "Insert_PemotonganLF";
+    $kesalahan = "";
+    $keterangan = "";
+    $status_submit = "Insert_PemotonganLF_Rusak";
     $nama_submit = "Buka Order";
 endif;
 ?>
@@ -110,7 +118,7 @@ endif;
         $('#add').click(function() {
             i++;
             $('#dynamic_field').append(
-                '<tr  id="row' + i + '"><td><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td id="add" class="pointer"><i class="fad fa-plus-square" name="add"></i></td></tr>'
+                '<tr  id="row' + i + '"><td><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td class="btn_remove" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
             );
 
         });
@@ -159,7 +167,7 @@ endif;
             </tr>
             <tr>
                 <td style='width:145px'>Keterangan Rusak</td>
-                <td><textarea id='keterangan_rusak' class='form ld' style="height:50px;"></textarea></td>
+                <td><textarea id='keterangan_rusak' class='form ld' style="height:50px;"><?= $keterangan; ?></textarea></td>
             </tr>
         </table>
     </div>
@@ -175,41 +183,53 @@ endif;
             </tr>
             <tr>
                 <td style='width:145px'>Kesalahan</td>
-                <td><input class='form md' value='' type="text" id='kesalahan_siapa'></td>
+                <td><input class='form md' value='<?= $kesalahan; ?>' type="text" id='kesalahan_siapa'></td>
             </tr>
         </table>
     </div>
 </div>
 <br>
 <div class='row'>
-    <table class='form_table'>
-        <thead>
-            <tr>
-                <th width="10%">ID Order</th>
-                <th width="52%">Client - Deskripsi</th>
-                <th width="12%">Bahan</th>
-                <th width="13%">Ukuran</th>
-                <th width="10%">Qty Cetak</th>
-            </tr>
-        </thead>
-        <tbody id="dynamic_field">
-            <tr>
-                <td>
-                    <input type="text" class="form sd" id="OID1" autocomplete="off" onkeyup="find_ID('OID','1')" onChange="validasi_ID('OID','1')">
-                    <input type="hidden" name="OID[]" id="id_OID1" class="form sd" readonly disabled>
-                    <input type="hidden" name="validasi_OID[]" id="validasi_OID1" class="form sd" readonly disabled>
-                    <span id="Alert_ValOID1"></span>
-                </td>
-                <td><span id="client1" style="font-weight:bold"></span> <span id="description1"></span></td>
-                <td><span id="bahan1"></span></td>
-                <td class="a-center"><span id="ukuran1"></span></td>
-                <td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td>
-                <td id="add" class="pointer">
-                    <i class="fad fa-plus-square" name="add"></i>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="col-sm">
+        <table class='form_table'>
+            <thead>
+                <tr>
+                    <th width="10%">ID Order</th>
+                    <th width="52%">Client - Deskripsi</th>
+                    <th width="12%">Bahan</th>
+                    <th width="13%">Ukuran</th>
+                    <th width="10%">Qty Cetak</th>
+                </tr>
+            </thead>
+            <tbody id="dynamic_field">
+                <tr>
+                    <td>
+                        <input type="text" class="form sd" id="OID1" autocomplete="off" onkeyup="find_ID('OID','1')" onChange="validasi_ID('OID','1')" onkeyup="validasi_ID('OID','1')">
+                        <input type="hidden" name="OID[]" id="id_OID1" class="form sd" readonly disabled>
+                        <input type="hidden" name="validasi_OID[]" id="validasi_OID1" class="form sd" readonly disabled>
+                        <span id="Alert_ValOID1"></span>
+                    </td>
+                    <td><span id="client1" style="font-weight:bold"></span> <span id="description1"></span></td>
+                    <td><span id="bahan1"></span></td>
+                    <td class="a-center"><span id="ukuran1"></span></td>
+                    <td class="a-center">
+                        <input id='oid_NamaBahan1' type='hidden' name='oid_NamaBahan[]' value=''>
+                        <input type="number" class="form sd" id="qty_$n" name="qty[]" min="0">
+                    </td>
+                    <td id="add" class="pointer">
+                        <i class="fad fa-plus-square" name="add"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="submit_menu">
+        <button onClick="submit_Rusak('<?= $status_submit ?>')" id="submitBtn"><?= $nama_submit ?></button>
+    </div>
+    <div id="Result">
+
+
+    </div>
 </div>
                             
                             

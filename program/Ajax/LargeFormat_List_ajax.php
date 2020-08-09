@@ -197,7 +197,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     FROM 
                         large_format
                     WHERE
-                        large_format.cancel != 'Y'
+                        large_format.cancel != 'Y' and
+                        large_format.status !='rusak'
                     GROUP BY
                         large_format.oid
                 ) large_format

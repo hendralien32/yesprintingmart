@@ -137,6 +137,7 @@ function submit(id) {
       alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
       return false;
     }
+    check_qty = true;
     qty.push($(this).val());
   });
 
@@ -153,6 +154,7 @@ function submit(id) {
       alert("Nama Bahan Bermasalah");
       return false;
     }
+    check_validasi_bahan = true;
   });
 
   if (!check_qty) {

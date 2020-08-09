@@ -28,6 +28,8 @@ require_once "../../function.php";
                 large_format.kode_bahan,
                 large_format.qty_jalan,
                 large_format.Uk_Potong,
+                large_format.status,
+                large_format.kesalahan,
                 GROUP_CONCAT(detail_LF.oid SEPARATOR '*_*') as oid,
                 GROUP_CONCAT(detail_LF.id_yes SEPARATOR '*_*') as id_yes,
                 GROUP_CONCAT(detail_LF.client SEPARATOR '*_*') as client,
@@ -41,7 +43,9 @@ require_once "../../function.php";
                         large_format.so_kerja,
                         large_format.kode_bahan,
                         large_format.qty_jalan,
-                        CONCAT(large_format.panjang_potong, ' X ', large_format.lebar_potong, ' Cm') as Uk_Potong
+                        CONCAT(large_format.panjang_potong, ' X ', large_format.lebar_potong, ' Cm') as Uk_Potong,
+                        large_format.status,
+                        large_format.kesalahan
                     FROM
                         large_format
                     WHERE
@@ -136,11 +140,17 @@ require_once "../../function.php";
                     $Yes_ID = "";
                 endif;
 
+                if($d['status'] == 'rusak') :
+                    $icon_rusak = "<i class='fas fa-window-close'></i> $d[kesalahan]";
+                else :
+                    $icon_rusak = "";
+                endif;
+
                 echo "
                     <tr>
                         <td rowspan='$count_oid'>$n</td>
                         <td rowspan='$count_oid' class='a-center'>$d[so_kerja]</td>
-                        <td>$oid[0] - <strong>$client[0] $Yes_ID</strong> - $deskripsi[0]</td>
+                        <td>$oid[0] - <strong>$client[0] $Yes_ID</strong> - $deskripsi[0] <span style='color:red; font-size:12px; padding-left:15px; font-style: italic;'>$icon_rusak</span></td>
                         <td>$bahan[0]</td>
                         <td class='a-center'>$ukuran[0]</td>
                         <td class='a-center'>$qty_cetak[0] Pcs</td>
@@ -158,7 +168,7 @@ require_once "../../function.php";
 
                     echo "
                         <tr>
-                            <td>$oid[$i] - <strong>$client[$i] $XYes_ID</strong> - $deskripsi[$i]</td>
+                            <td>$oid[$i] - <strong>$client[$i] $XYes_ID</strong> - $deskripsi[$i] <span style='color:red; font-size:12px; padding-left:15px; font-style: italic;'>$icon_rusak</span></td>
                             <td>$bahan[$i]</td>
                             <td class='a-center'>$ukuran[$i]</td>
                             <td class='a-center'>$qty_cetak[$i] Pcs</td>

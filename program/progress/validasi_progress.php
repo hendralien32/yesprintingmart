@@ -102,13 +102,12 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 WHEN (penjualan.client_yes != '' and penjualan.id_yes !='0') THEN concat(penjualan.id_yes,' - ',penjualan.client_yes)
                 ELSE customer.nama_client 
             END) AS client,
-            concat(' - ', penjualan.description) as description,
+            concat(' - ', penjualan.description, 'Uk. ',penjualan.panjang, ' X ', penjualan.lebar, ' Cm') as description,
             (CASE
                 WHEN barang.id_barang > 0 THEN barang.nama_barang
                 ELSE penjualan.bahan
             END) as bahan,
-            CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm') as ukuran,
-            CONCAT('Uk. ',penjualan.panjang, ' X ', penjualan.lebar, ' Cm') as detail_ukuran
+            CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm') as ukuran
         FROM
             penjualan
         LEFT JOIN 
@@ -122,10 +121,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         WHERE
             penjualan.oid LIKE '$_POST[term]%' and
             ( penjualan.kode = 'large format' or penjualan.kode = 'indoor' or penjualan.kode = 'Xuli')
-        ORDER BY 
-            penjualan.oid 
         LIMIT 
-            8
+            5
     ";
 
     $result = $conn_OOP->query($sql);

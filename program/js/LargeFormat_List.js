@@ -447,7 +447,7 @@ function find_ID(id, no) {
           response(
             $.map(data, function (item) {
               return {
-                label: item.oid + " - " + item.client + " " + item.detail_ukuran,
+                label: item.oid + " - " + item.client + "" + item.description,
                 value: item.oid,
                 client: item.client,
                 desc: item.description,
@@ -467,6 +467,7 @@ function find_ID(id, no) {
       $("#client" + no).html(ui.item.client);
       $("#description" + no).html(ui.item.desc);
       $("#bahan" + no).html(ui.item.bahan);
+      $("#oid_NamaBahan" + no).html(ui.item.bahan);
       $("#ukuran" + no).html(ui.item.size);
     },
     change: function (event, ui) {
@@ -475,6 +476,7 @@ function find_ID(id, no) {
       $("#client" + no).html(ui.item.client);
       $("#description" + no).html(ui.item.desc);
       $("#bahan" + no).html(ui.item.bahan);
+      $("#oid_NamaBahan" + no).val(ui.item.bahan);
       $("#ukuran" + no).html(ui.item.size);
     },
   });
@@ -506,6 +508,7 @@ function validasi_ID(id, no) {
           $("#client" + no).html("");
           $("#description" + no).html("");
           $("#bahan" + no).html("");
+          $("#oid_NamaBahan" + no).val("");
           $("#ukuran" + no).html("");
           $("#Alert_Val" + id + no).html(
             "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
@@ -519,9 +522,114 @@ function validasi_ID(id, no) {
     $("#client" + no).html("");
     $("#description" + no).html("");
     $("#bahan" + no).html("");
+    $("#oid_NamaBahan" + no).val("");
     $("#ukuran" + no).html("");
     $("#Alert_Val" + id + no).html(
       "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
     );
   }
+}
+
+function submit_Rusak(id) {
+  if ($("#validasi_NamaBahan").val() < 1) {
+    alert("Nama Bahan tidak ada dalam Daftar Stock Barang");
+    return false;
+  } else if ($("#validasi_nomor_bahan").val() < 1) {
+    alert("Nomor Bahan tidak ada dalam Daftar Stock Barang");
+    return false;
+  } else if ($("#lebar_potong").val() == "" || $("#lebar_potong").val() < 0) {
+    alert("Lebar Potong Tidak boleh Kosong / Kurang dari 0");
+    return false;
+  }
+
+  let id_NamaBahan = $("#id_NamaBahan").val();
+  let id_nomor_bahan = $("#id_nomor_bahan").val();
+  let panjang_potong = $("#panjang_potong").val();
+  let lebar_potong = $("#lebar_potong").val();
+  let qty_jalan = $("#qty_jalan").val();
+  let restan;
+  if ($("#restan").prop("checked") == true) {
+    restan = "Y";
+  } else {
+    restan = "N";
+  }
+  let jumlah_pass = $("#jumlah_pass").val();
+  let keterangan_rusak = $("#keterangan_rusak").val();
+  let kesalahan_siapa = $("#kesalahan_siapa").val();
+  let jumlah_array = $('input[name="OID[]"]').length;
+  let OID = [];
+  $("input[name='OID[]']").each(function () {
+    OID.push($(this).val());
+  });
+
+  let NamaBahan = [];
+  $("input[name='oid_NamaBahan[]']").each(function () {
+    NamaBahan.push($(this).val());
+  });
+
+  let qty = [];
+  $("input[name='qty[]']").each(function () {
+    if ($(this).val() == "" || $(this).val() <= 0) {
+      check_qty = false;
+      alert("Qty Tidak Boleh Kosong & Tidak Boleh Kurang dari 0");
+      return false;
+    }
+    check_qty = true;
+    qty.push($(this).val());
+  });
+
+  $("input[name='validasi_OID[]']").each(function () {
+    if ($(this).val() != "1") {
+      check_validasi_OID = false;
+      alert("No ID Bermasalah");
+      return false;
+    }
+    check_validasi_OID = true;
+  });
+
+  if (!check_qty) {
+    return false;
+  }
+
+  if (!check_validasi_OID) {
+    return false;
+  }
+
+  let fdata = new FormData();
+  fdata.append("id_NamaBahan", id_NamaBahan);
+  fdata.append("id_nomor_bahan", id_nomor_bahan);
+  fdata.append("panjang_potong", panjang_potong);
+  fdata.append("lebar_potong", lebar_potong);
+  fdata.append("qty_jalan", qty_jalan);
+  fdata.append("restan", restan);
+  fdata.append("jumlah_pass", jumlah_pass);
+  fdata.append("keterangan_rusak", keterangan_rusak);
+  fdata.append("kesalahan_siapa", kesalahan_siapa);
+  fdata.append("jumlah_array", jumlah_array);
+  fdata.append("NamaBahan", NamaBahan);
+  fdata.append("oid", OID);
+  fdata.append("qty", qty);
+  fdata.append("jenis_submit", id);
+
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    cache: false,
+    processData: false,
+    contentType: false,
+    data: fdata,
+    beforeSend: function () {
+      $("#submitBtn").attr("disabled", "disabled");
+      $(".icon-close").removeAttr("onclick");
+    },
+    success: function (data) {
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#Result").html(XMLHttpRequest);
+    },
+  });
 }

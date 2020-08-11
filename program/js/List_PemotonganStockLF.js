@@ -96,6 +96,10 @@ function LaodFormLF(id, SO_Kerja) {
       restan();
       validasi("NamaBahan");
       validasi_NoBahan("nomor_bahan");
+      checkboxes = $('[name="Jmlh_Data"]');
+      for (let i = 1; i <= checkboxes.length - 1; i++) {
+        validasi_ID("OID", i);
+      }
     },
   });
 }
@@ -437,5 +441,103 @@ function hapus_lf(qty_sisa, qty_cetak, lid, oid) {
         $("#bagDetail").html(XMLHttpRequest);
       },
     });
+  }
+}
+
+function find_ID(id, no) {
+  $("#OID" + no).autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "progress/validasi_progress.php",
+        type: "POST",
+        data: {
+          tipe_validasi: "autocomplete_findOID",
+          term: request.term,
+        },
+        dataType: "json",
+        success: function (data) {
+          response(
+            $.map(data, function (item) {
+              return {
+                label: item.oid + " - " + item.client + "" + item.description,
+                value: item.oid,
+                client: item.client,
+                desc: item.description,
+                bahan: item.bahan,
+                size: item.ukuran,
+              };
+            })
+          );
+        },
+      });
+    },
+    minLength: 3,
+    autoFocus: true,
+    select: function (event, ui) {
+      $("#OID" + no).val(ui.item.value);
+      $("#id_OID" + no).val(ui.item.value);
+      $("#client" + no).html(ui.item.client);
+      $("#description" + no).html(ui.item.desc);
+      $("#bahan" + no).html(ui.item.bahan);
+      $("#oid_NamaBahan" + no).html(ui.item.bahan);
+      $("#ukuran" + no).html(ui.item.size);
+    },
+    change: function (event, ui) {
+      $("#OID" + no).val(ui.item.value);
+      $("#id_OID" + no).val(ui.item.value);
+      $("#client" + no).html(ui.item.client);
+      $("#description" + no).html(ui.item.desc);
+      $("#bahan" + no).html(ui.item.bahan);
+      $("#oid_NamaBahan" + no).val(ui.item.bahan);
+      $("#ukuran" + no).html(ui.item.size);
+    },
+  });
+
+  validasi_ID(id, no);
+}
+
+function validasi_ID(id, no) {
+  var ID_Data = $("#" + id + no).val();
+
+  if (ID_Data.length > 3) {
+    $.ajax({
+      type: "POST",
+      minLength: 3,
+      data: {
+        tipe_validasi: "Search_" + id,
+        term: ID_Data,
+      },
+      url: "progress/validasi_progress.php",
+      success: function (data) {
+        if (data > 0) {
+          $("#validasi_" + id + no).val(data);
+          $("#Alert_Val" + id + no).html(
+            "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
+          );
+        } else {
+          $("#validasi_" + id + no).val("0");
+          $("#id_" + id + no).val("");
+          $("#client" + no).html("");
+          $("#description" + no).html("");
+          $("#bahan" + no).html("");
+          $("#oid_NamaBahan" + no).val("");
+          $("#ukuran" + no).html("");
+          $("#Alert_Val" + id + no).html(
+            "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+          );
+        }
+      },
+    });
+  } else {
+    $("#validasi_" + id + no).val("0");
+    $("#id_" + id + no).val("");
+    $("#client" + no).html("");
+    $("#description" + no).html("");
+    $("#bahan" + no).html("");
+    $("#oid_NamaBahan" + no).val("");
+    $("#ukuran" + no).html("");
+    $("#Alert_Val" + id + no).html(
+      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+    );
   }
 }

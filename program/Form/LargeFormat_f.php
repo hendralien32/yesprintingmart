@@ -251,20 +251,7 @@ endif;
                                     barang
                             ) barang
                         ON
-                            penjualan.ID_Bahan = barang.id_barang 
-                        -- LEFT JOIN 
-                        --     (
-                        --         SELECT 
-                        --             large_format.oid,
-                        --             sum(large_format.qty_cetak) as qty_cetak
-                        --         FROM 
-                        --             large_format
-                        --         WHERE
-                        --             large_format.SO_Kerja != '$_POST[SO_Kerja]' and
-                        --             ( large_format.cancel = '' or large_format.cancel = 'N' )
-                        --     ) qty_sisa
-                        -- ON
-                        --     qty_sisa.oid = penjualan.oid
+                            penjualan.ID_Bahan = barang.id_barang
                     ) penjualan
                 ON
                     large_format.oid = penjualan.oid

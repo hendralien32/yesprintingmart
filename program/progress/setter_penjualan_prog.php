@@ -6000,7 +6000,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF') :
     endif;
 elseif ($_POST['jenis_submit'] == 'Hapus_OrderenPemotonganLF') :
 
-    if($_POST['qty_sisa'] == $_POST['qty_cetak']) {
+    if ($_POST['qty_sisa'] == $_POST['qty_cetak']) {
         $Final_log = "
             <tr>
                 <td> $hr, $timestamps </td>
@@ -6158,6 +6158,16 @@ elseif ($_POST['jenis_submit'] == 'Insert_PemotonganLF_Rusak') :
     else :
         $sql = "ERROR";
     endif;
+
+elseif ($_POST['jenis_submit'] == 'Hapus_rusakSUB_ID') :
+    $sql =
+        "UPDATE
+            large_format
+        SET
+            cancel   = 'Y'
+        WHERE
+            lid      = '$_POST[lid]'
+    ";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

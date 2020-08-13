@@ -541,3 +541,36 @@ function validasi_ID(id, no) {
     );
   }
 }
+
+function hapus_sub_ID(status, lid, oid, SO_LF) {
+  if (confirm('Hapus ID "' + oid + '" ?')) {
+    var fdata = new FormData();
+    fdata.append("lid", lid);
+    fdata.append("oid", oid);
+    fdata.append("jenis_submit", status);
+    $.ajax({
+      type: "POST",
+      url: "progress/setter_penjualan_prog.php",
+      cache: false,
+      processData: false,
+      contentType: false,
+      data: fdata,
+      beforeSend: function () {
+        $("#submitBtn").attr("disabled", "disabled");
+        $(".icon-close").removeAttr("onclick");
+      },
+      success: function (data) {
+        // $("#Result").html(data);
+        // hideBox();
+        onload();
+        LaodFormLF("LargeFormat_Rusak", SO_LF);
+        return false;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        $("#bagDetail").html(XMLHttpRequest);
+      },
+    });
+  } else {
+    return false;
+  }
+}

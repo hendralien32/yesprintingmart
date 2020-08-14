@@ -17,7 +17,15 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
             flow_bahanlf.id_bahanLF,
             large_format.restan,
             large_format.kesalahan,
-            large_format.keterangan
+            large_format.keterangan,
+            GROUP_CONCAT(penjualan.id_yes) as id_yes,
+            GROUP_CONCAT(penjualan.client) as client,
+            GROUP_CONCAT(penjualan.description) as description,
+            GROUP_CONCAT(penjualan.bahan) as bahan,
+            GROUP_CONCAT(penjualan.ukuran) as ukuran,
+            GROUP_CONCAT(large_format.lid) as lid,
+            GROUP_CONCAT(large_format.oid) as oid,
+            GROUP_CONCAT(large_format.qty_cetak) as qty_cetak
         FROM
             large_format
         LEFT JOIN
@@ -54,6 +62,52 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
             ) flow_bahanlf
         ON 
             large_format.id_BrngFlow = flow_bahanlf.bid
+        LEFT JOIN
+            (
+                SELECT
+                    penjualan.oid,
+                    penjualan.id_yes,
+                    (CASE
+                        WHEN penjualan.client_yes != '' THEN penjualan.client_yes
+                        ELSE customer.nama_client 
+                    END) AS client,
+                    penjualan.description,
+                    (CASE
+                        WHEN barang.id_barang > 0 THEN barang.nama_barang
+                        ELSE penjualan.bahan
+                    END) as bahan,
+                    (CASE
+                        WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+                        WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+                        ELSE ''
+                    END) as ukuran,
+                    IFNULL(penjualan.qty,0) as Qty_Order,
+                    penjualan.status
+                FROM
+                    penjualan
+                LEFT JOIN 
+                    (
+                        SELECT 
+                            customer.cid, 
+                            customer.nama_client 
+                        FROM 
+                            customer
+                    ) customer
+                ON
+                    penjualan.client = customer.cid  
+                LEFT JOIN 
+                    (
+                        SELECT 
+                            barang.id_barang, 
+                            barang.nama_barang 
+                        FROM 
+                            barang
+                    ) barang
+                ON
+                    penjualan.ID_Bahan = barang.id_barang
+            ) penjualan
+        ON
+            large_format.oid = penjualan.oid
         WHERE
             large_format.SO_Kerja = '$_POST[SO_Kerja]'
         GROUP BY
@@ -75,6 +129,16 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $pass = "$d[pass]";
         $kesalahan = "$d[kesalahan]";
         $keterangan = "$d[keterangan]";
+        $id_yes = explode(",", "$d[id_yes]");
+        $client = explode(",", "$d[client]");
+        $description = explode(",", "$d[description]");
+        $bahan = explode(",", "$d[bahan]");
+        $ukuran = explode(",", "$d[ukuran]");
+        $lid = explode(",", "$d[lid]");
+        $oid = explode(",", "$d[oid]");
+        $qty_cetak = explode(",", "$d[qty_cetak]");
+        $count_lid = count($lid);
+        $next_count = $count_lid + 1;
         $status_submit = "Update_PemotonganLF_Rusak";
         $nama_submit = "Update Order";
     else :
@@ -90,6 +154,16 @@ if ($_POST['status'] == "Edit_PemotonganStockLF") :
         $pass = "3";
         $kesalahan = "";
         $keterangan = "";
+        $id_yes = "";
+        $client = "";
+        $description = "";
+        $bahan = "";
+        $ukuran = "";
+        $lid = "";
+        $oid = "";
+        $qty_cetak = "";
+        $count_lid = "0";
+        $next_count = 1;
         $status_submit = "Insert_PemotonganLF_Rusak";
         $nama_submit = "Buka Order";
     endif;
@@ -106,6 +180,16 @@ else :
     $pass = "3";
     $kesalahan = "";
     $keterangan = "";
+    $id_yes = "";
+    $client = "";
+    $description = "";
+    $bahan = "";
+    $ukuran = "";
+    $lid = "";
+    $oid = "";
+    $qty_cetak = "";
+    $count_lid = "0";
+    $next_count = 1;
     $status_submit = "Insert_PemotonganLF_Rusak";
     $nama_submit = "Buka Order";
 endif;
@@ -113,12 +197,12 @@ endif;
 
 <script>
     $(document).ready(function() {
-        var i = 1;
+        var i = <?= $next_count ?>;
 
         $('#add').click(function() {
             i++;
             $('#dynamic_field').append(
-                '<tr  id="row' + i + '"><td><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td class="btn_remove" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
+                '<tr  id="row' + i + '"><td name="Jmlh_Data"><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td class="btn_remove" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
             );
 
         });
@@ -194,26 +278,57 @@ endif;
         <table class='form_table'>
             <thead>
                 <tr>
-                    <th width="10%">ID Order</th>
-                    <th width="52%">Client - Deskripsi</th>
+                    <th width="13%">ID Order</th>
+                    <th width="49%">Client - Deskripsi</th>
                     <th width="12%">Bahan</th>
                     <th width="13%">Ukuran</th>
                     <th width="10%">Qty Cetak</th>
                 </tr>
             </thead>
             <tbody id="dynamic_field">
+                <?php
+                if(isset($count_lid)) {
+                    for ($i = 0; $i < $count_lid; $i++) :
+                        $n = $i + 1;
+                        if ($id_yes[$i] != '0') {
+                            $Detail_IdYes = "$id_yes[$i] - ";
+                        } else {
+                            $Detail_IdYes = "";
+                        }
+
+                        echo "
+                            <tr>
+                                <td name='Jmlh_Data'>
+                                <input type='text' class='form sd' id='OID$n' autocomplete='off' onkeyup='find_ID(\"OID\",\"$n\")' onChange='validasi_ID(\"OID\",\"$n\")' onkeyup='validasi_ID(\"OID\",\"$n\")' value='$oid[$i]'>
+                                <input type='hidden' name='OID[]' value='$oid[$i]' id='id_OID$n' class='form sd' readonly disabled>
+                                <input type='hidden' name='validasi_OID[]' id='validasi_OID$n' value='1' class='form sd' readonly disabled>
+                                <span id='Alert_ValOID$n'></span>
+                                </td>
+                                <td><strong>$Detail_IdYes $client[$i]</strong> - $description[$i]</td>
+                                <td>$bahan[$i]</td>
+                                <td class='a-center'>$ukuran[$i]</td>
+                                <td class='a-center'>
+                                    <input id='oid_NamaBahan$n' type='hidden' name='oid_NamaBahan[]' value='$bahan[$i]'>
+                                    <input type='number' class='form sd' id='qty_$n' name='qty[]' value='$qty_cetak[$i]'>
+                                </td>
+                                <td><span class='icon_status' onclick=''><i class='far fa-trash-alt text-danger'></i></span></td>
+                            </tr>
+                        ";
+                    endfor;
+                }
+                ?>
                 <tr>
-                    <td>
-                        <input type="text" class="form sd" id="OID1" autocomplete="off" onkeyup="find_ID('OID','1')" onChange="validasi_ID('OID','1')" onkeyup="validasi_ID('OID','1')">
-                        <input type="hidden" name="OID[]" id="id_OID1" class="form sd" readonly disabled>
-                        <input type="hidden" name="validasi_OID[]" id="validasi_OID1" class="form sd" readonly disabled>
-                        <span id="Alert_ValOID1"></span>
+                    <td name='Jmlh_Data'>
+                        <input type="text" class="form sd" id="OID<?= $next_count ?>" autocomplete="off" onkeyup="find_ID('OID','<?= $next_count ?>')" onChange="validasi_ID('OID','<?= $next_count ?>')" onkeyup="validasi_ID('OID','<?= $next_count ?>')">
+                        <input type="hidden" name="OID[]" id="id_OID<?= $next_count ?>" class="form sd" readonly disabled>
+                        <input type="hidden" name="validasi_OID[]" id="validasi_OID<?= $next_count ?>" class="form sd" readonly disabled>
+                        <span id="Alert_ValOID<?= $next_count ?>"></span>
                     </td>
-                    <td><span id="client1" style="font-weight:bold"></span> <span id="description1"></span></td>
-                    <td><span id="bahan1"></span></td>
-                    <td class="a-center"><span id="ukuran1"></span></td>
+                    <td><span id="client<?= $next_count ?>" style="font-weight:bold"></span> <span id="description<?= $next_count ?>"></span></td>
+                    <td><span id="bahan<?= $next_count ?>"></span></td>
+                    <td class="a-center"><span id="ukuran<?= $next_count ?>"></span></td>
                     <td class="a-center">
-                        <input id='oid_NamaBahan1' type='hidden' name='oid_NamaBahan[]' value=''>
+                        <input id='oid_NamaBahan<?= $next_count ?>' type='hidden' name='oid_NamaBahan[]' value=''>
                         <input type="number" class="form sd" id="qty_$n" name="qty[]" min="0">
                     </td>
                     <td id="add" class="pointer">
@@ -231,5 +346,3 @@ endif;
 
     </div>
 </div>
-                            
-                            

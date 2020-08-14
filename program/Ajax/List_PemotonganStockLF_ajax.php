@@ -191,9 +191,7 @@ if ($_POST['search'] != "") {
 
                 $total_cetak = (($d['panjang_potong'] * $d['lebar_potong']) / 10000) * $d['Jalan'];
 
-                
-
-                if($d['status'] == 'rusak') :
+                if ($d['status'] == 'rusak') :
                     $edit = "LaodFormLF(\"LargeFormat_Rusak\", \"" . $d['so_kerja'] . "\")";
                     $icon_rusak = "<i class='fas fa-window-close'></i> $d[kesalahan]";
                 else :

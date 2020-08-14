@@ -288,11 +288,7 @@ endif;
             </thead>
             <tbody id="dynamic_field">
                 <?php
-<<<<<<< HEAD
-                if(isset($count_lid)) {
-=======
                 if (isset($count_lid)) {
->>>>>>> ec784bc972a2b490412ddeaa0ab18b9236705303
                     for ($i = 0; $i < $count_lid; $i++) :
                         $n = $i + 1;
                         if ($id_yes[$i] != '0') {
@@ -316,11 +312,7 @@ endif;
                                     <input id='oid_NamaBahan$n' type='hidden' name='oid_NamaBahan[]' value='$bahan[$i]'>
                                     <input type='number' class='form sd' id='qty_$n' name='qty[]' value='$qty_cetak[$i]'>
                                 </td>
-<<<<<<< HEAD
-                                <td><span class='icon_status' onclick=''><i class='far fa-trash-alt text-danger'></i></span></td>
-=======
                                 <td><span class='icon_status' onclick='hapus_sub_ID(\"Hapus_rusakSUB_ID\", \"$lid[$i]\", \"$oid[$i]\", \"$so_kerja\")'><i class='far fa-trash-alt text-danger'></i></span></td>
->>>>>>> ec784bc972a2b490412ddeaa0ab18b9236705303
                             </tr>
                         ";
                     endfor;

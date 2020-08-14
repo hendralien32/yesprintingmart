@@ -1,0 +1,133 @@
+Next Progressive
+ 
+* Update Program To PHP Versi 7.4.4 [SOLVED]
+   - Error Di Form Sales Order [SOLVED]
+   - Error Di Form Sales Invoice [SOLVED]
+   - Update History Log [SOLVED]
+* Info  Sales Order saat tidak bisa di edit [SOLVED]
+   - Tambah harga [SOLVED]
+   - Kasih Validasi Untuk user [SOLVED]
+      ` Admin & CS bisa lihat harga [SOLVED]
+      ` untuk Setter hanya bisa lihat detail saja [SOLVED]
+* Ganti CSS Checkbox di form Invoice [SOLVED]
+* FIX Bug saat pertama kali masuk page Sales Order [SOLVED]
+   - tambah SCRIPT * $abc = isset($_SESSION['filter_ID_Penjualan']) ? $_SESSION['filter_ID_Penjualan'] : ""; * [SOLVED]   
+* Re-Add Invoice Pada Sales Order ( Note :  Ini Dikerjakan Oleh Setter ) [SOLVED]
+* Error Di Print Invoice karena Update versi 7.4.4 [SOLVED]
+* Pelunasan
+   - Tampilkan List Pelunasan Yang belum Lunas di tampilan awal [SOLVED]
+   - Tampilan List Pelunasan yang sudah lunas berdasarkan tanggal [SOLVED]
+   - Form Pelunasan [SOLVED]
+   - Form History Pelunasan [SOLVED]
+   - Masalah Di Update Pelunasan [SOLVED]
+   - Berikan Log / History pada saat Pelunasan dan Edit Pelunasan [SOLVED]
+   - Multiple Payment Button ( Berfungsi Untuk Client yang sama ) [SOLVED]
+   - Fix bug saat input pembayaran Log tidak terinput [SOLVED]
+* Fix Bug di penjualan setter pada Form Buka Invoice [SOLVED]
+* Penambah Input untuk search Invoice di Invoice Yesprintingmart [SOLVED]
+* List Pelunasan Invoice [SOLVED]
+   - List Pelunasan Yang sudah Bayar [SOLVED]
+   - Edit List Pelunasan ( Menggunakan Form yang sudah ada ) [SOLVED]
+* Database [SOLVED]
+   - Database user [SOLVED]
+      ` List User Database [SOLVED]
+      ` Add User [SOLVED]
+      ` Update User [SOLVED]
+      ` Delete User [SOLVED]
+   - Database Client [SOLVED]
+      ` List Client Database [SOLVED]
+      ` Add Client [SOLVED]
+         * Error di validasi client [SOLVED]
+         * ada inputan yang tidak masuk ke database [SOLVED]
+      ` Update Client [SOLVED]
+      ` Delete Client [SOLVED]
+   - Database Barang [SOLVED]
+      ` List Barang Database [SOLVED]
+      ` Add Barang [SOLVED]
+      ` Update Barang [SOLVED]
+      ` Delete Barang [SOLVED]
+   - Database PriceList [SOLVED]
+      ` List PriceList Database [SOLVED]
+      ` Add PriceList [SOLVED]
+      ` Update PriceList [SOLVED]
+      ` Delete PriceList [SOLVED]
+
+* Fix Bug Nilai Finishing pada Invoice Sales Yesprinting [SOLVED]
+* Biaya Finishing ditambahakan di large format dan indoor dan Latex [SOLVED]
+* Fix Bug Form Setter & Invoice [SOLVED]
+* Bug Di Sales Invoice Penjualan YPM [SOLVED]
+
+* ada perubahan database Pricelist [SOLVED]
+   ` Update_SO_Invoice [SOLVED]
+   ` create_invoice [SOLVED]
+   ` ReAdd_Invoice [SOLVED]
+   ` Update_PenjualanYESCOM [SOLVED]
+   ` elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc'] == 'N') [SOLVED]
+   ` Autocalc Price ( ada bug di perhitungan BW / hitam putih ) [SOLVED]
+
+* YES WO List [SOLVED]
+   - List Form Work Order List --> Show Log [SOLVED]
+      ` Insert [SOLVED]
+      ` Update [SOLVED]
+      ` Delete --> Bug Saat Submit Delete tidak mau refresh Page [SOLVED]
+      ` Generator --> Bug Nama Bahan Tidak ada [SOLVED] 
+         * Time Generate [SOLVED]
+      ` Print Daily Report WO List  [SOLVED]
+
+* Penjualan Yescom [SOLVED]
+   - Generator Input Form Yescom [SOLVED]
+   - List Penjualan Yescom [SOLVED]
+   - Hapus Penjualan YESCOM [SOLVED]
+   - Edit Order Penjualan Yescom [SOLVED]
+      ` Show Form saat order edit Lock [SOLVED]
+      ` SubForm Untuk Detail ID Yescom [SOLVED]
+   - Create Invoice Yescom [SOLVED]
+      ` Bug Update Order Tidak Berfungsi [SOLVED]
+   - Tambah Function ACC pada ICON jempol di Penjualan Yescom dan Yesprintingmart [SOLVED]
+   - Print Yescom Daily Invoice [SOLVED]
+      ` Bug AutoCalc() [SOLVED]
+      ` Bug Nilai harga tidak sesuai saat Update Order Invoice ( di Sales Order Yesprinting ) [SOLVED]
+      ` Bug Nilai harga tidak sesuai saat Re-Add Sales Invoice ( di Sales Order Yesprinting ) [SOLVED]
+      ` Perbaiki Form Pricelist tambah Xuli [SOLVED]
+   
+* Large Format
+   - Order List Large Format [SOLVED]
+      ` Insert[SOLVED]
+         • Auto Ganti status orderan 'Selesai' saat Nilai Order dan Nilai Cetak sama [SOLVED]
+         • Auto Create Log Untuk Order Penjualan [SOLVED]
+         • Auto [SOLVED]
+   - Pemotongan Stock LF
+   - Stock Bahan
+      ` Penerimaan Bahan [SOLVED]
+      ` Pengeluaran Bahan [SOLVED]
+      ` fix bug nilai "Pemakaian Bahan (M2)" [SOLVED]
+   - List Pemesanan Bahan LF [SOLVED]
+      ` Tambahakan Pencarian Dari Tanggal Ke tanggal pada List [SOLVED]
+      ` Fix bug saat double click icon diterima di "list pemesanan bahan LF" [SOLVED]
+
+* Digital Printing
+   - Order List Digital Printing
+   - Laporan Pemotongan Stock
+   - Laporan Harian Konika
+   - Laporan Penggunaan Stock 
+   - Stock Bahan
+      ` Penerimaan Bahan
+      ` Pengeluaran Bahan
+
+* Laporan Penjualan
+   - penjualan Yesprintingmart
+   - Penjualan Yescom
+   - Export Excel
+
+* Laporan Pelunasan
+   - Tampilkan Cash
+   - Tampilkan Debit / Kredit / Transfer
+   - Update Status Pelunasan apakah di setor bank / dijadikan peti cash
+   - Export Excel 
+
+* Laporan Peti Cash << OPTIONAL >>
+   - Export Excel
+
+* Laporan Kerja Large Format & Indoor   
+
+* Bug Form Setter saat di di level Setter, Accounting, dan CS      

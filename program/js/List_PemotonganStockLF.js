@@ -574,3 +574,75 @@ function hapus_sub_ID(status, lid, oid, SO_LF) {
     return false;
   }
 }
+
+function submit_Rusak(id) {
+  let NO_SOKerja = $("#NO_SOKerja").val();
+  let id_NamaBahan = $("#id_NamaBahan").val();
+  let id_nomor_bahan = $("#id_nomor_bahan").val();
+  let panjang_potong = $("#panjang_potong").val();
+  let lebar_potong = $("#lebar_potong").val();
+  let qty_jalan = $("#qty_jalan").val();
+  let restan;
+  if ($("#restan").prop("checked") == true) {
+    restan = "Y";
+  } else {
+    restan = "N";
+  }
+  let jumlah_pass = $("#jumlah_pass").val();
+  let keterangan_rusak = $("#keterangan_rusak").val();
+  let kesalahan_siapa = $("#kesalahan_siapa").val();
+  let jumlah_array = $('input[name="OID[]"]').length;
+  let OID = [];
+  $("input[name='OID[]']").each(function () {
+    OID.push($(this).val());
+  });
+
+  let NamaBahan = [];
+  $("input[name='oid_NamaBahan[]']").each(function () {
+    NamaBahan.push($(this).val());
+  });
+
+  let qty = [];
+  $("input[name='qty[]']").each(function () {
+    qty.push($(this).val());
+  });
+
+  let fdata = new FormData();
+  fdata.append("NO_SOKerja", NO_SOKerja);
+  fdata.append("id_NamaBahan", id_NamaBahan);
+  fdata.append("id_nomor_bahan", id_nomor_bahan);
+  fdata.append("panjang_potong", panjang_potong);
+  fdata.append("lebar_potong", lebar_potong);
+  fdata.append("qty_jalan", qty_jalan);
+  fdata.append("restan", restan);
+  fdata.append("jumlah_pass", jumlah_pass);
+  fdata.append("keterangan_rusak", keterangan_rusak);
+  fdata.append("kesalahan_siapa", kesalahan_siapa);
+  fdata.append("jumlah_array", jumlah_array);
+  fdata.append("NamaBahan", NamaBahan);
+  fdata.append("oid", OID);
+  fdata.append("qty", qty);
+  fdata.append("jenis_submit", id);
+
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    cache: false,
+    processData: false,
+    contentType: false,
+    data: fdata,
+    beforeSend: function () {
+      // $("#submitBtn").attr("disabled", "disabled");
+      // $(".icon-close").removeAttr("onclick");
+    },
+    success: function (data) {
+      $("#Result").html(data);
+      // hideBox();
+      // onload();
+      // return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#Result").html(XMLHttpRequest);
+    },
+  });
+}

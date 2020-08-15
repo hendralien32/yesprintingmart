@@ -6168,6 +6168,53 @@ elseif ($_POST['jenis_submit'] == 'Hapus_rusakSUB_ID') :
         WHERE
             lid      = '$_POST[lid]'
     ";
+elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
+    $keterangan_rusak  = htmlspecialchars($_POST['keterangan_rusak'], ENT_QUOTES);
+    $kesalahan_siapa  = htmlspecialchars($_POST['kesalahan_siapa'], ENT_QUOTES);
+
+    $NamaBahan = explode(",", "$_POST[NamaBahan]");
+    if ($_POST['restan'] == 'Y') :
+        $status_restan = 'Y';
+        $kode_bahan = $NamaBahan[0] . "." . $_POST['panjang_potong'];
+    else :
+        $status_restan = 'N';
+        $kode_bahan = "";
+    endif;
+
+    $sql_BID_Bahan =
+        "SELECT
+            flow_bahanlf.bid
+        FROM
+            flow_bahanlf
+        WHERE
+            flow_bahanlf.id_bahanLF = '$_POST[id_NamaBahan]' and
+            flow_bahanlf.no_bahan = '$_POST[id_nomor_bahan]'
+    ";
+    $result = $conn_OOP->query($sql_BID_Bahan);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $bid = $row['bid'];
+    else :
+        $bid = 0;
+    endif;
+
+    $sql =
+        "UPDATE
+            large_format
+        SET
+            panjang_potong = '$_POST[panjang_potong]',
+            lebar_potong = '$_POST[lebar_potong]',
+            id_BrngFlow = '$bid',
+            qty_jalan = '$_POST[qty_jalan]',
+            pass = '$_POST[jumlah_pass]',
+            kode_bahan = '$kode_bahan',
+            restan = '$status_restan',
+            keterangan = '$keterangan_rusak',
+            kesalahan = '$kesalahan_siapa'
+        WHERE
+            so_kerja      = '$_POST[NO_SOKerja]'
+    ";
+
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

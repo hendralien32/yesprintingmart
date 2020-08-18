@@ -6172,6 +6172,43 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
     $keterangan_rusak  = htmlspecialchars($_POST['keterangan_rusak'], ENT_QUOTES);
     $kesalahan_siapa  = htmlspecialchars($_POST['kesalahan_siapa'], ENT_QUOTES);
 
+    $lid = explode(",", "$_POST[lid]");
+    $oid = explode(",", "$_POST[oid]");
+    $oidx = explode(",", "$_POST[oid]");
+    $qty = explode(",", "$_POST[qty]");
+
+    foreach ($lid as $yes => $oid) {
+        // $y[] = "$oid";
+        if ($oid != "0") {
+            $y[] = "$lid[$yes]";
+        } else {
+            $n[] = "$oidx[$yes]";
+            $insert[] = "
+                (
+                    '$oidx[$yes]',
+                    '$_SESSION[uid]',
+                    '$_SESSION[session_mesin]',
+                    '$qty[$yes]',
+                    '$_POST[panjang_potong]',
+                    '$_POST[lebar_potong]',
+                    '$bid',
+                    '$_POST[qty_jalan]',
+                    '$_POST[NO_SOKerja]',
+                    '$_POST[jumlah_pass]',
+                    'N',
+                    '$kode_bahan',
+                    '$status_restan',
+                    '$keterangan_rusak',
+                    '$kesalahan_siapa',
+                    'rusak'
+                )
+            ";
+        }
+    }
+
+    $update_lid = implode("','", $y);
+    $New_Insert = implode(',', $insert);
+
     $NamaBahan = explode(",", "$_POST[NamaBahan]");
     if ($_POST['restan'] == 'Y') :
         $status_restan = 'Y';
@@ -6212,8 +6249,32 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
             keterangan = '$keterangan_rusak',
             kesalahan = '$kesalahan_siapa'
         WHERE
-            so_kerja      = '$_POST[NO_SOKerja]'
+            lid IN ('$update_lid');
     ";
+
+    if (count($n) > 0) {
+        $sql .=
+            "INSERT INTO large_format 
+            (
+                oid,
+                uid,
+                mesin,
+                qty_cetak,
+                panjang_potong,
+                lebar_potong,
+                id_BrngFlow,
+                qty_jalan,
+                so_kerja,
+                pass,
+                cancel,
+                kode_bahan,
+                restan,
+                keterangan,
+                kesalahan,
+                status
+            )  VALUES $New_Insert
+        ;";
+    }
 
 endif;
 

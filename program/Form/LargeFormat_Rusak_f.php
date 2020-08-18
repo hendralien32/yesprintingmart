@@ -203,7 +203,7 @@ endif;
         $('#add').click(function() {
             i++;
             $('#dynamic_field').append(
-                '<tr  id="row' + i + '"><td name="Jmlh_Data"><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td class="btn_remove" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
+                '<tr  id="row' + i + '"><td name="Jmlh_Data"><input type="hidden" name="lid[]" value="0"><input type="text" class="form sd" id="OID' + i + '" autocomplete="off" onkeyup="find_ID(\'OID\',\'' + i + '\')" onChange="validasi_ID(\'OID\',\'' + i + '\')"><input type="hidden" name="OID[]" id="id_OID' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_OID[]" id="validasi_OID' + i + '" class="form sd" readonly disabled><span id="Alert_ValOID' + i + '"></span></td><td><span id="client' + i + '" style="font-weight:bold"></span> <span id="description' + i + '"></span></td><td><span id="bahan' + i + '"></span></td><td class="a-center"><span id="ukuran' + i + '"></span></td><td class="a-center"><input type="number" class="form sd" id="qty_$n" name="qty[]" min="0" max="$sisa_cetak"></td><td class="btn_remove" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
             );
 
         });
@@ -300,6 +300,7 @@ endif;
                         echo "
                             <tr>
                                 <td name='Jmlh_Data'>
+                                <input type='hidden' name='lid[]' value='$lid[$i]'>
                                 <input type='text' class='form sd' id='OID$n' autocomplete='off' onkeyup='find_ID(\"OID\",\"$n\")' onChange='validasi_ID(\"OID\",\"$n\")' onkeyup='validasi_ID(\"OID\",\"$n\")' value='$oid[$i]'>
                                 <input type='hidden' name='OID[]' value='$oid[$i]' id='id_OID$n' class='form sd' readonly disabled>
                                 <input type='hidden' name='validasi_OID[]' id='validasi_OID$n' value='1' class='form sd' readonly disabled>
@@ -320,6 +321,7 @@ endif;
                 ?>
                 <tr>
                     <td name='Jmlh_Data'>
+                        <input type='hidden' name='lid[]' value='0'>
                         <input type="text" class="form sd" id="OID<?= $next_count ?>" autocomplete="off" onkeyup="find_ID('OID','<?= $next_count ?>')" onChange="validasi_ID('OID','<?= $next_count ?>')" onkeyup="validasi_ID('OID','<?= $next_count ?>')">
                         <input type="hidden" name="OID[]" id="id_OID<?= $next_count ?>" class="form sd" readonly disabled>
                         <input type="hidden" name="validasi_OID[]" id="validasi_OID<?= $next_count ?>" class="form sd" readonly disabled>

@@ -597,6 +597,11 @@ function submit_Rusak(id) {
     OID.push($(this).val());
   });
 
+  let lid = [];
+  $("input[name='lid[]']").each(function () {
+    lid.push($(this).val());
+  });
+
   let NamaBahan = [];
   $("input[name='oid_NamaBahan[]']").each(function () {
     NamaBahan.push($(this).val());
@@ -606,6 +611,20 @@ function submit_Rusak(id) {
   $("input[name='qty[]']").each(function () {
     qty.push($(this).val());
   });
+
+  $("input[name='validasi_OID[]']").each(function () {
+    if ($(this).val() == "0") {
+      check_validasi_OID = false;
+      alert("No ID Bermasalah");
+      return false;
+    } else if ($(this).val() == "" || $(this).val() == "1") {
+      check_validasi_OID = true;
+    }
+  });
+
+  if (!check_validasi_OID) {
+    return false;
+  }
 
   let fdata = new FormData();
   fdata.append("NO_SOKerja", NO_SOKerja);
@@ -622,6 +641,7 @@ function submit_Rusak(id) {
   fdata.append("NamaBahan", NamaBahan);
   fdata.append("oid", OID);
   fdata.append("qty", qty);
+  fdata.append("lid", lid);
   fdata.append("jenis_submit", id);
 
   $.ajax({
@@ -632,14 +652,14 @@ function submit_Rusak(id) {
     contentType: false,
     data: fdata,
     beforeSend: function () {
-      // $("#submitBtn").attr("disabled", "disabled");
-      // $(".icon-close").removeAttr("onclick");
+      $("#submitBtn").attr("disabled", "disabled");
+      $(".icon-close").removeAttr("onclick");
     },
     success: function (data) {
-      $("#Result").html(data);
-      // hideBox();
-      // onload();
-      // return false;
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       $("#Result").html(XMLHttpRequest);

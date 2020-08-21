@@ -12,9 +12,6 @@ endif;
 
 $_SESSION['ListOrder_BahanLF'] = "$test";
 
-
-
-
 $session_mesin = "";
 $mesin_sort = isset($_POST['type_mesin']) ? $_POST['type_mesin'] : ' ';
 
@@ -25,9 +22,6 @@ else :
 endif;
 
 $_SESSION['session_mesin'] = "$session_mesin";
-
-
-
 
 if ($_SESSION['ListOrder_BahanLF'] != '') :
     $Add_Bahan = "and bahan='$_SESSION[ListOrder_BahanLF]'";

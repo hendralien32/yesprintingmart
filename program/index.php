@@ -75,6 +75,9 @@ if (isset($page)) :
         case 'PemotonganStockLF':
             $title = 'List Pemotongan Stock Large Format';
             break;
+        case 'DP_List':
+            $title = 'List Digital Printing Order List';
+            break;
         default:
             $title = 'YES Program V.5.0';
     endswitch;
@@ -160,11 +163,13 @@ endif;
                     <a href="?page=Wo_List&tab=SalesYescom">
                         <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
                     </a>
-                    <li>Laporan</li>
                     <a href="?page=LF_List&tab=Large_Format">
                         <li class='<?= ($tab == 'Large_Format') ? 'active' : ''; ?>'>Large Format</li>
                     </a>
-                    <li>Digital Printing</li>
+                    <a href="?page=DP_List&tab=Digital_Printing">
+                        <li class='<?= ($tab == 'Digital_Printing') ? 'active' : ''; ?>'>Digital Printing</li>
+                    </a>
+                    <li>Laporan</li>
                     <div class="clear"></div>
             </ul>
         </div>
@@ -233,6 +238,22 @@ endif;
                     </a>
                     <div class="clear"></div>
                 </ul>
+            <?php elseif ($tab == 'Digital_Printing') : ?>
+                <ul>
+                    <a href="?page=DP_List&tab=Digital_Printing">
+                        <li class='<?= ($page == 'DP_List') ? 'active' : ''; ?>'>Digital Printing Order List</li>
+                    </a>
+                    <a href="?page=xxxx&tab=Digital_Printing">
+                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
+                    </a>
+                    <a href="?page=xxxx&tab=Digital_Printing">
+                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Stock Kertas & Tonner</li>
+                    </a>
+                    <a href="?page=xxxx&tab=Digital_Printing">
+                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>List Pemesanan Kertas & Tonner</li>
+                    </a>
+                    <div class="clear"></div>
+                </ul>
             <?php endif; ?>
         </div>
 
@@ -291,6 +312,9 @@ endif;
                             break;
                         case 'PemotonganStockLF':
                             require_once('List_PemotonganStockLF.php');
+                            break;
+                        case 'DP_List':
+                            require_once('list_digital.php');
                             break;
                         default:
                             require_once('test.php');

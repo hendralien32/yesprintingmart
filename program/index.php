@@ -247,6 +247,9 @@ endif;
                         <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
                     </a>
                     <a href="?page=xxxx&tab=Digital_Printing">
+                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
+                    </a>
+                    <a href="?page=xxxx&tab=Digital_Printing">
                         <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Stock Kertas & Tonner</li>
                     </a>
                     <a href="?page=xxxx&tab=Digital_Printing">

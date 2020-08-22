@@ -45,13 +45,13 @@
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.ui-autocomplete > li {
+.ui-autocomplete>li {
   padding: 3px 10px;
   background: transparent;
   border: 5px;
 }
 
-.ui-autocomplete > li:hover {
+.ui-autocomplete>li:hover {
   text-decoration: none;
   cursor: pointer;
 }
@@ -98,7 +98,9 @@
   font-size: 1.2vw;
 }
 
-.fa-check-double {
+.fa-check-double,
+.fa-hourglass-half,
+.fa-spinner {
   --fa-primary-color: orange;
   --fa-secondary-color: #e0861a;
   --fa-secondary-opacity: 0.8;
@@ -201,12 +203,12 @@
 }
 
 /* On mouse-over, add a grey background color */
-.sisi_radio:hover input ~ .checkmark {
+.sisi_radio:hover input~.checkmark {
   background-color: #ccc;
 }
 
 /* When the radio button is checked, add a blue background */
-.sisi_radio input:checked ~ .checkmark {
+.sisi_radio input:checked~.checkmark {
   background-color: #ff7200;
 }
 
@@ -218,7 +220,7 @@
 }
 
 /* Show the indicator (dot/circle) when checked */
-.sisi_radio input:checked ~ .checkmark:after {
+.sisi_radio input:checked~.checkmark:after {
   display: block;
 }
 
@@ -491,11 +493,11 @@ input[type="text"].client {
   transform: translateY(-50%);
 }
 
-.input-checkbox100:checked + .label-checkbox100::before {
+.input-checkbox100:checked+.label-checkbox100::before {
   color: #ff7200;
 }
 
-.input-checkbox100:disabled + .label-checkbox100::before {
+.input-checkbox100:disabled+.label-checkbox100::before {
   background: #e2e2e2;
 }
 

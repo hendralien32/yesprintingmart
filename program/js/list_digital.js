@@ -42,3 +42,40 @@ function onload() {
     },
   });
 }
+
+function BahanSearch() {
+  var Bahan_Sort = $("#BahanSearch").val();
+  $("#session_kertas").val(Bahan_Sort);
+  $("#loader").show();
+  onload();
+}
+
+function SearchDate() {
+  $("#loader").show();
+  onload();
+}
+
+function SearchData() {
+  $("#tanggal").val("");
+  var Validasi_Search = $("#search").val().length;
+
+  if (Validasi_Search > 3) {
+    $("#loader").show();
+    onload();
+  } else {
+    alert("Jumlah Character Harus Lebih dari 3 huruf");
+    return false;
+  }
+}
+
+function session_mesin() {
+  var type_mesin = $("#type_mesin").val();
+  $("#session_mesinDP").val(type_mesin);
+  if (type_mesin != "") {
+    $("#button_rusak").css("display", "");
+  } else {
+    $("#button_rusak").css("display", "none");
+  }
+  $("#loader").show();
+  onload();
+}

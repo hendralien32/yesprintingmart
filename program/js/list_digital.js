@@ -33,6 +33,11 @@ function onload() {
     url: "Ajax/DigitalPrinting_List_ajax.php",
     cache: false,
     success: function (data) {
+      if (type_mesin != "") {
+        $("#button_rusak").css("display", "");
+      } else {
+        $("#button_rusak").css("display", "none");
+      }
       $("#loader").hide();
       $("#setter_penjualan").html(data);
       return false;

@@ -102,6 +102,8 @@ function LaodForm(id, nid, Akses_Edit) {
     var judul = "Form Database Supplier";
   } else if (id == "StockBahan_LF") {
     var judul = "Form Stock Large Format";
+  } else if (id == "DigitalPrinting") {
+    var judul = "Form Pemotongan Stock Digital Printing";
   } else {
     var judul = "404 Not Found";
   }

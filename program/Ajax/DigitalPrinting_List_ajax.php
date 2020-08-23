@@ -241,13 +241,21 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     $status = "<i class='fad fa-spinner'></i> OnProgress";
                 }
 
+                if($_SESSION['session_MesinDP']!="") {
+                    $edit = "LaodForm(\"DigitalPrinting\",\"$d[oid]\")";
+                    $pointer = "pointer";
+                } else {
+                    $edit = "";
+                    $pointer = "";
+                }
+
                 echo "
                         <tr>
                             <td>$n</td>
                             <td class='a-center'>" . date("d M Y", strtotime($d['tanggal'])) . "</td>
                             <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
                             <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</td>
-                            <td class='a-center'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</td>
+                            <td onclick='" . $edit . "' class='a-center $pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</td>
                             <td>$detail_yes " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . "</td>
                             <td>
                                 <center>

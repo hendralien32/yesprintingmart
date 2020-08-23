@@ -121,7 +121,7 @@ $ID_Order = "$_POST[ID_Order]";
             </tr>
             <tr>
                 <td style='width:145px'>Notes</td>
-                <td><?= $d['keterangan'] ?></td>
+                <td><strong style='color:#ff7200;'><?= $d['keterangan'] ?></strong></td>
             </tr>
             <tr>
                 <td style='width:145px'>Laminating</td>

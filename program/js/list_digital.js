@@ -161,6 +161,7 @@ function submit(id) {
   }
 
   let id_order = $("#id_order").val();
+  let tanggal_ptg = $("#tanggal_ptg").val();
   let id_BahanDigital = $("#id_BahanDigital").val();
   let BahanDigital = $("#BahanDigital").val();
   let sisi = $("#sisi").val();
@@ -183,6 +184,7 @@ function submit(id) {
 
   let fdata = new FormData();
   fdata.append("id_order", id_order);
+  fdata.append("tanggal_ptg", tanggal_ptg);
   fdata.append("id_BahanDigital", id_BahanDigital);
   fdata.append("BahanDigital", BahanDigital);
   fdata.append("sisi", sisi);
@@ -206,13 +208,60 @@ function submit(id) {
     contentType: false,
     data: fdata,
     beforeSend: function () {
-      // $("#submitBtn").attr("disabled", "disabled");
+      $("#submitBtn").attr("disabled", "disabled");
     },
     success: function (data) {
-      $("#Result").html(data);
-      // hideBox();
-      // onload();
-      // return false;
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#Result").html(XMLHttpRequest);
+    },
+  });
+}
+
+function submit_maintenance(id) {
+  let tanggal_ptg = $("#tanggal_ptg").val();
+  let id_BahanDigital = $("#id_BahanDigital").val();
+  let BahanDigital = $("#BahanDigital").val();
+  let sisi = $("#sisi").val();
+  let Qty = $("#Qty").val();
+  let warna_cetakan = $("#warna_cetakan").val();
+  let jumlah_click;
+
+  if ($("#jumlah_click").prop("checked") == true) {
+    jumlah_click = "Y";
+  } else {
+    jumlah_click = "N";
+  }
+
+  let fdata = new FormData();
+  fdata.append("tanggal_ptg", tanggal_ptg);
+  fdata.append("id_BahanDigital", id_BahanDigital);
+  fdata.append("BahanDigital", BahanDigital);
+  fdata.append("sisi", sisi);
+  fdata.append("Qty", Qty);
+  fdata.append("warna_cetakan", warna_cetakan);
+  fdata.append("jumlah_click", jumlah_click);
+  fdata.append("jenis_submit", id);
+
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    cache: false,
+    processData: false,
+    contentType: false,
+    data: fdata,
+    beforeSend: function () {
+      $("#submitBtn").attr("disabled", "disabled");
+    },
+    success: function (data) {
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       $("#Result").html(XMLHttpRequest);

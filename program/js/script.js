@@ -49,6 +49,8 @@ function LaodSubForm(id, nid, Akses_Edit) {
     var judul = "Form Generator Code";
   } else if (id == "penjualan_yescom") {
     var judul = "Form Sales Order YESCOM";
+  } else if (id == "maintenance_DP") {
+    var judul = "Form Maintenance Digital Printing";
   } else {
     var judul = "404 Not Found";
   }
@@ -104,6 +106,8 @@ function LaodForm(id, nid, Akses_Edit) {
     var judul = "Form Stock Large Format";
   } else if (id == "DigitalPrinting") {
     var judul = "Form Pemotongan Stock Digital Printing";
+  } else if (id == "maintenance_DP") {
+    var judul = "Form Maintenance Digital Printing";
   } else {
     var judul = "404 Not Found";
   }

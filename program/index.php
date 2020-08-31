@@ -243,8 +243,8 @@ endif;
                     <a href="?page=DP_List&tab=Digital_Printing">
                         <li class='<?= ($page == 'DP_List') ? 'active' : ''; ?>'>Digital Printing Order List</li>
                     </a>
-                    <a href="?page=xxxx&tab=Digital_Printing">
-                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
+                    <a href="?page=PemotonganStockDP&tab=Digital_Printing">
+                        <li class='<?= ($page == 'PemotonganStockDP') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
                     </a>
                     <a href="?page=xxxx&tab=Digital_Printing">
                         <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
@@ -315,6 +315,9 @@ endif;
                             break;
                         case 'PemotonganStockLF':
                             require_once('List_PemotonganStockLF.php');
+                            break;
+                        case 'PemotonganStockDP':
+                            require_once('list_PemotonganStockDP.php');
                             break;
                         case 'DP_List':
                             require_once('list_digital.php');

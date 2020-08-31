@@ -62,13 +62,18 @@ $ID_Order = "$_POST[ID_Order]";
                 penjualan.Proffing,
                 penjualan.ditunggu,
                 penjualan.satuan,
-                penjualan.qty as Qty_Order
+                penjualan.qty as Qty_Order,
+                setter.nama
             FROM 
                 penjualan
             LEFT JOIN 
                 (select customer.cid, customer.nama_client from customer) customer
             ON
                 penjualan.client = customer.cid   
+            LEFT JOIN 
+                (select pm_user.uid, pm_user.nama from pm_user) setter
+            ON
+                penjualan.setter = setter.uid  
             LEFT JOIN 
                 (select barang.id_barang, barang.nama_barang from barang) barang
             ON
@@ -120,6 +125,10 @@ $ID_Order = "$_POST[ID_Order]";
                 <td><?= $_SESSION["username"] ?></td>
             </tr>
             <tr>
+                <td style='width:145px'>Nama Setter</td>
+                <td><?= $d['nama'] ?></td>
+            </tr>
+            <tr>
                 <td style='width:145px'>ID</td>
                 <td><?= $ID_Order . $id_yes ?> <?php echo "<a href='print.php?type=print_oid&oid=$ID_Order' target='_blank' class='pointer' style='padding-left:10px'><i class='fad fa-print'></i></a>"; ?></td>
             </tr>
@@ -152,9 +161,9 @@ $ID_Order = "$_POST[ID_Order]";
                 <td colspan="3">
                     <?php
                         if($_SESSION['level'] == "admin") :
-                            echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
+                            echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
                         else :
-                            echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> ". date("d M Y", strtotime($date)) ."";
+                            echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> ". date("d M Y", strtotime($date)) ."";
                         endif;
                     ?>
                 </td>
@@ -281,7 +290,7 @@ $ID_Order = "$_POST[ID_Order]";
             </tr>
             <tr>
                 <td style='width:145px'>Alat Tambahan</td>
-                <td><input id="Qty_AlatTambahan" type='number' class='form md' value=""> <input id="id_tambahan" type='hidden' class='form md' value="<?php $d['ID_AlatTambahan'] ?>"></td>
+                <td><input id="Qty_AlatTambahan" type='number' class='form md' value=""> <input id="id_tambahan" type='hidden' class='form md' value="<?= $d['ID_AlatTambahan'] ?>"></td>
             </tr>
             <tr>
                 <td style='width:145px'>Jammed</td>

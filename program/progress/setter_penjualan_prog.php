@@ -6279,11 +6279,11 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
     }
 elseif ($_POST['jenis_submit'] == 'submit_dp') :
     if($_POST['jumlah_click']=="Y") {
-        $qty_POST = $_POST['Qty'] / 2 ;
-        $Error_POST = $_POST['Error'] / 2 ;
+        $qty_POST = $_POST['Qty'] ;
+        $Error_POST = $_POST['Error'] ;
     } else {
-        $qty_POST = $_POST['Qty'] * 1 ;
-        $Error_POST = $_POST['Error'] * 1;
+        $qty_POST = $_POST['Qty'] * 2 ;
+        $Error_POST = $_POST['Error'] * 2;
     }
 
     $Final_log =
@@ -6296,8 +6296,8 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
                 <b>Qty Alat Tambahan</b> : $_POST[Qty_AlatTambahan] Pcs <br>
                 <b>Error</b> : $_POST[Error] Lembar <br>
                 <b>Jammed</b> : $_POST[Jammed] Lembar <br>
-                <b>Warna Cetak</b> : $_POST[warna_cetakan] Lembar
-                <b>Status Cetak</b> : $_POST[status_Cetak] Lembar
+                <b>Warna Cetak</b> : $_POST[warna_cetakan] <br>
+                <b>Status Cetak</b> : $_POST[status_Cetak]
             </td>
         </tr>
     ";
@@ -6316,7 +6316,7 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
             sisi,
             alasan_kesalahan,
             kesalahan,
-            operator
+            id_operator
         ) VALUES (
             '$_POST[id_order]',
             '$_POST[id_BahanDigital]',
@@ -6343,6 +6343,30 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
 		where
 			oid		= '$_POST[id_order]'
 	";
+elseif ($_POST['jenis_submit'] == 'submit_maintenance') :
+    if($_POST['jumlah_click']=="Y") {
+        $qty_POST = $_POST['Qty'] ;
+    } else {
+        $qty_POST = $_POST['Qty'] * 2 ;
+    }
+
+    $sql =
+        "INSERT INTO digital_printing (
+            id_bahan,
+            qty_cetak,
+            color,
+            maintanance,
+            sisi,
+            id_operator
+        ) VALUES (
+            '$_POST[id_BahanDigital]',
+            '$qty_POST',
+            '$_POST[warna_cetakan]',
+            'Y',
+            '$_POST[sisi]',
+            '$_SESSION[uid]'
+        );
+    ";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

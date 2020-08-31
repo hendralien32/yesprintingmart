@@ -6,7 +6,7 @@ $bahan_Session = isset($_SESSION['ListOrder_BahanDP']) ? $_SESSION['ListOrder_Ba
 <script src="js/list_digital.js" async type="text/javascript"></script>
 
 <div class="left_content">
-    <button type="button" id='button_rusak' onclick="LaodFormLF('maintenance_DP')" style='display:none'><i class="far fa-plus-circle"></i> Maintenance</button>
+    <button type="button" id='button_rusak' onclick="LaodSubForm('maintenance_DP')" style='display:none'><i class="far fa-plus-circle"></i> Maintenance</button>
     <input type='text' value="" placeholder="Search ID Yescom, ID Yesprint, Nama Client" class='search data' id='search' onchange="SearchData()" autocomplete="off">
     <input type="date" value="" data-placeholder="Tanggal" id="tanggal" onblur="SearchDate()" max="<?= $date; ?>" style="width:200px;">
     <input type="hidden" id="session_kertas" value="<?= $bahan_Session; ?>">

@@ -6274,8 +6274,75 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
                 status
             )  VALUES $New_Insert
         ;";
+    } else {
+
+    }
+elseif ($_POST['jenis_submit'] == 'submit_dp') :
+    if($_POST['jumlah_click']=="Y") {
+        $qty_POST = $_POST['Qty'] / 2 ;
+        $Error_POST = $_POST['Error'] / 2 ;
+    } else {
+        $qty_POST = $_POST['Qty'] * 1 ;
+        $Error_POST = $_POST['Error'] * 1;
     }
 
+    $Final_log =
+        "<tr>
+            <td>$timestamps</td>
+            <td>" . $_SESSION['username'] . " Print Orderan</td>
+            <td>
+                <b>Kertas</b> : $_POST[BahanDigital]<br> 
+                <b>Qty</b> : $_POST[Qty] Lembar <br>
+                <b>Qty Alat Tambahan</b> : $_POST[Qty_AlatTambahan] Pcs <br>
+                <b>Error</b> : $_POST[Error] Lembar <br>
+                <b>Jammed</b> : $_POST[Jammed] Lembar <br>
+                <b>Warna Cetak</b> : $_POST[warna_cetakan] Lembar
+                <b>Status Cetak</b> : $_POST[status_Cetak] Lembar
+            </td>
+        </tr>
+    ";
+
+    $sql =
+        "INSERT INTO digital_printing (
+            oid,
+            id_bahan,
+            id_AlatTambahan,
+            qty_cetak,
+            qty_etc,
+            color,
+            error,
+            maintanance,
+            jam,
+            sisi,
+            alasan_kesalahan,
+            kesalahan,
+            operator
+        ) VALUES (
+            '$_POST[id_order]',
+            '$_POST[id_BahanDigital]',
+            '$_POST[id_tambahan]',
+            '$qty_POST',
+            '$_POST[Qty_AlatTambahan]',
+            '$_POST[warna_cetakan]',
+            '$Error_POST',
+            'N',
+            '$_POST[Jammed]',
+            '$_POST[sisi]',
+            '$_POST[alasan_error]',
+            '$_POST[Kesalahan]',
+            '$_SESSION[uid]'
+        );
+    ";
+    
+    $sql .= 
+        "UPDATE
+			penjualan
+		set
+			status	= '$_POST[status_Cetak]',
+            history =  CONCAT('$Final_log', history)
+		where
+			oid		= '$_POST[id_order]'
+	";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

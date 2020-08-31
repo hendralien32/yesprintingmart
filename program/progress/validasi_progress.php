@@ -171,6 +171,22 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $num = $result->num_rows;
 
     echo $num;
+} elseif ($term != "" and $tipe_validasi == "Search_BahanDigital") {
+    $sql =
+        "SELECT
+            barang.id_barang, 
+            barang.nama_barang
+        FROM
+            barang
+        WHERE
+            barang.status_bahan='a' and
+            barang.nama_barang = '$_POST[term]'
+    ";
+
+    $result = $conn_OOP->query($sql);
+    $num = $result->num_rows;
+
+    echo $num;
 } elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
     $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
 
@@ -202,6 +218,26 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         WHERE
             barang_sub_lf.hapus='N' and
             concat(barang.nama_barang,'.',barang_sub_lf.ukuran) LIKE '%$_POST[term]%'
+        LIMIT
+            8
+    ";
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
+            $json[] = $row;
+        endwhile;
+        echo json_encode($json);
+    endif;
+} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
+    $sql =
+        "SELECT
+            barang.id_barang, 
+            barang.nama_barang
+        FROM
+            barang
+        WHERE
+            barang.status_bahan='a' and
+            barang.nama_barang LIKE '%$_POST[term]%'
         LIMIT
             8
     ";

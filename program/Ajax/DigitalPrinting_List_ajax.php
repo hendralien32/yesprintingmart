@@ -254,9 +254,9 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             <td>$n</td>
                             <td class='a-center'>" . date("d M Y", strtotime($d['tanggal'])) . "</td>
                             <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
-                            <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</td>
+                            <td onclick='" . $edit . "' class='$pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</td>
                             <td onclick='" . $edit . "' class='a-center $pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</td>
-                            <td>$detail_yes " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . "</td>
+                            <td onclick='" . $edit . "' class='$pointer'>$detail_yes " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . "</td>
                             <td>
                                 <center>
                                     <span class='icon_status'><a href='print.php?type=print_oid&oid=$d[oid]' target='_blank' class='pointer'><i class='fad fa-print'></i></a></span>
@@ -265,7 +265,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                                     <span class='icon_status'><i class='fas fa-toilet-paper-alt " . $check_laminating . "'></i></span>
                                 </center>
                             </td>
-                            <td>$d[bahan]</td>
+                            <td onclick='" . $edit . "' class='$pointer'>$d[bahan]</td>
                             <td class='a-center'><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></td>
                             <td class='a-right'>$d[qty]</td>
                             <td>$status</td>

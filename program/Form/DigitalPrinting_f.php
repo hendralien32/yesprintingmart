@@ -46,6 +46,10 @@ $ID_Order = "$_POST[ID_Order]";
                     WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
                     ELSE '- - -'
                 END) as alat_tambahan,
+                (CASE
+                    WHEN penjualan.alat_tambahan = 'KotakNC' THEN '31'
+                    ELSE '0'
+                END) as ID_AlatTambahan,
                 CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
                 penjualan.potong,
                 penjualan.potong_gantung,
@@ -56,7 +60,9 @@ $ID_Order = "$_POST[ID_Order]";
                 penjualan.Blok,
                 penjualan.Spiral,
                 penjualan.Proffing,
-                penjualan.ditunggu
+                penjualan.ditunggu,
+                penjualan.satuan,
+                penjualan.qty as Qty_Order
             FROM 
                 penjualan
             LEFT JOIN 
@@ -77,6 +83,12 @@ $ID_Order = "$_POST[ID_Order]";
     if ($result->num_rows > 0) :
         // output data of each row
         $d = $result->fetch_assoc();
+
+        if($d['satuan']=="Kotak" || $d['satuan']=="KOTAK" || $d['satuan']=="kotak") {
+            $Qty_Val = $d['Qty_Order']*4;
+        } else {
+            $Qty_Val = $d['Qty_Order'];
+        }
 
         if($d['client_yes'] != "") {
             $client_yes = " - <strong style='color:#f1592a'>$d[client_yes]</strong>";
@@ -137,7 +149,15 @@ $ID_Order = "$_POST[ID_Order]";
         <table class='table-form'>
             <tr>
                 <td style='width:145px'>Tanggal</td>
-                <td colspan="3"><?php echo "". date("d M Y", strtotime($date)) ."" ?></td>
+                <td colspan="3">
+                    <?php
+                        if($_SESSION['level'] == "admin") :
+                            echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
+                        else :
+                            echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> ". date("d M Y", strtotime($date)) ."";
+                        endif;
+                    ?>
+                </td>
             </tr>
             <tr>
                 <td style='width:145px'>Finishing</td>
@@ -222,7 +242,7 @@ $ID_Order = "$_POST[ID_Order]";
             <tr>
                 <td style='width:145px'>Kertas</td>
                 <td>
-                    <input type="text" class="form md" style="width:145px" id="BahanDigital" autocomplete="off" onkeyup="test('BahanDigital')" onChange="validasi('BahanDigital')" value=''>
+                    <input type="text" class="form md" style="width:205px" id="BahanDigital" autocomplete="off" onkeyup="BahanDigital_Search('BahanDigital')" onChange="validasi('BahanDigital')" value=''>
                     <input type="hidden" name="nama_bahan" id="id_BahanDigital" value='' class="form sd" readonly disabled>
                     <input type="hidden" name="validasi_bahan" id="validasi_BahanDigital" class="form sd" readonly disabled>
                     <span id="Alert_ValBahanDigital"></span>
@@ -232,7 +252,7 @@ $ID_Order = "$_POST[ID_Order]";
             <tr>
                 <td style='width:145px'>Sisi</td>
                 <td> 
-                    <select class="myselect" id="warna_cetakan">
+                    <select class="myselect" id="sisi">
                         <?php
                         $array_kode = array(
                             "1" => "1 Sisi",
@@ -248,6 +268,29 @@ $ID_Order = "$_POST[ID_Order]";
                     </select> <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[sisi]</strong>"; ?>
                     </td>
             </tr>
+            <tr>
+                <td style='width:145px'>Qty</td>
+                <td>
+                    <input id="Qty" type='number' class='form md' value="">
+                    <input id="Val_Qty" type='hidden' class='form md' value="<?= $Qty_Val; ?>">
+                    <div class="contact100-form-checkbox" style='float:right; margin-top:4px; margin-left:10px'>
+                            <input class="input-checkbox100" id="jumlah_click" type="checkbox" name="remember">
+                            <label class="label-checkbox100" for="jumlah_click"> 1 Click <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Alat Tambahan</td>
+                <td><input id="Qty_AlatTambahan" type='number' class='form md' value=""> <input id="id_tambahan" type='hidden' class='form md' value="<?php $d['ID_AlatTambahan'] ?>"></td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Jammed</td>
+                <td><input id="Jammed" type='number' class='form md' value=""></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-6">
+        <table class='table-form'>
             <tr>
                 <td style='width:145px'>Warna</td>
                 <td>
@@ -268,32 +311,16 @@ $ID_Order = "$_POST[ID_Order]";
                 </td>
             </tr>
             <tr>
-                <td style='width:145px'>Kesalahan</td>
-                <td><input id="Kesalahan" type='number' class='form md' value=""></td>
-            </tr>
-            <tr>
-                <td style='width:145px'>Alasan Error</td>
-                <td><textarea id='alasan_error' class='form ld' style="height:50px;"></textarea></td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-6">
-        <table class='table-form'>
-            <tr>
-                <td style='width:145px'>Qty</td>
-                <td><input id="Qty" type='number' class='form md' value=""> <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?></td>
-            </tr>
-            <tr>
-                <td style='width:145px'>Alat Tambahan</td>
-                <td><input id="Qty" type='number' class='form md' value=""></td>
-            </tr>
-            <tr>
                 <td style='width:145px'>Error</td>
                 <td><input id="Error" type='number' class='form md' value=""></td>
             </tr>
             <tr>
-                <td style='width:145px'>Jammed</td>
-                <td><input id="Jammed" type='number' class='form md' value=""></td>
+                <td style='width:145px'>Kesalahan</td>
+                <td><input id="Kesalahan" type='text' class='form md' value=""></td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Alasan Error</td>
+                <td><textarea id='alasan_error' class='form ld' style="height:50px; min-height:50px;"></textarea></td>
             </tr>
             <tr>
                 <td style='width:145px'>Status</td>
@@ -316,7 +343,7 @@ $ID_Order = "$_POST[ID_Order]";
     </div>
 </div>
 <div id="submit_menu">
-    <button onclick="submit('submit_dp)" id="submitBtn">Submit Data</button>
+    <button onclick="submit('submit_dp')" id="submitBtn">Submit Data</button>
 </div>
 <div id="Result">
 

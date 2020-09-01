@@ -2,11 +2,9 @@
 session_start();
 require_once "../../function.php";
 
-echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
-
 $ID_Order = "$_POST[ID_Order]";
-    $sql =
-        "SELECT 
+$sql =
+    "SELECT 
                 penjualan.description,
                 (CASE
                     WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
@@ -60,6 +58,7 @@ $ID_Order = "$_POST[ID_Order]";
                 penjualan.Blok,
                 penjualan.Spiral,
                 penjualan.Proffing,
+                penjualan.status,
                 penjualan.ditunggu,
                 penjualan.satuan,
                 penjualan.qty as Qty_Order,
@@ -82,40 +81,49 @@ $ID_Order = "$_POST[ID_Order]";
                 penjualan.oid = '$ID_Order'
         ";
 
-    // Perform query
-    $result = $conn_OOP->query($sql);
+// Perform query
+$result = $conn_OOP->query($sql);
 
-    if ($result->num_rows > 0) :
-        // output data of each row
-        $d = $result->fetch_assoc();
+if ($result->num_rows > 0) :
+    // output data of each row
+    $d = $result->fetch_assoc();
 
-        if($d['satuan']=="Kotak" || $d['satuan']=="KOTAK" || $d['satuan']=="kotak") {
-            $Qty_Val = $d['Qty_Order']*4;
-        } else {
-            $Qty_Val = $d['Qty_Order'];
-        }
+    if ($d['status'] == 'selesai') {
+        $display_form = "none";
+    } else {
+        $display_form = "";
+    }
 
-        if($d['client_yes'] != "") {
-            $client_yes = " - <strong style='color:#f1592a'>$d[client_yes]</strong>";
-        } else {
-            $client_yes = "";
-        }
-        if($d['id_yes'] != "0") {
-            $id_yes = " - <strong style='color:#f1592a'>$d[id_yes]</strong>";
-        } else {
-            $id_yes = "";
-        }
-        if($d['so_yes'] != "0") {
-            $id_yes .= "<strong style='color:#f1592a'> / $d[so_yes]</strong>";
-        } else {
-            $id_yes .= "";
-        }
-    else : 
+    if ($d['satuan'] == "Kotak" || $d['satuan'] == "KOTAK" || $d['satuan'] == "kotak") {
+        $Qty_Val = $d['Qty_Order'] * 4;
+    } else {
+        $Qty_Val = $d['Qty_Order'];
+    }
+
+    if ($d['client_yes'] != "") {
+        $client_yes = " - <strong style='color:#f1592a'>$d[client_yes]</strong>";
+    } else {
         $client_yes = "";
+    }
+    if ($d['id_yes'] != "0") {
+        $id_yes = " - <strong style='color:#f1592a'>$d[id_yes]</strong>";
+    } else {
         $id_yes = "";
-    endif;
-?>
+    }
+    if ($d['so_yes'] != "0") {
+        $id_yes .= "<strong style='color:#f1592a'> / $d[so_yes]</strong>";
+    } else {
+        $id_yes .= "";
+    }
+else :
+    $client_yes = "";
+    $id_yes = "";
+endif;
 
+echo "
+<div style='display:$display_form'>
+    <h3 class='title_form'>$_POST[judul_form]</h3>";
+?>
 <div class='row'>
     <div class="col-6">
         <table class='table-form'>
@@ -160,86 +168,86 @@ $ID_Order = "$_POST[ID_Order]";
                 <td style='width:145px'>Tanggal</td>
                 <td colspan="3">
                     <?php
-                        if($_SESSION['level'] == "admin") :
-                            echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
-                        else :
-                            echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> ". date("d M Y", strtotime($date)) ."";
-                        endif;
+                    if ($_SESSION['level'] == "admin") :
+                        echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
+                    else :
+                        echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> " . date("d M Y", strtotime($date)) . "";
+                    endif;
                     ?>
                 </td>
             </tr>
             <tr>
                 <td style='width:145px'>Finishing</td>
                 <?php
-                    $array_kode = array(
-                        "potong",
-                        "potong_gantung",
-                        "pon",
-                        "perporasi",
-                        "CuttingSticker",
-                        "Hekter_Tengah",
-                        "Blok",
-                        "Spiral",
-                        "Proffing",
-                        "ditunggu"
-                    );
-                    foreach ($array_kode as $kode) :
-                        if ($d[$kode] == "Y") : ${'check_' . $kode} = "<i class='fad fa-check-square'></i>";
-                        else : ${'check_' . $kode} = "<i class='fad fa-times-square'></i>";
-                        endif;
-                    endforeach;
+                $array_kode = array(
+                    "potong",
+                    "potong_gantung",
+                    "pon",
+                    "perporasi",
+                    "CuttingSticker",
+                    "Hekter_Tengah",
+                    "Blok",
+                    "Spiral",
+                    "Proffing",
+                    "ditunggu"
+                );
+                foreach ($array_kode as $kode) :
+                    if ($d[$kode] == "Y") : ${'check_' . $kode} = "<i class='fad fa-check-square'></i>";
+                    else : ${'check_' . $kode} = "<i class='fad fa-times-square'></i>";
+                    endif;
+                endforeach;
                 ?>
-                    <td>
-                        <div class="contact100-form-checkbox">
-                            <?= $check_potong; ?>
-                            <label class='checkbox-fa' for='Ptg_Pts'> Ptg Putus </label>
-                        </div>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_potong_gantung; ?>
-                            <label class='checkbox-fa' for='Ptg_Gantung'> Ptg Gantung </label>
-                        </div>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_pon; ?>
-                            <label class='checkbox-fa' for='Pon_Garis'> Pon Garis </label>
-                        </div>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_perporasi; ?>
-                            <label class='checkbox-fa' for='Perporasi'> Perporasi </label>
-                        </div>
-                    </td>
-                    <td colspan="2">
-                        <div class="contact100-form-checkbox">
-                            <?= $check_CuttingSticker; ?>
-                            <label class='checkbox-fa' for='CuttingSticker'> Cutting Sticker </label>
-                        </div>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_Hekter_Tengah; ?>
-                            <label class='checkbox-fa' for='Hekter_Tengah'> Hekter Tengah </label>
-                        </div>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_Blok; ?>
-                            <label class='checkbox-fa' for='Blok'> Blok </label>
-                        </div>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_Spiral; ?>
-                            <label class='checkbox-fa' for='Spiral'> Ring Spiral </label>
-                        </div>
-                    </td>
+                <td>
+                    <div class="contact100-form-checkbox">
+                        <?= $check_potong; ?>
+                        <label class='checkbox-fa' for='Ptg_Pts'> Ptg Putus </label>
+                    </div>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_potong_gantung; ?>
+                        <label class='checkbox-fa' for='Ptg_Gantung'> Ptg Gantung </label>
+                    </div>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_pon; ?>
+                        <label class='checkbox-fa' for='Pon_Garis'> Pon Garis </label>
+                    </div>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_perporasi; ?>
+                        <label class='checkbox-fa' for='Perporasi'> Perporasi </label>
+                    </div>
+                </td>
+                <td colspan="2">
+                    <div class="contact100-form-checkbox">
+                        <?= $check_CuttingSticker; ?>
+                        <label class='checkbox-fa' for='CuttingSticker'> Cutting Sticker </label>
+                    </div>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_Hekter_Tengah; ?>
+                        <label class='checkbox-fa' for='Hekter_Tengah'> Hekter Tengah </label>
+                    </div>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_Blok; ?>
+                        <label class='checkbox-fa' for='Blok'> Blok </label>
+                    </div>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_Spiral; ?>
+                        <label class='checkbox-fa' for='Spiral'> Ring Spiral </label>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td style='width:145px'>Permintaan Order</td>
                 <td>
-                        <div class="contact100-form-checkbox">
-                            <?= $check_Proffing; ?>
-                            <label class='checkbox-fa' for='proffing'> Proffing</label>
-                        </div>
-                    </td>
-                    <td>
-                        <div class='contact100-form-checkbox'>
-                            <?= $check_ditunggu; ?>
-                            <label class='checkbox-fa' for='Ditunggu'> Ditunggu </label>
-                        </div>
-                    </td>
+                    <div class="contact100-form-checkbox">
+                        <?= $check_Proffing; ?>
+                        <label class='checkbox-fa' for='proffing'> Proffing</label>
+                    </div>
+                </td>
+                <td>
+                    <div class='contact100-form-checkbox'>
+                        <?= $check_ditunggu; ?>
+                        <label class='checkbox-fa' for='Ditunggu'> Ditunggu </label>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
@@ -260,7 +268,7 @@ $ID_Order = "$_POST[ID_Order]";
             </tr>
             <tr>
                 <td style='width:145px'>Sisi</td>
-                <td> 
+                <td>
                     <select class="myselect" id="sisi">
                         <?php
                         $array_kode = array(
@@ -275,7 +283,7 @@ $ID_Order = "$_POST[ID_Order]";
                         }
                         ?>
                     </select> <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[sisi]</strong>"; ?>
-                    </td>
+                </td>
             </tr>
             <tr>
                 <td style='width:145px'>Qty</td>
@@ -283,8 +291,8 @@ $ID_Order = "$_POST[ID_Order]";
                     <input id="Qty" type='number' class='form md' value="">
                     <input id="Val_Qty" type='hidden' class='form md' value="<?= $Qty_Val; ?>">
                     <div class="contact100-form-checkbox" style='float:right; margin-top:4px; margin-left:10px'>
-                            <input class="input-checkbox100" id="jumlah_click" type="checkbox" name="remember">
-                            <label class="label-checkbox100" for="jumlah_click"> 1 Click <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> </label>
+                        <input class="input-checkbox100" id="jumlah_click" type="checkbox" name="remember">
+                        <label class="label-checkbox100" for="jumlah_click"> 1 Click <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> </label>
                     </div>
                 </td>
             </tr>
@@ -337,9 +345,8 @@ $ID_Order = "$_POST[ID_Order]";
                     <select class="myselect" id="status_Cetak">
                         <?php
                         $array_kode = array(
-                            "" => "OnProgress",
-                            "proff" => "Proffing",
-                            "selesai" => "Finished"
+                            "selesai" => "Finished",
+                            "proff" => "Proffing"
                         );
                         foreach ($array_kode as $kode => $kd) {
                             echo "<option value='$kode'>$kd</option>";
@@ -356,4 +363,93 @@ $ID_Order = "$_POST[ID_Order]";
 </div>
 <div id="Result">
 
+</div>
+</div>
+
+<div class="container-fluid">
+    <?php echo "<h3 class='title_form'>Histori Cetak</h3>"; ?>
+
+    <table class='form_table'>
+        <tr>
+            <th>No.</th>
+            <th>Tanggal / Waktu</th>
+            <th>kertas</th>
+            <th>S</th>
+            <th>W</th>
+            <th>Qty ETC</th>
+            <th>jammed</th>
+            <th>Error</th>
+            <th>Qty Cetak</th>
+        </tr>
+        <?php
+        $sql =
+            "SELECT 
+                digital_printing.tgl_cetak,
+                (CASE
+                    WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.qty_cetak * 1)
+                    WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.qty_cetak / 2)
+                    ELSE ROUND(digital_printing.qty_cetak / 2)
+                END) as qty_cetak,
+                (CASE
+                    WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.error * 1)
+                    WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.error / 2)
+                    ELSE ROUND(digital_printing.error / 2)
+                END) as error,
+                digital_printing.qty_etc,
+                digital_printing.color,
+                digital_printing.jam,
+                digital_printing.sisi
+            FROM 
+                digital_printing
+            WHERE
+                digital_printing.oid = '$ID_Order'
+        ";
+
+        // Perform query
+        $result = $conn_OOP->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            $n = 0;
+            while ($d = $result->fetch_assoc()) :
+                $n++;
+                echo "
+                    <tr>
+                        <td>$n</td>
+                        <td>$d[tgl_cetak]</td>
+                        <td>$d[tgl_cetak]</td>
+                        <td>$d[sisi] Sisi</td>
+                        <td>$d[color]</td>
+                        <td class='a-center'>$d[qty_etc] Pcs</td>
+                        <td class='a-center'>$d[jam] Lembar</td>
+                        <td class='a-center'>$d[error] Lembar</td>
+                        <td class='a-center'>$d[qty_cetak] Lembar</td>
+                    </tr>
+                ";
+
+                $total_jam[]   = $d['jam'];
+                $total_error[]   = $d['error'];
+                $total_qty_cetak[]   = $d['qty_cetak'];
+                $Nilai_total_jam = number_format(array_sum($total_jam));
+                $Nilai_total_error = number_format(array_sum($total_error));
+                $Nilai_total_qty_cetak = number_format(array_sum($total_qty_cetak));
+            endwhile;
+
+            echo "
+                <tr>
+                    <th colspan='6'> Total </th>
+                    <th class='a-right'>$Nilai_total_jam Lembar</th>
+                    <th class='a-right'>$Nilai_total_error Lembar</th>
+                    <th class='a-right'>$Nilai_total_qty_cetak Lembar</th>
+                </tr>
+            ";
+        } else {
+            echo "
+                <tr>
+                    <td colspan='9'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                </tr>
+            ";
+        }
+        ?>
+    </table>
 </div>

@@ -6275,15 +6275,16 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
             )  VALUES $New_Insert
         ;";
     } else {
-
     }
 elseif ($_POST['jenis_submit'] == 'submit_dp') :
-    if($_POST['jumlah_click']=="Y") {
-        $qty_POST = $_POST['Qty'] ;
-        $Error_POST = $_POST['Error'] ;
+    if ($_POST['jumlah_click'] == "Y") {
+        $qty_POST = $_POST['Qty'];
+        $Error_POST = $_POST['Error'];
+        $hitungan_click = 1;
     } else {
-        $qty_POST = $_POST['Qty'] * 2 ;
+        $qty_POST = $_POST['Qty'] * 2;
         $Error_POST = $_POST['Error'] * 2;
+        $hitungan_click = 2;
     }
 
     $Final_log =
@@ -6307,6 +6308,7 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
             oid,
             id_bahan,
             id_AlatTambahan,
+            hitungan_click,
             qty_cetak,
             qty_etc,
             color,
@@ -6321,6 +6323,7 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
             '$_POST[id_order]',
             '$_POST[id_BahanDigital]',
             '$_POST[id_tambahan]',
+            '$hitungan_click',
             '$qty_POST',
             '$_POST[Qty_AlatTambahan]',
             '$_POST[warna_cetakan]',
@@ -6333,8 +6336,8 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
             '$_SESSION[uid]'
         );
     ";
-    
-    $sql .= 
+
+    $sql .=
         "UPDATE
 			penjualan
 		set
@@ -6344,15 +6347,18 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
 			oid		= '$_POST[id_order]'
 	";
 elseif ($_POST['jenis_submit'] == 'submit_maintenance') :
-    if($_POST['jumlah_click']=="Y") {
-        $qty_POST = $_POST['Qty'] ;
+    if ($_POST['jumlah_click'] == "Y") {
+        $qty_POST = $_POST['Qty'];
+        $hitungan_click = 1;
     } else {
-        $qty_POST = $_POST['Qty'] * 2 ;
+        $qty_POST = $_POST['Qty'] * 2;
+        $hitungan_click = 2;
     }
 
     $sql =
         "INSERT INTO digital_printing (
             id_bahan,
+            hitungan_click,
             qty_cetak,
             color,
             maintanance,
@@ -6360,6 +6366,7 @@ elseif ($_POST['jenis_submit'] == 'submit_maintenance') :
             id_operator
         ) VALUES (
             '$_POST[id_BahanDigital]',
+            '$hitungan_click',
             '$qty_POST',
             '$_POST[warna_cetakan]',
             'Y',

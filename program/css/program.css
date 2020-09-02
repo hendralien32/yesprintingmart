@@ -24,6 +24,11 @@
 
 .a-right {
   text-align: right;
+  padding-right: 0.4em;
+}
+
+.a-left {
+  text-align: left;
 }
 
 .t-center {
@@ -803,7 +808,8 @@ table.form_table tr td {
 
 #content .right_content .indoor,
 .form_table .indoor,
-.satu {
+.satu,
+.FC {
   background-color: #f1592a;
 }
 
@@ -820,6 +826,10 @@ table.form_table tr td {
 #content .right_content .etc,
 .form_table .etc {
   background-color: #747474;
+}
+
+.BW {
+  background-color: #4d4d4f;
 }
 
 /* ------------------------------- */

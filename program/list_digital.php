@@ -3,6 +3,9 @@ $mesin_Session = isset($_SESSION['session_MesinDP']) ? $_SESSION['session_MesinD
 $bahan_Session = isset($_SESSION['ListOrder_BahanDP']) ? $_SESSION['ListOrder_BahanDP'] : "";
 ?>
 
+<!-- Update Mesin Di database Pricelist -->
+<!-- UPDATE `digital_printing` SET `mesin` = 'Konika_C-1085', `tgl_cetak` = tgl_cetak WHERE `digital_printing`.`did` = 79321; -->
+
 <script src="js/list_digital.js" async type="text/javascript"></script>
 
 <div class="left_content">

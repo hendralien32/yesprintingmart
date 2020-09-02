@@ -31,7 +31,7 @@ else :
 endif;
 
 if ($_POST['data'] != "" and $_POST['date'] == "") :
-    $add_where = "and ( customer.nama_client LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' )";
+    $add_where = "and ( customer.nama_client LIKE '%$_POST[data]%' or penjualan.oid LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%' )";
 elseif ($_POST['date'] != "" and $_POST['data'] == "") :
     $add_where = "and LEFT( penjualan.waktu, 10 ) = '$_POST[date]'";
 else :
@@ -224,11 +224,11 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                         $detail_yes .= "";
                     endif;
                     if ($d['so_yes'] != "0") :
-                        $detail_yes .= " / " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['so_yes']) . " - ";
+                        $detail_yes .= " / " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['so_yes']) . "";
                     else :
                         $detail_yes .= "";
                     endif;
-                    $detail_yes .= "<span style='color:#f1592a'> " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client_yes']) . "</span> </strong>";
+                    $detail_yes .= "<span style='color:#f1592a'> - " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client_yes']) . "</span> </strong>";
                 else :
                     $detail_yes = "";
                 endif;

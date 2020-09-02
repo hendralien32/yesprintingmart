@@ -5,81 +5,81 @@ require_once "../../function.php";
 $ID_Order = "$_POST[ID_Order]";
 $sql =
     "SELECT 
-                penjualan.description,
-                (CASE
-                    WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
-                    WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
-                    ELSE penjualan.ukuran
-                END) as ukuran,
-                CONCAT(penjualan.sisi, ' Sisi') as sisi,
-                penjualan.sisi as form_sisi,
-                (CASE
-                    WHEN barang.id_barang > 0 THEN barang.nama_barang
-                    ELSE penjualan.bahan
-                END) as bahan,
-                customer.nama_client,
-                penjualan.keterangan,
-                penjualan.client_yes,
-                penjualan.id_yes,
-                penjualan.so_yes,
-                penjualan.warna_cetak as Warna_Cetak,
-                (CASE
-                    WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
-                    WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
-                    WHEN penjualan.laminate = 'doff1' THEN 'Laminating Doff 1 Sisi'
-                    WHEN penjualan.laminate = 'doff2' THEN 'Laminating Doff 2 Sisi'
-                    WHEN penjualan.laminate = 'kilatdingin1' THEN 'Laminating Kilat Dingin'
-                    WHEN penjualan.laminate = 'doffdingin1' THEN 'Laminating Doff Dingin'
-                    WHEN penjualan.laminate = 'hard_lemit' THEN 'Hard Laminating / Lamit KTP'
-                    WHEN penjualan.laminate = 'laminating_floor' THEN 'Laminating Floor'
-                    ELSE '- - -'
-                END) as laminating,
-                (CASE
-                    WHEN penjualan.alat_tambahan = 'Ybanner' THEN 'Ybanner'
-                    WHEN penjualan.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
-                    WHEN penjualan.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
-                    WHEN penjualan.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
-                    WHEN penjualan.alat_tambahan = 'Tripod' THEN 'Tripod'
-                    WHEN penjualan.alat_tambahan = 'Softboard' THEN 'Softboard'
-                    WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
-                    ELSE '- - -'
-                END) as alat_tambahan,
-                (CASE
-                    WHEN penjualan.alat_tambahan = 'KotakNC' THEN '31'
-                    ELSE '0'
-                END) as ID_AlatTambahan,
-                CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
-                penjualan.potong,
-                penjualan.potong_gantung,
-                penjualan.pon,
-                penjualan.perporasi,
-                penjualan.CuttingSticker,
-                penjualan.Hekter_Tengah,
-                penjualan.Blok,
-                penjualan.Spiral,
-                penjualan.Proffing,
-                penjualan.status,
-                penjualan.ditunggu,
-                penjualan.satuan,
-                penjualan.qty as Qty_Order,
-                setter.nama
-            FROM 
-                penjualan
-            LEFT JOIN 
-                (select customer.cid, customer.nama_client from customer) customer
-            ON
-                penjualan.client = customer.cid   
-            LEFT JOIN 
-                (select pm_user.uid, pm_user.nama from pm_user) setter
-            ON
-                penjualan.setter = setter.uid  
-            LEFT JOIN 
-                (select barang.id_barang, barang.nama_barang from barang) barang
-            ON
-                penjualan.ID_Bahan = barang.id_barang  
-            WHERE
-                penjualan.oid = '$ID_Order'
-        ";
+        penjualan.description,
+        (CASE
+            WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+            WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+            ELSE penjualan.ukuran
+        END) as ukuran,
+        CONCAT(penjualan.sisi, ' Sisi') as sisi,
+        penjualan.sisi as form_sisi,
+        (CASE
+            WHEN barang.id_barang > 0 THEN barang.nama_barang
+            ELSE penjualan.bahan
+        END) as bahan,
+        customer.nama_client,
+        penjualan.keterangan,
+        penjualan.client_yes,
+        penjualan.id_yes,
+        penjualan.so_yes,
+        penjualan.warna_cetak as Warna_Cetak,
+        (CASE
+            WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
+            WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
+            WHEN penjualan.laminate = 'doff1' THEN 'Laminating Doff 1 Sisi'
+            WHEN penjualan.laminate = 'doff2' THEN 'Laminating Doff 2 Sisi'
+            WHEN penjualan.laminate = 'kilatdingin1' THEN 'Laminating Kilat Dingin'
+            WHEN penjualan.laminate = 'doffdingin1' THEN 'Laminating Doff Dingin'
+            WHEN penjualan.laminate = 'hard_lemit' THEN 'Hard Laminating / Lamit KTP'
+            WHEN penjualan.laminate = 'laminating_floor' THEN 'Laminating Floor'
+            ELSE '- - -'
+        END) as laminating,
+        (CASE
+            WHEN penjualan.alat_tambahan = 'Ybanner' THEN 'Ybanner'
+            WHEN penjualan.alat_tambahan = 'RU_60' THEN 'Roller Up 60 x 160 Cm'
+            WHEN penjualan.alat_tambahan = 'RU_80' THEN 'Roller Up 80 x 200 Cm'
+            WHEN penjualan.alat_tambahan = 'RU_85' THEN 'Roller Up 85 x 200 Cm'
+            WHEN penjualan.alat_tambahan = 'Tripod' THEN 'Tripod'
+            WHEN penjualan.alat_tambahan = 'Softboard' THEN 'Softboard'
+            WHEN penjualan.alat_tambahan = 'KotakNC' THEN 'Kotak Kartu Nama'
+            ELSE '- - -'
+        END) as alat_tambahan,
+        (CASE
+            WHEN penjualan.alat_tambahan = 'KotakNC' THEN '31'
+            ELSE '0'
+        END) as ID_AlatTambahan,
+        CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
+        penjualan.potong,
+        penjualan.potong_gantung,
+        penjualan.pon,
+        penjualan.perporasi,
+        penjualan.CuttingSticker,
+        penjualan.Hekter_Tengah,
+        penjualan.Blok,
+        penjualan.Spiral,
+        penjualan.Proffing,
+        penjualan.status,
+        penjualan.ditunggu,
+        penjualan.satuan,
+        penjualan.qty as Qty_Order,
+        setter.nama
+    FROM 
+        penjualan
+    LEFT JOIN 
+        (select customer.cid, customer.nama_client from customer) customer
+    ON
+        penjualan.client = customer.cid   
+    LEFT JOIN 
+        (select pm_user.uid, pm_user.nama from pm_user) setter
+    ON
+        penjualan.setter = setter.uid  
+    LEFT JOIN 
+        (select barang.id_barang, barang.nama_barang from barang) barang
+    ON
+        penjualan.ID_Bahan = barang.id_barang  
+    WHERE
+        penjualan.oid = '$ID_Order'
+";
 
 // Perform query
 $result = $conn_OOP->query($sql);
@@ -121,7 +121,6 @@ else :
 endif;
 
 echo "
-<div style='display:$display_form'>
     <h3 class='title_form'>$_POST[judul_form]</h3>";
 ?>
 <div class='row'>
@@ -253,7 +252,7 @@ echo "
     </div>
 </div>
 
-<div class='row'>
+<div class='row' style='display:<?= $display_form ?>'>
     <div class="col-6">
         <table class='table-form'>
             <tr>
@@ -358,12 +357,11 @@ echo "
         </table>
     </div>
 </div>
-<div id="submit_menu">
+<div id="submit_menu" style='display:<?= $display_form ?>'>
     <button onclick="submit('submit_dp')" id="submitBtn">Submit Data</button>
 </div>
-<div id="Result">
+<div id="Result" style='display:<?= $display_form ?>'>
 
-</div>
 </div>
 
 <div class="container-fluid">
@@ -371,15 +369,15 @@ echo "
 
     <table class='form_table'>
         <tr>
-            <th>No.</th>
-            <th>Tanggal / Waktu</th>
-            <th>kertas</th>
-            <th>S</th>
-            <th>W</th>
-            <th>Qty ETC</th>
-            <th>jammed</th>
-            <th>Error</th>
-            <th>Qty Cetak</th>
+            <th width='1%'>No.</th>
+            <th width='12%'>Tanggal / Waktu</th>
+            <th width='30%'>kertas</th>
+            <th width='6%'>Sisi</th>
+            <th width='3%'>W</th>
+            <th width='12%'>Qty ETC</th>
+            <th width='12%'>jammed</th>
+            <th width='12%'>Error</th>
+            <th width='12%'>Qty Cetak</th>
         </tr>
         <?php
         $sql =
@@ -398,9 +396,36 @@ echo "
                 digital_printing.qty_etc,
                 digital_printing.color,
                 digital_printing.jam,
-                digital_printing.sisi
+                digital_printing.sisi,
+                (CASE
+                    WHEN barang.nama_barang != '' THEN barang.nama_barang
+                    WHEN barang_Kode.nama_barang != '' THEN barang_Kode.nama_barang
+                    ELSE '- - -'
+                END) as nama_barang
             FROM 
                 digital_printing
+            LEFT JOIN
+                (SELECT
+                    barang.id_barang,
+                    barang.nama_barang
+                FROM
+                    barang
+                WHERE
+                    barang.jenis_barang = 'KRTS'
+                ) barang
+            ON 
+                barang.id_barang = digital_printing.id_bahan
+            LEFT JOIN
+                (SELECT
+                    barang.kode_barang,
+                    barang.nama_barang
+                FROM
+                    barang
+                WHERE
+                    barang.jenis_barang = 'KRTS'
+                ) barang_Kode
+            ON 
+                barang_Kode.kode_barang = digital_printing.kode_bahan
             WHERE
                 digital_printing.oid = '$ID_Order'
         ";
@@ -417,7 +442,7 @@ echo "
                     <tr>
                         <td>$n</td>
                         <td>$d[tgl_cetak]</td>
-                        <td>$d[tgl_cetak]</td>
+                        <td>$d[nama_barang]</td>
                         <td>$d[sisi] Sisi</td>
                         <td>$d[color]</td>
                         <td class='a-center'>$d[qty_etc] Pcs</td>
@@ -427,9 +452,11 @@ echo "
                     </tr>
                 ";
 
+                $total_etc[]   = $d['qty_etc'];
                 $total_jam[]   = $d['jam'];
                 $total_error[]   = $d['error'];
                 $total_qty_cetak[]   = $d['qty_cetak'];
+                $Nilai_total_etc = number_format(array_sum($total_etc));
                 $Nilai_total_jam = number_format(array_sum($total_jam));
                 $Nilai_total_error = number_format(array_sum($total_error));
                 $Nilai_total_qty_cetak = number_format(array_sum($total_qty_cetak));
@@ -437,7 +464,8 @@ echo "
 
             echo "
                 <tr>
-                    <th colspan='6'> Total </th>
+                    <th colspan='5'> Total </th>
+                    <th class='a-right'>$Nilai_total_etc Pcs</th>
                     <th class='a-right'>$Nilai_total_jam Lembar</th>
                     <th class='a-right'>$Nilai_total_error Lembar</th>
                     <th class='a-right'>$Nilai_total_qty_cetak Lembar</th>

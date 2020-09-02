@@ -259,7 +259,7 @@ function submit_maintenance(id) {
     },
     success: function (data) {
       // $("#Result").html(data);
-      hideBox();
+      hidesubBox();
       onload();
       return false;
     },

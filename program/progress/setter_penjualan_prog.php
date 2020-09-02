@@ -6318,7 +6318,8 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
             sisi,
             alasan_kesalahan,
             kesalahan,
-            id_operator
+            id_operator,
+            mesin
         ) VALUES (
             '$_POST[id_order]',
             '$_POST[id_BahanDigital]',
@@ -6333,7 +6334,8 @@ elseif ($_POST['jenis_submit'] == 'submit_dp') :
             '$_POST[sisi]',
             '$_POST[alasan_error]',
             '$_POST[Kesalahan]',
-            '$_SESSION[uid]'
+            '$_SESSION[uid]',
+            '$_SESSION[session_MesinDP]'
         );
     ";
 
@@ -6363,7 +6365,8 @@ elseif ($_POST['jenis_submit'] == 'submit_maintenance') :
             color,
             maintanance,
             sisi,
-            id_operator
+            id_operator,
+            mesin
         ) VALUES (
             '$_POST[id_BahanDigital]',
             '$hitungan_click',
@@ -6371,7 +6374,8 @@ elseif ($_POST['jenis_submit'] == 'submit_maintenance') :
             '$_POST[warna_cetakan]',
             'Y',
             '$_POST[sisi]',
-            '$_SESSION[uid]'
+            '$_SESSION[uid]',
+            '$_SESSION[session_MesinDP]'
         );
     ";
 endif;

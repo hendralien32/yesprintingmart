@@ -70,6 +70,8 @@ function LaodSubForm(id, nid, Akses_Edit) {
       $("#bagDetail_sub").html(data);
       if (id == "generator_WoList") {
         onload();
+      } else if (id == "maintenance_DP") {
+        validasi("BahanDigital");
       }
     },
   });

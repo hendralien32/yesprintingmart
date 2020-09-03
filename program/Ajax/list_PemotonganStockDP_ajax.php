@@ -45,8 +45,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             <th width="3%">Warna</th>
             <th width="13%">Bahan</th>
             <th width="3%">Sisi</th>
-            <th width="8%">Qty</th>
-            <th width="8%">Error</th>
+            <th width="8%">Qty (Click)</th>
+            <th width="8%">Error (Click)</th>
             <th width="6%">Jammed</th>
             <th width="5%">ETC</th>
         </tr>
@@ -63,6 +63,14 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     penjualan.client_yes,
                     penjualan.description,
                     penjualan.client,
+                    (CASE
+                        WHEN digital_printing.sisi = '2' THEN digital_printing.qty_cetak * 2
+                        ELSE digital_printing.qty_cetak
+                    END) as click_cetak,
+                    (CASE
+                        WHEN digital_printing.sisi = '2' THEN digital_printing.error * 2
+                        ELSE digital_printing.error
+                    END) as click_error,
                     (CASE
                         WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.qty_cetak * 1)
                         WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.qty_cetak / 2)
@@ -150,8 +158,10 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
 
                     if($d['maintanance']=="Y") {
                         $icon_maintanance = "<strong style='color:#f1592a'><i class='fas fa-wrench'></i> Maintanance Mesin $d[mesin]</strong>";
+                        $edit = "LaodSubForm(\"maintenance_DP\", \"" . $d['did'] . "\")";
                     } else {
                         $icon_maintanance = ""; 
+                        $edit = "LaodForm(\"DigitalPrinting_Update\", \"" . $d['did'] . "\")";
                     }
 
                     if ($d['id_client'] == "1") :
@@ -175,14 +185,14 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                         <tr>
                             <td>$n</td>
                             <td class='a-center'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</td>
-                            <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</td>
-                            <td>$detail_yes " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . " $icon_maintanance</td>
+                            <td onclick='" . $edit . "' class='pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</td>
+                            <td onclick='" . $edit . "' class='pointer'>$detail_yes " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . " $icon_maintanance</td>
                             <td class='a-center'><span class='$d[color] KodeProject'>$d[color]</span></td>
                             <td>$d[nama_barang]</td>
                             <td class='a-center'><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></td>
-                            <td class='a-right'><strong>" . number_format($d['qty_cetak']) . "</strong> Lembar</td>
-                            <td class='a-right'><strong>" . number_format($d['error']) . "</strong> Lembar</td>
-                            <td class='a-right'><strong>" . number_format($d['jam']) . "</strong> Lembar</td>
+                            <td class='a-right'><strong>" . number_format($d['qty_cetak'])  . " <span style='color:#f1592a'>(" . number_format($d['click_cetak']) . ") </span>". " </strong> Lbr</td>
+                            <td class='a-right'><strong>" . number_format($d['error']) . " <span style='color:#f1592a'>(" . number_format($d['click_error']) . ") </span>" . "</strong> Lbr</td>
+                            <td class='a-right'><strong>" . number_format($d['jam']) . "</strong> Lbr</td>
                             <td class='a-right'><strong>" . number_format($d['qty_etc']) . "</strong> Pcs</td>
                         </tr>
                     ";
@@ -191,18 +201,22 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     $total_jam[]   = $d['jam'];
                     $total_error[]   = $d['error'];
                     $total_qty_cetak[]   = $d['qty_cetak'];
+                    $total_click_cetak[]   = $d['click_cetak'];
+                    $total_click_error[]   = $d['click_error'];
                     $Nilai_total_etc = array_sum($total_etc);
                     $Nilai_total_jam = array_sum($total_jam);
+                    $Nilai_total_click_cetak = array_sum($total_click_cetak);
+                    $Nilai_total_click_error = array_sum($total_click_error);
                     $Nilai_total_error = array_sum($total_error);
                     $Nilai_total_qty_cetak = array_sum($total_qty_cetak);
                 endwhile;
 
                 
-                if($Nilai_total_qty_cetak == 0 || $Nilai_total_qty_cetak == 0) :
+                if($Nilai_total_click_cetak == 0 || $Nilai_total_click_error == 0) :
                     $persen_error=0;
                     $persen_cetak=0;
                 else :
-                    $persen_error=round(($Nilai_total_error/$Nilai_total_qty_cetak)*100,2);
+                    $persen_error=round(($Nilai_total_click_error/$Nilai_total_click_cetak)*100,2);
                     $persen_cetak=100-$persen_error;
                 endif;
                 
@@ -211,14 +225,14 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     <tr>
                         <th colspan='7'>Total Cetakan <span style='color:yellow'>$daftar_hari[$namahari], $tanggal_total</span></th>
                         <th class='a-left' style='text-align:right; padding-right: 0.4em;'>
-                            " . number_format($Nilai_total_qty_cetak) . " Lembar<br>
+                            " . number_format($Nilai_total_qty_cetak) . " (". number_format($Nilai_total_click_cetak) .") Lbr<br>
                             <span style='color:yellow'>( $persen_cetak % )</span>
                         </th>
                         <th class='a-left' style='text-align:right; padding-right: 0.4em;'>
-                            " . number_format($Nilai_total_error) . " Lembar<br>
+                            " . number_format($Nilai_total_error) . " (". number_format($Nilai_total_click_error) .") Lbr<br>
                             <span style='color:yellow'>( $persen_error % )</span>
                         </th>
-                        <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total_jam) . " Lembar</th>
+                        <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total_jam) . " Lbr</th>
                         <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total_etc) . " Pcs</th>
                     </tr>
                 ";

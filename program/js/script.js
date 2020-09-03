@@ -110,6 +110,8 @@ function LaodForm(id, nid, Akses_Edit) {
     var judul = "Form Pemotongan Stock Digital Printing";
   } else if (id == "maintenance_DP") {
     var judul = "Form Maintenance Digital Printing";
+  } else if (id == "DigitalPrinting_Update") {
+    var judul = "Form Update Pemotongan Stock Digital Printing";
   } else {
     var judul = "404 Not Found";
   }
@@ -165,6 +167,8 @@ function LaodForm(id, nid, Akses_Edit) {
           validasi("bahan");
           AksesEdit();
         }
+      } else if (id == "DigitalPrinting_Update") {
+        validasi("BahanDigital");
       }
     },
   });

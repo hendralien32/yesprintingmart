@@ -241,7 +241,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     $status = "<i class='fad fa-spinner'></i> OnProgress";
                 }
 
-                if($_SESSION['session_MesinDP']!="") {
+                if ($_SESSION['session_MesinDP'] != "") {
                     $edit = "LaodForm(\"DigitalPrinting\",\"$d[oid]\")";
                     $pointer = "pointer";
                 } else {
@@ -259,7 +259,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             <td onclick='" . $edit . "' class='$pointer'>$detail_yes " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . "</td>
                             <td>
                                 <center>
-                                    <span class='icon_status'><a href='print.php?type=print_oid&oid=$d[oid]' target='_blank' class='pointer'><i class='fad fa-print'></i></a></span>
+                                    <span class='icon_status'><a href='WO_print.php?type=print_oid&oid=$d[oid]' target='_blank' class='pointer'><i class='fad fa-print'></i></a></span>
                                     <span class='icon_status'><i class='fas fa-exclamation-triangle " . $check_urgent . "'></i></span>
                                     <span class='icon_status'><i class='fas fa-scalpel-path " . $check_finishing . "'></i></span>
                                     <span class='icon_status'><i class='fas fa-toilet-paper-alt " . $check_laminating . "'></i></span>

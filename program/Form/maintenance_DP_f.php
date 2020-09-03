@@ -2,16 +2,20 @@
 session_start();
 require_once "../../function.php";
 
-echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
-
 $ID_Order = isset($_POST['ID_Order']) ? $_POST['ID_Order'] : "";
+
+echo "<h3 class='title_form'>$_POST[judul_form] $ID_Order</h3>";
 
 $sql =
     "SELECT
         digital_printing.did,
         digital_printing.sisi,
         digital_printing.color,
-        digital_printing.qty_cetak,
+        (CASE
+            WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.qty_cetak * 1)
+            WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.qty_cetak / 2)
+            ELSE ROUND(digital_printing.qty_cetak / 2)
+        END) as qty_cetak,
         digital_printing.hitungan_click,
         digital_printing.kode_bahan,
         digital_printing.id_bahan,
@@ -62,10 +66,12 @@ if ($result->num_rows > 0) :
     $Jam_Update = $d['Jam'];
     $sisi = $d['sisi'];
     $color = $d['color'];
-    $qty_cetak = $d['qty_cetak']/2;
+    $qty_cetak = $d['qty_cetak'];
     $hitungan_click = $d['hitungan_click'];
     $id_bahan = $d['id_bahan'];
     $nama_barang = $d['nama_barang'];
+    $onlick_submit = "update_maintenance";
+    $nama_submit = "Update";
 else :
     $tanggal_Update = $date;
     $Jam_Update = "";
@@ -75,10 +81,12 @@ else :
     $hitungan_click = "2";
     $id_bahan = "";
     $nama_barang = "";
+    $onlick_submit = "submit_maintenance";
+    $nama_submit = "Submit";
 endif;
 
 ?>
-<input type='hidden' id="did" value="<?= $ID_Order ?>">
+<input type='hidden' id="id_order" value="<?= $ID_Order ?>">
 
 <div class='row'>
     <div class="col-6">
@@ -98,7 +106,7 @@ endif;
             </tr>
             <tr>
                 <td style='width:145px'>Sisi</td>
-                <td> 
+                <td>
                     <select class="myselect" id="sisi">
                         <?php
                         $array_kode = array(
@@ -123,15 +131,15 @@ endif;
                 <td style='width:145px'>Tanggal</td>
                 <td colspan="3">
                     <?php
-                        if($_SESSION['level'] == "admin") :
-                            if($ID_Order!="0") :
-                                echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$tanggal_Update' max='$date' style='width:96%'>";
-                            else :
-                                echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
-                            endif;
+                    if ($_SESSION['level'] == "admin") :
+                        if ($ID_Order != "0") :
+                            echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$tanggal_Update' max='$date' style='width:96%'>";
                         else :
-                            echo "<input type='date' id='tanggal_bayar' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> ". date("d M Y", strtotime($date)) ."";
+                            echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
                         endif;
+                    else :
+                        echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> " . date("d M Y", strtotime($date)) . "";
+                    endif;
                     ?>
                     <input type='hidden' id="jam" class='form md' value="<?= $Jam_Update ?>">
                 </td>
@@ -151,7 +159,7 @@ endif;
                             endif;
                             echo "<option value='$kode' $pilih>$kd</option>";
                         }
-                        ?> 
+                        ?>
                     </select>
                 </td>
             </tr>
@@ -160,7 +168,11 @@ endif;
                 <td>
                     <input id="Qty" type='number' class='form sd' style='width:150px' value="<?= $qty_cetak ?>">
                     <div class="contact100-form-checkbox" style='float:right; margin-top:4px; margin-left:10px'>
-                        <input class="input-checkbox100" id="jumlah_click" type="checkbox" name="remember" <?php if($hitungan_click == "1") { echo "checked"; } else { echo ""; }; ?>>
+                        <input class="input-checkbox100" id="jumlah_click" type="checkbox" name="remember" <?php if ($hitungan_click == "1") {
+                                                                                                                echo "checked";
+                                                                                                            } else {
+                                                                                                                echo "";
+                                                                                                            }; ?>>
                         <label class="label-checkbox100" for="jumlah_click"> 1 Click</label>
                     </div>
                 </td>
@@ -169,7 +181,7 @@ endif;
     </div>
 </div>
 <div id="submit_menu">
-    <button onclick="submit_maintenance('submit_maintenance')" id="submitBtn">Submit Maintenance</button>
+    <button onclick="submit_maintenance('<?= $onlick_submit ?>')" id="submitBtn"><?= $nama_submit ?> Maintenance</button>
 </div>
 <div id="Result">
 

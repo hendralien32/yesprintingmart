@@ -6378,6 +6378,109 @@ elseif ($_POST['jenis_submit'] == 'submit_maintenance') :
             '$_SESSION[session_MesinDP]'
         );
     ";
+elseif ($_POST['jenis_submit'] == 'update_maintenance') :
+    if ($_POST['jumlah_click'] == "Y") {
+        $qty_POST = $_POST['Qty'];
+        $hitungan_click = 1;
+    } else {
+        $qty_POST = $_POST['Qty'] * 2;
+        $hitungan_click = 2;
+    }
+
+    $sql =
+        "UPDATE
+            digital_printing
+        SET
+            tgl_cetak = '$_POST[tanggal_ptg] $_POST[jam_ptg]',
+            id_bahan = '$_POST[id_BahanDigital]',
+            hitungan_click = '$hitungan_click',
+            qty_cetak = '$qty_POST',
+            color = '$_POST[warna_cetakan]',
+            sisi = '$_POST[sisi]'
+        WHERE
+            did  		  = '$_POST[id_order]'
+    ";
+elseif ($_POST['jenis_submit'] == 'update_dp') :
+    if ($_POST['jumlah_click'] == "Y") {
+        $qty_POST = $_POST['Qty'];
+        $Error_POST = $_POST['Error'];
+        $hitungan_click = 1;
+    } else {
+        $qty_POST = $_POST['Qty'] * 2;
+        $Error_POST = $_POST['Error'] * 2;
+        $hitungan_click = 2;
+    }
+
+    $array = array(
+        "Qty_OLD"   => "$_POST[Qty]",
+        "Error_OLD" => "$_POST[Error]",
+        "Qty_AlatTambahan_OLD"  => "$_POST[Qty_AlatTambahan]",
+        "Jammed_OLD"    => "$_POST[Jammed]",
+        "sisi_OLD"  => "$_POST[sisi]",
+        "warna_cetakan_OLD" => "$_POST[warna_cetakan]",
+        "tanggal_ptg_OLD"   => "$_POST[tanggal_ptg]",
+        "jumlah_click_OLD"  => "$hitungan_click",
+        "BahanDigital_OLD"  => "$_POST[BahanDigital]"
+    );
+
+    $log = "";
+    foreach ($array as $key => $value) {
+        $a = $_POST[$key];
+        if ($value != "$_POST[$key]") {
+            $deskripsi_X = str_replace("_OLD", "", $key);
+            $deskripsi = str_replace("_", " ", $deskripsi_X);
+            if (is_numeric($value)) {
+                $Input_Value = number_format($value);
+            } else {
+                $Input_Value = "$value";
+            }
+            $log  .= "<b>$deskripsi</b> : $a <i class=\"far fa-angle-double-right\"></i> $Input_Value<br>";
+        } else {
+            $log  .= "";
+        }
+    }
+
+    if ($log != null) {
+        $Final_log = "
+                <tr>
+                    <td>$timestamps</td>
+                    <td>" . $_SESSION['username'] . " Mengubah data</td>
+                    <td>$log</td>
+                </tr>
+            ";
+    } else {
+        $Final_log = "";
+    }
+
+    $sql =
+        "UPDATE
+            digital_printing
+        SET
+            tgl_cetak = '$_POST[tanggal_ptg] $_POST[jam_ptg]',
+            id_bahan = '$_POST[id_BahanDigital]',
+            id_AlatTambahan = '$_POST[id_tambahan]',
+            hitungan_click = '$hitungan_click',
+            qty_cetak = '$qty_POST',
+            qty_etc = '$_POST[Qty_AlatTambahan]',
+            error = '$Error_POST',
+            jam = '$_POST[Jammed]',
+            color = '$_POST[warna_cetakan]',
+            sisi = '$_POST[sisi]',
+            alasan_kesalahan = '$_POST[alasan_error]',
+            kesalahan = '$_POST[Kesalahan]'
+        WHERE
+            did  		  = '$_POST[id_order]';
+    ";
+
+    $sql .=
+        "UPDATE
+        penjualan
+    set
+        status	= '$_POST[status_Cetak]',
+        history =  CONCAT('$Final_log', history)
+    where
+        oid		= '$_POST[oid]'
+";
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

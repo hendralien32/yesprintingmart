@@ -227,7 +227,7 @@ if (isset($_SESSION["login"])) :
                         );
                         foreach ($array_kode as $kode) :
                             if ($d[$kode] == "Y") : ${'check_' . $kode} = "<i class='fad fa-check-square'></i>";
-                            else : ${'check_' . $kode} = "<i class='fad fa-times-square'></i>";
+                            else : ${'check_' . $kode} = "<i class='fas fa-square'></i>";
                             endif;
                         endforeach;
                         ?>
@@ -286,23 +286,23 @@ if (isset($_SESSION["login"])) :
                 </table>
             </div>
         </div>
-        <?php if($d['keterangan']!="") : ?>
-        <div id='container_3'>
-            <p>
-                <strong>Note :</strong><br>
-                <span><?= $d['keterangan'] ?></span>
-            </p>
-        </div>
+        <?php if ($d['keterangan'] != "") : ?>
+            <div id='container_3'>
+                <p>
+                    <strong>Note :</strong><br>
+                    <span><?= $d['keterangan'] ?></span>
+                </p>
+            </div>
         <?php else : endif; ?>
         <div id='container_4'>
             <p>
                 <strong>Paraf Operator</strong>
             </p>
-        </di>
-    </div>
-<?php
+            </di>
+        </div>
+    <?php
 else :
     header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);
     exit();
 endif;
-?>
+    ?>

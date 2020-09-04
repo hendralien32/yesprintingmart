@@ -49,13 +49,13 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
     <thead>
         <tr>
             <th width="2%">#</th>
-            <th width="7%">Tanggal</th>
+            <th width="8%">Tanggal</th>
             <th width="3%">K</th>
             <th width="10%">Client</th>
             <th width="6%">ID</th>
             <th width="34%">Description</th>
             <th width="10%">Icons</th>
-            <th width="8%">
+            <th width="7%">
                 <select name="BahanSearch" id="BahanSearch" onchange="BahanSearch();">
                     <option value="">Kertas</option>
                     <?php

@@ -246,14 +246,14 @@ endif;
                     <a href="?page=PemotonganStockDP&tab=Digital_Printing">
                         <li class='<?= ($page == 'PemotonganStockDP') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
                     </a>
-                    <a href="?page=xxxx&tab=Digital_Printing">
-                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
+                    <a href="?page=laporan_harian_konika&tab=Digital_Printing">
+                        <li class='<?= ($page == 'laporan_harian_konika') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
+                    </a>
+                    <a href="?page=list_pemesanan_kertas&tab=Digital_Printing">
+                        <li class='<?= ($page == 'list_pemesanan_kertas') ? 'active' : ''; ?>'>List Pemesanan kertas</li>
                     </a>
                     <a href="?page=xxxx&tab=Digital_Printing">
-                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Stock Kertas & Tonner</li>
-                    </a>
-                    <a href="?page=xxxx&tab=Digital_Printing">
-                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>List Pemesanan Kertas & Tonner</li>
+                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Stock kertas</li>
                     </a>
                     <div class="clear"></div>
                 </ul>
@@ -321,6 +321,12 @@ endif;
                             break;
                         case 'DP_List':
                             require_once('list_digital.php');
+                            break;
+                        case 'laporan_harian_konika':
+                            require_once('laporan_harian_konika.php');
+                            break;
+                        case 'list_pemesanan_kertas':
+                            require_once('list_pemesanan_kertas.php');
                             break;
                         default:
                             require_once('test.php');

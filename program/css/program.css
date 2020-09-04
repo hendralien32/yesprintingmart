@@ -50,13 +50,13 @@
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.ui-autocomplete > li {
+.ui-autocomplete>li {
   padding: 3px 10px;
   background: transparent;
   border: 5px;
 }
 
-.ui-autocomplete > li:hover {
+.ui-autocomplete>li:hover {
   text-decoration: none;
   cursor: pointer;
 }
@@ -208,12 +208,12 @@
 }
 
 /* On mouse-over, add a grey background color */
-.sisi_radio:hover input ~ .checkmark {
+.sisi_radio:hover input~.checkmark {
   background-color: #ccc;
 }
 
 /* When the radio button is checked, add a blue background */
-.sisi_radio input:checked ~ .checkmark {
+.sisi_radio input:checked~.checkmark {
   background-color: #ff7200;
 }
 
@@ -225,7 +225,7 @@
 }
 
 /* Show the indicator (dot/circle) when checked */
-.sisi_radio input:checked ~ .checkmark:after {
+.sisi_radio input:checked~.checkmark:after {
   display: block;
 }
 
@@ -401,6 +401,7 @@ input[type="date"],
 }
 
 input[type="date"]:disabled,
+input[type="month"]:disabled,
 input[type="text"].form:disabled,
 input[type="number"].form:disabled,
 input[type="email"].form:disabled {
@@ -409,7 +410,7 @@ input[type="email"].form:disabled {
 
 input[type="month"] {
   padding: 5px 8px;
-  width: 18%;
+  width: 16%;
   border-top: 1px solid #aeaeae;
   border-left: 1px solid #aeaeae;
   border-right: 1px solid #aeaeae;
@@ -498,11 +499,11 @@ input[type="text"].client {
   transform: translateY(-50%);
 }
 
-.input-checkbox100:checked + .label-checkbox100::before {
+.input-checkbox100:checked+.label-checkbox100::before {
   color: #ff7200;
 }
 
-.input-checkbox100:disabled + .label-checkbox100::before {
+.input-checkbox100:disabled+.label-checkbox100::before {
   background: #e2e2e2;
 }
 
@@ -511,12 +512,18 @@ input[type="text"].client {
 }
 
 .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
   supported by Chrome, Edge, Opera and Firefox */
 }
 
@@ -749,7 +756,7 @@ table.form_table tr th {
   color: #ffffff;
   padding: 5px 3px;
   font-weight: normal;
-  /* border-right:1px solid #ffffff; */
+  border: 1px solid #ffffff;
   text-align: center;
   font-weight: 600;
   letter-spacing: 0.5px;

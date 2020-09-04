@@ -1132,3 +1132,24 @@ function acc_progress(status, id) {
     });
   }
 }
+
+function selesai_prog(status, id, finished) {
+  if (confirm(status + " mau diubah Statusny ?")) {
+    $.ajax({
+      type: "POST",
+      url: "progress/setter_penjualan_prog.php",
+      data: {
+        oid: id,
+        jenis_submit: "selesai_penjualan",
+        finished: finished,
+      },
+      success: function (data) {
+        onload();
+        return false;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        $("#bagDetail").html(XMLHttpRequest);
+      },
+    });
+  }
+}

@@ -219,7 +219,8 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
                     } else {
                         $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
                         $Akses_Edit = "$d[akses_edit]";
-                    } else :
+                    }
+                else :
                     if ($_SESSION["level"] == "admin") {
                         $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $d['oid'] . "\")'><i class='fad fa-lock-alt'></i></span>";
                         $Akses_Edit = "Y";
@@ -239,6 +240,8 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
                     $pointer = "";
                 endif;
 
+                $selesai = "selesai_prog(\"" . $d['oid'] . " | " . $d['nama_client'] . " - " . $d['description'] . "\", \"" . $d['oid'] . "\", \"" . $d['Finished'] . "\")";
+
                 echo "
                 <tr class='" . $css_cancel . "'>
                     <td>" . $no++ . "</td>
@@ -251,7 +254,7 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
                         <center>
                             <span class='icon_status $pointer' ondblclick='$acc'><i class='fas fa-thumbs-up " . $check_acc . "'></i></span>
                             $icon_akses_edit
-                            <span class='icon_status'><i class='fas fa-check-double " . $check_Finished . "'></i></span>
+                            <span class='icon_status $pointer' ondblclick='$selesai'><i class='fas fa-check-double " . $check_Finished . "'></i></span>
                             <span class='icon_status'><i class='fas fa-user-clock " . $check_ditunggu . "'></i></span>
                         </center>
                     </td>

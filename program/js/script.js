@@ -51,6 +51,8 @@ function LaodSubForm(id, nid, Akses_Edit) {
     var judul = "Form Sales Order YESCOM";
   } else if (id == "maintenance_DP") {
     var judul = "Form Maintenance Digital Printing";
+  } else if (id == "counter_Mesin") {
+    var judul = "Form Counter Mesin";
   } else {
     var judul = "404 Not Found";
   }

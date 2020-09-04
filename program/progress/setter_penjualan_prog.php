@@ -507,12 +507,12 @@ elseif ($_POST['jenis_submit'] == 'Cancel') :
     $Alasan_Cancel     = htmlspecialchars($_POST['Alasan_Cancel'], ENT_QUOTES);
 
     $Final_log = "
-            <tr>
-                <td>$hr, $timestamps</td>
-                <td>" . $_SESSION['username'] . " Cancel data</td>
-                <td><b>Cancel</b> : Y<br><b>Alasan Cancel</b> : $Alasan_Cancel</td>
-            </tr>
-        ";
+        <tr>
+            <td>$hr, $timestamps</td>
+            <td>" . $_SESSION['username'] . " Cancel data</td>
+            <td><b>Cancel</b> : Y<br><b>Alasan Cancel</b> : $Alasan_Cancel</td>
+        </tr>
+    ";
 
     // Attempt Update Cancel query execution
     $sql =
@@ -6474,13 +6474,66 @@ elseif ($_POST['jenis_submit'] == 'update_dp') :
 
     $sql .=
         "UPDATE
-        penjualan
-    set
-        status	= '$_POST[status_Cetak]',
-        history =  CONCAT('$Final_log', history)
-    where
-        oid		= '$_POST[oid]'
-";
+            penjualan
+        set
+            status	= '$_POST[status_Cetak]',
+            history =  CONCAT('$Final_log', history)
+        where
+            oid		= '$_POST[oid]'
+    ";
+elseif ($_POST['jenis_submit'] == 'submit_counter') :
+    $sql =
+        "INSERT into billing_konika (
+            tanggal_billing,
+            FC_awal,
+            BW_awal
+        ) values (
+            '$_POST[tanggal_Counter]',
+            '$_POST[Counter_Awal_FC]',
+            '$_POST[Counter_Awal_BW]'
+        )
+    ";
+elseif ($_POST['jenis_submit'] == 'update_counter') :
+    $sql =
+        "UPDATE
+			billing_konika
+		set
+			tanggal_billing		= '$_POST[tanggal_Counter]',
+			FC_awal				= '$_POST[Counter_Awal_FC]',
+			BW_awal				= '$_POST[Counter_Awal_BW]',
+			FC_akhir			= '$_POST[Counter_Akhir_FC]',
+			BW_akhir			= '$_POST[Counter_Akhir_BW]'
+		where
+			billing_id			= '$_POST[billing_id]'
+    ";
+elseif ($_POST['jenis_submit'] == 'selesai_penjualan') :
+    if ($_POST['finished'] == "N") {
+        $status_Cetak = "selesai";
+        $log = " <i class=\"far fa-angle-double-right\"></i> Selesai";
+    } else {
+        $status_Cetak = "";
+        $log = " Selesai <i class=\"far fa-angle-double-right\"></i> ";
+    }
+
+    $Final_log = "
+        <tr>
+            <td>$hr, $timestamps</td>
+            <td>" . $_SESSION['username'] . " Cancel data</td>
+            <td><b>Status</b> : $log  </td>
+        </tr>
+    ";
+
+    $sql =
+        "UPDATE
+			penjualan
+		set
+			status	= '$status_Cetak',
+            history =  CONCAT('$Final_log', history)
+		where
+			oid		= '$_POST[oid]'
+    ";
+
+
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

@@ -75,45 +75,6 @@ function search_data() {
   onload();
 }
 
-function BahanDigital_Search(id) {
-  $("#BahanDigital").autocomplete({
-    source: function (request, response) {
-      $.ajax({
-        url: "progress/validasi_progress.php",
-        type: "POST",
-        data: {
-          tipe_validasi: "autocomplete_BahanDigital",
-          term: request.term,
-        },
-        dataType: "json",
-        success: function (data) {
-          response(
-            $.map(data, function (item) {
-              return {
-                label: item.nama_barang,
-                value: item.nama_barang,
-                id: item.id_barang,
-              };
-            })
-          );
-        },
-      });
-    },
-    minLength: 1,
-    autoFocus: true,
-    select: function (event, ui) {
-      $("#BahanDigital").val(ui.item.value);
-      $("#id_BahanDigital").val(ui.item.id);
-    },
-    change: function (event, ui) {
-      $("#BahanDigital").val(ui.item.value);
-      $("#id_BahanDigital").val(ui.item.id);
-    },
-  });
-
-  validasi(id);
-}
-
 function validasi(id) {
   var ID_Data = $("#" + id).val();
 
@@ -128,15 +89,90 @@ function validasi(id) {
       if (data > 0) {
         $("#validasi_" + id).val(data);
         $("#Alert_Val" + id).html(
-          "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px; margin-right:5px;'></i>"
         );
       } else {
         $("#validasi_" + id).val("0");
-        $("#id_" + id).val("");
         $("#Alert_Val" + id).html(
-          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px; margin-right:5px;'></i>"
+          "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>"
         );
       }
     },
   });
+}
+
+function find_ID(id, no) {
+  $("#BahanDigital" + no).autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "progress/validasi_progress.php",
+        type: "POST",
+        data: {
+          tipe_validasi: "autocomplete_BahanDigital",
+          term: request.term,
+        },
+        dataType: "json",
+        success: function (data) {
+          // alert(data);
+          response(
+            $.map(data, function (item) {
+              return {
+                label: item.nama_barang,
+                value: item.nama_barang,
+                id: item.id_barang,
+              };
+            })
+          );
+        },
+      });
+    },
+    minLength: 3,
+    autoFocus: true,
+    select: function (event, ui) {
+      $("#BahanDigital" + no).val(ui.item.value);
+      $("#id_BahanDigital" + no).val(ui.item.value);
+    },
+    change: function (event, ui) {
+      $("#BahanDigital" + no).val(ui.item.value);
+      $("#id_BahanDigital" + no).val(ui.item.value);
+    },
+  });
+
+  validasi_ID(id, no);
+}
+
+function validasi_ID(id, no) {
+  var ID_Data = $("#" + id + no).val();
+
+  if (ID_Data.length > 3) {
+    $.ajax({
+      type: "POST",
+      minLength: 3,
+      data: {
+        tipe_validasi: "Search_" + id,
+        term: ID_Data,
+      },
+      url: "progress/validasi_progress.php",
+      success: function (data) {
+        if (data > 0) {
+          $("#validasi_" + id + no).val(data);
+          $("#Alert_Val" + id + no).html(
+            "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
+          );
+        } else {
+          $("#validasi_" + id + no).val("0");
+          $("#id_" + id + no).val("");
+          $("#Alert_Val" + id + no).html(
+            "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+          );
+        }
+      },
+    });
+  } else {
+    $("#validasi_" + id + no).val("0");
+    $("#id_" + id + no).val("");
+    $("#Alert_Val" + id + no).html(
+      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+    );
+  }
 }

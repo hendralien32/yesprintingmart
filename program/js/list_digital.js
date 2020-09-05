@@ -223,6 +223,11 @@ function submit(id) {
 }
 
 function submit_maintenance(id) {
+  if ($("#validasi_BahanDigital").val() == 0) {
+    alert("Nama Bahan Tidak terdaftar");
+    return false;
+  }
+
   let tanggal_ptg = $("#tanggal_ptg").val();
   let id_BahanDigital = $("#id_BahanDigital").val();
   let BahanDigital = $("#BahanDigital").val();

@@ -187,6 +187,21 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $num = $result->num_rows;
 
     echo $num;
+} elseif ($term != "" and $tipe_validasi == "Search_NoDO") {
+    $sql =
+        "SELECT
+            flow_barang.no_do
+        FROM
+            flow_barang
+        WHERE
+            ( flow_barang.hapus='' or flow_barang.hapus='N' ) and
+            flow_barang.no_do = '$_POST[term]'
+    ";
+
+    $result = $conn_OOP->query($sql);
+    $num = $result->num_rows;
+
+    echo $num;
 } elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
     $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
 

@@ -142,7 +142,7 @@ $sql =
     ) penjualan
     ON 
         penjualan.oid = digital_printing.oid
-        LEFT JOIN
+    LEFT JOIN
         (SELECT
             barang.id_barang,
             barang.nama_barang
@@ -304,7 +304,7 @@ echo "
                             echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='width:96%'>";
                         endif;
                     else :
-                        echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> " . date("d M Y", strtotime($date)) . "";
+                        echo "<input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='$date' max='$date' style='display:none'> " . date("d F Y", strtotime($date)) . "";
                     endif;
                     ?>
                     <input type='hidden' id="jam" class='form md' value="<?= $Jam_Update ?>">

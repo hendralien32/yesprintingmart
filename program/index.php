@@ -250,7 +250,7 @@ endif;
                         <li class='<?= ($page == 'laporan_harian_konika') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
                     </a>
                     <a href="?page=list_pemesanan_kertas&tab=Digital_Printing">
-                        <li class='<?= ($page == 'list_pemesanan_kertas') ? 'active' : ''; ?>'>List Pemesanan kertas</li>
+                        <li class='<?= ($page == 'list_pemesanan_kertas') ? 'active' : ''; ?>'>List Pemasukan kertas</li>
                     </a>
                     <a href="?page=xxxx&tab=Digital_Printing">
                         <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Stock kertas</li>

@@ -152,7 +152,7 @@ require_once "../../function.php";
                         <td class='a-center'>" . number_format($row['Ukuran'], 2) . "</td>
                         <td class='a-center'>" . number_format($row['Total_cetak'], 2) . "</td>
                         <td class='a-center'>" . number_format($row['sisa'], 2) . "</td>
-                        <td>
+                        <td class='a-center'>
                             <span class='icon_status pointer' ondblclick='$terima_action'><i class='fas fa-hand-holding-box $check_diterima'></i></span>
                             <span class='icon_status pointer' ondblclick='$buka_action'><i class='fas fa-box-open $check_buka'></i></span>
                             <span class='icon_status pointer' ondblclick='$habis_action'><i class='fas fa-empty-set $check_habis'></i></span>

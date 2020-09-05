@@ -264,7 +264,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             <label class='label-checkbox100' for='cek_$n'></label>
                         </td>
                         <td class='pointer'><center>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</center></td>
-                        <td><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
+                        <td class='a-center'><span class='KodeProject " . $kode_class . "'>" . strtoupper($d['code']) . "</span></td>
                         <td onClick='$detail' class='pointer'><strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $id_yes) . " " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client']) . "</strong> - $d[description] <i>(" .  date("d M Y", strtotime($d['tanggal'])) . ")</i></td>
                         <td onClick='$detail' class='pointer'>$d[bahan]</td>
                         <td onClick='$detail' class='pointer'><center>$d[ukuran]</center></td>

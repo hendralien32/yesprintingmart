@@ -114,6 +114,8 @@ function LaodForm(id, nid, Akses_Edit) {
     var judul = "Form Maintenance Digital Printing";
   } else if (id == "DigitalPrinting_Update") {
     var judul = "Form Update Pemotongan Stock Digital Printing";
+  } else if (id == "Tambah_StockDP") {
+    var judul = "Form Stock Kertas";
   } else {
     var judul = "404 Not Found";
   }

@@ -255,14 +255,14 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                                 <td rowspan='$count_oid' style='vertical-align:top'>" . date("d M Y", strtotime($d['tanggal'])) . "</td>
                                 <td rowspan='$count_oid' style='vertical-align:top'>" . str_ireplace($cari_keyword_client, $bold_cari_keyword_client, $d['nama_client']) . "</td>
                                 <td rowspan='$count_oid' style='vertical-align:top'>#" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['no_invoice']) . "</td>
-                                <td><span class='KodeProject $kode_barang[0]'>" . strtoupper($code['0']) . "</span></td>
+                                <td class='a-center'><span class='KodeProject $kode_barang[0]'>" . strtoupper($code['0']) . "</span></td>
                                 <td onclick='$edit' class='pointer'> " . str_ireplace($cari_keyword, $bold_cari_keyword, $oid['0']) . " - " . str_ireplace($cari_keyword, $bold_cari_keyword, $description['0']) . " $ukuran[0] </td>
-                                <td>
+                                <td class='a-center'>
                                     $icon_akses_edit
                                     <span class='icon_status'><i class='fas fa-check-double $check_Finished'></i></span>
                                     <span class='icon_status'><i class='fas fa-cash-register $check_Lunas'></i></span>
                                 </td>
-                                <td><span class='$css_sisi[0] KodeProject'>$sisi[0]</span></td>
+                                <td class='a-center'><span class='$css_sisi[0] KodeProject'>$sisi[0]</span></td>
                                 <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $bahan['0']) . "</td>
                                 <td>$qty[0]</td>
                                 <td style='text-align:right'>" . number_format($harga_satuan['0']) . "</td>

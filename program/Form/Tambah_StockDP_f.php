@@ -2,13 +2,96 @@
 session_start();
 require_once "../../function.php";
 
+$ID_Order = isset($_POST['ID_Order']) ? $_POST['ID_Order'] : "";
+
 if ($_SESSION['level'] == "admin") {
     $disabled = "";
 } else {
     $disabled = "disabled";
 }
 
-$next_count = 1;
+$sql = 
+    "SELECT
+        flow_barang.no_do,
+        flow_barang.tanggal,
+        GROUP_CONCAT(flow_barang.ID_Bahan) as ID_Bahan,
+        GROUP_CONCAT((CASE
+            WHEN barang.nama_barang != '' THEN barang.nama_barang
+            WHEN barang_Kode.nama_barang != '' THEN barang_Kode.nama_barang
+            ELSE '- - -'
+        END)) as nama_barang,
+        GROUP_CONCAT((CASE
+            WHEN flow_barang.barang_masuk != '' THEN flow_barang.barang_masuk
+            WHEN flow_barang.barang_keluar != '' THEN flow_barang.barang_keluar
+            ELSE '0'
+        END)) as Qty,
+        (CASE
+            WHEN flow_barang.barang_masuk != '' THEN 'barang_masuk'
+            WHEN flow_barang.barang_keluar != '' THEN 'barang_keluar'
+            ELSE 'barang_masuk'
+        END) as Jenis_Stock,
+        GROUP_CONCAT(flow_barang.harga_barang) as harga_barang
+    FROM
+        flow_barang
+    LEFT JOIN
+        (SELECT
+            barang.id_barang,
+            barang.nama_barang
+        FROM
+            barang
+        WHERE
+            barang.jenis_barang = 'KRTS'
+        ) barang
+    ON 
+        barang.id_barang = flow_barang.ID_Bahan
+    LEFT JOIN
+        (SELECT
+            barang.kode_barang,
+            barang.nama_barang
+        FROM
+            barang
+        WHERE
+            barang.jenis_barang = 'KRTS'
+        ) barang_Kode
+    ON 
+        barang_Kode.kode_barang = flow_barang.kode_barang
+    WHERE
+        flow_barang.no_do = '$ID_Order' and
+        ( flow_barang.hapus = '' or flow_barang.hapus = 'N' ) and
+        ( barang.nama_barang != '' or barang_Kode.nama_barang != '' )
+    GROUP BY
+        flow_barang.no_do
+";
+echo "$sql";
+$result = $conn_OOP->query($sql);
+if ($result->num_rows > 0) :
+    $d = $result->fetch_assoc();
+    $no_do = $d['no_do'];
+    $tanggal = $d['tanggal'];
+    $validasi_NoDO = 0;
+    $Jenis_Stock = $d['Jenis_Stock'];
+    $ID_Bahan = explode(",", "$d[ID_Bahan]");
+    $nama_barang = explode(",", "$d[nama_barang]");
+    $Qty = explode(",", "$d[Qty]");
+    $harga_barang = explode(",", "$d[harga_barang]");
+    $count_ID_Bahan = count($ID_Bahan);
+    $next_count = $count_ID_Bahan + 1;
+    $status_submit = "update_stock";
+    $nama_submit = "Update Stock";
+else :
+    $no_do = "";
+    $tanggal = "$date";
+    $validasi_NoDO = "";
+    $Jenis_Stock = "";
+    $ID_Bahan = "";
+    $nama_barang = "";
+    $Qty = "";
+    $harga_barang = "";
+    $next_count = 1;
+    $status_submit = "submit_stock";
+    $nama_submit = "Submit Stock";
+endif;
+
 
 echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
 ?>
@@ -21,7 +104,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
         $('#add').click(function() {
             i++;
             $('#dynamic_field').append(
-                '<tr  id="row' + i + '"><td name="Jmlh_Data"><input type="text" class="form ld" id="BahanDigital' + i + '" autocomplete="off" onkeyup="find_ID(\'BahanDigital\',\'' + i + '\')" onChange="validasi_ID(\'BahanDigital\',\'' + i + '\')"><input type="hidden" name="BahanDigital[]" id="id_BahanDigital' + i + '" class="form md" readonly disabled><input type="hidden" name="validasi_BahanDigital[]" id="validasi_BahanDigital' + i + '" class="form md" readonly disabled><span id="Alert_ValBahanDigital' + i + '"></span></td><td class="a-center"><input type="number" class="form md" id="qty_$n" name="qty[]" min="0"> Lembar</td><td class="a-center"><input type="number" class="form md" id="harga_$n" name="harga[]" min="0"' + disabled + '></td><td class="btn_remove a-center pointer" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
+                '<tr  id="row' + i + '"><td name="Jmlh_Data"><input type="text" class="form ld" id="BahanDigital' + i + '" autocomplete="off" onkeyup="find_ID(\'BahanDigital\',\'' + i + '\')" onChange="validasi_ID(\'BahanDigital\',\'' + i + '\')"><input type="hidden" name="id_BahanDigital[]" id="id_BahanDigital' + i + '" class="form sd" readonly disabled><input type="hidden" name="validasi_BahanDigital[]" id="validasi_BahanDigital' + i + '" class="form md" readonly disabled><span id="Alert_ValBahanDigital' + i + '"></span></td><td class="a-center"><input type="number" class="form md" id="qty_$n" name="qty[]" min="0"> Lembar</td><td class="a-center"><input type="number" class="form md" id="harga_$n" name="harga[]" min="0"' + disabled + '></td><td class="btn_remove a-center pointer" style="vertical-align:middle;" id="' + i + '"><i class="fad fa-minus-square" type="button" name="remove"></i></td></tr>'
             );
         });
 
@@ -39,8 +122,8 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             <tr>
                 <td style='width:145px'>No DO</td>
                 <td>
-                    <input type="text" class="form md" style="width:205px" id="NoDO" autocomplete="off" onkeyup="validasi('NoDO')" onChange="validasi('NoDO')" value=''>
-                    <input type="hidden" name="validasi_NoDO" id="validasi_NoDO" class="form sd" readonly disabled>
+                    <input type="text" class="form md" style="width:205px" id="NoDO" autocomplete="off" onkeyup="validasi('NoDO')" onChange="validasi('NoDO')" value='<?= $no_do ?>'>
+                    <input type="hidden" name="validasi_NoDO" id="validasi_NoDO" class="form sd" value="<?= $validasi_NoDO ?>" readonly disabled>
                     <span id="Alert_ValNoDO"></span>
                 </td>
             </tr>
@@ -54,7 +137,10 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                             "barang_keluar" => "Keluar"
                         );
                         foreach ($array_kode as $kode => $kd) {
-                            echo "<option value='$kode'>$kd</option>";
+                            if ($kode == $Jenis_Stock) : $pilih = "selected";
+                            else : $pilih = "";
+                            endif;
+                            echo "<option value='$kode' $pilih>$kd</option>";
                         }
                         ?>
                     </select>
@@ -66,7 +152,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
         <table class='table-form'>
             <tr>
                 <td style='width:145px'>Tanggal</td>
-                <td><input type='date' id='tanggal_ptg' data-placeholder='Tanggal' class='form md' value='<?= $date ?>' max='<?= $date ?>' style='width:96%'></td>
+                <td><input type='date' id='Tanggal_Stock' data-placeholder='Tanggal' class='form ld' value='<?= $tanggal ?>' max='<?= $date ?>' style='width:100%'></td>
             </tr>
             <tr>
                 <td style='width:145px'>Operator</td>
@@ -105,4 +191,12 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             </tbody>
         </table>
     </div>
+    <div id="submit_menu">
+        <button onClick="submit_stock('<?= $status_submit ?>')" id="submitBtn"><?= $nama_submit ?></button>
+    </div>
+    <div id="Result">
+
+    </div>
 </div>
+
+<?php $conn->close(); ?>

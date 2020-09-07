@@ -6532,8 +6532,58 @@ elseif ($_POST['jenis_submit'] == 'selesai_penjualan') :
 		where
 			oid		= '$_POST[oid]'
     ";
+elseif ($_POST['jenis_submit'] == 'delete_NoDO') :
+    if ($_POST['status_NoDO'] == "Y") : $status_NoDO = "N";
+    else : $status_NoDO = "Y";
+    endif;
 
+    $sql =
+        "UPDATE
+            flow_barang
+        SET
+            hapus = '$status_NoDO'
+        WHERE
+            no_do = '$_POST[fid]'
+        ";
+elseif ($_POST['jenis_submit'] == 'submit_stock') :
+    $jumlahArray = $_POST['jumlah_array'];
+    $BahanDigital = explode(",", "$_POST[BahanDigital]");
+    $qty = explode(",", "$_POST[qty]");
+    $harga = explode(",", "$_POST[harga]");
 
+    if ($jumlahArray >= 1) :
+        $insert = array();
+        for ($i = 0; $i < $jumlahArray; $i++) {
+            $insert[] = "
+                (
+                    '$_POST[NoDO]',
+                    '$_POST[Tanggal_Stock]',
+                    '$BahanDigital[$i]',
+                    '$qty[$i]',
+                    '$harga[$i]',
+                    '$_SESSION[uid]',
+                    'N'
+                )
+            ";
+        }
+
+        $New_Insert = implode(',', $insert);
+        $sql =
+            "INSERT INTO flow_barang 
+                (
+                    no_do,
+                    tanggal,
+                    ID_Bahan,
+                    $_POST[jenis_stock],
+                    harga_barang,
+                    operator,
+                    hapus
+                )  VALUES $New_Insert
+        ";
+    else :
+        $sql = "ERROR";
+    endif;
+elseif ($_POST['jenis_submit'] == 'update_stock') :
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

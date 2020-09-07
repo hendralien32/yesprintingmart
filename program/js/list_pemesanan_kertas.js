@@ -130,11 +130,11 @@ function find_ID(id, no) {
     autoFocus: true,
     select: function (event, ui) {
       $("#BahanDigital" + no).val(ui.item.value);
-      $("#id_BahanDigital" + no).val(ui.item.value);
+      $("#id_BahanDigital" + no).val(ui.item.id);
     },
     change: function (event, ui) {
       $("#BahanDigital" + no).val(ui.item.value);
-      $("#id_BahanDigital" + no).val(ui.item.value);
+      $("#id_BahanDigital" + no).val(ui.item.id);
     },
   });
 
@@ -163,7 +163,7 @@ function validasi_ID(id, no) {
           $("#validasi_" + id + no).val("0");
           $("#id_" + id + no).val("");
           $("#Alert_Val" + id + no).html(
-            "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+            "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
           );
         }
       },
@@ -172,7 +172,117 @@ function validasi_ID(id, no) {
     $("#validasi_" + id + no).val("0");
     $("#id_" + id + no).val("");
     $("#Alert_Val" + id + no).html(
-      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i> "
+      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
     );
   }
+}
+
+function hapus(fid, NoDO, status_NoDO) {
+  if (status_NoDO == "N") {
+    var abc = "hapus";
+  } else {
+    var abc = "kembalikan";
+  }
+
+  if (confirm(abc + ' No DO "' + NoDO + '" ?')) {
+    $.ajax({
+      type: "POST",
+      url: "progress/setter_penjualan_prog.php",
+      data: {
+        fid: fid,
+        jenis_submit: "delete_NoDO",
+        status_NoDO: status_NoDO,
+      },
+      success: function (data) {
+        alert('No DO "' + NoDO + '" sudah di' + abc);
+        onload();
+        return false;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        $("#bagDetail").html(XMLHttpRequest);
+      },
+    });
+  }
+}
+
+function submit_stock(id) {
+  // alert("masuk");
+  if ($("#validasi_NoDO").val() >= 1) {
+    alert("No DO Sudah ada");
+    $("#Alert_ValNoDO").html(
+      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
+    );
+    return false;
+  } else if ($("#validasi_NoDO").val() == "") {
+    alert("No DO Tidak Boleh Kosong");
+    $("#Alert_ValNoDO").html(
+      "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
+    );
+    return false;
+  }
+
+  let NoDO = $("#NoDO").val();
+  let jenis_stock = $("#jenis_stock").val();
+  let Tanggal_Stock = $("#Tanggal_Stock").val();
+  let jumlah_array = $('input[name="id_BahanDigital[]"]').length;
+
+  let BahanDigital = [];
+  $("input[name='id_BahanDigital[]']").each(function () {
+    BahanDigital.push($(this).val());
+  });
+
+  let qty = [];
+  $("input[name='qty[]']").each(function () {
+    qty.push($(this).val());
+  });
+
+  let harga = [];
+  $("input[name='harga[]']").each(function () {
+    harga.push($(this).val());
+  });
+
+  $("input[name='validasi_BahanDigital[]']").each(function () {
+    if ($(this).val() != "1") {
+      check_validasi_BahanDigital = false;
+      alert("Nama Bahan bermasalah");
+      return false;
+    }
+    check_validasi_BahanDigital = true;
+  });
+
+  if (!check_validasi_BahanDigital) {
+    return false;
+  }
+
+  let fdata = new FormData();
+  fdata.append("NoDO", NoDO);
+  fdata.append("jenis_stock", jenis_stock);
+  fdata.append("Tanggal_Stock", Tanggal_Stock);
+  fdata.append("BahanDigital", BahanDigital);
+  fdata.append("qty", qty);
+  fdata.append("harga", harga);
+  fdata.append("jumlah_array", jumlah_array);
+  fdata.append("jenis_submit", id);
+
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    cache: false,
+    processData: false,
+    contentType: false,
+    data: fdata,
+    beforeSend: function () {
+      // $("#submitBtn").attr("disabled", "disabled");
+      // $(".icon-close").removeAttr("onclick");
+    },
+    success: function (data) {
+      $("#Result").html(data);
+      // hideBox();
+      // onload();
+      // return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#Result").html(XMLHttpRequest);
+    },
+  });
 }

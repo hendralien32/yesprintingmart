@@ -173,6 +173,11 @@ function LaodForm(id, nid, Akses_Edit) {
         }
       } else if (id == "DigitalPrinting_Update") {
         validasi("BahanDigital");
+      } else if (id == "Tambah_StockDP") {
+        checkboxes = $('[name="Jmlh_Data"]');
+        for (let i = 1; i <= checkboxes.length - 1; i++) {
+          validasi_ID("BahanDigital", i);
+        }
       }
     },
   });

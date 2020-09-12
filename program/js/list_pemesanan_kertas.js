@@ -226,6 +226,11 @@ function submit_stock(id) {
   let Tanggal_Stock = $("#Tanggal_Stock").val();
   let jumlah_array = $('input[name="id_BahanDigital[]"]').length;
 
+  let fid = [];
+  $("input[name='fid[]']").each(function () {
+    fid.push($(this).val());
+  });
+
   let BahanDigital = [];
   $("input[name='id_BahanDigital[]']").each(function () {
     BahanDigital.push($(this).val());
@@ -242,12 +247,13 @@ function submit_stock(id) {
   });
 
   $("input[name='validasi_BahanDigital[]']").each(function () {
-    if ($(this).val() != "1") {
+    if ($(this).val() == "0") {
       check_validasi_BahanDigital = false;
       alert("Nama Bahan bermasalah");
       return false;
+    } else if ($(this).val() == "" || $(this).val() == "1") {
+      check_validasi_BahanDigital = true;
     }
-    check_validasi_BahanDigital = true;
   });
 
   if (!check_validasi_BahanDigital) {

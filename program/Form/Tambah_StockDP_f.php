@@ -10,10 +10,11 @@ if ($_SESSION['level'] == "admin") {
     $disabled = "disabled";
 }
 
-$sql = 
+$sql =
     "SELECT
         flow_barang.no_do,
         flow_barang.tanggal,
+        GROUP_CONCAT(flow_barang.fid) as fid,
         GROUP_CONCAT(flow_barang.ID_Bahan) as ID_Bahan,
         GROUP_CONCAT((CASE
             WHEN barang.nama_barang != '' THEN barang.nama_barang
@@ -62,10 +63,11 @@ $sql =
     GROUP BY
         flow_barang.no_do
 ";
-echo "$sql";
+
 $result = $conn_OOP->query($sql);
 if ($result->num_rows > 0) :
     $d = $result->fetch_assoc();
+    $fid = explode(",", "$d[fid]");
     $no_do = $d['no_do'];
     $tanggal = $d['tanggal'];
     $validasi_NoDO = 0;
@@ -76,18 +78,21 @@ if ($result->num_rows > 0) :
     $harga_barang = explode(",", "$d[harga_barang]");
     $count_ID_Bahan = count($ID_Bahan);
     $next_count = $count_ID_Bahan + 1;
+    $alert = "<i class='fad fa-check-double' style='margin-left:10px; margin-right:5px;'></i>";
     $status_submit = "update_stock";
     $nama_submit = "Update Stock";
 else :
+    $fid = "";
     $no_do = "";
     $tanggal = "$date";
     $validasi_NoDO = "";
     $Jenis_Stock = "";
-    $ID_Bahan = "";
+    $ID_Bahan = "0";
     $nama_barang = "";
     $Qty = "";
     $harga_barang = "";
     $next_count = 1;
+    $alert = "";
     $status_submit = "submit_stock";
     $nama_submit = "Submit Stock";
 endif;
@@ -124,7 +129,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                 <td>
                     <input type="text" class="form md" style="width:205px" id="NoDO" autocomplete="off" onkeyup="validasi('NoDO')" onChange="validasi('NoDO')" value='<?= $no_do ?>'>
                     <input type="hidden" name="validasi_NoDO" id="validasi_NoDO" class="form sd" value="<?= $validasi_NoDO ?>" readonly disabled>
-                    <span id="Alert_ValNoDO"></span>
+                    <span id="Alert_ValNoDO"><?= $alert ?></span>
                 </td>
             </tr>
             <tr>
@@ -175,8 +180,30 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                 </tr>
             </thead>
             <tbody id="dynamic_field">
+                <?php
+                if (isset($count_ID_Bahan)) {
+                    for ($i = 0; $i < $count_ID_Bahan; $i++) :
+                        $n = $i + 1;
+                        echo "
+                        <tr>
+                            <td name='Jmlh_Data'>
+                                <input type='hidden' name='fid[]' value='$fid[$i]'>
+                                <input type='text' class='form ld' id='BahanDigital$n' value='$nama_barang[$i]' autocomplete='off' onkeyup='find_ID(\"BahanDigital\",\"$n\")' onChange='validasi_ID(\"BahanDigital\",\"$n\")' onkeyup='validasi_ID(\"BahanDigital\",\"$n\")'>
+                                <input type='hidden' name='id_BahanDigital[]' value='$ID_Bahan[$i]' id='id_BahanDigital$n' class='form sd' readonly disabled>
+                                <input type='hidden' name='validasi_BahanDigital[]' id='validasi_BahanDigital$n' class='form sd' readonly disabled>
+                                <span id='Alert_ValBahanDigital$n'></span>
+                            </td>
+                            <td class='a-center'><input type='number' class='form md' value='$Qty[$i]' id='qty_$n' name='qty[]' min='0'> Lembar</td>
+                            <td class='a-center'><input type='number' class='form md' value='$harga_barang[$i]' id='harga_$n' name='harga[]' min='0' $disabled></td>
+                            <td class='a-center'><span class='icon_status'><i class='far fa-trash-alt text-danger'></i></span></td>
+                        </tr>
+                        ";
+                    endfor;
+                }
+                ?>
                 <tr>
                     <td name='Jmlh_Data'>
+                        <input type='hidden' name='fid[]' value='0'>
                         <input type="text" class="form ld" id="BahanDigital<?= $next_count ?>" autocomplete="off" onkeyup="find_ID('BahanDigital','<?= $next_count ?>')" onChange="validasi_ID('BahanDigital','<?= $next_count ?>')" onkeyup="validasi_ID('BahanDigital','<?= $next_count ?>')">
                         <input type="hidden" name="id_BahanDigital[]" id="id_BahanDigital<?= $next_count ?>" class="form sd" readonly disabled>
                         <input type="hidden" name="validasi_BahanDigital[]" id="validasi_BahanDigital<?= $next_count ?>" class="form sd" readonly disabled>

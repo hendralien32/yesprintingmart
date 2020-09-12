@@ -6584,6 +6584,25 @@ elseif ($_POST['jenis_submit'] == 'submit_stock') :
         $sql = "ERROR";
     endif;
 elseif ($_POST['jenis_submit'] == 'update_stock') :
+    $fid = explode(",", "$_POST[fid]");
+    $jumlahArray = $_POST['jumlah_array'];
+    $BahanDigital = explode(",", "$_POST[BahanDigital]");
+    $qty = explode(",", "$_POST[qty]");
+    $harga = explode(",", "$_POST[harga]");
+
+    foreach ($fid as $yes => $BahanDigital) {
+        // $y[] = "$oid";
+        if ($yes != "0") {
+            $y[] = "0";
+        } else {
+            $n[] = "1";
+        }
+    }
+    $update_fid = implode("','", $y);
+    $update_No = implode("','", $n);
+
+    $sql = $update_fid . " & " . $update_No;
+
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
@@ -6592,7 +6611,7 @@ if ($conn->multi_query($sql) === TRUE) {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully.<br><br>  $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql | <br> $sql_penjualan | <br> $sql_lF" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql" . mysqli_error($conn) . "</br>";
     }
 }
 

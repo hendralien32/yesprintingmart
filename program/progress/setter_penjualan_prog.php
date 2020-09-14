@@ -6584,25 +6584,66 @@ elseif ($_POST['jenis_submit'] == 'submit_stock') :
         $sql = "ERROR";
     endif;
 elseif ($_POST['jenis_submit'] == 'update_stock') :
-    $fid = explode(",", "$_POST[fid]");
     $jumlahArray = $_POST['jumlah_array'];
+    $fid = explode(",", "$_POST[fid]");
     $BahanDigital = explode(",", "$_POST[BahanDigital]");
     $qty = explode(",", "$_POST[qty]");
     $harga = explode(",", "$_POST[harga]");
 
-    foreach ($fid as $yes => $BahanDigital) {
-        // $y[] = "$oid";
-        if ($yes != "0") {
-            $y[] = "0";
+    for ($i = 0; $i < $jumlahArray; $i++) :
+        if ($fid[$i] > 0) {
+            if ($_POST['jenis_stock'] == "barang_masuk") {
+                $update = "barang_keluar = '0',";
+            } else {
+                $update = "barang_masuk = '0',";
+            }
+
+            $sql .=
+                "UPDATE
+                    flow_barang
+                SET
+                    no_do = '$_POST[NoDO]',
+                    tanggal = '$_POST[Tanggal_Stock]',
+                    ID_Bahan = '$BahanDigital[$i]',
+                    $_POST[jenis_stock] = '$qty[$i]',
+                    $update
+                    harga_barang = '$harga[$i]'
+                WHERE
+                    fid = $fid[$i];
+            ";
         } else {
-            $n[] = "1";
+            $N[] = $BahanDigital[$i];
+            $insert[] = "
+                (
+                    '$_POST[NoDO]',
+                    '$_POST[Tanggal_Stock]',
+                    '$BahanDigital[$i]',
+                    '$qty[$i]',
+                    '$harga[$i]',
+                    '$_SESSION[uid]',
+                    'N'
+                )
+            ";
         }
-    }
-    $update_fid = implode("','", $y);
-    $update_No = implode("','", $n);
+    endfor;
 
-    $sql = $update_fid . " & " . $update_No;
-
+    $New_Insert = implode(',', $insert);
+    if (count($N) > 0) :
+        $sql .=
+            "INSERT INTO flow_barang 
+                (
+                    no_do,
+                    tanggal,
+                    ID_Bahan,
+                    $_POST[jenis_stock],
+                    harga_barang,
+                    operator,
+                    hapus
+                )  VALUES $New_Insert
+        ";
+    else :
+    endif;
+elseif ($_POST['jenis_submit'] == 'XXXX') :
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {
@@ -6611,7 +6652,7 @@ if ($conn->multi_query($sql) === TRUE) {
     if (mysqli_query($conn, $sql)) {
         echo "Records inserted or Update successfully.<br><br>  $sql";
     } else {
-        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql" . mysqli_error($conn) . "</br>";
+        echo "<b class='text-danger'>ERROR: Could not able to execute<br> $sql <br><br>" . mysqli_error($conn) . "</br>";
     }
 }
 

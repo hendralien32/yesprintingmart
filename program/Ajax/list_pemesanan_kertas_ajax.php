@@ -63,8 +63,8 @@ if ($search != "") {
     </tr>
 
     <?php
-        $sql =
-            "SELECT
+    $sql =
+        "SELECT
                 flow_barang.fid,
                 flow_barang.no_do,
                 flow_barang.tanggal,
@@ -108,46 +108,46 @@ if ($search != "") {
             GROUP BY
                 flow_barang.no_do
         ";
-        echo "$sql";
-        $n = 0;
-        $result = $conn_OOP->query($sql);
 
-        $jumlahQry = $result->num_rows;
+    $n = 0;
+    $result = $conn_OOP->query($sql);
 
-        if ($result->num_rows > 0) :
-            while ($d = $result->fetch_assoc()) :
-                $n++;
-                $barang_masuk = explode(",", "$d[barang_masuk]");
-                $barang_keluar = explode(",", "$d[barang_keluar]");
-                $harga_barang = explode(",", "$d[harga_barang]");
-                $nama_barang = explode(",", "$d[nama_barang]");
-                $Count_NamaBrg = count($nama_barang);
+    $jumlahQry = $result->num_rows;
 
-                if($barang_masuk[0]!="0") {
-                    $qty = "$barang_masuk[0]";
-                    $icon = "<span class='icon_status'><i class='fas fa-arrow-alt-down' style='color:green'></i></span>";
-                } else {
-                    $qty = "$barang_keluar[0]";
-                    $icon = "<span class='icon_status'><i class='fas fa-arrow-alt-up' style='color:red'></i></span>";
-                }
+    if ($result->num_rows > 0) :
+        while ($d = $result->fetch_assoc()) :
+            $n++;
+            $barang_masuk = explode(",", "$d[barang_masuk]");
+            $barang_keluar = explode(",", "$d[barang_keluar]");
+            $harga_barang = explode(",", "$d[harga_barang]");
+            $nama_barang = explode(",", "$d[nama_barang]");
+            $Count_NamaBrg = count($nama_barang);
 
-                if ($_SESSION['level'] == "admin") {
-                    $icon_hapus = "<span class='icon_status pointer' ondblclick='hapus(\"". $d['no_do'] ."\", \"". $d['no_do'] ."\", \"". $d['hapus'] ."\")'><i class='far fa-trash-alt text-danger'></i></span>";
-                } else {
-                    $icon = "";
-                }
+            if ($barang_masuk[0] != "0") {
+                $qty = "$barang_masuk[0]";
+                $icon = "<span class='icon_status'><i class='fas fa-arrow-alt-down' style='color:green'></i></span>";
+            } else {
+                $qty = "$barang_keluar[0]";
+                $icon = "<span class='icon_status'><i class='fas fa-arrow-alt-up' style='color:red'></i></span>";
+            }
 
-                $edit = "LaodForm(\"Tambah_StockDP\",\"$d[no_do]\")";
+            if ($_SESSION['level'] == "admin") {
+                $icon_hapus = "<span class='icon_status pointer' ondblclick='hapus(\"" . $d['no_do'] . "\", \"" . $d['no_do'] . "\", \"" . $d['hapus'] . "\")'><i class='far fa-trash-alt text-danger'></i></span>";
+            } else {
+                $icon = "";
+            }
 
-                echo "
+            $edit = "LaodForm(\"Tambah_StockDP\",\"$d[no_do]\")";
+
+            echo "
                     <tr>
                         <td rowspan='$Count_NamaBrg'>$n</td>
                         <td rowspan='$Count_NamaBrg' class='a-center pointer' onclick='$edit'> " . date("d F Y", strtotime($d['tanggal'])) . "</td>
                         <td rowspan='$Count_NamaBrg' onclick='$edit' class='pointer'>$d[no_do]</td>
                         <td onclick='$edit' class='pointer'>$nama_barang[0]</td>
-                        <td class='a-right'><strong>". number_format($qty) ."</strong> Lembar</td>
-                        <td class='a-right'>". number_format($harga_barang[0]) ."</td>
-                        <td class='a-right'>". number_format($qty * $harga_barang[0]) ."</td>
+                        <td class='a-right'><strong>" . number_format($qty) . "</strong> Lembar</td>
+                        <td class='a-right'>" . number_format($harga_barang[0]) . "</td>
+                        <td class='a-right'>" . number_format($qty * $harga_barang[0]) . "</td>
                         <td rowspan='$Count_NamaBrg' class='a-center'>
                             $icon
                             $icon_hapus
@@ -155,29 +155,29 @@ if ($search != "") {
                     </tr>
                 ";
 
-                for ($i = 1; $i < $Count_NamaBrg; $i++) :
-                    if($barang_masuk[$i]!="0") {
-                        $qtyX = "$barang_masuk[$i]";
-                    } else {
-                        $qtyX = "$barang_keluar[$i]";
-                    }
+            for ($i = 1; $i < $Count_NamaBrg; $i++) :
+                if ($barang_masuk[$i] != "0") {
+                    $qtyX = "$barang_masuk[$i]";
+                } else {
+                    $qtyX = "$barang_keluar[$i]";
+                }
 
-                    echo "
+                echo "
                         <tr>
                             <td onclick='$edit' class='pointer'>$nama_barang[$i]</td>
-                            <td class='a-right'><strong>". number_format($qtyX) ."</strong> Lembar</td>
-                            <td class='a-right'>". number_format($harga_barang[$i]) ."</td>
-                            <td class='a-right'>". number_format($qtyX * $harga_barang[$i]) ."</td>
+                            <td class='a-right'><strong>" . number_format($qtyX) . "</strong> Lembar</td>
+                            <td class='a-right'>" . number_format($harga_barang[$i]) . "</td>
+                            <td class='a-right'>" . number_format($qtyX * $harga_barang[$i]) . "</td>
                         </tr>
                     ";
-                endfor;
-            endwhile;
-        else :
-            echo "
+            endfor;
+        endwhile;
+    else :
+        echo "
                 <tr>
                     <td colspan='8'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
                 </tr>
             ";
-        endif;
+    endif;
     ?>
 </table>

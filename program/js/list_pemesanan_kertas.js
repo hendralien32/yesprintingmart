@@ -228,7 +228,7 @@ function submit_stock(id) {
 
   let fid = [];
   $("input[name='fid[]']").each(function () {
-    fid.push($(this).val());
+    fid.push(parseInt($(this).val()));
   });
 
   let BahanDigital = [];
@@ -261,6 +261,7 @@ function submit_stock(id) {
   }
 
   let fdata = new FormData();
+  fdata.append("fid", fid);
   fdata.append("NoDO", NoDO);
   fdata.append("jenis_stock", jenis_stock);
   fdata.append("Tanggal_Stock", Tanggal_Stock);
@@ -278,14 +279,14 @@ function submit_stock(id) {
     contentType: false,
     data: fdata,
     beforeSend: function () {
-      // $("#submitBtn").attr("disabled", "disabled");
-      // $(".icon-close").removeAttr("onclick");
+      $("#submitBtn").attr("disabled", "disabled");
+      $(".icon-close").removeAttr("onclick");
     },
     success: function (data) {
-      $("#Result").html(data);
-      // hideBox();
-      // onload();
-      // return false;
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       $("#Result").html(XMLHttpRequest);

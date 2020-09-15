@@ -195,7 +195,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                             </td>
                             <td class='a-center'><input type='number' class='form md' value='$Qty[$i]' id='qty_$n' name='qty[]' min='0'> Lembar</td>
                             <td class='a-center'><input type='number' class='form md' value='$harga_barang[$i]' id='harga_$n' name='harga[]' min='0' $disabled></td>
-                            <td class='a-center'><span class='icon_status'><i class='far fa-trash-alt text-danger'></i></span></td>
+                            <td class='a-center' onclick='hapus_sub_ID(\"Hapus_brngSUB\", \"$fid[$i]\", \"$nama_barang[$i]\", \"$ID_Order\")'><span class='icon_status'><i class='far fa-trash-alt text-danger'></i></span></td>
                         </tr>
                         ";
                     endfor;

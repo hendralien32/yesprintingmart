@@ -568,14 +568,16 @@ function validasi(id) {
     },
     url: "progress/validasi_progress.php",
     success: function (data) {
-      if (data > 0) {
+      if (data > 0 && $("#id_client").val() != "") {
         $("#validasi_" + id).val(data);
-        $("#Alert_Val" + id).html("");
+        $("#Alert_Val" + id).html(
+          "<i class='fad fa-check-double' style='margin-left:10px;'></i>"
+        );
       } else {
         $("#validasi_" + id).val("0");
         $("#id_" + id).val("");
         $("#Alert_Val" + id).html(
-          "<b style='color:red'>" + id + " Belum terdaftar</b>"
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
         );
       }
     },
@@ -730,6 +732,9 @@ function submit(id) {
     alert(
       "Nama Client Belum terdaftar & Minta Customer Service Untuk Mendaftarkan Nama Client Tersebut"
     );
+    return false;
+  } else if ($("#qty").val() == "" || $("#qty").val() == 0) {
+    alert("Qty Tidak Boleh Kosong atau 0");
     return false;
   } else if ($("#validasi_bahan").val() < 1) {
     alert("Nama Bahan tidak ada dalam Daftar Stock Barang");

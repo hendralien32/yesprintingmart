@@ -755,5 +755,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
             $arr_data['finishing'] = "$row[finishing]";
         endwhile;
         echo json_encode($arr_data);
+    else :
+        echo "0";
     endif;
 }

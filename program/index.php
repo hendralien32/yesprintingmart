@@ -155,22 +155,29 @@ endif;
                 <a href="../">
                     <li class='<?= ($page == '1') ? 'active' : ''; ?>'>Dashboard</li>
                 </a>
-                <a href="?page=Client_YPM&tab=DatabaseYPM">
-                    <li class='<?= ($tab == 'DatabaseYPM') ? 'active' : ''; ?>'>Database</li>
+                <?php if( $_SESSION['level']!="creative_support") : ?>
+                    <a href="?page=<?= ($_SESSION['level'] != 'admin_yes') ? 'Client_YPM' : 'User_YPM'; ?>&tab=DatabaseYPM">
+                        <li class='<?= ($tab == 'DatabaseYPM') ? 'active' : ''; ?>'>Database</li>
+                    </a>
+                <?php endif; ?>
+                <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
                     <a href="?page=SO_YPM&tab=SalesYPM">
                         <li class='<?= ($tab == 'SalesYPM') ? 'active' : ''; ?>'>Penjualan</li>
                     </a>
-                    <a href="?page=Wo_List&tab=SalesYescom">
-                        <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
-                    </a>
+                <?php endif; ?>
+                <a href="?page=Wo_List&tab=SalesYescom">
+                    <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
+                </a>
+                <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
                     <a href="?page=LF_List&tab=Large_Format">
                         <li class='<?= ($tab == 'Large_Format') ? 'active' : ''; ?>'>Large Format</li>
                     </a>
                     <a href="?page=DP_List&tab=Digital_Printing">
                         <li class='<?= ($tab == 'Digital_Printing') ? 'active' : ''; ?>'>Digital Printing</li>
                     </a>
-                    <li>Laporan</li>
-                    <div class="clear"></div>
+                        <li>Laporan</li>
+                <?php endif; ?>
+                <div class="clear"></div>
             </ul>
         </div>
         <div id="sub_menu">
@@ -192,21 +199,27 @@ endif;
                 </ul>
             <?php elseif ($tab == 'DatabaseYPM') : ?>
                 <ul>
-                    <a href="?page=Client_YPM&tab=DatabaseYPM">
-                        <li class='<?= ($page == 'Client_YPM') ? 'active' : ''; ?>'>Client Database</li>
-                    </a>
-                    <a href="?page=Supplier_YPM&tab=DatabaseYPM">
-                        <li class='<?= ($page == 'Supplier_YPM') ? 'active' : ''; ?>'>Supplier Database</li>
-                    </a>
-                    <a href="?page=User_YPM&tab=DatabaseYPM">
-                        <li class='<?= ($page == 'User_YPM') ? 'active' : ''; ?>'>User Database</li>
-                    </a>
-                    <a href="?page=Pricelist_YPM&tab=DatabaseYPM">
-                        <li class='<?= ($page == 'Pricelist_YPM') ? 'active' : ''; ?>'>Pricelist Database</li>
-                    </a>
-                    <a href="?page=Bahan_YPM&tab=DatabaseYPM">
-                        <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
-                    </a>
+                    <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                        <a href="?page=Client_YPM&tab=DatabaseYPM">
+                            <li class='<?= ($page == 'Client_YPM') ? 'active' : ''; ?>'>Client Database</li>
+                        </a>
+                        <a href="?page=Supplier_YPM&tab=DatabaseYPM">
+                            <li class='<?= ($page == 'Supplier_YPM') ? 'active' : ''; ?>'>Supplier Database</li>
+                        </a>
+                    <?php endif; ?>
+                    <?php if( $_SESSION['level'] == "admin" || $_SESSION['level'] == "admin_yes") : ?>
+                        <a href="?page=User_YPM&tab=DatabaseYPM">
+                            <li class='<?= ($page == 'User_YPM') ? 'active' : ''; ?>'>User Database</li>
+                        </a>
+                    <?php endif; ?>
+                    <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                        <a href="?page=Pricelist_YPM&tab=DatabaseYPM">
+                            <li class='<?= ($page == 'Pricelist_YPM') ? 'active' : ''; ?>'>Pricelist Database</li>
+                        </a>
+                        <a href="?page=Bahan_YPM&tab=DatabaseYPM">
+                            <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
+                        </a>
+                    <?php endif; ?>
                     <div class="clear"></div>
                 </ul>
             <?php elseif ($tab == 'SalesYescom') : ?>
@@ -214,12 +227,14 @@ endif;
                     <a href="?page=Wo_List&tab=SalesYescom">
                         <li class='<?= ($page == 'Wo_List') ? 'active' : ''; ?>'>WO List Yescom</li>
                     </a>
-                    <a href="?page=penjualan_YESCOM&tab=SalesYescom">
-                        <li class='<?= ($page == 'penjualan_YESCOM') ? 'active' : ''; ?>'>Sales Order Yescom</li>
-                    </a>
-                    <a href="?page=SI_YESCOM&tab=SalesYescom">
-                        <li class='<?= ($page == 'SI_YESCOM') ? 'active' : ''; ?>'>Sales Invoice Yescom</li>
-                    </a>
+                    <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                        <a href="?page=penjualan_YESCOM&tab=SalesYescom">
+                            <li class='<?= ($page == 'penjualan_YESCOM') ? 'active' : ''; ?>'>Sales Order Yescom</li>
+                        </a>
+                        <a href="?page=SI_YESCOM&tab=SalesYescom">
+                            <li class='<?= ($page == 'SI_YESCOM') ? 'active' : ''; ?>'>Sales Invoice Yescom</li>
+                        </a>
+                    <?php endif; ?>
                     <div class="clear"></div>
                 </ul>
             <?php elseif ($tab == 'Large_Format') : ?>

@@ -93,14 +93,14 @@ endif;
                 endif;
 
                 if ($row['akses_edit'] == "Y") :
-                    if ($_SESSION["level"] == "admin") {
+                    if ($_SESSION['level'] == "admin_yes" or $_SESSION['level'] == "admin") {
                         $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"Y\", \"" . $row['wio'] . "\")'><i class='fad fa-lock-open-alt'></i></span>";
                         $Akses_Edit = "Y";
                     } else {
                         $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
                         $Akses_Edit = "$row[akses_edit]";
                     } else :
-                    if ($_SESSION["level"] == "admin") {
+                    if ($_SESSION['level'] == "admin_yes" or $_SESSION['level'] == "admin") {
                         $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $row['wio'] . "\")'><i class='fad fa-lock-alt'></i></span>";
                         $Akses_Edit = "Y";
                     } else {

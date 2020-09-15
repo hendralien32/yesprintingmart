@@ -2,6 +2,10 @@
 session_start();
 require_once "../../function.php";
 
+if($_SESSION['level']=="admin_yes") : $level = "and (pm_user.level = 'admin_yes' or pm_user.level = 'creative_support')"; 
+else : $level = "";
+endif;
+
 if ($_POST['data'] != "") {
     $add_where = "( pm_user.nama LIKE '%$_POST[data]%' or pm_user.username LIKE '%$_POST[data]%' )";
 } else {
@@ -48,6 +52,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     pm_user
                 WHERE
                     $add_where
+                    $level
                 ORDER BY
                     pm_user.username
                 DESC

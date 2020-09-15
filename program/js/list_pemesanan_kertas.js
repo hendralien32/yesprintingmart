@@ -126,7 +126,7 @@ function find_ID(id, no) {
         },
       });
     },
-    minLength: 3,
+    minLength: 2,
     autoFocus: true,
     select: function (event, ui) {
       $("#BahanDigital" + no).val(ui.item.value);
@@ -157,7 +157,7 @@ function validasi_ID(id, no) {
         if (data > 0) {
           $("#validasi_" + id + no).val(data);
           $("#Alert_Val" + id + no).html(
-            "<i class='fad fa-check-double' style='margin-left:10px;'></i> "
+            "<i class='fad fa-check-double' style='margin-left:10px;'></i>"
           );
         } else {
           $("#validasi_" + id + no).val("0");
@@ -292,4 +292,36 @@ function submit_stock(id) {
       $("#Result").html(XMLHttpRequest);
     },
   });
+}
+
+function hapus_sub_ID(status, lid, oid, SO_LF) {
+  if (confirm('Hapus Bahan "' + oid + '" ?')) {
+    var fdata = new FormData();
+    fdata.append("fid", lid);
+    fdata.append("nama_bahan", oid);
+    fdata.append("jenis_submit", status);
+    $.ajax({
+      type: "POST",
+      url: "progress/setter_penjualan_prog.php",
+      cache: false,
+      processData: false,
+      contentType: false,
+      data: fdata,
+      beforeSend: function () {
+        $("#submitBtn").attr("disabled", "disabled");
+        $(".icon-close").removeAttr("onclick");
+      },
+      success: function (data) {
+        // $("#Result").html(data);
+        onload();
+        LaodForm("Tambah_StockDP", SO_LF);
+        return false;
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+        $("#bagDetail").html(XMLHttpRequest);
+      },
+    });
+  } else {
+    return false;
+  }
 }

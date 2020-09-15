@@ -176,7 +176,7 @@
                     </tr>
                     <tr>
                         <td>ID</td>
-                        <td><input type="text" id="id_yescom" value="<?= $id ?>" class="form md" onkeyup="SearchID_YES()"></td>
+                        <td><input type="text" id="id_yescom" value="<?= $id ?>" class="form md" onkeyup="SearchID_YES()" autocomplete="off"></td>
                     </tr>
                     <tr>
                         <td>Client</td>

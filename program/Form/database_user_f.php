@@ -97,18 +97,25 @@
                         <select name="" id="form_levelUser">
                         <option value="">Pilih Level User</option>
                         <?php
-                            $array_kode = array(
-                                "accounting"            => "Accounting",
-                                "admin"                 => "Administrator",
-                                "setter"                => "Setter",
-                                "operator_lf"           => "Operator Large Format",
-                                "operator_dp"           => "Operator Digital Printing",
-                                "CS"                    => "Customer Service",
-                                "creative_support"      => "Creative Support YES",
-                                "admin_yes"             => "Adminstator YES",
-                                "marketing"             => "Marketing YES"
-                            );
-
+                            if($_SESSION['level']!="admin_yes") :
+                                $array_kode = array(
+                                    "accounting"            => "Accounting",
+                                    "admin"                 => "Administrator",
+                                    "setter"                => "Setter",
+                                    "operator_lf"           => "Operator Large Format",
+                                    "operator_dp"           => "Operator Digital Printing",
+                                    "CS"                    => "Customer Service",
+                                    "creative_support"      => "Creative Support YES",
+                                    "admin_yes"             => "Adminstator YES",
+                                    "marketing"             => "Marketing YES"
+                                );
+                            else :
+                                $array_kode = array(
+                                    "admin_yes"             => "Adminstator YES",
+                                    "creative_support"      => "Creative Support YES"
+                                );
+                            endif;
+                            
                             foreach($array_kode as $key => $value ) :
                                 if($level=="$key") : $selected = "selected";
                                 elseif($level=="") : $selected = "selected";

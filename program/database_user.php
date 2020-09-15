@@ -1,5 +1,5 @@
 <?php
-    if( $_SESSION['level']!="admin") {
+    if( $_SESSION['level']!="admin" && $_SESSION['level']!="admin_yes") {
         echo "<script type='text/javascript'>window.top.location='../vendor/colorlib-error-404-19/index.html';</script>"; 
         exit;
     } 

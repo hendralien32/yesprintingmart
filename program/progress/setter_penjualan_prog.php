@@ -6643,7 +6643,16 @@ elseif ($_POST['jenis_submit'] == 'update_stock') :
         ";
     else :
     endif;
-elseif ($_POST['jenis_submit'] == 'XXXX') :
+elseif ($_POST['jenis_submit'] == 'Hapus_brngSUB') :
+    $sql =
+        "UPDATE
+            flow_barang
+        SET
+            hapus = 'Y'
+        WHERE
+            fid = $_POST[fid];
+    ";
+elseif ($_POST['jenis_submit'] == 'xxxx') :
 endif;
 
 if ($conn->multi_query($sql) === TRUE) {

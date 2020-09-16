@@ -1,9 +1,9 @@
 <?php
-    session_start();
-    require_once "../../function.php";
+session_start();
+require_once "../../function.php";
 
-    $sql_query = 
-        "SELECT
+$sql_query =
+    "SELECT
             GROUP_CONCAT(penjualan.oid) as oid,
             GROUP_CONCAT((CASE
                 WHEN penjualan.kode = 'large format' THEN 'Large Format'
@@ -105,7 +105,8 @@
         ON
             penjualan.ID_Bahan = barang.id_barang  
         WHERE
-            penjualan.no_invoice = $_POST[data]
+            penjualan.no_invoice = $_POST[data] and
+            penjualan.cancel != 'Y'
         GROUP BY
             penjualan.no_invoice
         ORDER BY
@@ -113,46 +114,46 @@
         DESC
     ";
 
-    // Perform query
-    $result = $conn_OOP -> query($sql_query);
+// Perform query
+$result = $conn_OOP->query($sql_query);
 
-    if ($result->num_rows > 0) :
-        // output data of each row
-        $row = $result->fetch_assoc();
+if ($result->num_rows > 0) :
+    // output data of each row
+    $row = $result->fetch_assoc();
 
-        $oid = explode("," , "$row[oid]");
-        $description = explode("*_*" , "$row[description]");
-        $ukuran = explode("," , "$row[ukuran]");
-        $bahan = explode("," , "$row[bahan]");
-        $sisi = explode("," , "$row[sisi]");
-        $qty = explode("," , "$row[qty]");
-        $kode = explode("," , "$row[kode]");
-        $laminating = explode("," , "$row[laminating]");
-        $alat_tambahan = explode("," , "$row[alat_tambahan]");
-        $potong = explode("," , "$row[potong]");
-        $potong_gantung = explode("," , "$row[potong_gantung]");
-        $pon = explode("," , "$row[pon]");
-        $perporasi = explode("," , "$row[perporasi]");
-        $CuttingSticker = explode("," , "$row[CuttingSticker]");
-        $Hekter_Tengah = explode("," , "$row[Hekter_Tengah]");
-        $Blok = explode("," , "$row[Blok]");
-        $Spiral = explode("," , "$row[Spiral]");
-        $b_digital = explode("," , "$row[b_digital]");
-        $b_xbanner = explode("," , "$row[b_xbanner]");
-        $b_lain = explode("," , "$row[b_lain]");
-        $b_offset = explode("," , "$row[b_offset]");
-        $b_large = explode("," , "$row[b_large]");
-        $b_kotak = explode("," , "$row[b_kotak]");
-        $b_laminate = explode("," , "$row[b_laminate]");
-        $b_potong = explode("," , "$row[b_potong]");
-        $b_design = explode("," , "$row[b_design]");
-        $b_indoor = explode("," , "$row[b_indoor]");
-        $b_delivery = explode("," , "$row[b_delivery]");
-        $discount = explode("," , "$row[discount]");
-        $harga_satuan = explode("," , "$row[harga_satuan]");
-        $total = explode("," , "$row[total]");
-        $count_oid = count($oid);
-    else : endif;
+    $oid = explode(",", "$row[oid]");
+    $description = explode("*_*", "$row[description]");
+    $ukuran = explode(",", "$row[ukuran]");
+    $bahan = explode(",", "$row[bahan]");
+    $sisi = explode(",", "$row[sisi]");
+    $qty = explode(",", "$row[qty]");
+    $kode = explode(",", "$row[kode]");
+    $laminating = explode(",", "$row[laminating]");
+    $alat_tambahan = explode(",", "$row[alat_tambahan]");
+    $potong = explode(",", "$row[potong]");
+    $potong_gantung = explode(",", "$row[potong_gantung]");
+    $pon = explode(",", "$row[pon]");
+    $perporasi = explode(",", "$row[perporasi]");
+    $CuttingSticker = explode(",", "$row[CuttingSticker]");
+    $Hekter_Tengah = explode(",", "$row[Hekter_Tengah]");
+    $Blok = explode(",", "$row[Blok]");
+    $Spiral = explode(",", "$row[Spiral]");
+    $b_digital = explode(",", "$row[b_digital]");
+    $b_xbanner = explode(",", "$row[b_xbanner]");
+    $b_lain = explode(",", "$row[b_lain]");
+    $b_offset = explode(",", "$row[b_offset]");
+    $b_large = explode(",", "$row[b_large]");
+    $b_kotak = explode(",", "$row[b_kotak]");
+    $b_laminate = explode(",", "$row[b_laminate]");
+    $b_potong = explode(",", "$row[b_potong]");
+    $b_design = explode(",", "$row[b_design]");
+    $b_indoor = explode(",", "$row[b_indoor]");
+    $b_delivery = explode(",", "$row[b_delivery]");
+    $discount = explode(",", "$row[discount]");
+    $harga_satuan = explode(",", "$row[harga_satuan]");
+    $total = explode(",", "$row[total]");
+    $count_oid = count($oid);
+else : endif;
 ?>
 
 <h3 class='title_form'>Check Invoice Penjualan <span style="text-decoration:underline"><?= $row['nama_client'] ?></span> dengan No. Invoice <span style="text-decoration:underline">#<?= $_POST['data'] ?></span></h3>
@@ -169,60 +170,60 @@
     </thead>
     <tbody>
         <?php
-            for($i=0;$i<$count_oid ;$i++) :
-                $n = $i+1;
+        for ($i = 0; $i < $count_oid; $i++) :
+            $n = $i + 1;
 
-                if($potong[$i]=="Y") : 
-                    $potong_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $potong_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($potong[$i] == "Y") :
+                $potong_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $potong_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($potong_gantung[$i]=="Y") : 
-                    $potong_gantung_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $potong_gantung_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($potong_gantung[$i] == "Y") :
+                $potong_gantung_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $potong_gantung_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($pon[$i]=="Y") : 
-                    $pon_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $pon_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($pon[$i] == "Y") :
+                $pon_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $pon_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($perporasi[$i]=="Y") : 
-                    $perporasi_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $perporasi_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($perporasi[$i] == "Y") :
+                $perporasi_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $perporasi_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($CuttingSticker[$i]=="Y") : 
-                    $CuttingSticker_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $CuttingSticker_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($CuttingSticker[$i] == "Y") :
+                $CuttingSticker_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $CuttingSticker_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($Hekter_Tengah[$i]=="Y") : 
-                    $Hekter_Tengah_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $Hekter_Tengah_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($Hekter_Tengah[$i] == "Y") :
+                $Hekter_Tengah_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $Hekter_Tengah_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($Blok[$i]=="Y") : 
-                    $Blok_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $Blok_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
+            if ($Blok[$i] == "Y") :
+                $Blok_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $Blok_X = "<i class='fad fa-times-square'></i>";
+            endif;
 
-                if($Spiral[$i]=="Y") : 
-                    $Spiral_X = "<i class='fad fa-check-square'></i>"; 
-                else : 
-                    $Spiral_X = "<i class='fad fa-times-square'></i>"; 
-                endif;
-                
-                switch($kode[$i]) :
-                    CASE "Large Format" :
-                        $finishing = "
+            if ($Spiral[$i] == "Y") :
+                $Spiral_X = "<i class='fad fa-check-square'></i>";
+            else :
+                $Spiral_X = "<i class='fad fa-times-square'></i>";
+            endif;
+
+            switch ($kode[$i]):
+                case "Large Format":
+                    $finishing = "
                         <table class='detail_checkInv'>
                             <tr>
                                 <td><b>Stiker Cutting</b></td>
@@ -230,28 +231,28 @@
                             </tr>
                         </table>
                         ";
-                        $harga = "
+                    $harga = "
                         <td>
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>Biaya LF</b></td>
-                                    <td>". number_format($b_large[$i]) ."</td>
+                                    <td>" . number_format($b_large[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>By Alat Tambahan</b></td>
-                                    <td>". number_format($b_xbanner[$i]) ."</td>
+                                    <td>" . number_format($b_xbanner[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Laminating</b></td>
-                                    <td>". number_format($b_laminate[$i]) ."</td>
+                                    <td>" . number_format($b_laminate[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Finishing</b></td>
-                                    <td>". number_format($b_potong[$i]) ."</td>
+                                    <td>" . number_format($b_potong[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Delivery</b></td>
-                                    <td>". number_format($b_delivery[$i]) ."</td>
+                                    <td>" . number_format($b_delivery[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
@@ -259,22 +260,22 @@
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>@ Harga</b></td>
-                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>" . number_format($harga_satuan[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount</b></td>
-                                    <td>". number_format($discount[$i]) ."</td>
+                                    <td>" . number_format($discount[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Harga</b></td>
-                                    <td>". number_format($total[$i]) ."</td>
+                                    <td>" . number_format($total[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
                         ";
-                        break;
-                    CASE "Digital Printing" :
-                        $finishing = "
+                    break;
+                case "Digital Printing":
+                    $finishing = "
                         <table class='detail_checkInv'>
                             <tr>
                                 <td><b>Potong Putus</b></td>
@@ -298,32 +299,32 @@
                             </tr>
                         </table>
                         ";
-                        $harga = "
+                    $harga = "
                         <td>
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>Biaya Digital</b></td>
-                                    <td>". number_format($b_digital[$i]) ."</td>
+                                    <td>" . number_format($b_digital[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Kotak</b></td>
-                                    <td>". number_format($b_kotak[$i]) ."</td>
+                                    <td>" . number_format($b_kotak[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Laminating</b></td>
-                                    <td>". number_format($b_laminate[$i]) ."</td>
+                                    <td>" . number_format($b_laminate[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Finishing</b></td>
-                                    <td>". number_format($b_potong[$i]) ."</td>
+                                    <td>" . number_format($b_potong[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Design</b></td>
-                                    <td>". number_format($b_design[$i]) ."</td>
+                                    <td>" . number_format($b_design[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Delivery</b></td>
-                                    <td>". number_format($b_delivery[$i]) ."</td>
+                                    <td>" . number_format($b_delivery[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
@@ -331,22 +332,22 @@
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>@ Harga</b></td>
-                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>" . number_format($harga_satuan[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount</b></td>
-                                    <td>". number_format($discount[$i]) ."</td>
+                                    <td>" . number_format($discount[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Harga</b></td>
-                                    <td>". number_format($total[$i]) ."</td>
+                                    <td>" . number_format($total[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
                         ";
-                        break;
-                    CASE "Indoor HP Latex" :
-                        $finishing = "
+                    break;
+                case "Indoor HP Latex":
+                    $finishing = "
                         <table class='detail_checkInv'>
                             <tr>
                                 <td><b>Stiker Cutting</b></td>
@@ -354,28 +355,28 @@
                             </tr>
                         </table>
                         ";
-                        $harga = "
+                    $harga = "
                         <td>
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>Biaya Indoor</b></td>
-                                    <td>". number_format($b_indoor[$i]) ."</td>
+                                    <td>" . number_format($b_indoor[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>By Alat Tambahan</b></td>
-                                    <td>". number_format($b_xbanner[$i]) ."</td>
+                                    <td>" . number_format($b_xbanner[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Laminating</b></td>
-                                    <td>". number_format($b_laminate[$i]) ."</td>
+                                    <td>" . number_format($b_laminate[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Finishing</b></td>
-                                    <td>". number_format($b_potong[$i]) ."</td>
+                                    <td>" . number_format($b_potong[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Delivery</b></td>
-                                    <td>". number_format($b_delivery[$i]) ."</td>
+                                    <td>" . number_format($b_delivery[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
@@ -383,22 +384,22 @@
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>@ Harga</b></td>
-                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>" . number_format($harga_satuan[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount</b></td>
-                                    <td>". number_format($discount[$i]) ."</td>
+                                    <td>" . number_format($discount[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Harga</b></td>
-                                    <td>". number_format($total[$i]) ."</td>
+                                    <td>" . number_format($total[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
                         ";
-                        break;
-                    CASE "Indoor Xuli" :
-                        $finishing = "
+                    break;
+                case "Indoor Xuli":
+                    $finishing = "
                         <table class='detail_checkInv'>
                             <tr>
                                 <td><b>Stiker Cutting</b></td>
@@ -406,28 +407,28 @@
                             </tr>
                         </table>
                         ";
-                        $harga = "
+                    $harga = "
                         <td>
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>Biaya Indoor</b></td>
-                                    <td>". number_format($b_indoor[$i]) ."</td>
+                                    <td>" . number_format($b_indoor[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>By Alat Tambahan</b></td>
-                                    <td>". number_format($b_xbanner[$i]) ."</td>
+                                    <td>" . number_format($b_xbanner[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Laminating</b></td>
-                                    <td>". number_format($b_laminate[$i]) ."</td>
+                                    <td>" . number_format($b_laminate[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Finishing</b></td>
-                                    <td>". number_format($b_potong[$i]) ."</td>
+                                    <td>" . number_format($b_potong[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Biaya Delivery</b></td>
-                                    <td>". number_format($b_delivery[$i]) ."</td>
+                                    <td>" . number_format($b_delivery[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
@@ -435,47 +436,47 @@
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>@ Harga</b></td>
-                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>" . number_format($harga_satuan[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount</b></td>
-                                    <td>". number_format($discount[$i]) ."</td>
+                                    <td>" . number_format($discount[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Harga</b></td>
-                                    <td>". number_format($total[$i]) ."</td>
+                                    <td>" . number_format($total[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
                         ";
-                        break;
-                    CASE "Offset Printing" :
-                        $finishing = "";
-                        $harga = "
+                    break;
+                case "Offset Printing":
+                    $finishing = "";
+                    $harga = "
                         <td>
-                            <b>Biaya Offset</b>". number_format($b_offset[$i]) ." <br>
-                            <b>Biaya Delivery</b>". number_format($b_delivery[$i]) ." <br>
+                            <b>Biaya Offset</b>" . number_format($b_offset[$i]) . " <br>
+                            <b>Biaya Delivery</b>" . number_format($b_delivery[$i]) . " <br>
                         </td>
                         <td>
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>@ Harga</b></td>
-                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>" . number_format($harga_satuan[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount</b></td>
-                                    <td>". number_format($discount[$i]) ."</td>
+                                    <td>" . number_format($discount[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Harga</b></td>
-                                    <td>". number_format($total[$i]) ."</td>
+                                    <td>" . number_format($total[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
                         ";
-                        break;
-                    CASE "ETC" :
-                        $finishing = "
+                    break;
+                case "ETC":
+                    $finishing = "
                         <table class='detail_checkInv'>
                             <tr>
                                 <td><b>Hekter Tengah</b></td>
@@ -491,36 +492,36 @@
                             </tr>
                         </table>
                         ";
-                        $harga = "
+                    $harga = "
                         <td>
-                            <b>Biaya lain</b>". number_format($b_lain[$i]) ." <br>
-                            <b>Biaya Finishing</b>". number_format($b_potong[$i]) ." <br>
-                            <b>Biaya Delivery</b>". number_format($b_delivery[$i]) ." <br>
+                            <b>Biaya lain</b>" . number_format($b_lain[$i]) . " <br>
+                            <b>Biaya Finishing</b>" . number_format($b_potong[$i]) . " <br>
+                            <b>Biaya Delivery</b>" . number_format($b_delivery[$i]) . " <br>
                         </td>
                         <td>
                             <table class='detail_checkInv'>
                                 <tr>
                                     <td><b>@ Harga</b></td>
-                                    <td>". number_format($harga_satuan[$i]) ."</td>
+                                    <td>" . number_format($harga_satuan[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount</b></td>
-                                    <td>". number_format($discount[$i]) ."</td>
+                                    <td>" . number_format($discount[$i]) . "</td>
                                 </tr>
                                 <tr>
                                     <td><b>Total Harga</b></td>
-                                    <td>". number_format($total[$i]) ."</td>
+                                    <td>" . number_format($total[$i]) . "</td>
                                 </tr>
                             </table>
                         </td>
                         ";
-                        break;
-                    default:
-                        $finishing = "";
-                        $harga = "";
-                endswitch;
+                    break;
+                default:
+                    $finishing = "";
+                    $harga = "";
+            endswitch;
 
-                echo "
+            echo "
                 <tr>
                     <td>$n</td>
                     <td>$oid[$i]</td>
@@ -564,7 +565,7 @@
                     $harga
                 </tr>
                 ";
-            endfor;
+        endfor;
         ?>
     </tbody>
 </table>
@@ -574,4 +575,4 @@
 </div>
 <div id="Result">
 
-</div>    
+</div>

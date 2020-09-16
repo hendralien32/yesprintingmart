@@ -9,6 +9,8 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
     $sql =
         "SELECT 
                 penjualan.description,
+                penjualan.no_invoice,
+                penjualan.client as ID_Client,
                 (CASE
                     WHEN penjualan.kode = 'large format' THEN 'Large Format'
                     WHEN penjualan.kode = 'digital' THEN 'Digital Printing'
@@ -328,6 +330,14 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 <?php else : endif; ?>
             </table>
         </div>
+        <div id="submit_menu">
+            <?php if ($row['no_invoice'] != "0") : ?>
+                <!-- <button onclick="submit('Update_SO_Invoice')">Update Order Invoice</button> -->
+                <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>', '<?= $row['ID_Client']; ?>')">Re-Add Invoice <?= $row['no_invoice']; ?></button>
+            <?php else : ?>
+                <!-- <button onclick="submit('Update')">Update Order</button> -->
+            <?php endif; ?>
+        </div>
     </div>
 
 <?php elseif (isset($_POST['ID_Order']) && ($_SESSION['level'] == "admin" || $_SESSION['level'] == "setter"  || $_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting") && $_POST['AksesEdit'] == "Y") : // Update
@@ -479,7 +489,8 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 $akses_edit = "checked";
             } else {
                 $akses_edit = "";
-            } else :
+            }
+        else :
 
         endif;
     } ?>

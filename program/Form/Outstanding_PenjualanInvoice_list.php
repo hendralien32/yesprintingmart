@@ -141,7 +141,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                 </tr>
             </tbody>
             <?php
-            if ($_POST['Invoice_Number'] = "0") :
+            if ($_POST['Invoice_Number'] == "0") :
                 $add_where = "";
             else :
                 $add_where = "
@@ -192,7 +192,8 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                     penjualan.setter = setter.uid  
                 where
                     $add_where
-                    penjualan.cancel != 'Y'
+                    penjualan.cancel != 'Y' and
+                    penjualan.pembayaran != 'lunas'
                 order by
                     penjualan.oid
                 ASC
@@ -275,7 +276,7 @@ if ($status == 'penjualan_invoice_yescom') : ?>
         $Setter = "$_SESSION[uid]";
     endif;
 
-    if ($_POST['Invoice_Number'] = "0") :
+    if ($_POST['Invoice_Number'] == "0") :
         $add_where = "";
     else :
         $add_where = "
@@ -335,7 +336,8 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                                         endif;
 
                                         echo "<option value='$d[client],$d[Qty_OID]' $pilih>$d[nama_client] [$d[Qty_OID]]</option>";
-                                    } else :
+                                    }
+                                else :
 
                                 endif;
                                 ?>
@@ -390,7 +392,8 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                                         endif;
 
                                         echo "<option value='$d[uid]' $pilih>$d[nama] [$d[Qty_OID]]</option>";
-                                    } else :
+                                    }
+                                else :
 
                                 endif;
                                 ?>
@@ -460,7 +463,8 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                             penjualan.setter = setter.uid  
                         where
                             $add_where
-                            penjualan.cancel != 'Y'
+                            penjualan.cancel != 'Y' and
+                            penjualan.pembayaran != 'lunas'
                         order by
                             penjualan.oid
                         ASC

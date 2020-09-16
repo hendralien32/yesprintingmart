@@ -134,7 +134,7 @@ if ($search != "") {
             if ($_SESSION['level'] == "admin") {
                 $icon_hapus = "<span class='icon_status pointer' ondblclick='hapus(\"" . $d['no_do'] . "\", \"" . $d['no_do'] . "\", \"" . $d['hapus'] . "\")'><i class='far fa-trash-alt text-danger'></i></span>";
             } else {
-                $icon = "";
+                $icon_hapus = "";
             }
 
             $edit = "LaodForm(\"Tambah_StockDP\",\"$d[no_do]\")";

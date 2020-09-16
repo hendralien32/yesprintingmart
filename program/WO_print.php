@@ -24,7 +24,11 @@ $sql =
         penjualan.client_yes,
         penjualan.id_yes,
         penjualan.so_yes,
-        penjualan.warna_cetak as Warna_Cetak,
+        (CASE
+            WHEN penjualan.warna_cetak = 'FC' THEN 'FULLCOLOR'
+            WHEN penjualan.warna_cetak = 'BW' THEN 'GREYSCALE'
+            ELSE '- - -'
+        END) as Warna_Cetak,
         (CASE
             WHEN penjualan.laminate = 'kilat1' THEN 'Laminating Kilat 1 Sisi'
             WHEN penjualan.laminate = 'kilat2' THEN 'Laminating Kilat 2 Sisi'
@@ -189,6 +193,10 @@ if (isset($_SESSION["login"])) :
                     <tr>
                         <td style='width:130px'><strong>Qty</strong></td>
                         <td><?= $d['qty'] ?></td>
+                    </tr>
+                    <tr>
+                        <td style='width:130px'><strong>Warna</strong></td>
+                        <td><strong style='color:#f1592a'><?= $d['Warna_Cetak'] ?></strong></td>
                     </tr>
                     <tr>
                         <td style='width:130px'><strong>Alat Tambahan</strong></td>

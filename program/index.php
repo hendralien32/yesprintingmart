@@ -155,12 +155,12 @@ endif;
                 <a href="../">
                     <li class='<?= ($page == '1') ? 'active' : ''; ?>'>Dashboard</li>
                 </a>
-                <?php if( $_SESSION['level']!="creative_support") : ?>
+                <?php if ($_SESSION['level'] != "creative_support") : ?>
                     <a href="?page=<?= ($_SESSION['level'] != 'admin_yes') ? 'Client_YPM' : 'User_YPM'; ?>&tab=DatabaseYPM">
                         <li class='<?= ($tab == 'DatabaseYPM') ? 'active' : ''; ?>'>Database</li>
                     </a>
                 <?php endif; ?>
-                <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
                     <a href="?page=SO_YPM&tab=SalesYPM">
                         <li class='<?= ($tab == 'SalesYPM') ? 'active' : ''; ?>'>Penjualan</li>
                     </a>
@@ -168,14 +168,14 @@ endif;
                 <a href="?page=Wo_List&tab=SalesYescom">
                     <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
                 </a>
-                <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
                     <a href="?page=LF_List&tab=Large_Format">
                         <li class='<?= ($tab == 'Large_Format') ? 'active' : ''; ?>'>Large Format</li>
                     </a>
                     <a href="?page=DP_List&tab=Digital_Printing">
                         <li class='<?= ($tab == 'Digital_Printing') ? 'active' : ''; ?>'>Digital Printing</li>
                     </a>
-                        <li>Laporan</li>
+                    <li>Laporan</li>
                 <?php endif; ?>
                 <div class="clear"></div>
             </ul>
@@ -199,7 +199,7 @@ endif;
                 </ul>
             <?php elseif ($tab == 'DatabaseYPM') : ?>
                 <ul>
-                    <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
                         <a href="?page=Client_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Client_YPM') ? 'active' : ''; ?>'>Client Database</li>
                         </a>
@@ -207,12 +207,12 @@ endif;
                             <li class='<?= ($page == 'Supplier_YPM') ? 'active' : ''; ?>'>Supplier Database</li>
                         </a>
                     <?php endif; ?>
-                    <?php if( $_SESSION['level'] == "admin" || $_SESSION['level'] == "admin_yes") : ?>
+                    <?php if ($_SESSION['level'] == "admin" || $_SESSION['level'] == "admin_yes") : ?>
                         <a href="?page=User_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'User_YPM') ? 'active' : ''; ?>'>User Database</li>
                         </a>
                     <?php endif; ?>
-                    <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
                         <a href="?page=Pricelist_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Pricelist_YPM') ? 'active' : ''; ?>'>Pricelist Database</li>
                         </a>
@@ -227,7 +227,7 @@ endif;
                     <a href="?page=Wo_List&tab=SalesYescom">
                         <li class='<?= ($page == 'Wo_List') ? 'active' : ''; ?>'>WO List Yescom</li>
                     </a>
-                    <?php if( $_SESSION['level']!="creative_support" AND $_SESSION['level']!="admin_yes") : ?>
+                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
                         <a href="?page=penjualan_YESCOM&tab=SalesYescom">
                             <li class='<?= ($page == 'penjualan_YESCOM') ? 'active' : ''; ?>'>Sales Order Yescom</li>
                         </a>
@@ -267,8 +267,8 @@ endif;
                     <a href="?page=list_pemesanan_kertas&tab=Digital_Printing">
                         <li class='<?= ($page == 'list_pemesanan_kertas') ? 'active' : ''; ?>'>List Pemasukan kertas</li>
                     </a>
-                    <a href="?page=xxxx&tab=Digital_Printing">
-                        <li class='<?= ($page == 'xxxx') ? 'active' : ''; ?>'>Stock kertas</li>
+                    <a href="?page=Laporan_Stock_Barang&tab=Digital_Printing">
+                        <li class='<?= ($page == 'Laporan_Stock_Barang') ? 'active' : ''; ?>'>Stock kertas</li>
                     </a>
                     <div class="clear"></div>
                 </ul>
@@ -342,6 +342,9 @@ endif;
                             break;
                         case 'list_pemesanan_kertas':
                             require_once('list_pemesanan_kertas.php');
+                            break;
+                        case 'Laporan_Stock_Barang':
+                            require_once('Laporan_StockBrg.php');
                             break;
                         default:
                             require_once('test.php');

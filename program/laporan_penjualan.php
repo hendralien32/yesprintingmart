@@ -2,17 +2,14 @@
 require_once "../function.php";
 ?>
 
-<script src="js/Laporan_StockBrg.js" async type="text/javascript"></script>
+<script src="js/laporan_penjualan.js" async type="text/javascript"></script>
 
 <div class="left_content">
-    <!-- <button type="button" onclick="LaodForm('adjusting_stock')"><i class="far fa-plus-circle"></i> Adjusting Stock</button> -->
-    <SELECT id="type_stock" onchange="jenis_stock()">
-        <option value="">Pilih Jenis Stock</option>
+    <SELECT id="jenis_laporan" onchange="jenis_laporan()">
         <?php
         $array_kode = array(
-            "KRTS" => "Kertas",
-            "SPRT" => "Sparepart",
-            "TNT" => "Tonner / Tinta"
+            "yesprint" => "Yes Printingmart",
+            "yescom" => "Yes Communication"
         );
         foreach ($array_kode as $kode => $kd) :
             echo "<option value='$kode'>$kd</option>";
@@ -23,6 +20,6 @@ require_once "../function.php";
     <input type="month" data-placeholder="Ke Bulan" id="ke_bulan" onblur="SearchTo()" max="<?= $months ?>" disabled="disabled" readonly>
 </div>
 
-<div id="list_LapStockBrg">
+<div id="list_LapPenjualan">
     <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px"></center>
 </div>

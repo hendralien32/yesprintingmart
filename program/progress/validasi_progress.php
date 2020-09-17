@@ -29,7 +29,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
 
     echo mysqli_num_rows($result);
 } elseif ($term != "" and $tipe_validasi == "Search_bahan") {
-    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang = '$_POST[term]'");
+    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang = '$_POST[term]' AND barang.status_bahan = 'a'");
 
     $row = mysqli_fetch_assoc($result);
 
@@ -87,7 +87,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         ON
             barang.ID_barang = barang_sub_lf.id_barang
         WHERE
-            concat(barang.nama_barang,'.',barang_sub_lf.ukuran) = '$_POST[term]'
+            concat(barang.nama_barang,'.',barang_sub_lf.ukuran) = '$_POST[term]' AND
+            barang.status_bahan = 'a'
     ";
 
     $result = $conn_OOP->query($sql);
@@ -203,7 +204,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
 
     echo $num;
 } elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
-    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' ORDER BY barang.nama_barang LIMIT 15");
+    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' AND barang.status_bahan = 'a' ORDER BY barang.nama_barang LIMIT 15");
 
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {

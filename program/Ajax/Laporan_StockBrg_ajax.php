@@ -2,6 +2,10 @@
 session_start();
 require_once "../../function.php";
 
+$jenis_stock = ($_POST['jenis_stock'] != "") ? $_POST['jenis_stock'] : "KRTS";
+$dari_bulan = ($_POST['dari_bulan'] != "") ? $_POST['dari_bulan'] : $monts;
+$ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan'];
+
 ?>
 
 <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
@@ -9,9 +13,9 @@ require_once "../../function.php";
     <thead>
         <tr>
             <th width="2%">#</th>
-            <th width="28%">Nama</th>
+            <th width="25%">Nama</th>
             <th width="10%">Kode</th>
-            <th width="5%">Jenis</th>
+            <th width="8%">Jenis</th>
             <th width="11%">Min Stock</th>
             <th width="11%">Stock Lama</th>
             <th width="11%">Stock Masuk</th>
@@ -52,8 +56,8 @@ require_once "../../function.php";
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)>='$_POST[dari_bulan]' AND 
-                    left(flow_barang.tanggal, 7)<='$_POST[ke_bulan]' AND
+                    left(flow_barang.tanggal, 7)>='$dari_bulan' AND 
+                    left(flow_barang.tanggal, 7)<='$ke_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -68,8 +72,8 @@ require_once "../../function.php";
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)>='$_POST[dari_bulan]' AND 
-                    left(flow_barang.tanggal, 7)<='$_POST[ke_bulan]' AND
+                    left(flow_barang.tanggal, 7)>='$dari_bulan' AND 
+                    left(flow_barang.tanggal, 7)<='$ke_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -94,8 +98,8 @@ require_once "../../function.php";
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)>='$_POST[dari_bulan]' AND 
-                    left(digital_printing.tgl_cetak, 7)<='$_POST[ke_bulan]'
+                    left(digital_printing.tgl_cetak, 7)>='$dari_bulan' AND 
+                    left(digital_printing.tgl_cetak, 7)<='$ke_bulan'
                 GROUP BY 
                     digital_printing.id_bahan
                 ) digital
@@ -119,8 +123,8 @@ require_once "../../function.php";
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)>='$_POST[dari_bulan]' AND 
-                    left(digital_printing.tgl_cetak, 7)<='$_POST[ke_bulan]'
+                    left(digital_printing.tgl_cetak, 7)>='$dari_bulan' AND 
+                    left(digital_printing.tgl_cetak, 7)<='$ke_bulan'
                 GROUP BY 
                     digital_printing.kode_bahan
                 ) digital_KodeBrg
@@ -134,7 +138,7 @@ require_once "../../function.php";
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)<'$_POST[dari_bulan]' AND
+                    left(flow_barang.tanggal, 7)<'$dari_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -149,7 +153,7 @@ require_once "../../function.php";
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)<'$_POST[dari_bulan]' AND
+                    left(flow_barang.tanggal, 7)<'$dari_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -174,7 +178,7 @@ require_once "../../function.php";
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)<'$_POST[dari_bulan]'
+                    left(digital_printing.tgl_cetak, 7)<'$dari_bulan'
                 GROUP BY 
                     digital_printing.id_bahan
                 ) OLD_digital
@@ -198,7 +202,7 @@ require_once "../../function.php";
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)<'$_POST[dari_bulan]'
+                    left(digital_printing.tgl_cetak, 7)<'$dari_bulan'
                 GROUP BY 
                     digital_printing.kode_bahan
                 ) OLD_digital_KodeBrg
@@ -206,12 +210,13 @@ require_once "../../function.php";
                 OLD_digital_KodeBrg.kode_bahan = barang.kode_barang
 
             WHERE
-                barang.jenis_barang = 'KRTS'
+                barang.jenis_barang = '$jenis_stock'
             order BY
 				barang.nama_barang
 			asc
         ";
         $no = 0;
+
         $result = $conn_OOP->query($sql);
         if ($result->num_rows > 0) :
             while ($d = $result->fetch_assoc()) :
@@ -220,8 +225,11 @@ require_once "../../function.php";
                 $stock_keluar = $d['barang_keluar'] + $d['digital_qty'] + $d['digitalKodeBrg_qty'];
                 $sisa_stock = $d['barang_masuk'] + $stock_lama - $stock_keluar;
 
-                if($sisa_stock<$d['min_stock']) { $alert="background-color:#e74c3c; color:white;"; }
-			    else { $alert=""; }
+                if ($sisa_stock < $d['min_stock']) {
+                    $alert = "background-color:#e74c3c; color:white;";
+                } else {
+                    $alert = "";
+                }
                 echo "
                     <tr style='$alert'>
                         <td>$no</td>

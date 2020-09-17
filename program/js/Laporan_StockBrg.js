@@ -67,3 +67,54 @@ function SearchTo() {
   $("#loader").show();
   onload();
 }
+
+function jenis_stock() {
+  $("#loader").show();
+  onload();
+}
+
+function submit_adj(id) {
+
+  let ID_Brg = [];
+  $("input[name='ID_Brg[]']").each(function () {
+    ID_Brg.push(parseInt($(this).val()));
+  });
+
+  let QtyAkhir = [];
+  $("input[name='QtyAkhir[]']").each(function () {
+    QtyAkhir.push($(this).val());
+  });
+
+  let qty = [];
+  $("input[name='qty[]']").each(function () {
+    qty.push($(this).val());
+  });
+
+  let fdata = new FormData();
+  fdata.append("ID_Brg", ID_Brg);
+  fdata.append("QtyAkhir", QtyAkhir);
+  fdata.append("qty", qty);
+  fdata.append("jenis_submit", id);
+
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    cache: false,
+    processData: false,
+    contentType: false,
+    data: fdata,
+    beforeSend: function () {
+      $("#submitBtn").attr("disabled", "disabled");
+      $(".icon-close").removeAttr("onclick");
+    },
+    success: function (data) {
+      // $("#Result").html(data);
+      hideBox();
+      onload();
+      return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#Result").html(XMLHttpRequest);
+    },
+  });
+}

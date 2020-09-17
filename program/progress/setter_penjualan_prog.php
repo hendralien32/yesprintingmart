@@ -6652,6 +6652,69 @@ elseif ($_POST['jenis_submit'] == 'Hapus_brngSUB') :
         WHERE
             fid = $_POST[fid];
     ";
+elseif ($_POST['jenis_submit'] == 'submit_AdjustStock') :
+    $BahanDigital = explode(",", "$_POST[ID_Brg]");
+    $qty = explode(",", "$_POST[qty]");
+    $QtyAkhir = explode(",", "$_POST[QtyAkhir]");
+    $jumlahArray = count($BahanDigital);
+    $rand = substr(md5(microtime()), rand(0, 26), 5);
+
+    for ($i = 0; $i < $jumlahArray; $i++) :
+        $nilai = $qty[$i] - $QtyAkhir[$i];
+        if (($nilai) > 0) {
+            $qtyX = abs($nilai);
+            $masuk[] = "
+                (
+                    'Adjusting Masuk $date ($rand)',
+                    '$date',
+                    '$BahanDigital[$i]',
+                    '$qtyX',
+                    '$_SESSION[uid]',
+                    'N'
+                )
+            ";
+        } else {
+            $qtyX = abs($nilai);
+            $keluar[] = "
+                (
+                    'Adjusting Keluar $date ($rand)',
+                    '$date',
+                    '$BahanDigital[$i]',
+                    '$qtyX',
+                    '$_SESSION[uid]',
+                    'N'
+                )
+            ";
+        }
+    endfor;
+
+    $Insert_masuk = implode(',', $masuk);
+    $Insert_keluar = implode(',', $keluar);
+    $sql =
+        "INSERT INTO flow_barang 
+                (
+                    no_do,
+                    tanggal,
+                    ID_Bahan,
+                    barang_masuk,
+                    operator,
+                    hapus
+                )  VALUES $Insert_masuk
+                ;
+    ";
+
+    $sql .=
+        "INSERT INTO flow_barang 
+        (
+            no_do,
+            tanggal,
+            ID_Bahan,
+            barang_keluar,
+            operator,
+            hapus
+        )  VALUES $Insert_keluar
+        ;
+    ";
 elseif ($_POST['jenis_submit'] == 'xxxx') :
 endif;
 

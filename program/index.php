@@ -175,7 +175,9 @@ endif;
                     <a href="?page=DP_List&tab=Digital_Printing">
                         <li class='<?= ($tab == 'Digital_Printing') ? 'active' : ''; ?>'>Digital Printing</li>
                     </a>
-                    <li>Laporan</li>
+                    <a href="?page=laporan_penjualan&tab=laporan">
+                        <li class='<?= ($tab == 'laporan') ? 'active' : ''; ?>'>Laporan</li>
+                    </a>
                 <?php endif; ?>
                 <div class="clear"></div>
             </ul>
@@ -219,6 +221,9 @@ endif;
                         <a href="?page=Bahan_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
                         </a>
+                        <!-- <a href="?page=XXXX&tab=DatabaseYPM">
+                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Akses Database ( OnProgress )</li>
+                        </a> -->
                     <?php endif; ?>
                     <div class="clear"></div>
                 </ul>
@@ -269,6 +274,25 @@ endif;
                     </a>
                     <a href="?page=Laporan_Stock_Barang&tab=Digital_Printing">
                         <li class='<?= ($page == 'Laporan_Stock_Barang') ? 'active' : ''; ?>'>Stock kertas</li>
+                    </a>
+                    <div class="clear"></div>
+                </ul>
+            <?php elseif ($tab == 'laporan') : ?>
+                <ul>
+                    <a href="?page=laporan_penjualan&tab=laporan">
+                        <li class='<?= ($page == 'laporan_penjualan') ? 'active' : ''; ?>'>Laporan Penjualan</li>
+                    </a>
+                    <a href="?page=XXXX&tab=laporan">
+                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Setoran Bank</li>
+                    </a>
+                    <a href="?page=XXXX&tab=laporan">
+                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Kerja LF</li>
+                    </a>
+                    <a href="?page=XXXX&tab=laporan">
+                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Pemakaian Bahan LF</li>
+                    </a>
+                    <a href="?page=XXXX&tab=laporan">
+                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Pemakaian Bahan Digital Printing</li>
                     </a>
                     <div class="clear"></div>
                 </ul>
@@ -345,6 +369,9 @@ endif;
                             break;
                         case 'Laporan_Stock_Barang':
                             require_once('Laporan_StockBrg.php');
+                            break;
+                        case 'laporan_penjualan':
+                            require_once('laporan_penjualan.php');
                             break;
                         default:
                             require_once('test.php');

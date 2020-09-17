@@ -116,6 +116,8 @@ function LaodForm(id, nid, Akses_Edit) {
     var judul = "Form Update Pemotongan Stock Digital Printing";
   } else if (id == "Tambah_StockDP") {
     var judul = "Form Stock Kertas";
+  } else if (id == "adjusting_stock") {
+    var judul = "Form Adjusting Stock";
   } else {
     var judul = "404 Not Found";
   }

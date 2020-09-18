@@ -6,7 +6,9 @@ require_once "../function.php";
 
 <div class="left_content">
     <button type="button" onclick="LaodForm('Tambah_StockDP')"><i class="far fa-plus-circle"></i> Add Stock</button>
-    <button type="button" onclick="LaodForm('adjusting_stock')"><i class="far fa-plus-circle"></i> Adjusting Stock</button>
+    <?php if ($_SESSION['level'] == "admin") : ?>
+        <button type="button" onclick="LaodForm('adjusting_stock')"><i class="far fa-plus-circle"></i> Adjusting Stock</button>
+    <?php endif; ?>
     <input type="text" id="search" class='search data' autocomplete="off" placeholder="Nama Bahan" onchange="search_data()">
     <input type="month" data-placeholder="Dari Bulan" id="dari_bulan" onblur="SearchFrom()" value="<?= $months; ?>" max="<?= $months ?>">
     <input type="month" data-placeholder="Ke Bulan" id="ke_bulan" onblur="SearchTo()" max="<?= $months ?>" disabled="disabled" readonly>

@@ -296,8 +296,8 @@ endif;
                         <a href="?page=laporan_penjualan&tab=laporan">
                             <li class='<?= ($page == 'laporan_penjualan') ? 'active' : ''; ?>'>Laporan Penjualan</li>
                         </a>
-                        <a href="?page=XXXX&tab=laporan">
-                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Setoran Bank</li>
+                        <a href="?page=laporan_setoran_bank&tab=laporan">
+                            <li class='<?= ($page == 'laporan_setoran_bank') ? 'active' : ''; ?>'>Laporan Setoran Bank</li>
                         </a>
                         <a href="?page=XXXX&tab=laporan">
                             <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Kerja LF</li>
@@ -387,6 +387,9 @@ endif;
                             break;
                         case 'laporan_penjualan':
                             require_once('laporan_penjualan.php');
+                            break;
+                        case 'laporan_setoran_bank':
+                            require_once('laporan_SetoranBank.php');
                             break;
                         default:
                             require_once('test.php');

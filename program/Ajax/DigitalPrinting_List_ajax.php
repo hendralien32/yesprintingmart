@@ -25,7 +25,10 @@ $_SESSION['session_MesinDP'] = "$session_MesinDP";
 
 
 if ($_SESSION['ListOrder_BahanDP'] != '') :
-    $Add_Bahan = "and bahan='$_SESSION[ListOrder_BahanDP]'";
+    $Add_Bahan = "and (CASE
+                    WHEN barang.id_barang > 0 THEN barang.nama_barang
+                    ELSE penjualan.bahan
+                END)='$_SESSION[ListOrder_BahanDP]'";
 else :
     $Add_Bahan = "";
 endif;
@@ -85,8 +88,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                                     penjualan.ID_Bahan = barang.id_barang 
                                 WHERE
                                     (   penjualan.kode = 'digital'
-                                        -- or penjualan.kode='offset'
-                                        -- or penjualan.kode='etc' 
+                                        or penjualan.kode='offset'
+                                        or penjualan.kode='etc' 
                                     ) and
                                     penjualan.inv_check = 'Y' and
                                     penjualan.cancel != 'Y' and
@@ -187,8 +190,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     penjualan.ID_Bahan = barang.id_barang 
                 WHERE
                     (   penjualan.kode = 'digital'
-                        -- or penjualan.kode='offset'
-                        -- or penjualan.kode='etc' 
+                        or penjualan.kode='offset'
+                        or penjualan.kode='etc' 
                     ) and
                     penjualan.inv_check = 'Y' and
                     penjualan.cancel != 'Y'
@@ -200,8 +203,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             ";
 
         $n = 0;
+        // echo "$sql";
         $result = $conn_OOP->query($sql);
-
         $jumlahQry = $result->num_rows;
 
         if ($result->num_rows > 0) :
@@ -271,7 +274,6 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             <td>$status</td>
                         </tr>
                     ";
-
             endwhile;
         endif;
         ?>

@@ -595,8 +595,8 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 <tr>
                     <td>Qty</td>
                     <td colspan="3">
-                        <input type='number' class='form sd' id="qty" onkeyup="autoCalc()" value="<?= $row['qty']; ?>">
-                        <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onkeyup="autoCalc()" onkeyup="satuan_val()" value="<?= $row['satuan']; ?>">
+                        <input type='number' class='form sd' id="qty" onkeyup="autoCalc()" placeholder="qty" value="<?= $row['qty']; ?>">
+                        <input type='text' class='form' list="list_satuan" id="satuan" placeholder="satuan" autocomplete="off" onkeyup="autoCalc()" onkeyup="satuan_val()" value="<?= $row['satuan']; ?>">
                         <datalist id="list_satuan">
                             <?php
                             $array_kode = array("Kotak", "Lembar", "Rim", "Blok", "Pcs");
@@ -950,8 +950,8 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 <tr>
                     <td>Qty</td>
                     <td colspan="3">
-                        <input type='number' class='form sd' id="qty">
-                        <input type='text' class='form' list="list_satuan" id="satuan" autocomplete="off" onkeyup="satuan_val()">
+                        <input type='number' class='form sd' id="qty" placeholder="Qty">
+                        <input type='text' class='form' list="list_satuan" id="satuan" placeholder="Satuan" autocomplete="off" onkeyup="satuan_val()">
                         <datalist id="list_satuan">
                             <?php
                             $array_kode = array("Kotak", "Lembar", "Rim", "Blok", "Pcs");

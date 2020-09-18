@@ -1,28 +1,82 @@
 <?php
-session_start();
-require_once "../../function.php";
+	session_start();
+	require '../function.php';
+	
+	$jenis_laporan = ($_GET['jenis_laporan'] != "") ? $_GET['jenis_laporan'] : "";
+	$dari_bulan = ($_GET['dari_bulan'] != "") ? $_GET['dari_bulan'] : $months;
+	$ke_bulan = ($_GET['ke_bulan'] != "") ? $_GET['ke_bulan'] : $_GET['dari_bulan'];
 
-$jenis_laporan = ($_POST['jenis_laporan'] != "") ? $_POST['jenis_laporan'] : "";
-$dari_bulan = ($_POST['dari_bulan'] != "") ? $_POST['dari_bulan'] : $monts;
-$ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan'];
-
-if($jenis_laporan == "yescom" ) {
-    $sub_table = "YES Communication";
-    $add_where = "and penjualan.client = '1'";
-} else {
-    $sub_table = "YES Printingmart";
-    $add_where = "and penjualan.client != '1'";
-}
+	if($jenis_laporan == "yescom" ) {
+		$sub_table = "YES Communication";
+		$add_where = "and penjualan.client = '1'";
+	} else {
+		$sub_table = "YES Printingmart";
+		$add_where = "and penjualan.client != '1'";
+	}
 ?>
 
-<center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Export Excel</title>
+</head>
+<body>
+	<style type="text/css">
+		@font-face {
+			font-family: B612-Regular;
+			src: url(../fonts/B612/B612-Regular.ttf);
+		}
+
+		@font-face {
+			font-family: Karla-Regular;
+			src: url(../fonts/Karla/Karla-Regular.ttf);
+		}
+
+		body {
+			margin: 0px;
+			font-family: Karla-Regular, B612-Regular;
+			background-color: #f8f8f8;
+			color: #353942;
+		}
+
+		.a-right {
+			text-align: right;
+			padding-right: 0.4em;
+		}
+
+		#laporan_header {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+		}
+
+		#laporan_header .judul_laporan h2 {
+			font-weight: bold;
+			color: #4683de;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			border:1px solid #000;
+		}
+
+		table th, table td {
+			border: 1px solid #3c3c3c;
+			padding: 3px 8px;
+		}
+	</style>
+
+	<?php
+		header("Content-type: application/vnd-ms-excel");
+		header("Content-Disposition: attachment; filename=Laporan $sub_table Tanggal $dari_bulan-01 sd $ke_bulan-31 ". rand() .".xls");
+	?>
+
 <div id='laporan_header'>
     <div class='judul_laporan'>
         <h2>Laporan <?= $sub_table ?></h2>
     </div>
     <div class='plugin_icon'>
-        <span onclick='export_xls()'><i class="fas fa-file-excel"></i> Export</span>
-        <!-- <span><i class="fas fa-print"></i> Print</span> -->
     </div>
 </div>
 <div>
@@ -148,5 +202,5 @@ if($jenis_laporan == "yescom" ) {
         </tbody>
     </table>
 </div>
-
-<?php $conn->close(); ?>
+</body>
+</html>

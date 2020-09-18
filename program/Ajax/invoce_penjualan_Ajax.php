@@ -316,14 +316,14 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
 
                     echo "
                                 <tr class='" . $css_cancel . "'>
-                                    <td><span class='KodeProject $X_kode_barang'>" . strtoupper($X_code) . "</span></td>
+                                    <td class='a-center'><span class='KodeProject $X_kode_barang'>" . strtoupper($X_code) . "</span></td>
                                     <td onclick='$X_edit' class='pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $X_oid) . " - " . str_ireplace($cari_keyword, $bold_cari_keyword, $X_description) . " $X_ukuran</td>
-                                    <td>
+                                    <td class='a-center'>
                                         $Xicon_akses_edit
                                         <span class='icon_status'><i class='fas fa-check-double $X_check_Finished'></i></span>
                                         <span class='icon_status'><i class='fas fa-cash-register $check_Lunas'></i></span>
                                     </td>
-                                    <td><span class='$X_css_sisi KodeProject'>$X_sisi</span></td>
+                                    <td class='a-center'><span class='$X_css_sisi KodeProject'>$X_sisi</span></td>
                                     <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $X_bahan) . "</td>
                                     <td>$X_qty</td>
                                     <td style='text-align:right'>" . number_format($X_harga_satuan) . "</td>

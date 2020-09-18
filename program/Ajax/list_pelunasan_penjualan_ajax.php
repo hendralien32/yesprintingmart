@@ -29,7 +29,17 @@
     }
 </script>
    
-    <center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
+<center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
+<div id='laporan_header'>
+    <div class='judul_laporan'>
+        <h2>Laporan <?= $sub_table ?></h2>
+    </div>
+    <div class='plugin_icon'>
+        <span onclick='export_xls()'><i class="fas fa-file-excel"></i> Export</span>
+        <!-- <span><i class="fas fa-print"></i> Print</span> -->
+    </div>
+</div>
+<div>
     <table>
         <tbody>
             <tr>
@@ -170,3 +180,6 @@
             <tr><th colspan="8">Total Pembayaran <?= date("d M Y",strtotime($_POST['date'] )) ?></th><th style="text-align:right; padding-right:10px"><?= $Nilai_Total ?></th></tr>
         </tbody>
     </table>
+</div>
+
+<?php $conn->close(); ?>

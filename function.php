@@ -8,10 +8,10 @@ if ($conn_OOP->connect_error) {
     die("Connection failed: " . $conn_OOP->connect_error);
 }
 
-$conn_Server = new mysqli("192.168.1.1", "root", "yes4531203", "new_ypm");
-if ($conn_Server->connect_error) {
-    die("Connection failed: " . $conn_Server->connect_error);
-}
+// $conn_Server = new mysqli("192.168.1.1", "root", "yes4531203", "new_ypm");
+// if ($conn_Server->connect_error) {
+//     die("Connection failed: " . $conn_Server->connect_error);
+// }
 
 $date   = date('Y-m-d');
 $months = date('Y-m');

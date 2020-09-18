@@ -741,8 +741,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         where 
             workorder.idorder = '$_POST[ID_YES]'
         ";
-    $result = $conn_Server->query($sql);
-    // $result = $conn_OOP->query($sql);
+    // $result = $conn_Server->query($sql);
+    $result = $conn_OOP->query($sql);
     if ($result->num_rows > 0) :
         while ($row = $result->fetch_assoc()) :
             $arr_data['so'] = "$row[so]";

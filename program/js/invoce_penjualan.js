@@ -460,8 +460,11 @@ function ChangeKodeBrg() {
     "Blok",
     "Ring_Spiral",
     "b_finishing",
+    "b_laminating",
     "b_lain",
     "b_discount",
+    "b_xbanner",
+    "b_kotak",
   ];
   var etc_hide = [
     "Ybanner",
@@ -479,9 +482,6 @@ function ChangeKodeBrg() {
     "b_lf",
     "b_indoor",
     "b_offset",
-    "b_xbanner",
-    "b_kotak",
-    "b_laminating",
     "b_design",
     "b_delivery",
   ];

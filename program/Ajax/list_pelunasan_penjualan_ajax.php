@@ -29,7 +29,7 @@ require_once "../../function.php";
         return rowSpan >= pIndex + 1 || (cIndex + rowSpan) > pIndex;
     }
 </script>
-
+<center><img src="../images/0_4Gzjgh9Y7Gu8KEtZ.gif" width="150px" id="loader" style="display:none;"></center>
 <div>
     <table>
         <tbody>

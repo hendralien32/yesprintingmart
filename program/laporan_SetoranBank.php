@@ -8,6 +8,7 @@ require_once "../function.php";
     <SELECT id="jenis_laporan" onchange="jenis_laporan()">
         <?php
         $array_kode = array(
+            "" => "Show All",
             "Cash" => "Cash / DP",
             "CC" => "Transfer / Gesek"
         );
@@ -16,8 +17,7 @@ require_once "../function.php";
         endforeach;
         ?>
     </select>
-    <input type="month" data-placeholder="Dari Bulan" id="dari_bulan" onblur="SearchFrom()" value="<?= $months; ?>" max="<?= $months ?>">
-    <input type="month" data-placeholder="Ke Bulan" id="ke_bulan" onblur="SearchTo()" max="<?= $months ?>" disabled="disabled" readonly>
+    <input type="date" data-placeholder="Dr Tanggal" id="dari_tanggal" onblur="SearchFrom()" value="<?= $date; ?>" max="<?= $date ?>">
 </div>
 
 <div id="list_LapSetoranBank">

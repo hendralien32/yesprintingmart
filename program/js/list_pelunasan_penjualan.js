@@ -33,10 +33,12 @@ function onload() {
 }
 
 function SearchDate() {
+  $("#loader").show();
   onload();
 }
 
 function search_typedata() {
+  $("#loader").show();
   onload();
 }
 

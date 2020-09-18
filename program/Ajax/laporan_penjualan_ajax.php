@@ -142,7 +142,11 @@ if($jenis_laporan == "yescom" ) {
                     </tr>
                 ";
             else :
-
+                echo "
+                    <tr>
+                        <td colspan='14'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
+                    </tr>
+                ";
             endif;
         ?>
         </tbody>

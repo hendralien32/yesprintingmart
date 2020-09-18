@@ -155,29 +155,37 @@ endif;
                 <a href="../">
                     <li class='<?= ($page == '1') ? 'active' : ''; ?>'>Dashboard</li>
                 </a>
-                <?php if ($_SESSION['level'] != "creative_support") : ?>
+                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "setter"  and $_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
                     <a href="?page=<?= ($_SESSION['level'] != 'admin_yes') ? 'Client_YPM' : 'User_YPM'; ?>&tab=DatabaseYPM">
                         <li class='<?= ($tab == 'DatabaseYPM') ? 'active' : ''; ?>'>Database</li>
                     </a>
                 <?php endif; ?>
-                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
+                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes" and $_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
                     <a href="?page=SO_YPM&tab=SalesYPM">
                         <li class='<?= ($tab == 'SalesYPM') ? 'active' : ''; ?>'>Penjualan</li>
                     </a>
                 <?php endif; ?>
-                <a href="?page=Wo_List&tab=SalesYescom">
-                    <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
-                </a>
+                <?php if ($_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
+                    <a href="?page=penjualan_YESCOM&tab=SalesYescom">
+                        <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
+                    </a>
+                <?php endif; ?>
                 <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
-                    <a href="?page=LF_List&tab=Large_Format">
-                        <li class='<?= ($tab == 'Large_Format') ? 'active' : ''; ?>'>Large Format</li>
-                    </a>
-                    <a href="?page=DP_List&tab=Digital_Printing">
-                        <li class='<?= ($tab == 'Digital_Printing') ? 'active' : ''; ?>'>Digital Printing</li>
-                    </a>
-                    <a href="?page=laporan_penjualan&tab=laporan">
-                        <li class='<?= ($tab == 'laporan') ? 'active' : ''; ?>'>Laporan</li>
-                    </a>
+                    <?php if ($_SESSION['level'] == "operator_lf" || $_SESSION['level'] == "admin") : ?>
+                        <a href="?page=LF_List&tab=Large_Format">
+                            <li class='<?= ($tab == 'Large_Format') ? 'active' : ''; ?>'>Large Format</li>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
+                        <a href="?page=DP_List&tab=Digital_Printing">
+                            <li class='<?= ($tab == 'Digital_Printing') ? 'active' : ''; ?>'>Digital Printing</li>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['level'] == "accounting" || $_SESSION['level'] == "admin") : ?>
+                        <a href="?page=laporan_penjualan&tab=laporan">
+                            <li class='<?= ($tab == 'laporan') ? 'active' : ''; ?>'>Laporan</li>
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <div class="clear"></div>
             </ul>
@@ -188,15 +196,17 @@ endif;
                     <a href="?page=SO_YPM&tab=SalesYPM">
                         <li class='<?= ($page == 'SO_YPM') ? 'active' : ''; ?>'>Sales Order Yesprintingmart</li>
                     </a>
-                    <a href="?page=SI_YPM&tab=SalesYPM">
-                        <li class='<?= ($page == 'SI_YPM') ? 'active' : ''; ?>'>Sales Invoice Yesprintingmart</li>
-                    </a>
-                    <a href="?page=Payment_YPM&tab=SalesYPM">
-                        <li class='<?= ($page == 'Payment_YPM') ? 'active' : ''; ?>'>Pelunasan Yesprintingmart</li>
-                    </a>
-                    <a href="?page=List_Payment_YPM&tab=SalesYPM">
-                        <li class='<?= ($page == 'List_Payment_YPM') ? 'active' : ''; ?>'>List Pelunasan Yesprintingmart</li>
-                    </a>
+                    <?php if ($_SESSION['level'] == "CS" || $_SESSION['level'] == "accounting" || $_SESSION['level'] == "admin") : ?>
+                        <a href="?page=SI_YPM&tab=SalesYPM">
+                            <li class='<?= ($page == 'SI_YPM') ? 'active' : ''; ?>'>Sales Invoice Yesprintingmart</li>
+                        </a>
+                        <a href="?page=Payment_YPM&tab=SalesYPM">
+                            <li class='<?= ($page == 'Payment_YPM') ? 'active' : ''; ?>'>Pelunasan Yesprintingmart</li>
+                        </a>
+                        <a href="?page=List_Payment_YPM&tab=SalesYPM">
+                            <li class='<?= ($page == 'List_Payment_YPM') ? 'active' : ''; ?>'>List Pelunasan Yesprintingmart</li>
+                        </a>
+                    <?php endif; ?>
                     <div class="clear"></div>
                 </ul>
             <?php elseif ($tab == 'DatabaseYPM') : ?>
@@ -214,24 +224,18 @@ endif;
                             <li class='<?= ($page == 'User_YPM') ? 'active' : ''; ?>'>User Database</li>
                         </a>
                     <?php endif; ?>
-                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
+                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes" and $_SESSION['level'] == "admin") : ?>
                         <a href="?page=Pricelist_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Pricelist_YPM') ? 'active' : ''; ?>'>Pricelist Database</li>
                         </a>
                         <a href="?page=Bahan_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
                         </a>
-                        <!-- <a href="?page=XXXX&tab=DatabaseYPM">
-                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Akses Database ( OnProgress )</li>
-                        </a> -->
                     <?php endif; ?>
                     <div class="clear"></div>
                 </ul>
             <?php elseif ($tab == 'SalesYescom') : ?>
                 <ul>
-                    <a href="?page=Wo_List&tab=SalesYescom">
-                        <li class='<?= ($page == 'Wo_List') ? 'active' : ''; ?>'>WO List Yescom</li>
-                    </a>
                     <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
                         <a href="?page=penjualan_YESCOM&tab=SalesYescom">
                             <li class='<?= ($page == 'penjualan_YESCOM') ? 'active' : ''; ?>'>Sales Order Yescom</li>
@@ -240,62 +244,73 @@ endif;
                             <li class='<?= ($page == 'SI_YESCOM') ? 'active' : ''; ?>'>Sales Invoice Yescom</li>
                         </a>
                     <?php endif; ?>
+                    <?php if ($_SESSION['level'] == "admin" and $_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
+                        <a href="?page=Wo_List&tab=SalesYescom">
+                            <li class='<?= ($page == 'Wo_List') ? 'active' : ''; ?>'>WO List Yescom</li>
+                        </a>
+                    <?php endif; ?>
                     <div class="clear"></div>
                 </ul>
             <?php elseif ($tab == 'Large_Format') : ?>
-                <ul>
-                    <a href="?page=LF_List&tab=Large_Format">
-                        <li class='<?= ($page == 'LF_List') ? 'active' : ''; ?>'>Large Format Order List</li>
-                    </a>
-                    <a href="?page=PemotonganStockLF&tab=Large_Format">
-                        <li class='<?= ($page == 'PemotonganStockLF') ? 'active' : ''; ?>'>Pemotongan Stock LF</li>
-                    </a>
-                    <a href="?page=Stock_LF&tab=Large_Format">
-                        <li class='<?= ($page == 'Stock_LF') ? 'active' : ''; ?>'>Stock Bahan LF</li>
-                    </a>
-                    <a href="?page=List_PemesananStock&tab=Large_Format">
-                        <li class='<?= ($page == 'List_PemesananStock') ? 'active' : ''; ?>'>List Pemesanan Bahan LF</li>
-                    </a>
-                    <div class="clear"></div>
-                </ul>
+                <?php if ($_SESSION['level'] == "operator_lf" || $_SESSION['level'] == "admin") : ?>
+                    <ul>
+                        <a href="?page=LF_List&tab=Large_Format">
+                            <li class='<?= ($page == 'LF_List') ? 'active' : ''; ?>'>Large Format Order List</li>
+                        </a>
+                        <a href="?page=PemotonganStockLF&tab=Large_Format">
+                            <li class='<?= ($page == 'PemotonganStockLF') ? 'active' : ''; ?>'>Pemotongan Stock LF</li>
+                        </a>
+                        <a href="?page=Stock_LF&tab=Large_Format">
+                            <li class='<?= ($page == 'Stock_LF') ? 'active' : ''; ?>'>Stock Bahan LF</li>
+                        </a>
+                        <a href="?page=List_PemesananStock&tab=Large_Format">
+                            <li class='<?= ($page == 'List_PemesananStock') ? 'active' : ''; ?>'>List Pemesanan Bahan LF</li>
+                        </a>
+                        <div class="clear"></div>
+                    </ul>
+                <?php endif; ?>
             <?php elseif ($tab == 'Digital_Printing') : ?>
-                <ul>
-                    <a href="?page=DP_List&tab=Digital_Printing">
-                        <li class='<?= ($page == 'DP_List') ? 'active' : ''; ?>'>Digital Printing Order List</li>
-                    </a>
-                    <a href="?page=PemotonganStockDP&tab=Digital_Printing">
-                        <li class='<?= ($page == 'PemotonganStockDP') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
-                    </a>
-                    <a href="?page=laporan_harian_konika&tab=Digital_Printing">
-                        <li class='<?= ($page == 'laporan_harian_konika') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
-                    </a>
-                    <a href="?page=list_pemesanan_kertas&tab=Digital_Printing">
-                        <li class='<?= ($page == 'list_pemesanan_kertas') ? 'active' : ''; ?>'>List Pemasukan kertas</li>
-                    </a>
-                    <a href="?page=Laporan_Stock_Barang&tab=Digital_Printing">
-                        <li class='<?= ($page == 'Laporan_Stock_Barang') ? 'active' : ''; ?>'>Stock kertas</li>
-                    </a>
-                    <div class="clear"></div>
-                </ul>
+                <?php if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
+                    <ul>
+                        <a href="?page=DP_List&tab=Digital_Printing">
+                            <li class='<?= ($page == 'DP_List') ? 'active' : ''; ?>'>Digital Printing Order List</li>
+                        </a>
+                        <a href="?page=PemotonganStockDP&tab=Digital_Printing">
+                            <li class='<?= ($page == 'PemotonganStockDP') ? 'active' : ''; ?>'>Pemotongan Stock Digital Printing</li>
+                        </a>
+                        <a href="?page=laporan_harian_konika&tab=Digital_Printing">
+                            <li class='<?= ($page == 'laporan_harian_konika') ? 'active' : ''; ?>'>Laporan Harian Konika</li>
+                        </a>
+                        <a href="?page=list_pemesanan_kertas&tab=Digital_Printing">
+                            <li class='<?= ($page == 'list_pemesanan_kertas') ? 'active' : ''; ?>'>List Pemasukan kertas</li>
+                        </a>
+                        <a href="?page=Laporan_Stock_Barang&tab=Digital_Printing">
+                            <li class='<?= ($page == 'Laporan_Stock_Barang') ? 'active' : ''; ?>'>Stock kertas</li>
+                        </a>
+                        <div class="clear"></div>
+                    </ul>
+                <?php endif; ?>
             <?php elseif ($tab == 'laporan') : ?>
-                <ul>
-                    <a href="?page=laporan_penjualan&tab=laporan">
-                        <li class='<?= ($page == 'laporan_penjualan') ? 'active' : ''; ?>'>Laporan Penjualan</li>
-                    </a>
-                    <a href="?page=XXXX&tab=laporan">
-                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Setoran Bank</li>
-                    </a>
-                    <a href="?page=XXXX&tab=laporan">
-                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Kerja LF</li>
-                    </a>
-                    <a href="?page=XXXX&tab=laporan">
-                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Pemakaian Bahan LF</li>
-                    </a>
-                    <a href="?page=XXXX&tab=laporan">
-                        <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Pemakaian Bahan Digital Printing</li>
-                    </a>
-                    <div class="clear"></div>
-                </ul>
+                <?php if ($_SESSION['level'] == "accounting" || $_SESSION['level'] == "admin") : ?>
+                    <ul>
+                        <a href="?page=laporan_penjualan&tab=laporan">
+                            <li class='<?= ($page == 'laporan_penjualan') ? 'active' : ''; ?>'>Laporan Penjualan</li>
+                        </a>
+                        <a href="?page=XXXX&tab=laporan">
+                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Setoran Bank</li>
+                        </a>
+                        <a href="?page=XXXX&tab=laporan">
+                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Kerja LF</li>
+                        </a>
+                        <a href="?page=XXXX&tab=laporan">
+                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Pemakaian Bahan LF</li>
+                        </a>
+                        <a href="?page=XXXX&tab=laporan">
+                            <li class='<?= ($page == 'XXXX') ? 'active' : ''; ?>'>Laporan Pemakaian Bahan Digital Printing</li>
+                        </a>
+                        <div class="clear"></div>
+                    </ul>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 

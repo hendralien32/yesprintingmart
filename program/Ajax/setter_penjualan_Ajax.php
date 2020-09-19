@@ -3,7 +3,6 @@ session_start();
 require_once '../../function.php';
 
 $test = "";
-
 $Setter_Sort = isset($_POST['Setter_Sort']) ? $_POST['Setter_Sort'] : ' ';
 
 if (isset($Setter_Sort)) :
@@ -13,7 +12,6 @@ else :
 endif;
 
 $_SESSION['filter_ID_Penjualan'] = "$test";
-
 $no = 1;
 
 if ($_POST['data'] != '' && $_POST['client'] == '') :
@@ -150,6 +148,7 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
             customer.nama_client,
             setter.nama as Nama_Setter,
             penjualan.cancel,
+            penjualan.posisi_file,
             penjualan.img_design,
             penjualan.file_design,
             (CASE
@@ -188,7 +187,6 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
         if ($result->num_rows > 0) {
             // output data of each row
             while ($d = $result->fetch_assoc()) :
-
                 $kode_class = str_replace(" ", "_", $d['kode_barang']);
 
                 if ($d['no_invoice'] != "0") : $no_invoice = "#$d[no_invoice]";

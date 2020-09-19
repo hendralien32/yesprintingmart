@@ -332,7 +332,12 @@ echo "
             </tr>
             <tr>
                 <td style='width:145px'>Kesalahan</td>
-                <td><input id="Kesalahan" type='text' class='form md' value=""></td>
+                <td>
+                    <input type="text" class="form md" style="width:205px" id="Kesalahan" autocomplete="off" onkeyup="Kesalahan_Search('Kesalahan')" onChange="validasi('Kesalahan')" value=''>
+                    <input type="hidden" name="nama_kesalahan" id="id_Kesalahan" value='' class="form sd" readonly disabled>
+                    <input type="hidden" name="validasi_kesalahan" id="validasi_Kesalahan" class="form sd" readonly disabled>
+                    <span id="Alert_ValKesalahan"></span>
+                </td>
             </tr>
             <tr>
                 <td style='width:145px'>Alasan Error</td>

@@ -175,6 +175,7 @@ function LaodForm(id, nid, Akses_Edit) {
         }
       } else if (id == "DigitalPrinting_Update") {
         validasi("BahanDigital");
+        validasi("Kesalahan");
       } else if (id == "Tambah_StockDP") {
         checkboxes = $('[name="Jmlh_Data"]');
         for (let i = 1; i <= checkboxes.length - 1; i++) {

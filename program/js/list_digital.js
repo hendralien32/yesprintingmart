@@ -85,6 +85,45 @@ function session_mesin() {
   onload();
 }
 
+function Kesalahan_Search(id) {
+  $("#Kesalahan").autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "progress/validasi_progress.php",
+        type: "POST",
+        data: {
+          tipe_validasi: "autocomplete_username",
+          term: request.term,
+        },
+        dataType: "json",
+        success: function (data) {
+          response(
+            $.map(data, function (item) {
+              return {
+                label: item.nama,
+                value: item.nama,
+                id: item.uid,
+              };
+            })
+          );
+        },
+      });
+    },
+    minLength: 1,
+    autoFocus: true,
+    select: function (event, ui) {
+      $("#Kesalahan").val(ui.item.value);
+      $("#id_Kesalahan").val(ui.item.id);
+    },
+    change: function (event, ui) {
+      $("#Kesalahan").val(ui.item.value);
+      $("#id_Kesalahan").val(ui.item.id);
+    },
+  });
+
+  validasi(id);
+}
+
 function BahanDigital_Search(id) {
   $("#BahanDigital").autocomplete({
     source: function (request, response) {
@@ -152,7 +191,15 @@ function validasi(id) {
 }
 
 function submit(id) {
-  if ($("#validasi_BahanDigital").val() == 0) {
+  if ($("#Error").val() != 0 && $("#Error").val() != "") {
+    if ($("#validasi_Kesalahan").val() == 0 && $("#validasi_Kesalahan").val() == "") {
+      alert("Nama Kesalahan Tidak terdaftar & Tidak Boleh Kosong");
+      return false;
+    } else if ($("#alasan_error").val() == "") {
+      alert("Alasan Error Tidak Boleh Kosong");
+      return false;
+    }
+  } else if ($("#validasi_BahanDigital").val() == 0) {
     alert("Nama Bahan Tidak terdaftar");
     return false;
   } else if ($("#Qty").val() > $("#Val_Qty").val()) {
@@ -171,7 +218,7 @@ function submit(id) {
   let Jammed = $("#Jammed").val();
   let warna_cetakan = $("#warna_cetakan").val();
   let Error = $("#Error").val();
-  let Kesalahan = $("#Kesalahan").val();
+  let Kesalahan = $("#id_Kesalahan").val();
   let alasan_error = $("#alasan_error").val();
   let status_Cetak = $("#status_Cetak").val();
   let jumlah_click;

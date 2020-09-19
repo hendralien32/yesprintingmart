@@ -5,10 +5,10 @@ require_once "../../function.php";
 $jenis_laporan = ($_POST['jenis_laporan'] != "") ? $_POST['jenis_laporan'] : "";
 $dari_tanggal = ($_POST['dari_tanggal'] != "") ? $_POST['dari_tanggal'] : $date;
 
-if($jenis_laporan == "Cash") :
+if ($jenis_laporan == "Cash") :
     $title = "Cash";
     $add_where = "and (pelunasan.type_pem ='cash' or pelunasan.type_pem ='Cash' or pelunasan.type_pem ='DP' or pelunasan.type_pem ='dp' or pelunasan.type_pem ='Dp' or pelunasan.type_pem ='')";
-elseif($jenis_laporan == "CC") :
+elseif ($jenis_laporan == "CC") :
     $title = "Debit / Kredit / TRF";
     $add_where = "and (pelunasan.type_pem ='Kartu Kredit' or pelunasan.type_pem ='kartu kredit' or pelunasan.type_pem ='DP Kartu Kredit')";
 else :
@@ -123,31 +123,31 @@ endif;
                     $y = array_sum($total_adj_pay);
                     $count = count($no_invoice);
 
-                    if($d['type_pem']==='cash' or $d['type_pem']==='Cash') {
-                        $type_pem="$d[type_pem]"; 
-                    } elseif($d['type_pem']=="DP") {
-                        $type_pem="Down Payment";
-                    } elseif($d['type_pem']=="Kartu Kredit" or $d['type_pem']=="DP Kartu Kredit") {
+                    if ($d['type_pem'] === 'cash' or $d['type_pem'] === 'Cash') {
+                        $type_pem = "$d[type_pem]";
+                    } elseif ($d['type_pem'] == "DP") {
+                        $type_pem = "Down Payment";
+                    } elseif ($d['type_pem'] == "Kartu Kredit" or $d['type_pem'] == "DP Kartu Kredit") {
                         $type_pem = "Debit / Kredit / TRF";
-                        if($d['jenis_kartu'] != "") :
+                        if ($d['jenis_kartu'] != "") :
                             $type_pem .=  " - $d[jenis_kartu]";
-                        else : 
+                        else :
                             $type_pem .=  "";
                         endif;
 
-                        if($d['nomor_kartu'] != "") :
+                        if ($d['nomor_kartu'] != "") :
                             $type_pem .=  " ( $d[nomor_kartu] )";
-                        else : 
+                        else :
                             $type_pem .=  "";
                         endif;
 
-                        if($d['rekening_tujuan'] != "") :
+                        if ($d['rekening_tujuan'] != "") :
                             $type_pem .=  " --> $d[rekening_tujuan] ( A/N Muliadi )";
-                        else : 
+                        else :
                             $type_pem .=  "";
                         endif;
-                    } else { 
-                        $type_pem="- - -"; 
+                    } else {
+                        $type_pem = "- - -";
                     }
 
                     echo "
@@ -174,7 +174,7 @@ endif;
                             </tr>
                             ";
                     endfor;
-                    
+
                     $Xtotal_bayar[]   = array_sum($total_bayar);
                     $Xtotal_adj_pay[]   = array_sum($total_adj_pay);
 
@@ -194,10 +194,10 @@ endif;
             ?>
             <tr>
                 <th colspan="4">Total Pelunasan</th>
-                <th style='text-align:right'><?= number_format($a); ?></th>
-                <th style='text-align:right'><?= number_format($b); ?></th>
-                <th style='text-align:right'><?= number_format($a - $b); ?></th>
-                <th style='text-align:right'><?= number_format($a - $b); ?></th>
+                <th style='text-align:right; padding-right:10px;'><?= number_format($a); ?></th>
+                <th style='text-align:right; padding-right:10px;'><?= number_format($b); ?></th>
+                <th style='text-align:right; padding-right:10px;'><?= number_format($a - $b); ?></th>
+                <th style='text-align:right; padding-right:10px;'><?= number_format($a - $b); ?></th>
             </tr>
         </tbody>
     </table>

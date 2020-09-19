@@ -93,17 +93,17 @@ if ($result->num_rows > 0) :
     $d = $result->fetch_assoc();
 
     if ($d['client_yes'] != "") {
-        $client_yes = " - <strong style='color:#f1592a'>$d[client_yes]</strong>";
+        $client_yes = " - <strong style='color:#353942'>$d[client_yes]</strong>";
     } else {
         $client_yes = "";
     }
     if ($d['id_yes'] != "0") {
-        $id_yes = " - <strong style='color:#f1592a'>$d[id_yes]</strong>";
+        $id_yes = " - <strong style='color:#353942'>$d[id_yes]</strong>";
     } else {
         $id_yes = "";
     }
     if ($d['so_yes'] != "0") {
-        $id_yes .= "<strong style='color:#f1592a'> / $d[so_yes]</strong>";
+        $id_yes .= "<strong style='color:#353942'> / $d[so_yes]</strong>";
     } else {
         $id_yes .= "";
     }
@@ -143,7 +143,7 @@ if (isset($_SESSION["login"])) :
     <div id="container">
         <div id='container_1'>
             <div class='left'>
-                <img src='../images/Logo YES BON.png'>
+                <img src='../images/Logo YES BON - BW.png'>
             </div>
             <div class='middle'>
                 <div class='status_lunas'>
@@ -196,15 +196,15 @@ if (isset($_SESSION["login"])) :
                     </tr>
                     <tr>
                         <td style='width:130px'><strong>Warna</strong></td>
-                        <td><strong style='color:#f1592a'><?= $d['Warna_Cetak'] ?></strong></td>
+                        <td><strong style='color:#353942'><?= $d['Warna_Cetak'] ?></strong></td>
                     </tr>
                     <tr>
                         <td style='width:130px'><strong>Alat Tambahan</strong></td>
-                        <td><strong style='color:#f1592a'><?= $d['alat_tambahan'] ?></strong></td>
+                        <td><strong style='color:#353942'><?= $d['alat_tambahan'] ?></strong></td>
                     </tr>
                     <tr>
                         <td style='width:130px'><strong>Laminating</strong></td>
-                        <td><strong style='color:#f1592a'><?= $d['laminating'] ?></strong></td>
+                        <td><strong style='color:#353942'><?= $d['laminating'] ?></strong></td>
                     </tr>
                 </table>
             </div>

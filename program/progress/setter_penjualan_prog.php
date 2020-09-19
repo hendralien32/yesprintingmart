@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once "../../function.php";
 
 // echo $_FILES['imageFile']['name']."<br>";
@@ -23,8 +22,9 @@ if ($_POST['jenis_submit'] == 'Insert' or $_POST['jenis_submit'] == 'Update' or 
     $Nama_Bahan     = "";
 }
 
-if ($_POST['jenis_submit'] == 'Insert') :
+$dir = "D:/Design/";
 
+if ($_POST['jenis_submit'] == 'Insert') :
     if (is_array($_FILES)) {
         $newFileName = uniqid('YESPRINT-', true);
 
@@ -33,7 +33,7 @@ if ($_POST['jenis_submit'] == 'Insert') :
             $File_DesignName = $newFileName . "." . $ekstensiFile;
 
             $sourcePath = $_FILES['DesignFile']['tmp_name'];
-            $targetPath = "../design/" . $File_DesignName;
+            $targetPath = $dir . $File_DesignName;
             $ekstensiOk = array('rar', 'zip');
 
             if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -54,7 +54,7 @@ if ($_POST['jenis_submit'] == 'Insert') :
             $File_DesignName = $newFileName . "." . $ekstensiFile;
 
             $sourcePath = $_FILES['imageFile']['tmp_name'];
-            $targetPath = "../design/" . $File_DesignName;
+            $targetPath = $dir . $File_DesignName;
             $ekstensiOk = array('jpg', 'jpeg', 'png', 'gif');
 
             if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -100,7 +100,6 @@ if ($_POST['jenis_submit'] == 'Insert') :
         "Akses Edit"                => "Y",
         "Nama File"                 => "$Log_file",
         "Nama Image"                => "$Log_image"
-
     );
 
     $log = "";
@@ -158,7 +157,8 @@ if ($_POST['jenis_submit'] == 'Insert') :
             akses_edit,
             $mysql_FileName
             $mysql_ImgName
-            history
+            history,
+            posisi_file
         ) VALUES (
             '$_POST[warna_cetakan]',
             '$_POST[ID_User]', 
@@ -182,14 +182,15 @@ if ($_POST['jenis_submit'] == 'Insert') :
             '$_POST[Blok]', 
             '$_POST[Spiral]', 
             '$_POST[Qty]', 
-            '$Satuan', 
+            '$Satuan',
             '$_POST[Proffing]', 
             '$_POST[Ditunggu]', 
             '$_POST[Design]',
             'Y',
             $mysql_FileValue
             $mysql_ImgValue
-            '$Final_log'
+            '$Final_log',
+            '$dir'
         )";
 
 elseif ($_POST['jenis_submit'] == 'Update') :
@@ -283,10 +284,8 @@ elseif ($_POST['jenis_submit'] == 'Update') :
         $row = mysqli_fetch_assoc($result);
 
         if (is_array($_FILES)) {
-
-            $target_file = "../design/$row[Nama_File]";
-            $target_image = "../design/$row[Nama_Image]";
-
+            $target_file = $dir . "$row[Nama_File]";
+            $target_image = $dir . "$row[Nama_Image]";
 
             if (is_uploaded_file($_FILES['DesignFile']['tmp_name'])) { // Design File
 
@@ -302,7 +301,7 @@ elseif ($_POST['jenis_submit'] == 'Update') :
                 $File_DesignName = $basename . "." . $ekstensiFile;
 
                 $sourcePath = $_FILES['DesignFile']['tmp_name'];
-                $targetPath = "../design/" . $File_DesignName;
+                $targetPath = $dir . $File_DesignName;
                 $ekstensiOk = array('rar', 'zip');
 
                 if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -330,7 +329,7 @@ elseif ($_POST['jenis_submit'] == 'Update') :
                 $File_DesignName = $basename . "." . $ekstensiFile;
 
                 $sourcePath = $_FILES['imageFile']['tmp_name'];
-                $targetPath = "../design/" . $File_DesignName;
+                $targetPath = $dir . $File_DesignName;
                 $ekstensiOk = array('jpg', 'jpeg', 'png', 'gif');
 
                 if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -473,6 +472,7 @@ elseif ($_POST['jenis_submit'] == 'Update') :
             b_design         = '$_POST[b_design]',
             b_delivery       = '$_POST[b_delivery]',
             discount         = '$_POST[discount]',
+            posisi_file      = '$dir',
             $mysql_FileValue
             $mysql_ImgValue
             history          =  CONCAT('$Final_log', history)

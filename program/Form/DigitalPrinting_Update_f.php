@@ -61,7 +61,8 @@ $sql =
         penjualan.ditunggu,
         penjualan.satuan,
         penjualan.Qty_Order,
-        penjualan.nama
+        penjualan.nama,
+        nama_salah.nama as nama_salah
     FROM
         digital_printing
     LEFT JOIN (
@@ -134,7 +135,7 @@ $sql =
         LEFT JOIN 
             (select pm_user.uid, pm_user.nama from pm_user) setter
         ON
-            penjualan.setter = setter.uid  
+            penjualan.setter = setter.uid   
         LEFT JOIN 
             (select barang.id_barang, barang.nama_barang from barang) barang
         ON
@@ -164,6 +165,10 @@ $sql =
         ) barang_Kode
     ON 
         barang_Kode.kode_barang = digital_printing.kode_bahan
+    LEFT JOIN 
+        (select pm_user.uid, pm_user.nama from pm_user) nama_salah
+    ON
+        digital_printing.kesalahan = nama_salah.uid   
     WHERE
         digital_printing.did = $ID_Order
     LIMIT
@@ -217,6 +222,7 @@ if ($result->num_rows > 0) :
     $id_bahan = $d['id_bahan'];
     $nama_barang = $d['nama_barang'];
     $kesalahan = $d['kesalahan'];
+    $nama_salah = $d['nama_salah'];
     $alasan_kesalahan = $d['alasan_kesalahan'];
     $status = $d['status'];
 else :
@@ -235,6 +241,7 @@ else :
     $id_bahan = "";
     $nama_barang = "";
     $kesalahan = "";
+    $nama_salah = "";
     $alasan_kesalahan = "";
     $status = "";
 endif;
@@ -470,7 +477,12 @@ echo "
             </tr>
             <tr>
                 <td style='width:145px'>Kesalahan</td>
-                <td><input id="Kesalahan" type='text' class='form md' value="<?= $kesalahan ?>"></td>
+                <td>
+                    <input type="text" class="form md" style="width:205px" id="Kesalahan" autocomplete="off" onkeyup="Kesalahan_Search('Kesalahan')" onChange="validasi('Kesalahan')" value='<?= $nama_salah ?>'>
+                    <input type="hidden" name="nama_kesalahan" id="id_Kesalahan" value='<?= $kesalahan ?>' class="form sd" readonly disabled>
+                    <input type="hidden" name="validasi_kesalahan" id="validasi_Kesalahan" class="form sd" readonly disabled>
+                    <span id="Alert_ValKesalahan"></span>
+                </td>
             </tr>
             <tr>
                 <td style='width:145px'>Alasan Error</td>

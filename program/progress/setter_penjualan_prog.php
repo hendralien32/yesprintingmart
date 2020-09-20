@@ -6486,11 +6486,13 @@ elseif ($_POST['jenis_submit'] == 'submit_counter') :
         "INSERT into billing_konika (
             tanggal_billing,
             FC_awal,
-            BW_awal
+            BW_awal,
+            mesin
         ) values (
             '$_POST[tanggal_Counter]',
             '$_POST[Counter_Awal_FC]',
-            '$_POST[Counter_Awal_BW]'
+            '$_POST[Counter_Awal_BW]',
+            '$_SESSION[session_MesinDP]'
         )
     ";
 elseif ($_POST['jenis_submit'] == 'update_counter') :

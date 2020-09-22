@@ -200,7 +200,8 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                     } else {
                         $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
                         $Akses_Edit = "$akses_edit[0]";
-                    } else :
+                    }
+                else :
                     if ($_SESSION["level"] == "admin") {
                         $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $oid['0'] . "\")'><i class='fad fa-lock-alt'></i></span>";
                         $Akses_Edit = "Y";
@@ -227,7 +228,8 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                         $button_Cancel = "";
                         $css_cancel = "cancel";
                         $sub_css_cancel = "background-color:red;";
-                    } else :
+                    }
+                else :
                     $force_paid = "";
                     $button_Cancel = "";
                     if ($d['cancel'] != "Y") {
@@ -294,15 +296,15 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                             $XAkses_Edit = "Y";
                         } else {
                             $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
-                            $XAkses_Edit = "Y ";
-                        } 
+                            $XAkses_Edit = $X_akses_edit;
+                        }
                     else :
                         if ($_SESSION["level"] == "admin") {
                             $Xicon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $X_oid . "\")'><i class='fad fa-lock-alt'></i></span>";
                             $XAkses_Edit = "Y";
                         } else {
                             $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
-                            $XAkses_Edit = "N";
+                            $XAkses_Edit = $X_akses_edit;
                         }
                     endif;
 

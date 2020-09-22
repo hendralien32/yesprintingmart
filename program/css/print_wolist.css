@@ -1,117 +1,117 @@
 @media print {
-    @page {
-        margin-top: -2.2cm;
-    }   
+  @page {
+    margin-top: -2.2cm;
+  }
 
-    /* #container {
+  /* #container {
         page-break-after: always;
     } */
 }
 
 @font-face {
-    font-family: Roboto-Regular;
-    src: url(../../fonts/roboto/Roboto-Regular.ttf);
+  font-family: Roboto-Regular;
+  src: url(../../fonts/roboto/Roboto-Regular.ttf);
 }
 
 * {
-    font-family: roboto-Regular;
-    font-size: 0.83rem;
+  font-family: roboto-Regular;
+  font-size: 0.83rem;
 }
 
 #container {
-    width: auto;
-    padding: 10px;
-    user-select: none;
+  width: auto;
+  padding: 10px;
+  user-select: none;
 }
 
 #container #wo_list_title {
-    display:left;
-    align-items: center;
+  display: left;
+  align-items: center;
 }
 
 #container h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    letter-spacing:1px;
-    text-align: center;
-    padding:5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 5px;
 }
 
 #container h5 {
-    font-size: 0.95rem;
-    font-weight: bold;
-    letter-spacing:1px;
-    padding:5px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 5px;
 }
 
 /* WO List Style START */
 
 #container #wo_list_table {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
 #container #wo_list_table table {
-    width: 100%;
-    border-collapse: collapse;
-    border:1px solid #aeaeae;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #aeaeae;
 }
 
-#container #wo_list_table table tr td, #container #wo_list_table table tr th {
-    border:1px solid #aeaeae;
-    padding : 4px;
+#container #wo_list_table table tr td,
+#container #wo_list_table table tr th {
+  border: 1px solid #aeaeae;
+  padding: 4px;
 }
 
 #container .wo_list_info p {
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 
 #container .wo_list_info ul {
-    list-style: none; /* Remove HTML bullets */
-    padding: 0;
-    margin: 0;
+  list-style: none; /* Remove HTML bullets */
+  padding: 0;
+  margin: 0;
 }
-  
-#container .wo_list_info li { 
-    padding-left: 5px; 
+
+#container .wo_list_info li {
+  padding-left: 5px;
 }
-  
+
 #container .wo_list_info li::before {
-    font-size: 1.2rem;
-    content: "■"; /* Insert content that looks like bullets */
-    padding-right: 8px;
+  font-size: 1.2rem;
+  content: "■"; /* Insert content that looks like bullets */
+  padding-right: 8px;
 }
 
 #container .wo_list_footer {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: row;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
 }
 
-
 #container .wo_list_footer .column {
-    font-weight: bold;
-    flex: 50%;
-    align-items: center;
-    text-align: center;
+  font-weight: bold;
+  flex: 50%;
+  align-items: center;
+  text-align: center;
 }
 
 #container hr.Wo_list_line_cut {
-    width:91%;
-    border-top: 1.2px dashed;
+  width: 91%;
+  border-top: 1.2px dashed;
 }
 
 #container .Wo_list_cut_icon {
-    position: absolute;
-    margin-top: 8px;
-    margin-left: 35px;
+  position: absolute;
+  margin-top: 8px;
+  margin-left: 35px;
 }
 
 #container .Wo_list_cut_icon::before {
-    font-family: "Font Awesome 5 Pro" !important;
-    font-weight: 900;
-    content: "\f0c4";
-    display: none;
+  font-family: "Font Awesome 5 Pro" !important;
+  font-weight: 900;
+  content: "\f0c4";
+  display: none;
 }
 
 /* WO List Style END */
@@ -119,52 +119,51 @@
 /* penjualan YES Style */
 
 #container #penjualan_YES_table .penjualan_yes_title_Container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 #container #penjualan_YES_table {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 #container #penjualan_YES_table table {
-    width: 100%;
-    border-collapse: collapse;
-    border:1px solid #aeaeae;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #aeaeae;
 }
 
 #container #penjualan_YES_table table tr th {
-    background-color: #353942;
-    color: white;
-    border:1px solid #aeaeae;
-    padding : 7px;
-    letter-spacing: 1px;
-    font-weight: 400;
+  background-color: #353942;
+  color: white;
+  border: 1px solid #aeaeae;
+  padding: 7px;
+  letter-spacing: 1px;
+  font-weight: 400;
 }
 
 #container #penjualan_YES_table table tr td {
-    border:1px solid #aeaeae;
-    padding : 4px;
+  border: 1px solid #aeaeae;
+  padding: 4px;
 }
 
 #container hr.penjualan_YES_line_cut {
-    width:91%;
-    border-top: 1.2px dashed;
-    margin-top: 18px;
+  width: 91%;
+  border-top: 1.2px dashed;
+  margin-top: 18px;
 }
 
 #container .penjualan_YES_cut_icon {
-    position: absolute;
-    margin-top: 7px;
-    margin-left: 35px;
+  position: absolute;
+  margin-top: 7px;
+  margin-left: 35px;
 }
 
 #container .penjualan_YES_cut_icon::before {
-    font-family: "Font Awesome 5 Pro" !important;
-    font-weight: 900;
-    content: "\f0c4";
-    display: none;
+  font-family: "Font Awesome 5 Pro" !important;
+  font-weight: 900;
+  content: "\f0c4";
+  display: none;
 }
-
 
 /* penjualan YES Style */

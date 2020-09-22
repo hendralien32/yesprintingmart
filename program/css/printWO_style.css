@@ -140,7 +140,7 @@
 }
 
 #container #container_1 .right table tr th {
-  background-color: #939598;
+  background-color: #e5e5e5;
   font-weight: bolder;
 }
 
@@ -158,6 +158,12 @@
   align-self: flex-start;
   flex: 1.1;
   margin-right: 0.5em;
+}
+
+#container #container_2 #left span.nama_client {
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 #container #container_2 #right {

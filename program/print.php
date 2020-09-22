@@ -70,7 +70,7 @@ $sql =
         penjualan.no_invoice = '$_GET[no_invoice]'
     GROUP BY
         penjualan.no_invoice
-    desc";
+    ";
 
 // Perform query
 $result = $conn_OOP->query($sql);
@@ -188,7 +188,7 @@ if (isset($_SESSION["login"])) :
                         echo "
                                 <tr>
                                     <td><center>$no</center></td>
-                                    <td>$description[$i]</td>
+                                    <td>$description[$i] $ukuran[$i]</td>
                                     <td>$qty[$i]</td>
                                     <td>" . number_format($harga_satuan[$i]) . "</td>
                                     <td>" . number_format($total[$i]) . "</td>

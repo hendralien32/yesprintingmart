@@ -662,17 +662,28 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 ELSE '0'
             END) as indoor,
             (CASE
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 500 THEN 500_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 250 THEN 250_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 100 THEN 100_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 50 THEN 50_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 100 THEN 100_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 50 THEN 50_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 20 THEN 20_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 10 THEN 10_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 6 THEN 6sd9_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 3 THEN 3_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 2 THEN 2_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 1 THEN 1_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 500 THEN ( 500_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 250 THEN ( 250_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 100 THEN ( 100_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 50 THEN ( 50_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 20 THEN ( 20_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 10 THEN ( 10_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 6 THEN ( 6sd9_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 4 THEN ( 4sd5_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 3 THEN ( 3_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 2 THEN ( 2_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 1 THEN ( 1_lembar_AT / 4 )
                 ELSE '0'
             END) as b_kotak,
             (CASE
@@ -1465,17 +1476,28 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 ELSE '0'
             END) as indoor,
             (CASE
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 500 THEN 500_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 250 THEN 250_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 100 THEN 100_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 50 THEN 50_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 100 THEN 100_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 50 THEN 50_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 20 THEN 20_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 10 THEN 10_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 6 THEN 6sd9_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 3 THEN 3_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 2 THEN 2_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 1 THEN 1_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 500 THEN ( 500_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 250 THEN ( 250_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 100 THEN ( 100_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 50 THEN ( 50_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 20 THEN ( 20_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 10 THEN ( 10_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 6 THEN ( 6sd9_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 4 THEN ( 4sd5_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 3 THEN ( 3_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 2 THEN ( 2_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 1 THEN ( 1_lembar_AT / 4 )
                 ELSE '0'
             END) as b_kotak,
             (CASE
@@ -2445,17 +2467,28 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                 ELSE '0'
             END) as indoor,
             (CASE
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 500 THEN 500_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 250 THEN 250_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 100 THEN 100_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 50 THEN 50_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 20 THEN 20_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 10 THEN 10_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 4 THEN 4sd5_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 3 THEN 3_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 2 THEN 2_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Qty >= 1 THEN 1_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 100 THEN 100_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 50 THEN 50_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 20 THEN 20_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 10 THEN 10_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 6 THEN 6sd9_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 4 THEN 4sd5_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 3 THEN 3_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 2 THEN 2_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'kotak' and Qty >= 1 THEN 1_lembar_AT
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 500 THEN ( 500_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 250 THEN ( 250_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 100 THEN ( 100_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 50 THEN ( 50_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 20 THEN ( 20_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 10 THEN ( 10_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 6 THEN ( 6sd9_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 4 THEN ( 4sd5_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 3 THEN ( 3_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 2 THEN ( 2_lembar_AT / 4 )
+                WHEN kode = 'digital' and ID_AT = '31' and satuan = 'lembar' and Qty >= 1 THEN ( 1_lembar_AT / 4 )
                 ELSE '0'
             END) as b_kotak,
             (CASE

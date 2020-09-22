@@ -210,7 +210,8 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 OLD_digital_KodeBrg.kode_bahan = barang.kode_barang
 
             WHERE
-                barang.jenis_barang = '$jenis_stock'
+                barang.jenis_barang = '$jenis_stock' and
+                barang.status_bahan = 'a'
             order BY
 				barang.nama_barang
 			asc

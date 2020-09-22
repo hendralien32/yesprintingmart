@@ -4,6 +4,10 @@ require_once "../../function.php";
 
 $ID_Order = isset($_POST['ID_Order']) ? $_POST['ID_Order'] : "";
 
+if($ID_Order != "") : $add_where = "billing_konika.billing_id='$ID_Order'";
+else : $add_where = "billing_konika.tanggal_billing = '$date'";
+endif;
+
 $sql =
     "SELECT
 		billing_konika.billing_id,
@@ -15,7 +19,7 @@ $sql =
 	FROM
 		billing_konika
 	WHERE
-		billing_konika.billing_id='$ID_Order'
+		$add_where
 	LIMIT
 		1
 ";
@@ -25,19 +29,21 @@ $result = $conn_OOP->query($sql);
 if ($result->num_rows > 0) :
     // output data of each row
     $d = $result->fetch_assoc();
-    $validasi = "0";
+    $validasi = "1";
     $display = "";
     $onlick_submit = "update_counter";
     $nama_submit = "Update";
+    $tanggal_billing = "$d[tanggal_billing]";
     $FC_awal = "$d[FC_awal]";
     $BW_awal = "$d[BW_awal]";
     $FC_akhir = "$d[FC_akhir]";
     $BW_akhir = "$d[BW_akhir]";
 else :
-    $validasi = "1";
+    $validasi = "0";
     $display = "display:none";
     $onlick_submit = "submit_counter";
     $nama_submit = "Submit";
+    $tanggal_billing = "$date";
     $FC_awal = "";
     $BW_awal = "";
     $FC_akhir = "";
@@ -55,7 +61,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
         <table class='table-form'>
             <tr>
                 <td style='width:145px'>Tanggal</td>
-                <td><input type='date' id='tanggal_Counter' data-placeholder='Tanggal' class='form md' value='<?= $date ?>' max='<?= $date ?>'></td>
+                <td><input type='date' id='tanggal_Counter' data-placeholder='Tanggal' class='form md' value='<?= $tanggal_billing ?>' max='<?= $date ?>'></td>
             </tr>
             <tr>
                 <td style='width:145px'>Counter Awal FC</td>

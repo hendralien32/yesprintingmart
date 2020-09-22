@@ -176,7 +176,7 @@ if (isset($_SESSION["login"])) :
                     </tr>
                     <tr>
                         <td style='width:130px'><strong>Client</strong></td>
-                        <td><?= $d['nama_client'] . $client_yes ?></td>
+                        <td><span class='nama_client'><?= $d['nama_client'] . $client_yes ?></span></td>
                     </tr>
                     <tr>
                         <td style='width:130px'><strong>Desciption</strong></td>
@@ -302,12 +302,12 @@ if (isset($_SESSION["login"])) :
                 </p>
             </div>
         <?php else : endif; ?>
-        <div id='container_4'>
+        <!-- <div id='container_4'>
             <p>
                 <strong>Paraf Operator</strong>
             </p>
             </di>
-        </div>
+        </div> -->
     <?php
 else :
     header("Location: ../vendor/colorlib-error-404-19/index.html", true, 301);

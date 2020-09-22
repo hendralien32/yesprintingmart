@@ -294,14 +294,15 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                             $XAkses_Edit = "Y";
                         } else {
                             $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
-                            $XAkses_Edit = "$X_akses_edit ";
-                        } else :
+                            $XAkses_Edit = "Y ";
+                        } 
+                    else :
                         if ($_SESSION["level"] == "admin") {
                             $Xicon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $X_oid . "\")'><i class='fad fa-lock-alt'></i></span>";
                             $XAkses_Edit = "Y";
                         } else {
                             $Xicon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-alt'></i></span>";
-                            $XAkses_Edit = "$X_akses_edit";
+                            $XAkses_Edit = "N";
                         }
                     endif;
 
@@ -312,7 +313,7 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                         endif;
                     }
 
-                    $X_edit = "LaodForm(\"setter_penjualan\", \"" . $oid[$i] . "\", \"" . $XAkses_Edit . "\")";
+                    $X_edit = "LaodForm(\"setter_penjualan\", \"" . $X_oid . "\", \"" . $XAkses_Edit . "\")";
 
                     echo "
                                 <tr class='" . $css_cancel . "'>

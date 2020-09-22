@@ -67,9 +67,11 @@ function SearchTo() {
 }
 
 function submit(id) {
-  if ($("#validasi").val() == 1) {
-    alert("Tidak bisa input Counter, karena Counter Sudah Di Buka");
-    return false;
+  if ($("#billing_id").val() == "") {
+    if ($("#validasi").val() == 1) {
+      alert("Tidak bisa input Counter, karena Counter Sudah Di Buka");
+      return false;
+    }
   }
 
   let billing_id = $("#billing_id").val();

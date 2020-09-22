@@ -50,32 +50,52 @@ require_once "../../function.php";
 			billing_konika.BW_awal,
 			billing_konika.FC_akhir,
 			billing_konika.BW_akhir,
-            SUM(digital_printing.FC) as FC,
-            SUM(digital_printing.BW) as BW,
-            SUM(digital_printing.Maintanance_FC) as Maintanance_FC,
-            SUM(digital_printing.Maintanance_BW) as Maintanance_BW,
-            SUM(digital_printing.error_FC) as error_FC,
-            SUM(digital_printing.error_BW) as error_BW
+            digital_printing.FC as FC,
+            digital_printing.BW as BW,
+            digital_printing.Maintanance_FC as Maintanance_FC,
+            digital_printing.Maintanance_BW as Maintanance_BW,
+            digital_printing.error_FC as error_FC,
+            digital_printing.error_BW as error_BW
 		FROM
             billing_konika
         LEFT JOIN
             (SELECT
                 LEFT(digital_printing.tgl_cetak,10) tanggal_cetak,
-                (case when digital_printing.color='FC' then (digital_printing.qty_cetak*digital_printing.sisi) end) as FC,
-                (case when digital_printing.color='BW' then (digital_printing.qty_cetak*digital_printing.sisi) end) as BW,
-                (case when digital_printing.maintanance='Y' and digital_printing.color='FC' then (digital_printing.qty_cetak*digital_printing.sisi) end) as Maintanance_FC,
-				(case when digital_printing.maintanance='Y' and digital_printing.color='BW' then (digital_printing.qty_cetak*digital_printing.sisi) end) as Maintanance_BW,
-				(case when digital_printing.error>0 and digital_printing.color='FC' then (digital_printing.error*digital_printing.sisi) end) as error_FC,
-				(case when digital_printing.error>0 and digital_printing.color='BW' then (digital_printing.error*digital_printing.sisi) end) as error_BW
+                SUM((CASE
+                    WHEN digital_printing.color='FC' and digital_printing.maintanance='N' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.qty_cetak)
+                    WHEN digital_printing.color='FC' and digital_printing.maintanance='N' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.qty_cetak * 2)
+                END)) as FC,
+                SUM((CASE
+                    WHEN digital_printing.color='BW' and digital_printing.maintanance='N' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.qty_cetak)
+                    WHEN digital_printing.color='BW' and digital_printing.maintanance='N' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.qty_cetak * 2)
+                END)) as BW,
+                SUM((CASE
+                    WHEN digital_printing.maintanance='Y' and digital_printing.color='FC' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.qty_cetak)
+                    WHEN digital_printing.maintanance='Y' and digital_printing.color='FC' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.qty_cetak * 2)
+                END)) as Maintanance_FC,
+                SUM((CASE
+                    WHEN digital_printing.maintanance='Y' and digital_printing.color='BW' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.qty_cetak)
+                    WHEN digital_printing.maintanance='Y' and digital_printing.color='BW' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.qty_cetak * 2)
+                END)) as Maintanance_BW,
+                SUM((CASE
+                    WHEN digital_printing.error>0 and digital_printing.color='FC' and digital_printing.maintanance='N' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.error)
+                    WHEN digital_printing.error>0 and digital_printing.color='FC' and digital_printing.maintanance='N' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.error * 2)
+                END)) as error_FC,
+                SUM((CASE
+                    WHEN digital_printing.error>0 and digital_printing.color='BW' and digital_printing.maintanance='N' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.error)
+                    WHEN digital_printing.error>0 and digital_printing.color='BW' and digital_printing.maintanance='N' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.error * 2)
+                END)) as error_BW
             FROM
                 digital_printing
+            GROUP BY
+                LEFT(digital_printing.tgl_cetak,10)
             ) digital_printing
         ON
             digital_printing.tanggal_cetak = billing_konika.tanggal_billing
 		WHERE
 			$date_validation
         GROUP BY
-            billing_konika.tanggal_billing
+            digital_printing.tanggal_cetak
 		ORDER BY
 			billing_konika.tanggal_billing
 		DESC

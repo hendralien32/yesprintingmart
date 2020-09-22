@@ -318,7 +318,6 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                                     penjualan.client
                                 ORDER BY
                                     customer.nama_client
-                                DESC
                                 ";
 
                                 // Perform query
@@ -374,7 +373,6 @@ if ($status == 'penjualan_invoice_yescom') : ?>
                                         ( pm_user.level = 'admin' or pm_user.level = 'CS' or pm_user.level = 'Setter' or pm_user.level = 'accounting' )
                                     ORDER BY 
                                         pm_user.nama
-                                    DESC
                                     ";
 
                                 // Perform query

@@ -88,7 +88,7 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
             barang.ID_barang = barang_sub_lf.id_barang
         WHERE
             concat(barang.nama_barang,'.',barang_sub_lf.ukuran) = '$_POST[term]' AND
-            barang.status_bahan = 'a'
+            barang_sub_lf.hapus='N'
     ";
 
     $result = $conn_OOP->query($sql);

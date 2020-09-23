@@ -756,12 +756,14 @@ function validasi(id) {
     success: function (data) {
       if (data > 0) {
         $("#validasi_" + id).val(data);
-        $("#Alert_Val" + id).html("");
+        $("#Alert_Val" + id).html(
+          "<i class='fad fa-check-double' style='margin-left:10px;'></i>"
+        );
       } else {
         $("#validasi_" + id).val("0");
         $("#id_" + id).val("");
         $("#Alert_Val" + id).html(
-          "<b style='color:red'>" + id + " Belum terdaftar</b>"
+          "<i class='fas fa-times-octagon' style='color:red; margin-left:10px;'></i>"
         );
       }
     },

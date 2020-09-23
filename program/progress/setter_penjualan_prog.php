@@ -3078,6 +3078,7 @@ elseif ($_POST['jenis_submit'] == 'edit_Payment') :
 
     $log_pelunasan =
         "SELECT
+            RIGHT(pelunasan.pay_date,8) as pay_date,
             pelunasan.tot_pay as Jumlah_Bayar,
             pelunasan.adj_pay as Adjust_Pay,
             pelunasan.type_pem as Type_Pembayaran,
@@ -3162,6 +3163,7 @@ elseif ($_POST['jenis_submit'] == 'edit_Payment') :
             type_pem = '$type_pembayaran',
             jenis_kartu = '$_POST[bank]',
             nomor_kartu = '$_POST[nomor_atm]',
+            pay_date = '$_POST[tanggal_bayar] $row[pay_date]',
             rekening_tujuan = '$_POST[rekening_tujuan]'
         WHERE
             pid = '$ID_Order'

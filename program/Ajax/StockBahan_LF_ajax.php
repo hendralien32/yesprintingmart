@@ -38,8 +38,8 @@ require_once "../../function.php";
                 flow_bahanlf.lebar,
                 CONCAT(barang.nama_bahan,'.',flow_bahanlf.no_bahan) as kode_bahan,
                 ((flow_bahanlf.panjang*flow_bahanlf.lebar)/10000) as Ukuran,
-                IFNULL(large_format.Total_cetak, 0) as Total_cetak,
-                (((flow_bahanlf.panjang*flow_bahanlf.lebar)/10000)-IFNULL(large_format.Total_cetak, 0)) as sisa,
+                IFNULL(sum(large_format.Total_cetak), 0) as Total_cetak,
+                (((flow_bahanlf.panjang*flow_bahanlf.lebar)/10000)-IFNULL(SUM(large_format.Total_cetak), 0)) as sisa,
                 flow_bahanlf.diterima,
                 flow_bahanlf.habis,
                 (CASE
@@ -76,13 +76,13 @@ require_once "../../function.php";
                 (
                     SELECT
                         large_format.id_BrngFlow, 
-                        sum((large_format.panjang_potong*large_format.lebar_potong*large_format.qty_jalan)/ 10000) as Total_cetak
+                        ((large_format.panjang_potong*large_format.lebar_potong*large_format.qty_jalan)/ 10000) as Total_cetak
                     FROM
                         large_format
                     WHERE
                         large_format.cancel='' or large_format.cancel='N'
                     GROUP BY
-                        large_format.id_BrngFlow
+                        large_format.so_kerja
                 ) large_format
             ON
                 large_format.id_BrngFlow = flow_bahanlf.bid
@@ -99,6 +99,8 @@ require_once "../../function.php";
             WHERE
                 flow_bahanlf.hapus = 'N'
                 $add_where
+            GROUP BY
+                flow_bahanlf.bid
             ";
 
         $no = 0;

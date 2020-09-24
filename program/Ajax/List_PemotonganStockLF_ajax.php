@@ -3,6 +3,8 @@ session_start();
 
 require_once '../../function.php';
 
+$OperatorSearch = ($_POST['OperatorSearch'] != "undefined" && $_POST['OperatorSearch'] != "") ? $_POST['OperatorSearch'] : $_SESSION['uid'];
+
 if ($_POST['search'] != "") {
     $add_where = "and ( large_format.oid LIKE '%$_POST[search]%' or penjualan.id_yes LIKE '%$_POST[search]%' or penjualan.description LIKE '%$_POST[search]%' or penjualan.client LIKE '%$_POST[search]%' )";
 } else {
@@ -15,6 +17,12 @@ if ($_POST['search'] != "") {
     else :
         $add_where = "";
     endif;
+}
+
+if($OperatorSearch != "undefined" && $OperatorSearch != "") {
+    $where_operator = "and large_format.uid = '$OperatorSearch'";
+} else {
+    $where_operator = "";
 }
 
 ?>
@@ -52,7 +60,58 @@ if ($_POST['search'] != "") {
     <tbody>
         <tr>
             <th width="1%">#</th>
-            <th width="7%">Operator</th>
+            <th width="7%">
+            <select name="OperatorSearch" id="OperatorSearch" onchange="OperatorSearch();">
+                    <option value="">Operator</option>
+                    <?php
+                    $sql = "
+                        select
+                            pm_user.uid,
+                            pm_user.nama,
+                            COUNT(large_format.so_kerja) as Qty
+                        from
+                            pm_user
+                        LEFT JOIN
+                            (
+                                select
+                                    large_format.uid,
+                                    large_format.so_kerja
+                                from
+                                    large_format
+                                where
+                                    large_format.cancel != 'Y'
+                                    $add_where
+                                GROUP BY
+                                    large_format.so_kerja
+                            ) large_format
+                        ON
+                            pm_user.uid = large_format.uid
+                        WHERE
+                            large_format.so_kerja != '0' 
+                        GROUP BY
+                            large_format.uid
+                    ";
+
+                    // Perform query
+                    $result = $conn_OOP->query($sql);
+
+                    if ($result->num_rows > 0) :
+                        // output data of each row
+                        while ($d = $result->fetch_assoc()) :
+                            $Nama_Operator = ucwords($d['nama']);
+                            if ($d['uid'] == "$OperatorSearch") {
+                                $pilih = "selected";
+                            } else {
+                                $pilih = "";
+                            }
+                            echo "<option value='$d[uid]' $pilih>$Nama_Operator ($d[Qty])</option>";
+                        endwhile;
+                    else :
+
+                    endif;
+                    ?>
+                </select>
+            </th>
             <th width="7%">Tanggal</th>
             <th width="8%">SO Pemotongan</th>
             <th width="6%">ID</th>
@@ -63,6 +122,7 @@ if ($_POST['search'] != "") {
             <th width="6%">Total</th>
         </tr>
         <?php
+
         $sql =
             "SELECT
                 large_format.so_kerja,
@@ -162,6 +222,7 @@ if ($_POST['search'] != "") {
             WHERE
                 ( large_format.cancel = '' or large_format.cancel = 'N' )
                 $add_where
+                $where_operator
             GROUP BY
                 large_format.so_kerja
         ";
@@ -210,7 +271,7 @@ if ($_POST['search'] != "") {
                         <td onClick='$edit' class='pointer' rowspan='$count_oid'><span style='background-color:#f86e2b; padding:3px 4px; margin-right:3px; color:white; font-weight:bold'>$d[pass]</span> $d[kode_bahan] $icon_restan</td>
                         <td onClick='$edit' class='pointer' rowspan='$count_oid'>$d[ukuran_cetak]</td>
                         <td onClick='$edit' class='a-center' rowspan='$count_oid'>$d[qty_jalan]</td>
-                        <td rowspan='$count_oid'>$total_cetak M<sup>2</sup></td>
+                        <td rowspan='$count_oid' class='a-right'>$total_cetak M<sup>2</sup></td>
                 ";
 
                 if ($_SESSION["level"] == "admin") :
@@ -237,7 +298,17 @@ if ($_POST['search'] != "") {
                         </tr>
                     ";
                 endfor;
+
+                $total[]   = $total_cetak;
+                $Nilai_total= array_sum($total);
             endwhile;
+
+                echo "
+                    <tr>
+                        <th colspan='9'>Total Meter Cetak</th>
+                        <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total) . " M<sup>2</sup></th>
+                    </tr>
+                ";
         endif;
         ?>
     </tbody>

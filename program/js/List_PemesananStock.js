@@ -227,7 +227,7 @@ function submit(id) {
 
 function terima_Barang(kode_pemesanan) {
   var abc = "Sudah diterima";
-  const Final_kodePemesanan = kode_pemesanan.replace(/\s+/g, '');
+  const Final_kodePemesanan = kode_pemesanan.replace(/\s+/g, "");
 
   if (confirm('Kode Order "' + Final_kodePemesanan + '" ' + abc + " ?")) {
     $.ajax({

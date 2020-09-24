@@ -23,8 +23,10 @@ endif;
 
 if ($_POST['show_lunas'] == 'Y') :
     $show_lunas = "";
+    $lunas = "";
 else :
     $show_lunas = "WHERE penjualan.Total_keseluruhan != penjualan.total_bayar";
+    $lunas = "and penjualan.pembayaran != 'lunas'";
 endif;
 
 $cari_keyword_client = $_POST['client'];
@@ -147,8 +149,8 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
                                             penjualan.no_invoice != '' and
                                             penjualan.client !='1' and
                                             penjualan.cancel!='Y' and
-                                            penjualan.inv_check='Y' and
-                                            penjualan.pembayaran != 'lunas'
+                                            penjualan.inv_check='Y' 
+                                            $lunas
                                             $Add_Search
                                             $Add_date
                                         GROUP BY

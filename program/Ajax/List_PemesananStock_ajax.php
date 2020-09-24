@@ -185,9 +185,11 @@ require_once "../../function.php";
                         </tr>
                     ";
                 }
+
+                $rowspan = ($_SESSION["level"] == "admin") ? 7 : 5;
                 echo "
                     <tr style='background-color:#b5d0f5;' id='total_invoice'>
-                        <th colspan='7'>Total Kode Order</th>
+                        <th colspan='$rowspan'>Total Kode Order</th>
                         <th>" . number_format($array_sum) . "</th>
                     </tr>
                 ";

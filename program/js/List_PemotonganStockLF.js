@@ -20,11 +20,13 @@ function onload() {
   var search = $("#search").val();
   var Dari_Tanggal = $("#dari_tanggal").val();
   var Ke_Tanggal = $("#ke_tanggal").val();
+  var OperatorSearch = $("#OperatorSearch").val();
 
   var fdata = new FormData();
   fdata.append("search", search);
   fdata.append("Dari_Tanggal", Dari_Tanggal);
   fdata.append("Ke_Tanggal", Ke_Tanggal);
+  fdata.append("OperatorSearch", OperatorSearch);
 
   $.ajax({
     type: "POST",
@@ -73,6 +75,11 @@ function SearchFrom() {
 }
 
 function SearchTo() {
+  $("#loader").show();
+  onload();
+}
+
+function OperatorSearch() {
   $("#loader").show();
   onload();
 }

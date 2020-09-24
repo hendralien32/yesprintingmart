@@ -6206,24 +6206,22 @@ elseif ($_POST['jenis_submit'] == 'Hapus_rusakSUB_ID') :
 elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
     $keterangan_rusak  = htmlspecialchars($_POST['keterangan_rusak'], ENT_QUOTES);
     $kesalahan_siapa  = htmlspecialchars($_POST['kesalahan_siapa'], ENT_QUOTES);
-
+    $jumlahArray = $_POST['jumlah_array'];
     $lid = explode(",", "$_POST[lid]");
     $oid = explode(",", "$_POST[oid]");
-    $oidx = explode(",", "$_POST[oid]");
     $qty = explode(",", "$_POST[qty]");
 
-    foreach ($lid as $yes => $oid) {
-        // $y[] = "$oid";
-        if ($oid != "0") {
-            $y[] = "$lid[$yes]";
-        } else {
-            $n[] = "$oidx[$yes]";
+    for ($i = 0; $i < $jumlahArray; $i++) :
+        if($lid[$i] != "0") :
+            $y[] = "$lid[$i]";
+        elseif($lid[$i] == "0" and $oid[$i] != "") :
+            $n[] = "$oid[$i]";
             $insert[] = "
                 (
-                    '$oidx[$yes]',
+                    '$oid[$i]',
                     '$_SESSION[uid]',
                     '$_SESSION[session_mesin]',
-                    '$qty[$yes]',
+                    '$qty[$i]',
                     '$_POST[panjang_potong]',
                     '$_POST[lebar_potong]',
                     '$bid',
@@ -6238,8 +6236,9 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
                     'rusak'
                 )
             ";
-        }
-    }
+        else :
+        endif;
+    endfor;
 
     $update_lid = implode("','", $y);
     $New_Insert = implode(',', $insert);
@@ -6287,7 +6286,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
             lid IN ('$update_lid');
     ";
 
-    if (count($n) > 0) {
+    if (count($n) > 0) :
         $sql .=
             "INSERT INTO large_format 
             (
@@ -6309,8 +6308,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
                 status
             )  VALUES $New_Insert
         ;";
-    } else {
-    }
+    else :
+    endif;
 elseif ($_POST['jenis_submit'] == 'submit_dp') :
     if ($_POST['jumlah_click'] == "Y") {
         $qty_POST = $_POST['Qty'];

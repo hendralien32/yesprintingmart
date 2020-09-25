@@ -291,7 +291,7 @@ function nomor_bahanSearch(id) {
               return {
                 label: item.no_bahan,
                 value: item.no_bahan,
-                id: item.bid,
+                id: item.no_bahan,
               };
             })
           );

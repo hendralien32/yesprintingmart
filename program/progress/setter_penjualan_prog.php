@@ -6212,9 +6212,9 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
     $qty = explode(",", "$_POST[qty]");
 
     for ($i = 0; $i < $jumlahArray; $i++) :
-        if($lid[$i] != "0") :
+        if ($lid[$i] != "0") :
             $y[] = "$lid[$i]";
-        elseif($lid[$i] == "0" and $oid[$i] != "") :
+        elseif ($lid[$i] == "0" and $oid[$i] != "") :
             $n[] = "$oid[$i]";
             $insert[] = "
                 (

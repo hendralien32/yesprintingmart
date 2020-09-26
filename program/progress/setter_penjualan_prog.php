@@ -5511,32 +5511,29 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
     $lebar = explode(",", "$_POST[lebar]");
     $qty = explode(",", "$_POST[qty]");
     $Harga = explode(",", "$_POST[Harga]");
+    $Tgl_Order = substr(str_replace("-", "", $_POST['Tgl_Order']), 2);
 
     if ($jumlahArray >= 1) :
         $insert = array();
-        $dateSO = date("ymd");
         $Sql_OrderNo =
             "SELECT
-                REPLACE(flow_bahanlf.kode_pemesanan,'ORD-$dateSO','') AS no_order
+                flow_bahanlf.kode_pemesanan,
+                REPLACE(flow_bahanlf.kode_pemesanan,'ORD-$Tgl_Order','') AS no_order
             FROM
                 flow_bahanlf
+            WHERE
+                flow_bahanlf.kode_pemesanan LIKE '%ORD-$Tgl_Order%'
             GROUP BY
                 flow_bahanlf.kode_pemesanan
-            ORDER BY
-                REPLACE(flow_bahanlf.kode_pemesanan,'ORD-$dateSO','')
-            DESC
-            LIMIT
-                1
         ";
         $result = $conn_OOP->query($Sql_OrderNo);
         if ($result->num_rows > 0) :
             $row = $result->fetch_assoc();
-
             $no_order_2 = $row['no_order'] + 1;
         else :
             $no_order_2 = 1;
         endif;
-        $no_order_1 = 'ORD-' . $dateSO . $no_order_2;
+        $no_order_1 = 'ORD-' . $Tgl_Order . $no_order_2;
         for ($i = 0; $i < $jumlahArray; $i++) {
             $Sql_number =
                 "SELECT
@@ -5560,6 +5557,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
                 $insert[] = "
                     (
                         '$no_order_1',
+                        '$_POST[Tgl_Order]',
                         '$_POST[supplier]',
                         '$panjang[$i]',
                         '$lebar[$i]',
@@ -5579,6 +5577,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_StockFlowLF') :
             "INSERT INTO flow_bahanlf 
             (
                 kode_pemesanan,
+                tanggal_order,
                 id_supplier,
                 panjang,
                 lebar,

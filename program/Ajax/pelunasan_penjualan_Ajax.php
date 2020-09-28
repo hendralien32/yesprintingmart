@@ -8,7 +8,8 @@ if ($_POST['data'] != '' && $_POST['client'] == '') :
 elseif ($_POST['data'] == '' && $_POST['client'] != '') :
     $Add_Search = "and customer.nama_client LIKE '%$_POST[client]%'";
 else :
-    $Add_Search = "and penjualan.pembayaran != 'lunas'";
+    // $Add_Search = "and penjualan.pembayaran != 'lunas'";
+    $Add_Search = "";
 endif;
 
 if ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] != "") :
@@ -22,11 +23,9 @@ else :
 endif;
 
 if ($_POST['show_lunas'] == 'Y') :
-    $show_lunas = "";
-    $lunas = "";
+    $show_lunas = "WHERE penjualan.Total_keseluruhan = penjualan.total_bayar AND penjualan.pembayaran = 'lunas'";
 else :
-    $show_lunas = "WHERE penjualan.Total_keseluruhan != penjualan.total_bayar";
-    $lunas = "and penjualan.pembayaran != 'lunas'";
+    $show_lunas = "WHERE penjualan.Total_keseluruhan != penjualan.total_bayar AND penjualan.pembayaran != 'lunas'";
 endif;
 
 $cari_keyword_client = $_POST['client'];
@@ -134,7 +133,8 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
                                             penjualan.no_invoice,
                                             pelunasan.pay_date,
                                             sum(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as Total_keseluruhan,
-                                            COALESCE(pelunasan.total_bayar,0) as total_bayar
+                                            COALESCE(pelunasan.total_bayar,0) as total_bayar,
+                                            penjualan.pembayaran
                                         FROM
                                             penjualan
                                         LEFT JOIN 
@@ -149,14 +149,13 @@ $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST[
                                             penjualan.no_invoice != '' and
                                             penjualan.client !='1' and
                                             penjualan.cancel!='Y' and
-                                            penjualan.inv_check='Y' 
-                                            $lunas
+                                            penjualan.inv_check='Y'
                                             $Add_Search
                                             $Add_date
                                         GROUP BY
                                             penjualan.no_invoice
                                     ) penjualan
-                                    $show_lunas
+                                $show_lunas
                             ) list_pelunasan
                             GROUP BY
                                 list_pelunasan.nama_client

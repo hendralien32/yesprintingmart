@@ -358,8 +358,8 @@ button {
 
 input[type="button"]:hover,
 button:hover {
-  border-left: 4px solid #8a370e;
-  background-color: #f86e2b;
+  border-left: 4px solid #0a3236;
+  background-color: #177680;
 }
 
 input[type="button"]:active,
@@ -383,7 +383,7 @@ input[type="date"],
   border-top: 1px solid #aeaeae;
   border-left: 1px solid #aeaeae;
   border-right: 1px solid #aeaeae;
-  border-bottom: 2px solid #f1592a;
+  border-bottom: 2px solid #127681;
   outline: none;
   background-color: #f6f6f6;
   color: #353942;
@@ -394,7 +394,7 @@ input[type="date"],
   border-top: 1px solid #aeaeae;
   border-left: 1px solid #aeaeae;
   border-right: 1px solid #aeaeae;
-  border-bottom: 2px solid #f1592a;
+  border-bottom: 2px solid #127681;
   outline: none;
   background-color: #f6f6f6;
   color: #353942;
@@ -414,7 +414,7 @@ input[type="month"] {
   border-top: 1px solid #aeaeae;
   border-left: 1px solid #aeaeae;
   border-right: 1px solid #aeaeae;
-  border-bottom: 2px solid #f1592a;
+  border-bottom: 2px solid #127681;
   outline: none;
   background-color: #f6f6f6;
   color: #353942;
@@ -553,7 +553,7 @@ a:hover {
 
 #laporan_header .judul_laporan h2 {
   font-weight: bold;
-  color: #4683de;
+  color: #0278ae;
   font-size: 21px;
 }
 
@@ -561,7 +561,7 @@ a:hover {
   margin-left: 10px;
   padding: 10px 20px;
   font-weight: bold;
-  background-color: #4683de;
+  background-color: #0278ae;
   color: white;
   cursor: pointer;
 }
@@ -615,7 +615,7 @@ a:hover {
   float: left;
   text-align: right;
   padding-right: 10px;
-  border-right: 3px solid #f86e2b;
+  border-right: 3px solid #24a19c;
 }
 
 #header .header_right .user_logout {
@@ -625,7 +625,7 @@ a:hover {
 
 #header .header_right .user_logout a {
   font-weight: 100;
-  color: #39b54a;
+  color: #127681;
 }
 
 #menu,
@@ -649,16 +649,16 @@ a:hover {
 }
 
 #menu ul li:hover {
-  background-color: #39b54a;
+  background-color: #127681;
   cursor: pointer;
 }
 
 #menu ul li.active {
-  background-color: #39b54a;
+  background-color: #127681;
 }
 
 #sub_menu ul {
-  background: #f86e2b;
+  background: #24a19c;
   margin-left: -40px;
   margin-bottom: 0px;
 }
@@ -672,12 +672,12 @@ a:hover {
 }
 
 #sub_menu ul li:hover {
-  background-color: #39b54a;
+  background-color: #127681;
   cursor: pointer;
 }
 
 #sub_menu ul li.active {
-  background-color: #39b54a;
+  background-color: #127681;
 }
 
 #bagDetail table.table-detail {
@@ -774,7 +774,7 @@ table tbody tr td.hover {
 
 #content .right_content table tr th,
 table.form_table tr th {
-  background-color: #4683de;
+  background-color: #0278ae;
   color: #ffffff;
   padding: 5px 3px;
   font-weight: normal;
@@ -785,7 +785,7 @@ table.form_table tr th {
 }
 
 #content .right_content table tr th select {
-  background-color: #4683de;
+  background-color: #0278ae;
   color: #ffffff;
   padding: 5px 3px;
   font-weight: normal;
@@ -839,7 +839,7 @@ table.form_table tr td {
 .form_table .indoor,
 .satu,
 .FC {
-  background-color: #f1592a;
+  background-color: #127681;
 }
 
 #content .right_content .offset,
@@ -871,7 +871,7 @@ table.form_table tr td {
 }
 
 .tanda_indoor {
-  color: #f1592a;
+  color: #127681;
 }
 
 .tanda_offset {
@@ -912,7 +912,7 @@ table.form_table tr td {
 
 .table_log tr th,
 .table_checkInv tr th {
-  background-color: #4683de;
+  background-color: #0278ae;
   color: #ffffff;
   padding: 5px 3px;
   font-weight: normal;

@@ -129,8 +129,6 @@ function satuan_val() {
     $("#alat_tambahan").val("KotakNC.Kotak Kartu Nama");
     $("#Ptg_Pts").prop("checked", true);
   } else {
-    // $('#alat_tambahan').val("");
-    // $('#Ptg_Pts').prop( "checked", false );
   }
   return false;
 }
@@ -232,6 +230,8 @@ function ChangeKodeBrg() {
     "kilatdingin1",
     "doffdingin1",
     "hard_lemit",
+    "Ptg_Pts",
+    "Ptg_Gantung",
     "KotakNC",
     "laminating_floor",
     "Hekter_Tengah",
@@ -246,8 +246,6 @@ function ChangeKodeBrg() {
     "Tripod",
     "Softboard",
     "CuttingSticker",
-    "Ptg_Pts",
-    "Ptg_Gantung",
     "Pon_Garis",
     "Perporasi",
     "b_digital",
@@ -1025,11 +1023,6 @@ function submit(id) {
       $(".icon-close").removeAttr("onclick");
     },
     success: function (data) {
-      if (id == "Insert") {
-        alert("Data Berhasil Di input ke database !");
-      } else {
-        alert("Data Berhasil Di Update ke database !");
-      }
       $(".progress").hide();
       // $("#Result").html(data);
       hideBox();

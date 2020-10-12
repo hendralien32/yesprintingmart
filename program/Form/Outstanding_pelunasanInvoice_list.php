@@ -60,7 +60,8 @@
                             WHERE
                                 penjualan.no_invoice != '' and
                                 penjualan.client ='$_POST[client]' and
-                                penjualan.cancel!='Y'
+                                penjualan.cancel!='Y' and
+                                penjualan.pembayaran != 'lunas'
                             GROUP BY
                                 penjualan.no_invoice
                             ) penjualan
@@ -195,7 +196,8 @@
                                                         WHERE
                                                             penjualan.no_invoice != '' and
                                                             penjualan.client !='1' and
-                                                            penjualan.cancel!='Y'
+                                                            penjualan.cancel!='Y' and
+                                                            penjualan.pembayaran != 'lunas'
                                                         GROUP BY
                                                             penjualan.no_invoice
                                                     ) penjualan

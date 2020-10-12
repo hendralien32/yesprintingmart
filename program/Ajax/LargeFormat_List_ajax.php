@@ -23,8 +23,8 @@ endif;
 
 $_SESSION['session_mesin'] = "$session_mesin";
 
-if ($_SESSION['ListOrder_BahanLF'] != '') :
-    $Add_Bahan = "and bahan='$_SESSION[ListOrder_BahanLF]'";
+if ($bahan_Sort != '') :
+    $Add_Bahan = "and (CASE WHEN barang.id_barang > 0 THEN barang.nama_barang ELSE penjualan.bahan END) = '$bahan_Sort'";
 else :
     $Add_Bahan = "";
 endif;
@@ -211,9 +211,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
 
         $n = 0;
         $result = $conn_OOP->query($sql);
-
         $jumlahQry = $result->num_rows;
-
         echo "<input type='hidden' id='total_check' value='$jumlahQry'>";
 
         if ($result->num_rows > 0) :

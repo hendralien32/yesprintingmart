@@ -65,6 +65,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 penjualan.Proffing,
                 penjualan.ditunggu,
                 penjualan.Design,
+                penjualan.pembayaran,
                 penjualan.b_digital,
                 penjualan.b_xbanner,
                 penjualan.b_lain,
@@ -93,11 +94,9 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 penjualan.oid = '$ID_Order'
         ";
 
-    // Perform query
     $result = $conn_OOP->query($sql);
 
     if ($result->num_rows > 0) :
-        // output data of each row
         $row = $result->fetch_assoc();
     else : endif; ?>
 
@@ -331,12 +330,11 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
             </table>
         </div>
         <div id="submit_menu">
-            <?php if ($row['no_invoice'] != "0") : ?>
-                <!-- <button onclick="submit('Update_SO_Invoice')">Update Order Invoice</button> -->
-                <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>', '<?= $row['ID_Client']; ?>')">Re-Add Invoice <?= $row['no_invoice']; ?></button>
-            <?php else : ?>
-                <!-- <button onclick="submit('Update')">Update Order</button> -->
-            <?php endif; ?>
+            <?php if ($row['no_invoice'] != "0" and $row['pembayaran'] != "lunas") : ?>
+                <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>', '<?= $row['ID_Client']; ?>')">Re-Add Invoice #<?= $row['no_invoice']; ?></button>
+            <?php else :
+                
+            endif; ?>
         </div>
     </div>
 
@@ -389,6 +387,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                     penjualan.b_indoor,
                     penjualan.b_delivery,
                     penjualan.discount,
+                    penjualan.posisi_file,
                     penjualan.warna_cetak as Warna_Cetak,
                     (CASE
                         WHEN penjualan.akses_edit = 'Y' THEN 'Y'
@@ -728,7 +727,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                         <span id="Alert_Val_FileDesign"></span>
                         <?php if ($row['file_design'] != "") { ?>
                             <br>
-                            <b><a href="../program/design/<?= $row['file_design']; ?>"><?= $row['file_design']; ?> <i class="fas fa-download"></i></a></b>
+                            <b><a href="download.php?link=<?= $row['file_design'] ?>&LocationFile=<?= $row['posisi_file'] ?>"><?= $row['file_design']; ?> <i class="fas fa-download"></i></a></b>
                         <?php } else {
                         } ?>
                     </td>
@@ -853,7 +852,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
         <div id="submit_menu">
             <?php if ($row['no_invoice'] != "0") : ?>
                 <button onclick="submit('Update_SO_Invoice')">Update Order Invoice</button>
-                <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>', '<?= $row['ID_Client']; ?>')">Re-Add Invoice <?= $row['no_invoice']; ?></button>
+                <button onclick="LaodForm('setter_penjualan_invoice', '<?= $row['no_invoice']; ?>', '<?= $row['ID_Client']; ?>')">Re-Add Invoice #<?= $row['no_invoice']; ?></button>
             <?php else : ?>
                 <button onclick="submit('Update')">Update Order</button>
             <?php endif; ?>

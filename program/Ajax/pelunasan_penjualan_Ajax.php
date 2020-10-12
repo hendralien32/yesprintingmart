@@ -23,7 +23,7 @@ else :
 endif;
 
 if ($_POST['show_lunas'] == 'Y') :
-    $show_lunas = "WHERE penjualan.Total_keseluruhan = penjualan.total_bayar AND penjualan.pembayaran = 'lunas'";
+    $show_lunas = "WHERE penjualan.Total_keseluruhan = penjualan.total_bayar OR penjualan.pembayaran = 'lunas'";
 else :
     $show_lunas = "WHERE penjualan.Total_keseluruhan != penjualan.total_bayar AND penjualan.pembayaran != 'lunas'";
 endif;

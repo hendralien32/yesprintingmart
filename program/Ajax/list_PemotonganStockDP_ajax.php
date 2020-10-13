@@ -40,11 +40,12 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
         <tr>
             <th width="2%">#</th>
             <th width="6%">ID</th>
-            <th width="14%">Client</th>
-            <th width="32%">Description</th>
-            <th width="3%">Warna</th>
+            <th width="12%">Client</th>
+            <th width="30%">Description</th>
+            <th width="3%">W</th>
             <th width="13%">Bahan</th>
-            <th width="3%">Sisi</th>
+            <th width="3%">S</th>
+            <th width="4%">Mesin</th>
             <th width="8%">Qty (Click)</th>
             <th width="8%">Error (Click)</th>
             <th width="6%">Jammed</th>
@@ -63,6 +64,11 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     penjualan.client_yes,
                     penjualan.description,
                     penjualan.client,
+                    (CASE
+                        WHEN digital_printing.mesin = 'Konika_C-1085' THEN 'C1085'
+                        WHEN digital_printing.mesin = 'Konika_C7000' THEN 'C7000'
+                        ELSE '-'
+                    END) as mesin,
                     (CASE
                         WHEN digital_printing.sisi = '2' THEN digital_printing.qty_cetak * 2
                         ELSE digital_printing.qty_cetak
@@ -190,6 +196,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             <td class='a-center'><span class='$d[color] KodeProject'>$d[color]</span></td>
                             <td>$d[nama_barang]</td>
                             <td class='a-center'><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></td>
+                            <td class='a-center'><b>$d[mesin]</b></td>
                             <td class='a-right'><strong>" . number_format($d['qty_cetak'])  . " <span style='color:#f1592a'>(" . number_format($d['click_cetak']) . ") </span>". " </strong> Lbr</td>
                             <td class='a-right'><strong>" . number_format($d['error']) . " <span style='color:#f1592a'>(" . number_format($d['click_error']) . ") </span>" . "</strong> Lbr</td>
                             <td class='a-right'><strong>" . number_format($d['jam']) . "</strong> Lbr</td>
@@ -223,7 +230,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 
                 echo "
                     <tr>
-                        <th colspan='7'>Total Cetakan <span style='color:yellow'>$daftar_hari[$namahari], $tanggal_total</span></th>
+                        <th colspan='8'>Total Cetakan <span style='color:yellow'>$daftar_hari[$namahari], $tanggal_total</span></th>
                         <th class='a-left' style='text-align:right; padding-right: 0.4em;'>
                             " . number_format($Nilai_total_qty_cetak) . " (". number_format($Nilai_total_click_cetak) .") Lbr<br>
                             <span style='color:yellow'>( $persen_cetak % )</span>

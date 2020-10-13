@@ -479,6 +479,14 @@ else : endif;
                     $finishing = "
                         <table class='detail_checkInv'>
                             <tr>
+                                <td><b>Potong Putus</b></td>
+                                <td>$potong_X</td>
+                            </tr>
+                            <tr>
+                                <td><b>Potong Gantung</b></td>
+                                <td>$potong_gantung_X</td>
+                            </tr>
+                            <tr>
                                 <td><b>Hekter Tengah</b></td>
                                 <td>$Hekter_Tengah_X</td>
                             </tr>
@@ -494,9 +502,32 @@ else : endif;
                         ";
                     $harga = "
                         <td>
-                            <b>Biaya lain</b>" . number_format($b_lain[$i]) . " <br>
-                            <b>Biaya Finishing</b>" . number_format($b_potong[$i]) . " <br>
-                            <b>Biaya Delivery</b>" . number_format($b_delivery[$i]) . " <br>
+                            <table class='detail_checkInv'>
+                                <tr>
+                                    <td><b>Biaya lain</b></td>
+                                    <td>" . number_format($b_lain[$i]) . "</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Biaya Kotak</b></td>
+                                    <td>" . number_format($b_kotak[$i]) . "</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Biaya Laminating</b></td>
+                                    <td>" . number_format($b_laminate[$i]) . "</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Biaya Finishing</b></td>
+                                    <td>" . number_format($b_potong[$i]) . "</td>
+                                </tr>
+                                <tr>
+                                    <td><b>By Alat Tambahan</b></td>
+                                    <td>" . number_format($b_xbanner[$i]) . "</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Biaya Delivery</b></td>
+                                    <td>" . number_format($b_delivery[$i]) . "</td>
+                                </tr>
+                            </table>
                         </td>
                         <td>
                             <table class='detail_checkInv'>

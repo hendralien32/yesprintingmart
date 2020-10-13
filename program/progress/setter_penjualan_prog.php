@@ -2,6 +2,10 @@
 session_start();
 require_once "../../function.php";
 
+if (!isset($_SESSION["login"])) {
+    die("Error");
+}
+
 // echo $_FILES['imageFile']['name']."<br>";
 // echo $_FILES['imageFile']['type']."<br>";
 // echo $_FILES['imageFile']['tmp_name']."<br>";
@@ -2826,7 +2830,7 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                                    	WHERE
                                 		penjualan.oid IN ('$aid')
                                     GROUP BY
-                                        penjualan.kode,
+                                        penjualan.kode
                                 ) total_laminating
                             ON
                             	penjualan.kode = total_laminating.kode

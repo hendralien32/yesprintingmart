@@ -56,7 +56,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             <th width="3%">K</th>
             <th width="10%">Client</th>
             <th width="6%">ID</th>
-            <th width="34%">Description</th>
+            <th width="37%">Description</th>
             <th width="10%">Icons</th>
             <th width="7%">
                 <select name="BahanSearch" id="BahanSearch" onchange="BahanSearch();">
@@ -120,7 +120,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             </th>
             <th width="3%">Sisi</th>
             <th width="8%">Qty</th>
-            <th width="8%">Status</th>
+            <th width="5%">Status</th>
         </tr>
     </thead>
     <tbody>
@@ -128,7 +128,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
         $sql =
             "SELECT
                     penjualan.oid,
-                    LEFT( penjualan.waktu, 10 ) as tanggal,
+                    LEFT(penjualan.waktu, 10) as tanggal,
                     LEFT(penjualan.kode, 1) as code,
                     penjualan.kode as kode_barang,
                     penjualan.id_yes,
@@ -137,7 +137,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     customer.nama_client as client,
                     penjualan.client_yes,
                     penjualan.description,
-                    CONCAT(penjualan.qty, ' ' ,penjualan.satuan) as qty,
+                    penjualan.qty,
+                    penjualan.satuan,
                     (CASE
                         WHEN barang.id_barang > 0 THEN barang.nama_barang
                         ELSE penjualan.bahan
@@ -253,11 +254,11 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 endif;
 
                 if (($d['status']) == "selesai") {
-                    $status = "<i class='fad fa-check-double'></i> Selesai";
+                    $status = "<i class='fad fa-check-double'></i>";
                 } elseif (($d['status']) == "proff") {
-                    $status = "<i class='fad fa-hourglass-half'></i> Proffing";
+                    $status = "<i class='fad fa-hourglass-half'></i>";
                 } else {
-                    $status = "<i class='fad fa-spinner'></i> OnProgress";
+                    $status = "<i class='fad fa-spinner'></i>";
                 }
 
                 if ($_SESSION['session_MesinDP'] != "") {
@@ -286,8 +287,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             </td>
                             <td onclick='" . $edit . "' class='$pointer'>$d[bahan]</td>
                             <td class='a-center'><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></td>
-                            <td class='a-right'>$d[qty]</td>
-                            <td>$status</td>
+                            <td class='a-right'><b>$d[qty]</b> $d[satuan]</td>
+                            <td class='a-center'>$status</td>
                         </tr>
                     ";
             endwhile;

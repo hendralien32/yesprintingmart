@@ -455,6 +455,8 @@ function ChangeKodeBrg() {
     "doffdingin1",
     "hard_lemit",
     "KotakNC",
+    "Ptg_Pts",
+    "Ptg_Gantung",
     "laminating_floor",
     "Hekter_Tengah",
     "Blok",
@@ -474,8 +476,6 @@ function ChangeKodeBrg() {
     "Tripod",
     "Softboard",
     "CuttingSticker",
-    "Ptg_Pts",
-    "Ptg_Gantung",
     "Pon_Garis",
     "Perporasi",
     "b_digital",
@@ -1011,10 +1011,10 @@ function submit(id) {
   } else {
     b_potong = $("#b_finishing").val();
   }
-  if ($("#b_lf").val() == undefined) {
+  if ($("#b_large").val() == undefined) {
     b_large = "0";
   } else {
-    b_large = $("#b_lf").val();
+    b_large = $("#b_large").val();
   }
   if ($("#b_indoor").val() == undefined) {
     b_indoor = "0";

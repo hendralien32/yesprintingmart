@@ -342,13 +342,17 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         $qty = $_POST['Qty'];
     endif;
 
-    if ($_POST['Laminating'] == "kilat1") : $Qty_Kilat = $_POST['Qty'] * 1;
-    elseif ($_POST['Laminating'] == "kilat2") : $Qty_Kilat = $_POST['Qty'] * 2;
+    if ($_POST['Laminating'] == "kilat1" && ($_POST['Satuan'] == 'lembar' || $_POST['Satuan'] == 'Lembar')) : $Qty_Kilat = $_POST['Qty'] * 1;
+    elseif ($_POST['Laminating'] == "kilat2" && ($_POST['Satuan'] == 'lembar' || $_POST['Satuan'] == 'Lembar')) : $Qty_Kilat = $_POST['Qty'] * 2;
+    elseif ($_POST['Laminating'] == "kilat1" && ($_POST['Satuan'] == 'Kotak' || $_POST['Satuan'] == 'kotak')) : $Qty_Kilat = $_POST['Qty'] * 4;
+    elseif ($_POST['Laminating'] == "kilat2" && ($_POST['Satuan'] == 'Kotak' || $_POST['Satuan'] == 'kotak')) : $Qty_Kilat = $_POST['Qty'] * 8;
     else : $Qty_Kilat = 0;
     endif;
 
-    if ($_POST['Laminating'] == "doff1") : $Qty_Doff = $_POST['Qty'] * 1;
-    elseif ($_POST['Laminating'] == "doff2") : $Qty_Doff = $_POST['Qty'] * 2;
+    if ($_POST['Laminating'] == "doff1" && ($_POST['Satuan'] == 'lembar' || $_POST['Satuan'] == 'Lembar')) : $Qty_Doff = $_POST['Qty'] * 1;
+    elseif ($_POST['Laminating'] == "doff2" && ($_POST['Satuan'] == 'lembar' || $_POST['Satuan'] == 'Lembar')) : $Qty_Doff = $_POST['Qty'] * 2;
+    elseif ($_POST['Laminating'] == "doff1" && ($_POST['Satuan'] == 'Kotak' || $_POST['Satuan'] == 'kotak')) : $Qty_Doff = $_POST['Qty'] * 4;
+    elseif ($_POST['Laminating'] == "doff2" && ($_POST['Satuan'] == 'Kotak' || $_POST['Satuan'] == 'kotak')) : $Qty_Doff = $_POST['Qty'] * 8;
     else : $Qty_Doff = 0;
     endif;
 
@@ -405,8 +409,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $sql_query =
         "SELECT
             Penjualan_ID.oid,
-            warna_cetakan,
-            Qty_FINAL,
+            leminating_kilat,
+            leminating_doff,
             (CASE
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN 500_lembar
                 WHEN kode = 'digital' and ( Sisi_Order = '1' or Sisi_Order = '2' ) and warna_cetakan = 'FC' and Satuan_Order = 'lembar' and Qty_FINAL >= 250 THEN 250_lembar
@@ -462,18 +466,18 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 WHEN laminate = 'kilat2' and leminating_kilat >=20 and Satuan_Order = 'lembar' THEN 1500
                 WHEN laminate = 'kilat1'and leminating_kilat >=20 and Satuan_Order = 'Kotak' THEN 750*4
                 WHEN laminate = 'kilat2' and leminating_kilat >=20 and Satuan_Order = 'Kotak' THEN 1500*4
-                WHEN laminate = 'kilat1' and leminating_kilat and Satuan_Order = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
-                WHEN laminate = 'kilat2' and leminating_kilat and Satuan_Order = 'lembar' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2),0)
-                WHEN laminate = 'kilat1' and leminating_kilat and Satuan_Order = 'Kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
-                WHEN laminate = 'kilat2' and leminating_kilat and Satuan_Order = 'Kotak' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2)*4,0)
+                WHEN laminate = 'kilat1' and Satuan_Order = 'lembar' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat),0)
+                WHEN laminate = 'kilat2' and Satuan_Order = 'lembar' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2),0)
+                WHEN laminate = 'kilat1' and Satuan_Order = 'Kotak' and leminating_kilat <=19 THEN ROUND((15000 / leminating_kilat)*4,0)
+                WHEN laminate = 'kilat2' and Satuan_Order = 'Kotak' and leminating_kilat <=19 THEN ROUND(((15000 / leminating_kilat)*2)*4,0)
                 WHEN laminate = 'doff1'and leminating_doff >=20 and Satuan_Order = 'lembar' THEN 750
                 WHEN laminate = 'doff2' and leminating_doff >=20 and Satuan_Order = 'lembar' THEN 1500
                 WHEN laminate = 'doff1'and leminating_doff >=20 and Satuan_Order = 'Kotak' THEN 750*4
                 WHEN laminate = 'doff2' and leminating_doff >=20 and Satuan_Order = 'Kotak' THEN 1500*4
-                WHEN laminate = 'doff1' and leminating_doff and Satuan_Order = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
-                WHEN laminate = 'doff2' and leminating_doff and Satuan_Order = 'lembar' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2),0)
-                WHEN laminate = 'doff1' and leminating_doff and Satuan_Order = 'Kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
-                WHEN laminate = 'doff2' and leminating_doff and Satuan_Order = 'Kotak' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2)*4,0)
+                WHEN laminate = 'doff1' and Satuan_Order = 'lembar' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff),0)
+                WHEN laminate = 'doff2' and Satuan_Order = 'lembar' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2),0)
+                WHEN laminate = 'doff1' and Satuan_Order = 'Kotak' and leminating_doff <=19 THEN ROUND((15000 / leminating_doff)*4,0)
+                WHEN laminate = 'doff2' and Satuan_Order = 'Kotak' and leminating_doff <=19 THEN ROUND(((15000 / leminating_doff)*2)*4,0)
                 WHEN laminate = 'hard_lemit' THEN 10000
                 WHEN laminate = 'laminating_floor' and ( kode = 'Xuli' or kode = 'indoor' or kode = 'large format' ) THEN ( 40000 * $ukuran )
                 WHEN laminate = 'laminating_floor' and kode = 'digital' THEN 6300
@@ -481,17 +485,17 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                 ELSE '0'
             END) as b_laminate,
             (CASE
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 500 THEN 500_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 250 THEN 250_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 100 THEN 100_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 50 THEN 50_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 20 THEN 20_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 10 THEN 10_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 6 THEN 6sd9_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 4 THEN 4sd5_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 3 THEN 3_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 2 THEN 2_lembar_AT
-                WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 1 THEN 1_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 500 THEN 500_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 250 THEN 250_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 100 THEN 100_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 50 THEN 50_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 20 THEN 20_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 10 THEN 10_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 6 THEN 6sd9_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 4 THEN 4sd5_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 3 THEN 3_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 2 THEN 2_lembar_AT
+                WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and Satuan_Order = 'Kotak' and Qty_FINAL >= 1 THEN 1_lembar_AT
                 WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'lembar' and Qty_FINAL >= 500 THEN ( 500_lembar_AT/4)
                 WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'lembar' and Qty_FINAL >= 250 THEN ( 250_lembar_AT/4)
                 WHEN kode = 'digital' and ID_AT = '31' and Satuan_Order = 'lembar' and Qty_FINAL >= 100 THEN ( 100_lembar_AT/4)
@@ -569,8 +573,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                         WHEN penjualan.laminate != '$_POST[Laminating]' THEN '$_POST[Laminating]'
                         ELSE penjualan.laminate
                     END) as laminate,
-                    (COALESCE(invoice.leminating_kilat,0) + $Qty_Kilat) as leminating_kilat,
-                    (COALESCE(invoice.leminating_doff,0) + $Qty_Doff) as leminating_doff,
+                    (COALESCE(Qty_lemit.leminating_kilat,0) + $Qty_Kilat) as leminating_kilat,
+                    (COALESCE(Qty_lemit.leminating_doff,0) + $Qty_Doff) as leminating_doff,
                     (CASE
                         WHEN penjualan.alat_tambahan != '' THEN '$ID_AT'
                         ELSE '$ID_AT'
@@ -606,20 +610,6 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                                 else sum(FORMAT(penjualan.qty,0))
                             END) AS Qty_FC,
                             SUM(CASE 
-                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
-                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
-                                WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
-                                WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
-                                ELSE 0 
-                            END) AS leminating_kilat,
-                            SUM(CASE 
-                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
-                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
-                                WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'kotak' THEN penjualan.qty*4
-                                WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'kotak' THEN penjualan.qty*8
-                                ELSE 0 
-                            END) AS leminating_doff,
-                            SUM(CASE 
                                 WHEN (penjualan.CuttingSticker = 'Y' and penjualan.satuan = '$_POST[Satuan]') THEN penjualan.qty
                                 ELSE 0 
                             END) AS Qty_Cutting
@@ -638,6 +628,62 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
                     ) invoice
                 ON 
                     penjualan.no_invoice = invoice.no_invoice
+
+                LEFT JOIN
+                    (
+                        SELECT
+                            penjualan.no_invoice,
+                            penjualan.laminate,
+                            (CASE
+                              	WHEN penjualan.laminate = 'kilat1' then total_laminating.leminating_kilat
+                                WHEN penjualan.laminate = 'kilat2' then total_laminating.leminating_kilat
+                             	ELSE 0
+                             END) as leminating_kilat,
+                             (CASE
+                              	WHEN penjualan.laminate = 'doff1' then total_laminating.leminating_doff
+                                WHEN penjualan.laminate = 'doff2' then total_laminating.leminating_doff
+                             	ELSE 0
+                             END) as leminating_doff
+                        FROM
+                            penjualan
+                        LEFT JOIN
+                        	(
+                                SELECT
+                                	penjualan.kode,
+                                    SUM(CASE 
+                                        WHEN penjualan.laminate = 'kilat1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                        WHEN penjualan.laminate = 'kilat2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                        WHEN penjualan.laminate = 'kilat1' and ( penjualan.satuan = 'Kotak' OR penjualan.satuan = 'kotak' ) THEN penjualan.qty*4
+                                        WHEN penjualan.laminate = 'kilat2' and ( penjualan.satuan = 'Kotak' OR penjualan.satuan = 'kotak' ) THEN penjualan.qty*8
+                                        ELSE 0 
+                                    END) AS leminating_kilat,
+                                    SUM(CASE 
+                                        WHEN penjualan.laminate = 'doff1' and penjualan.satuan = 'lembar' THEN penjualan.qty*1
+                                        WHEN penjualan.laminate = 'doff2' and penjualan.satuan = 'lembar' THEN penjualan.qty*2
+                                        WHEN penjualan.laminate = 'doff1' and ( penjualan.satuan = 'Kotak' OR penjualan.satuan = 'kotak' ) THEN penjualan.qty*4
+                                        WHEN penjualan.laminate = 'doff2' and ( penjualan.satuan = 'Kotak' OR penjualan.satuan = 'kotak' ) THEN penjualan.qty*8
+                                        ELSE 0 
+                                    END) AS leminating_doff
+                               	FROM
+                                	penjualan
+                               	WHERE
+                                    penjualan.no_invoice = $_POST[no_invoice] and
+                                    penjualan.oid != $_POST[ID_Order] and
+                                	penjualan.laminate != ''
+                                GROUP BY
+                                    penjualan.kode
+                            ) total_laminating
+                        ON
+                        	penjualan.kode = total_laminating.kode
+                        WHERE
+                            penjualan.no_invoice = $_POST[no_invoice] and
+                            penjualan.oid != $_POST[ID_Order] and
+                            penjualan.laminate != ''
+                        GROUP BY
+                            penjualan.no_invoice
+                    ) Qty_lemit
+                ON
+                    penjualan.no_invoice = Qty_lemit.no_invoice    
             )  Penjualan_ID
         LEFT JOIN 
             (

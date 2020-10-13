@@ -61,6 +61,7 @@ require_once "../../function.php";
         LEFT JOIN
             (SELECT
                 LEFT(digital_printing.tgl_cetak,10) tanggal_cetak,
+                digital_printing.mesin,
                 SUM((CASE
                     WHEN digital_printing.color='FC' and digital_printing.maintanance='N' AND digital_printing.sisi = '1' THEN ROUND(digital_printing.qty_cetak)
                     WHEN digital_printing.color='FC' and digital_printing.maintanance='N' AND digital_printing.sisi = '2' THEN ROUND(digital_printing.qty_cetak * 2)
@@ -93,7 +94,8 @@ require_once "../../function.php";
         ON
             digital_printing.tanggal_cetak = billing_konika.tanggal_billing
 		WHERE
-			$date_validation
+			$date_validation and
+            digital_printing.mesin = '$_SESSION[session_MesinDP]'
         GROUP BY
             digital_printing.tanggal_cetak
 		ORDER BY

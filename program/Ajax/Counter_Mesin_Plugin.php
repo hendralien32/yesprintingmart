@@ -2,6 +2,8 @@
 session_start();
 require_once "../../function.php";
 
+$mesin_Session = isset($_POST['type_mesin']) ? $_POST['type_mesin'] : $_SESSION['session_MesinDP'];
+
 if ($_POST['date'] != '') :
     $tanggal = $_POST['date'];
 else :
@@ -17,7 +19,8 @@ $sql =
     FROM
         billing_konika
     WHERE
-        billing_konika.tanggal_billing='$tanggal'
+        billing_konika.tanggal_billing='$tanggal' and
+        billing_konika.mesin = '$mesin_Session'
     LIMIT
         1
 ";

@@ -24,10 +24,12 @@ function onload() {
   $("#loader").show();
   var dari_bulan = $("#dari_bulan").val();
   var ke_bulan = $("#ke_bulan").val();
+  var type_mesin = $("#type_mesin").val();
 
   var fdata = new FormData();
   fdata.append("date_from", dari_bulan);
   fdata.append("date_to", ke_bulan);
+  fdata.append("type_mesin", type_mesin);
 
   $.ajax({
     type: "POST",
@@ -62,6 +64,11 @@ function SearchFrom() {
 }
 
 function SearchTo() {
+  $("#loader").show();
+  onload();
+}
+
+function session_mesin() {
   $("#loader").show();
   onload();
 }

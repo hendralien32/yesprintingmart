@@ -19,12 +19,14 @@ function onload() {
   $("#loader").show();
   var search = $("#search").val();
   var Tanggal = $("#tanggal").val();
+  var type_mesin = $("#type_mesin").val();
 
   $.ajax({
     type: "POST",
     data: {
       data: search,
       date: Tanggal,
+      type_mesin: type_mesin,
     },
     url: "Ajax/list_PemotonganStockDP_ajax.php",
     cache: false,
@@ -43,12 +45,14 @@ function onload() {
 function onload_Counter() {
   var search = $("#search").val();
   var Tanggal = $("#tanggal").val();
+  var type_mesin = $("#type_mesin").val();
 
   $.ajax({
     type: "POST",
     data: {
       data: search,
       date: Tanggal,
+      type_mesin: type_mesin,
     },
     url: "Ajax/Counter_Mesin_Plugin.php",
     cache: false,
@@ -79,6 +83,11 @@ function SearchData() {
     alert("Jumlah Character Harus Lebih dari 3 huruf");
     return false;
   }
+}
+
+function session_mesin() {
+  $("#loader").show();
+  onload();
 }
 
 function Kesalahan_Search(id) {

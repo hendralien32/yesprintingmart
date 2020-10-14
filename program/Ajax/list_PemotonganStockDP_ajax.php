@@ -2,6 +2,8 @@
 session_start();
 require_once "../../function.php";
 
+$mesin_Session = isset($_POST['type_mesin']) ? $_POST['type_mesin'] : $_SESSION['session_MesinDP'];
+
 $daftar_hari = array(
     'Sunday' => 'Minggu',
     'Monday' => 'Senin',
@@ -11,6 +13,12 @@ $daftar_hari = array(
     'Friday' => 'Jumat',
     'Saturday' => 'Sabtu'
 );
+
+if($mesin_Session != "") {
+    $where_mesin = "and digital_printing.mesin = '$mesin_Session'";
+} else {
+    $where_mesin = "";
+}
 
 if ($_POST['data'] != "" and $_POST['date'] == "") :
     $add_where = "( penjualan.client LIKE '%$_POST[data]%' or digital_printing.oid LIKE '%$_POST[data]%' or penjualan.client_yes LIKE '%$_POST[data]%' or penjualan.id_yes LIKE '%$_POST[data]%')";
@@ -147,7 +155,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 ) penjualan
                 ON penjualan.oid = digital_printing.oid
                 WHERE
-                    $add_where
+                    $add_where 
+                    $where_mesin
                 ORDER BY
                     digital_printing.tgl_cetak
                 DESC

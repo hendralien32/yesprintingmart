@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once "../../function.php";
+
+$mesin_Session = isset($_POST['type_mesin']) ? $_POST['type_mesin'] : $_SESSION['session_MesinDP'];
+
 ?>
 
 <table>
@@ -88,6 +91,8 @@ require_once "../../function.php";
                 END)) as error_BW
             FROM
                 digital_printing
+            WHERE
+                digital_printing.mesin = '$mesin_Session'
             GROUP BY
                 LEFT(digital_printing.tgl_cetak,10)
             ) digital_printing
@@ -95,7 +100,7 @@ require_once "../../function.php";
             digital_printing.tanggal_cetak = billing_konika.tanggal_billing
 		WHERE
 			$date_validation and
-            digital_printing.mesin = '$_SESSION[session_MesinDP]'
+            billing_konika.mesin = '$mesin_Session'
         GROUP BY
             digital_printing.tanggal_cetak
 		ORDER BY

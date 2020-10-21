@@ -67,7 +67,8 @@ $sql =
     ON
         penjualan.no_invoice = pelunasan.no_invoice  
     where
-        penjualan.no_invoice = '$_GET[no_invoice]'
+        penjualan.no_invoice = '$_GET[no_invoice]' and
+        penjualan.cancel != 'Y'
     GROUP BY
         penjualan.no_invoice
     ";

@@ -4,8 +4,8 @@ require_once "../../function.php";
 
 $ID_Order = isset($_POST['ID_Order']) ? $_POST['ID_Order'] : "";
 
-if($ID_Order != "") : $add_where = "billing_konika.billing_id='$ID_Order'";
-else : $add_where = "billing_konika.tanggal_billing = '$date'";
+if($ID_Order != "") : $add_where = "WHERE billing_konika.billing_id='$ID_Order'";
+else : $add_where = "";
 endif;
 
 $sql =
@@ -18,8 +18,7 @@ $sql =
 		billing_konika.BW_akhir
 	FROM
 		billing_konika
-	WHERE
-		$add_where
+	$add_where
 	LIMIT
 		1
 ";

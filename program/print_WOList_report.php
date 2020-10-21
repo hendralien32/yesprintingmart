@@ -309,7 +309,7 @@
                         penjualan.ID_Bahan = barang.id_barang 
                     WHERE
                         penjualan.client = '1' and
-                        penjualan.status != 'deleted' and
+                        penjualan.cancel != 'Y' and
                         ( penjualan.no_invoice != '' or penjualan.no_invoice != '0' ) 
                         $Add_date
                     GROUP BY

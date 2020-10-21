@@ -205,7 +205,8 @@ endif;
                         FROM
                             penjualan
                         WHERE
-                            penjualan.no_invoice = '$_POST[ID_Order]'
+                            penjualan.no_invoice = '$_POST[ID_Order]' and
+                            penjualan.cancel!='Y'
                         ";
                         $n = 0;
                         $result = $conn_OOP->query($sql);

@@ -317,7 +317,7 @@ elseif ($_POST['jenis_submit'] == 'Update') :
                 }
             }
 
-            if (is_uploaded_file($_FILES['imageFile']['tmp_name'])) { 
+            if (is_uploaded_file($_FILES['imageFile']['tmp_name'])) {
                 if (file_exists($target_image)) {
                     unlink($target_image);
                 } else {
@@ -614,6 +614,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
     $sql_data =
         "SELECT
             oid,
+            Qty_Cutting,
+            ID_Cutting,
             (CASE
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 500 THEN 500_lembar
                 WHEN kode = 'digital' and ( sisi = '1' or sisi = '2' ) and warna_cetak = 'FC' and satuan = 'lembar' and Qty >= 250 THEN 250_lembar
@@ -852,8 +854,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             penjualan
                         WHERE
                             penjualan.oid IN ('$aid')
-                        GROUP BY
-                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
+                        -- GROUP BY
+                        --     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                     ) Qty_ID_Penjualan
                 ON
                     penjualan.oid = Qty_ID_Penjualan.oid
@@ -1071,7 +1073,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
             ) Group_ID
         GROUP BY
-            oid
+            oidX
         "; // OK WORKING FINE
 
     $data = mysqli_query($conn, $sql_data);

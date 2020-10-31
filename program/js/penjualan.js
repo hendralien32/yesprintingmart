@@ -128,8 +128,7 @@ function satuan_val() {
   ) {
     $("#alat_tambahan").val("KotakNC.Kotak Kartu Nama");
     $("#Ptg_Pts").prop("checked", true);
-  } else {
-  }
+  } else {}
   return false;
 }
 

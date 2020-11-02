@@ -1073,7 +1073,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
             ) Group_ID
         GROUP BY
-            oidX
+            oid
         "; // OK WORKING FINE
 
     $data = mysqli_query($conn, $sql_data);
@@ -1706,8 +1706,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             penjualan
                         WHERE
                             penjualan.no_invoice = $_POST[no_invoice]
-                        GROUP BY
-                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
+                        -- GROUP BY
+                        --     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                     ) Qty_ID_Penjualan
                 ON
                     penjualan.oid = Qty_ID_Penjualan.oid
@@ -2732,8 +2732,6 @@ elseif ($_POST['jenis_submit'] == 'ReAdd_Invoice') :
                             penjualan
                         WHERE
                             penjualan.oid IN ('$aid')
-                        GROUP BY
-                            penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                     ) Qty_ID_Penjualan
                 ON
                     penjualan.oid = Qty_ID_Penjualan.oid

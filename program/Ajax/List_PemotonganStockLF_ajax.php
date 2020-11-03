@@ -6,7 +6,7 @@ require_once '../../function.php';
 $OperatorSearch = ($_POST['OperatorSearch'] != "undefined" && $_POST['OperatorSearch'] != "") ? $_POST['OperatorSearch'] : $_SESSION['uid'];
 
 if ($_POST['search'] != "") {
-    $add_where = "and ( large_format.oid LIKE '%$_POST[search]%' or penjualan.id_yes LIKE '%$_POST[search]%' or penjualan.description LIKE '%$_POST[search]%' or penjualan.client LIKE '%$_POST[search]%' )";
+    $add_where = "and ( large_format.so_kerja LIKE '%$_POST[search]%' or large_format.oid LIKE '%$_POST[search]%' or penjualan.id_yes LIKE '%$_POST[search]%' or penjualan.description LIKE '%$_POST[search]%' or penjualan.client LIKE '%$_POST[search]%' )";
 } else {
     if ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] != "") :
         $add_where = "and (LEFT( large_format.date, 10 )>='$_POST[Dari_Tanggal]' and LEFT( large_format.date, 10 )<='$_POST[Ke_Tanggal]')";
@@ -19,7 +19,7 @@ if ($_POST['search'] != "") {
     endif;
 }
 
-if($OperatorSearch != "undefined" && $OperatorSearch != "") {
+if ($OperatorSearch != "undefined" && $OperatorSearch != "") {
     $where_operator = "and large_format.uid = '$OperatorSearch'";
 } else {
     $where_operator = "";
@@ -61,7 +61,7 @@ if($OperatorSearch != "undefined" && $OperatorSearch != "") {
         <tr>
             <th width="1%">#</th>
             <th width="7%">
-            <select name="OperatorSearch" id="OperatorSearch" onchange="OperatorSearch();">
+                <select name="OperatorSearch" id="OperatorSearch" onchange="OperatorSearch();">
                     <option value="">Operator</option>
                     <?php
                     $sql = "
@@ -78,6 +78,30 @@ if($OperatorSearch != "undefined" && $OperatorSearch != "") {
                                     large_format.so_kerja
                                 from
                                     large_format
+                                LEFT JOIN
+                                    (
+                                        SELECT
+                                            penjualan.oid,
+                                            penjualan.id_yes,
+                                            (CASE
+                                                WHEN penjualan.client_yes != '' THEN penjualan.client_yes
+                                                ELSE customer.nama_client 
+                                            END) AS client,
+                                            penjualan.description,
+                                            (CASE
+                                                WHEN penjualan.panjang > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+                                                WHEN penjualan.lebar > 0 THEN CONCAT(penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+                                                ELSE ''
+                                            END) as ukuran
+                                        FROM
+                                            penjualan
+                                        LEFT JOIN 
+                                            (select customer.cid, customer.nama_client from customer) customer
+                                        ON
+                                            penjualan.client = customer.cid 
+                                    ) penjualan
+                                ON
+                                    penjualan.oid = large_format.oid
                                 where
                                     large_format.cancel != 'Y'
                                     $add_where
@@ -92,9 +116,7 @@ if($OperatorSearch != "undefined" && $OperatorSearch != "") {
                             large_format.uid
                     ";
 
-                    // Perform query
                     $result = $conn_OOP->query($sql);
-
                     if ($result->num_rows > 0) :
                         // output data of each row
                         while ($d = $result->fetch_assoc()) :
@@ -300,10 +322,10 @@ if($OperatorSearch != "undefined" && $OperatorSearch != "") {
                 endfor;
 
                 $total[]   = $total_cetak;
-                $Nilai_total= array_sum($total);
+                $Nilai_total = array_sum($total);
             endwhile;
 
-                echo "
+            echo "
                     <tr>
                         <th colspan='9'>Total Meter Cetak</th>
                         <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total) . " M<sup>2</sup></th>

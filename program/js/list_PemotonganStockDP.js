@@ -270,6 +270,7 @@ function submit(id) {
 
   let id_order = $("#id_order").val();
   let oid = $("#oid").val();
+  let mesin = $("#mesin").val();
   let tanggal_ptg = $("#tanggal_ptg").val();
   let jam_ptg = $("#jam").val();
   let id_BahanDigital = $("#id_BahanDigital").val();
@@ -304,6 +305,7 @@ function submit(id) {
   let fdata = new FormData();
   fdata.append("id_order", id_order);
   fdata.append("oid", oid);
+  fdata.append("mesin", mesin);
   fdata.append("tanggal_ptg", tanggal_ptg);
   fdata.append("jam_ptg", jam_ptg);
   fdata.append("id_BahanDigital", id_BahanDigital);

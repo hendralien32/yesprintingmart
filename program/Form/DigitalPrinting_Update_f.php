@@ -8,6 +8,7 @@ $sql =
         LEFT(digital_printing.tgl_cetak,10) as tanggal,
         RIGHT(digital_printing.tgl_cetak,8) as Jam,
         digital_printing.did,
+        digital_printing.mesin,
         digital_printing.kesalahan,
         digital_printing.alasan_kesalahan,
         digital_printing.sisi as sisi_digital,
@@ -225,6 +226,7 @@ if ($result->num_rows > 0) :
     $nama_salah = $d['nama_salah'];
     $alasan_kesalahan = $d['alasan_kesalahan'];
     $status = $d['status'];
+    $mesin = $d['mesin'];
 else :
     $oid = "";
     $tanggal_Update = $date;
@@ -244,6 +246,7 @@ else :
     $nama_salah = "";
     $alasan_kesalahan = "";
     $status = "";
+    $mesin = "";
 endif;
 
 echo "
@@ -388,6 +391,25 @@ echo "
                         <?= $check_ditunggu; ?>
                         <label class='checkbox-fa' for='Ditunggu'> Ditunggu </label>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Mesin</td>
+                <td>
+                    <select class="myselect" id="mesin">
+                        <?php
+                        $array_kode = array(
+                            "Konika_C-1085" => "Konika C-1085",
+                            "Konika_C7000" => "Konika C-7000"
+                        );
+                        foreach ($array_kode as $kode => $kd) {
+                            if ($kode == $mesin) : $pilih = "selected";
+                            else : $pilih = "";
+                            endif;
+                            echo "<option value='$kode' $pilih>$kd</option>";
+                        }
+                        ?>
+                    </select>
                 </td>
             </tr>
         </table>

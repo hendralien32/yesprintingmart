@@ -1921,7 +1921,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.oid, penjualan.warna_cetak 
             ) Group_ID
         GROUP BY
-            oidY
+            oid
         "; // OK WORKING FINE
 
     $data = mysqli_query($conn, $sql_data);
@@ -6643,6 +6643,7 @@ elseif ($_POST['jenis_submit'] == 'update_dp') :
             digital_printing
         SET
             tgl_cetak = '$_POST[tanggal_ptg] $_POST[jam_ptg]',
+            mesin = '$_POST[mesin]',
             id_bahan = '$_POST[id_BahanDigital]',
             id_AlatTambahan = '$_POST[id_tambahan]',
             hitungan_click = '$hitungan_click',

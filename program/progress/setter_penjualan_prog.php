@@ -1753,7 +1753,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             FROM
                                 penjualan
                             WHERE
-                                penjualan.oid IN ('$aid')
+                                penjualan.no_invoice = $_POST[no_invoice]
                             GROUP BY
                                 penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                             ) total_qty
@@ -1802,14 +1802,14 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                                    	FROM
                                     	penjualan
                                    	WHERE
-                                		penjualan.oid IN ('$aid')
+                                       penjualan.no_invoice = $_POST[no_invoice]
                                     GROUP BY
                                         penjualan.kode
                                 ) total_laminating
                             ON
                             	penjualan.kode = total_laminating.kode
                             WHERE
-                                penjualan.oid IN ('$aid')
+                                penjualan.no_invoice = $_POST[no_invoice]
                     ) Qty_lemit
                 ON
                     penjualan.oid = Qty_lemit.oid
@@ -4839,7 +4839,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 FROM
                                     penjualan
                                 WHERE
-                                    penjualan.oid IN ('$aid')
+                                    penjualan.no_invoice = $_POST[no_invoice]
                                 GROUP BY
                                     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                                 ) total_qty
@@ -4888,14 +4888,14 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                         FROM
                                             penjualan
                                         WHERE
-                                            penjualan.oid IN ('$aid')
+                                            penjualan.no_invoice = $_POST[no_invoice]
                                         GROUP BY
                                             penjualan.kode
                                     ) total_laminating
                                 ON
                                     penjualan.kode = total_laminating.kode
                                 WHERE
-                                    penjualan.oid IN ('$aid')
+                                    penjualan.no_invoice = $_POST[no_invoice]
                         ) Qty_lemit
                     ON
                         penjualan.oid = Qty_lemit.oid

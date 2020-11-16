@@ -77,7 +77,7 @@ else :
                     penjualan.b_lain,
                     penjualan.b_potong,
                     penjualan.b_large,
-                    penjualan.b_indoor,
+                    ( penjualan.b_indoor + penjualan.b_xuli ) as b_indoor,
                     penjualan.b_xbanner,
                     penjualan.b_kotak,
                     penjualan.b_laminate,

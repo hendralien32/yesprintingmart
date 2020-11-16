@@ -25,9 +25,9 @@
     endif;
 
     if($ke_tanggal != "" ) :
-        $title = "$title_add, Priode Tanggal ". date("d M Y",strtotime($dari_tanggal))." - ". date("d M Y",strtotime($ke_tanggal))."";
+        $title = "$title_add Priode ". date("d F Y",strtotime($dari_tanggal))." - ". date("d F Y",strtotime($ke_tanggal))."";
     else :
-        $title = "$title_add, Tanggal ". date("d M Y",strtotime($dari_tanggal))."";
+        $title = "$title_add ". date("d F Y",strtotime($dari_tanggal))."";
     endif;
 
 ?>
@@ -139,7 +139,7 @@
             
             <div id='container'>
                 <div id='wo_list_title'>
-                    <h3>Daily Report, Tanggal <?= date("d M Y",strtotime($row['Tanggal'])) ?></h3>
+                    <h3>Daily Report <?= date("d F Y",strtotime($row['Tanggal'])) ?></h3>
                 </div>
 
                 <?php
@@ -343,7 +343,7 @@
             ?>
             <div id='container'>
                 <div id='penjualan_YES_title'>
-                    <h3>Daily Invoice, Tanggal <?= date("d M Y",strtotime($row['Tanggal'])) ?></h3>
+                    <h3>Daily Invoice <?= date("d F Y",strtotime($row['Tanggal'])) ?></h3>
                 </div>
 
                 <?php

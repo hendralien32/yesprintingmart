@@ -89,11 +89,11 @@ $sql_query =
             GROUP_CONCAT(penjualan.b_laminate) as b_laminate,
             GROUP_CONCAT(penjualan.b_potong) as b_potong,
             GROUP_CONCAT(penjualan.b_design) as b_design,
-            GROUP_CONCAT(penjualan.b_indoor) as b_indoor,
+            GROUP_CONCAT((penjualan.b_indoor + penjualan.b_xuli)) as b_indoor,
             GROUP_CONCAT(penjualan.b_delivery) as b_delivery,
-            GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)) as harga_satuan,
+            GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)) as harga_satuan,
             GROUP_CONCAT(penjualan.discount) as discount,
-            GROUP_CONCAT((((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty)) as total
+            GROUP_CONCAT((((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty)) as total
         FROM
             penjualan
         LEFT JOIN 

@@ -75,11 +75,11 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                 penjualan.b_laminate,
                 penjualan.b_potong,
                 penjualan.b_design,
-                penjualan.b_indoor,
+                ( penjualan.b_indoor + penjualan.b_xuli ) as b_indoor,
                 penjualan.b_delivery,
                 penjualan.discount,
-                ((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount) as harga_satuan,
-                (((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as total
+                ((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+ penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount) as harga_satuan,
+                (((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+ penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as total
             FROM 
                 penjualan
             LEFT JOIN 
@@ -384,7 +384,7 @@ if (isset($_POST['ID_Order']) && ($_SESSION['level'] == "setter" || $_SESSION['l
                     penjualan.b_laminate,
                     penjualan.b_potong,
                     penjualan.b_design,
-                    penjualan.b_indoor,
+                    ( penjualan.b_indoor + penjualan.b_xuli ) as b_indoor,
                     penjualan.b_delivery,
                     penjualan.discount,
                     penjualan.posisi_file,

@@ -297,7 +297,7 @@ elseif ($_POST['jenis_submit'] == 'Update') :
                     echo "ERROR Hapus File";
                 }
 
-                $basename = pathinfo($target_file, PATHINFO_FILENAME);
+                $basename = pathinfo($row['Nama_File'], PATHINFO_FILENAME);
 
                 $ekstensiFile = pathinfo($_FILES["DesignFile"]["name"], PATHINFO_EXTENSION);
                 $File_DesignName = $basename . "." . $ekstensiFile;
@@ -324,7 +324,7 @@ elseif ($_POST['jenis_submit'] == 'Update') :
                     echo "ERROR Hapus File";
                 }
 
-                $basename = pathinfo($target_image, PATHINFO_FILENAME);
+                $basename = pathinfo($row['Nama_Image'], PATHINFO_FILENAME);
 
                 $ekstensiFile = pathinfo($_FILES["imageFile"]["name"], PATHINFO_EXTENSION);
                 $File_DesignName = $basename . "." . $ekstensiFile;
@@ -657,13 +657,21 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                 ELSE '0'
             END) as b_lf,
             (CASE
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
                 ELSE '0'
             END) as indoor,
+            (CASE
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                ELSE '0'
+            END) as xuli,
             (CASE
                 WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
                 WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
@@ -903,7 +911,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             FROM
                                 penjualan
                             WHERE
-                                penjualan.oid IN ('$aid')
+                                penjualan.oid IN ('$aid') and
+                                penjualan.cancel != 'Y'
                             GROUP BY
                                 penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                             ) total_qty
@@ -952,7 +961,8 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                                    	FROM
                                     	penjualan
                                    	WHERE
-                                		penjualan.oid IN ('$aid')
+                                		penjualan.oid IN ('$aid') and
+                                        penjualan.cancel != 'Y'
                                     GROUP BY
                                         penjualan.kode
                                 ) total_laminating
@@ -1083,6 +1093,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
             'b_digital' => $row['b_digital'],
             'b_lf' => $row['b_lf'],
             'indoor' => $row['indoor'],
+            'xuli' => $row['xuli'],
             'b_potong' => $row['b_potong'],
             'b_kotak' => $row['b_kotak'],
             'b_AlatTambahan' => $row['b_AlatTambahan'],
@@ -1093,6 +1104,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
     $b_digital = "";
     $b_lf = "";
     $indoor = "";
+    $xuli = "";
     $b_potong = "";
     $b_kotak = "";
     $b_AlatTambahan = "";
@@ -1104,6 +1116,7 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
         $b_digital .= "when oid = $array[oid] then '$array[b_digital]'";
         $b_lf .= "when oid = $array[oid] then '$array[b_lf]'";
         $indoor .= "when oid = $array[oid] then '$array[indoor]'";
+        $xuli .= "when oid = $array[oid] then '$array[xuli]'";
         $b_potong .= "when oid = $array[oid] then '$array[b_potong]'";
         $b_kotak .= "when oid = $array[oid] then '$array[b_kotak]'";
         $b_AlatTambahan .= "when oid = $array[oid] then '$array[b_AlatTambahan]'";
@@ -1145,6 +1158,9 @@ elseif ($_POST['jenis_submit'] == 'create_invoice') :
                             END),
                 b_indoor = (CASE 
                                 $indoor
+                            END),
+                b_xuli = (CASE 
+                                $xuli
                             END),
                 b_xbanner = (CASE 
                                 $b_AlatTambahan
@@ -1243,26 +1259,23 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
         $row = mysqli_fetch_assoc($result);
 
         if (is_array($_FILES)) {
-
-            $target_file = "../design/$row[Nama_File]";
-            $target_image = "../design/$row[Nama_Image]";
-
+            $target_file = $dir . "$row[Nama_File]";
+            $target_image = $dir . "$row[Nama_Image]";
 
             if (is_uploaded_file($_FILES['DesignFile']['tmp_name'])) { // Design File
-
-                if (file_exists($target_image)) {
-                    unlink($target_image);
+                if (file_exists($target_file)) {
+                    unlink($target_file);
                 } else {
-                    die("ERROR Hapus Image");
+                    echo "ERROR Hapus File";
                 }
 
-                $basename = pathinfo($target_file, PATHINFO_FILENAME);
+                $basename = pathinfo($row['Nama_File'], PATHINFO_FILENAME);
 
                 $ekstensiFile = pathinfo($_FILES["DesignFile"]["name"], PATHINFO_EXTENSION);
                 $File_DesignName = $basename . "." . $ekstensiFile;
 
                 $sourcePath = $_FILES['DesignFile']['tmp_name'];
-                $targetPath = "../design/" . $File_DesignName;
+                $targetPath = $dir . $File_DesignName;
                 $ekstensiOk = array('rar', 'zip');
 
                 if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -1277,20 +1290,19 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             }
 
             if (is_uploaded_file($_FILES['imageFile']['tmp_name'])) {
-
-                if (file_exists($target_file)) {
-                    unlink($target_file);
+                if (file_exists($target_image)) {
+                    unlink($target_image);
                 } else {
-                    die("ERROR Hapus File");
+                    echo "ERROR Hapus File";
                 }
 
-                $basename = pathinfo($target_image, PATHINFO_FILENAME);
+                $basename = pathinfo($row['Nama_Image'], PATHINFO_FILENAME);
 
                 $ekstensiFile = pathinfo($_FILES["imageFile"]["name"], PATHINFO_EXTENSION);
                 $File_DesignName = $basename . "." . $ekstensiFile;
 
                 $sourcePath = $_FILES['imageFile']['tmp_name'];
-                $targetPath = "../design/" . $File_DesignName;
+                $targetPath = $dir . $File_DesignName;
                 $ekstensiOk = array('jpg', 'jpeg', 'png', 'gif');
 
                 if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -1509,13 +1521,21 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 ELSE '0'
             END) as b_lf,
             (CASE
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
                 ELSE '0'
             END) as indoor,
+            (CASE
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                ELSE '0'
+            END) as xuli,
             (CASE
                 WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
                 WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
@@ -1753,7 +1773,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                             FROM
                                 penjualan
                             WHERE
-                                penjualan.no_invoice = $_POST[no_invoice]
+                                penjualan.no_invoice = $_POST[no_invoice] and
+                                penjualan.cancel != 'Y'
                             GROUP BY
                                 penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                             ) total_qty
@@ -1802,7 +1823,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                                    	FROM
                                     	penjualan
                                    	WHERE
-                                       penjualan.no_invoice = $_POST[no_invoice]
+                                        penjualan.no_invoice = $_POST[no_invoice] and
+                                        penjualan.cancel != 'Y'
                                     GROUP BY
                                         penjualan.kode
                                 ) total_laminating
@@ -1931,6 +1953,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             'b_digital' => $harga['b_digital'],
             'b_lf' => $harga['b_lf'],
             'indoor' => $harga['indoor'],
+            'xuli' => $row['xuli'],
             'b_potong' => $harga['b_potong'],
             'b_kotak' => $harga['b_kotak'],
             'b_AlatTambahan' => $harga['b_AlatTambahan'],
@@ -1941,6 +1964,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
     $b_digital = "";
     $b_lf = "";
     $indoor = "";
+    $xuli = "";
     $b_potong = "";
     $b_kotak = "";
     $b_AlatTambahan = "";
@@ -1953,6 +1977,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
         "Biaya_Digital",
         "Biaya_Large",
         "Biaya_Indoor",
+        "Biaya_Xuli",
         "Biaya_Potong",
         "Biaya_Kotak",
         "Biaya_Xbanner",
@@ -1963,6 +1988,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
         "b_digital",
         "b_lf",
         "indoor",
+        "xuli",
         "b_potong",
         "b_kotak",
         "b_AlatTambahan",
@@ -1974,6 +2000,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
         $b_digital .= "when oid = $array[oid] then '$array[b_digital]'";
         $b_lf .= "when oid = $array[oid] then '$array[b_lf]'";
         $indoor .= "when oid = $array[oid] then '$array[indoor]'";
+        $xuli .= "when oid = $array[oid] then '$array[xuli]'";
         $b_laminate .= "when oid = $array[oid] then '$array[b_laminate]'";
         $b_potong .= "when oid = $array[oid] then '$array[b_potong]'";
         $b_kotak .= "when oid = $array[oid] then '$array[b_kotak]'";
@@ -2049,6 +2076,9 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 b_indoor = (CASE 
                                 $indoor
                             END),
+                b_xuli = (CASE 
+                                $xuli
+                         END),
                 b_xbanner = (CASE 
                                 $b_AlatTambahan
                             END),
@@ -2153,26 +2183,23 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
         $row = mysqli_fetch_assoc($result);
 
         if (is_array($_FILES)) {
-
-            $target_file = "../design/$row[Nama_File]";
-            $target_image = "../design/$row[Nama_Image]";
-
+            $target_file = $dir . "$row[Nama_File]";
+            $target_image = $dir . "$row[Nama_Image]";
 
             if (is_uploaded_file($_FILES['DesignFile']['tmp_name'])) { // Design File
-
-                if (file_exists($target_image)) {
-                    unlink($target_image);
+                if (file_exists($target_file)) {
+                    unlink($target_file);
                 } else {
-                    die("ERROR Hapus Image");
+                    echo "ERROR Hapus File";
                 }
 
-                $basename = pathinfo($target_file, PATHINFO_FILENAME);
+                $basename = pathinfo($row['Nama_File'], PATHINFO_FILENAME);
 
                 $ekstensiFile = pathinfo($_FILES["DesignFile"]["name"], PATHINFO_EXTENSION);
                 $File_DesignName = $basename . "." . $ekstensiFile;
 
                 $sourcePath = $_FILES['DesignFile']['tmp_name'];
-                $targetPath = "../design/" . $File_DesignName;
+                $targetPath = $dir . $File_DesignName;
                 $ekstensiOk = array('rar', 'zip');
 
                 if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -2187,20 +2214,19 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             }
 
             if (is_uploaded_file($_FILES['imageFile']['tmp_name'])) {
-
-                if (file_exists($target_file)) {
-                    unlink($target_file);
+                if (file_exists($target_image)) {
+                    unlink($target_image);
                 } else {
-                    die("ERROR Hapus File");
+                    echo "ERROR Hapus File";
                 }
 
-                $basename = pathinfo($target_image, PATHINFO_FILENAME);
+                $basename = pathinfo($row['Nama_Image'], PATHINFO_FILENAME);
 
                 $ekstensiFile = pathinfo($_FILES["imageFile"]["name"], PATHINFO_EXTENSION);
                 $File_DesignName = $basename . "." . $ekstensiFile;
 
                 $sourcePath = $_FILES['imageFile']['tmp_name'];
-                $targetPath = "../design/" . $File_DesignName;
+                $targetPath = $dir . $File_DesignName;
                 $ekstensiOk = array('jpg', 'jpeg', 'png', 'gif');
 
                 if (in_array($ekstensiFile, $ekstensiOk) === true) {
@@ -2371,6 +2397,12 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             ";
     }
 
+    if($_POST['kode']== "Xuli") {
+        $db_indoor = "b_xuli";
+    } else {
+        $db_indoor = "b_indoor";
+    }
+
     $sql =
         "UPDATE penjualan SET 
             kode             = '$_POST[Kode_Brg]', 
@@ -2403,7 +2435,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             b_kotak          = '$b_kotak',
             b_laminate       = '$b_laminate',
             b_potong         = '$b_potong',
-            b_indoor         = '$b_indoor',
+            $db_indoor       = '$b_indoor',
             b_xbanner        = '$b_xbanner',
             b_lain           = '$b_lain',
             b_offset         = '$b_offset',
@@ -4593,13 +4625,21 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     ELSE '0'
                 END) as b_lf,
                 (CASE
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'Xuli' or kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
                 END) as indoor,
+                (CASE
+                    WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
+                    WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                    ELSE '0'
+                END) as xuli,
                 (CASE
                     WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
                     WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
@@ -4839,7 +4879,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                 FROM
                                     penjualan
                                 WHERE
-                                    penjualan.no_invoice = $_POST[no_invoice]
+                                    penjualan.no_invoice = $_POST[no_invoice] and
+                                    penjualan.cancel != 'Y'
                                 GROUP BY
                                     penjualan.ID_Bahan, penjualan.sisi, penjualan.satuan, penjualan.kode, penjualan.warna_cetak
                                 ) total_qty
@@ -4888,7 +4929,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                         FROM
                                             penjualan
                                         WHERE
-                                            penjualan.no_invoice = $_POST[no_invoice]
+                                            penjualan.no_invoice = $_POST[no_invoice] and
+                                            penjualan.cancel != 'Y'
                                         GROUP BY
                                             penjualan.kode
                                     ) total_laminating
@@ -5017,6 +5059,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                 'b_digital' => $harga['b_digital'],
                 'b_lf' => $harga['b_lf'],
                 'indoor' => $harga['indoor'],
+                'xuli' => $row['xuli'],
                 'b_potong' => $harga['b_potong'],
                 'b_kotak' => $harga['b_kotak'],
                 'b_AlatTambahan' => $harga['b_AlatTambahan'],
@@ -5027,6 +5070,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
         $b_digital = "";
         $b_lf = "";
         $indoor = "";
+        $xuli = "";
         $b_potong = "";
         $b_kotak = "";
         $b_AlatTambahan = "";
@@ -5039,6 +5083,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
             "Biaya_Digital",
             "Biaya_Large",
             "Biaya_Indoor",
+            "Biaya_Xuli",
             "Biaya_Potong",
             "Biaya_Kotak",
             "Biaya_Xbanner",
@@ -5049,6 +5094,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
             "b_digital",
             "b_lf",
             "indoor",
+            "xuli",
             "b_potong",
             "b_kotak",
             "b_AlatTambahan",
@@ -5060,6 +5106,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
             $b_digital .= "when oid = $array[oid] then '$array[b_digital]'";
             $b_lf .= "when oid = $array[oid] then '$array[b_lf]'";
             $indoor .= "when oid = $array[oid] then '$array[indoor]'";
+            $xuli .= "when oid = $array[oid] then '$array[xuli]'";
             $b_laminate .= "when oid = $array[oid] then '$array[b_laminate]'";
             $b_potong .= "when oid = $array[oid] then '$array[b_potong]'";
             $b_kotak .= "when oid = $array[oid] then '$array[b_kotak]'";
@@ -5123,6 +5170,9 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     b_indoor = (CASE 
                                     $indoor
                                 END),
+                    b_xuli = (CASE 
+                                $xuli
+                            END),
                     b_xbanner = (CASE 
                                     $b_AlatTambahan
                                 END),
@@ -5347,7 +5397,11 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
         $Final_log = "";
     endif;
 
-
+    if($_POST['kode']== "Xuli") {
+        $db_indoor = "b_xuli";
+    } else {
+        $db_indoor = "b_indoor";
+    }
 
     $sql =
         "UPDATE penjualan SET 
@@ -5384,7 +5438,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
             b_kotak         = '$_POST[b_kotak]',
             b_laminate      = '$_POST[b_laminate]',
             b_potong        = '$_POST[b_finishing]',
-            b_indoor        = '$_POST[b_indoor]',
+            $db_indoor      = '$_POST[b_indoor]',
             b_xbanner       = '$_POST[b_xbanner]',
             b_lain          = '$_POST[b_lain]',
             history         =  CONCAT('$Final_log', history)

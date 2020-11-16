@@ -30,8 +30,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['sear
             <th width="5%">ID</th>
             <th width="6%">SO</th>
             <th width="3%">K</th>
-            <th width="38%">Client - Description</th>
-            <th width="9%">Detail Icon</th>
+            <th width="39%">Client - Description</th>
+            <th width="8%">Detail Icon</th>
             <th width="3%">S</th>
             <th width="10%">Bahan</th>
             <th width="8%">Qty</th>
@@ -150,9 +150,13 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['sear
 
                 $Delete_icon = "<span class='icon_status' ondblclick='hapus(\"" . $d['oid'] . "\", \"" . $d['oid'] . "\", \"" . $d['cancel'] . "\")'>$icon</span>";
                 $css_cancel = "";
+                $pointer_selesai = "pointer";
+                $selesai = "selesai_prog(\"" . $d['oid'] . " | " . $d['client_yes'] . " - " . $d['description'] . "\", \"" . $d['oid'] . "\", \"" . $d['Finished'] . "\")";
             else :
                 $Delete_icon = "";
                 $css_cancel = "cancel";
+                $pointer_selesai = "";
+                $selesai = "";
             endif;
 
             if ($d['akses_edit'] == "Y") :
@@ -162,7 +166,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['sear
                 } else {
                     $icon_akses_edit = "<span class='icon_status'><i class='fad fa-lock-open-alt'></i></span>";
                     $Akses_Edit = "$d[akses_edit]";
-                } else :
+                }
+            else :
                 if ($_SESSION["level"] == "admin") {
                     $icon_akses_edit = "<span class='icon_status pointer' ondblclick='akses(\"N\", \"" . $d['oid'] . "\")'><i class='fad fa-lock-alt'></i></span>";
                     $Akses_Edit = "Y";
@@ -192,9 +197,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['sear
                 <td onclick='" . $edit . "' class='pointer'><b style='color:$status;'>▐</b> <strong>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client_yes']) . "</strong> - " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . " $d[ukuran]</td>
                 <td>
                     <center>
-                        <span class='icon_status $pointer' ondblclick='$acc'><i class='fas fa-thumbs-up " . $check_acc . "'></i></span>
                         $icon_akses_edit
-                        <span class='icon_status'><i class='fas fa-check-double " . $check_Finished . "'></i></span>
+                        <span class='icon_status $pointer_selesai' ondblclick='$selesai'><i class='fas fa-check-double $check_Finished'></i></span>
                         <span class='icon_status'><i class='fas fa-user-clock " . $check_ditunggu . "'></i></span>
                         <span class='icon_status'><i class='fas fa-receipt " . $check_no_invoice . "'></i>
                     </center>

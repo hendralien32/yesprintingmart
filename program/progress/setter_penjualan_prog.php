@@ -1233,6 +1233,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             penjualan.b_potong AS Biaya_Potong,
             penjualan.b_large AS Biaya_Large,
             penjualan.b_indoor AS Biaya_Indoor,
+            penjualan.b_xuli as Biaya_Xuli,
             penjualan.b_xbanner AS Biaya_Xbanner,
             penjualan.b_offset AS Biaya_Offset,
             penjualan.b_laminate AS Biaya_Laminate,
@@ -1521,13 +1522,10 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 ELSE '0'
             END) as b_lf,
             (CASE
-                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
-                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
-                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                WHEN ( kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                WHEN kode = 'indoor' and sisi = '1' and Qty >= 1 THEN ( harga_indoor * Uk_PxL )
+                WHEN kode = 'indoor' and sisi = '1' and Qty < 1 THEN ( harga_indoor ) / Qty_LF
                 ELSE '0'
-            END) as indoor,
+            END) as b_indoor,
             (CASE
                 WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
                 WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
@@ -1535,7 +1533,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                 WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
                 WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
                 ELSE '0'
-            END) as xuli,
+            END) as b_xuli,
             (CASE
                 WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
                 WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
@@ -1658,6 +1656,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                     pricelist.3sd9m,
                     pricelist.10m,
                     pricelist.50m,
+                    pricelist.harga_indoor,
                     pricelist.special_price_LF,
                     pricelist1.1_lembar AS 1_lembar_AT,
                     pricelist1.2_lembar AS 2_lembar_AT,
@@ -1952,8 +1951,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             'oid' => $harga['oid'],
             'b_digital' => $harga['b_digital'],
             'b_lf' => $harga['b_lf'],
-            'indoor' => $harga['indoor'],
-            'xuli' => $row['xuli'],
+            'b_indoor' => $harga['b_indoor'],
+            'b_xuli' => $harga['b_xuli'],
             'b_potong' => $harga['b_potong'],
             'b_kotak' => $harga['b_kotak'],
             'b_AlatTambahan' => $harga['b_AlatTambahan'],
@@ -1963,8 +1962,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
 
     $b_digital = "";
     $b_lf = "";
-    $indoor = "";
-    $xuli = "";
+    $b_indoor = "";
+    $b_xuli = "";
     $b_potong = "";
     $b_kotak = "";
     $b_AlatTambahan = "";
@@ -1987,8 +1986,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
     $array2 = array(
         "b_digital",
         "b_lf",
-        "indoor",
-        "xuli",
+        "b_indoor",
+        "b_xuli",
         "b_potong",
         "b_kotak",
         "b_AlatTambahan",
@@ -1999,8 +1998,8 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
         $oid .= "$array[oid],";
         $b_digital .= "when oid = $array[oid] then '$array[b_digital]'";
         $b_lf .= "when oid = $array[oid] then '$array[b_lf]'";
-        $indoor .= "when oid = $array[oid] then '$array[indoor]'";
-        $xuli .= "when oid = $array[oid] then '$array[xuli]'";
+        $b_indoor .= "when oid = $array[oid] then '$array[b_indoor]'";
+        $b_xuli .= "when oid = $array[oid] then '$array[b_xuli]'";
         $b_laminate .= "when oid = $array[oid] then '$array[b_laminate]'";
         $b_potong .= "when oid = $array[oid] then '$array[b_potong]'";
         $b_kotak .= "when oid = $array[oid] then '$array[b_kotak]'";
@@ -2074,10 +2073,10 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
                                 $b_potong
                             END),
                 b_indoor = (CASE 
-                                $indoor
+                                $b_indoor
                             END),
                 b_xuli = (CASE 
-                                $xuli
+                                $b_xuli
                          END),
                 b_xbanner = (CASE 
                                 $b_AlatTambahan
@@ -2397,7 +2396,7 @@ elseif ($_POST['jenis_submit'] == 'Update_SO_Invoice' and $_POST['Auto_Calc'] ==
             ";
     }
 
-    if($_POST['kode']== "Xuli") {
+    if ($_POST['Kode_Brg'] == "Xuli") {
         $db_indoor = "b_xuli";
     } else {
         $db_indoor = "b_indoor";
@@ -4442,6 +4441,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                 penjualan.b_potong AS Biaya_Potong,
                 penjualan.b_large AS Biaya_Large,
                 penjualan.b_indoor AS Biaya_Indoor,
+                penjualan.b_xuli as Biaya_Xuli,
                 penjualan.b_xbanner AS Biaya_Xbanner,
                 penjualan.b_lain AS Biaya_Lain,
                 penjualan.b_laminate AS Biaya_Laminate,
@@ -4625,13 +4625,10 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     ELSE '0'
                 END) as b_lf,
                 (CASE
-                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
-                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
-                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 3 THEN ( 3sd9m * Uk_PxL )
-                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
-                    WHEN ( kode = 'indoor' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
+                    WHEN kode = 'indoor' and sisi = '1' and Qty >= 1 THEN ( harga_indoor * Uk_PxL )
+                    WHEN kode = 'indoor' and sisi = '1' and Qty < 1 THEN ( harga_indoor ) / Qty_LF
                     ELSE '0'
-                END) as indoor,
+                END) as b_indoor,
                 (CASE
                     WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 50 THEN ( 50m * Uk_PxL )
                     WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 10 THEN ( 10m * Uk_PxL )
@@ -4639,7 +4636,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                     WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty >= 1 THEN ( 1sd2m * Uk_PxL )
                     WHEN ( kode = 'Xuli' ) and sisi = '1' and Qty < 1 THEN ( 1sd2m ) / Qty_LF
                     ELSE '0'
-                END) as xuli,
+                END) as b_xuli,
                 (CASE
                     WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 500 THEN 500_lembar_AT
                     WHEN ( kode = 'digital' OR kode = 'etc' ) and ID_AT = '31' and satuan = 'kotak' and Qty >= 250 THEN 250_lembar_AT
@@ -4762,6 +4759,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                         pricelist.3sd9m,
                         pricelist.10m,
                         pricelist.50m,
+                        pricelist.harga_indoor,
                         pricelist.special_price_LF,
                         pricelist1.1_lembar AS 1_lembar_AT,
                         pricelist1.2_lembar AS 2_lembar_AT,
@@ -5058,8 +5056,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                 'oid' => $harga['oid'],
                 'b_digital' => $harga['b_digital'],
                 'b_lf' => $harga['b_lf'],
-                'indoor' => $harga['indoor'],
-                'xuli' => $row['xuli'],
+                'b_indoor' => $harga['b_indoor'],
+                'b_xuli' => $harga['b_xuli'],
                 'b_potong' => $harga['b_potong'],
                 'b_kotak' => $harga['b_kotak'],
                 'b_AlatTambahan' => $harga['b_AlatTambahan'],
@@ -5069,8 +5067,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
 
         $b_digital = "";
         $b_lf = "";
-        $indoor = "";
-        $xuli = "";
+        $b_indoor = "";
+        $b_xuli = "";
         $b_potong = "";
         $b_kotak = "";
         $b_AlatTambahan = "";
@@ -5093,8 +5091,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
         $array2 = array(
             "b_digital",
             "b_lf",
-            "indoor",
-            "xuli",
+            "b_indoor",
+            "b_xuli",
             "b_potong",
             "b_kotak",
             "b_AlatTambahan",
@@ -5105,8 +5103,8 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
             $oid .= "$array[oid],";
             $b_digital .= "when oid = $array[oid] then '$array[b_digital]'";
             $b_lf .= "when oid = $array[oid] then '$array[b_lf]'";
-            $indoor .= "when oid = $array[oid] then '$array[indoor]'";
-            $xuli .= "when oid = $array[oid] then '$array[xuli]'";
+            $b_indoor .= "when oid = $array[oid] then '$array[b_indoor]'";
+            $b_xuli .= "when oid = $array[oid] then '$array[b_xuli]'";
             $b_laminate .= "when oid = $array[oid] then '$array[b_laminate]'";
             $b_potong .= "when oid = $array[oid] then '$array[b_potong]'";
             $b_kotak .= "when oid = $array[oid] then '$array[b_kotak]'";
@@ -5168,11 +5166,11 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
                                     $b_potong
                                 END),
                     b_indoor = (CASE 
-                                    $indoor
+                                $b_indoor
                                 END),
                     b_xuli = (CASE 
-                                $xuli
-                            END),
+                                $b_xuli
+                                END),
                     b_xbanner = (CASE 
                                     $b_AlatTambahan
                                 END),
@@ -5249,6 +5247,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
             penjualan.b_potong AS Biaya_Potong,
             penjualan.b_large AS Biaya_Large,
             penjualan.b_indoor AS Biaya_Indoor,
+            penjualan.b_xuli AS Biaya_Xuli,
             penjualan.b_xbanner AS Biaya_Xbanner,
             penjualan.b_laminate AS Biaya_Laminate,
             (CASE
@@ -5397,7 +5396,7 @@ elseif ($_POST['jenis_submit'] == 'Update_PenjualanYESCOM' and $_POST['Auto_Calc
         $Final_log = "";
     endif;
 
-    if($_POST['kode']== "Xuli") {
+    if ($_POST['kode'] == "Xuli") {
         $db_indoor = "b_xuli";
     } else {
         $db_indoor = "b_indoor";

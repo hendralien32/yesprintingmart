@@ -29,10 +29,10 @@ $sql =
             ELSE penjualan.bahan
         END)) as bahan,
         GROUP_CONCAT(CONCAT('<b>',penjualan.qty, '</b> ' ,penjualan.satuan)) as qty,
-        GROUP_CONCAT((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)) as harga_satuan,
+        GROUP_CONCAT((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)) as harga_satuan,
         GROUP_CONCAT(penjualan.discount) as discount,
-        GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)*penjualan.qty)) as total,
-        sum((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)*penjualan.qty) as Total_keseluruhan,
+        GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)*penjualan.qty)) as total,
+        sum((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)*penjualan.qty) as Total_keseluruhan,
         sum(penjualan.discount*penjualan.qty) as total_discount,
         pelunasan.total_bayar,
         pelunasan.Tgl_Pelunasan,

@@ -298,9 +298,9 @@
                         END) SEPARATOR ',_') as bahan,
                         GROUP_CONCAT(penjualan.qty SEPARATOR ',_') as qty,
                         GROUP_CONCAT(penjualan.satuan SEPARATOR ',_') as satuan,
-                        GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount) SEPARATOR ',_') as harga_satuan,
-                        GROUP_CONCAT((((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) SEPARATOR ',_') as total,
-                        sum((((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty)) as test
+                        GROUP_CONCAT(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount) SEPARATOR ',_') as harga_satuan,
+                        GROUP_CONCAT((((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) SEPARATOR ',_') as total,
+                        sum((((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty)) as test
                     FROM
                         penjualan
                     LEFT JOIN 

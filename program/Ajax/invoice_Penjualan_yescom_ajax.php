@@ -91,8 +91,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['sear
             penjualan.client_yes,
             penjualan.id_yes,
             penjualan.so_yes,
-            (penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_indoor) as harga_satuan,
-            (penjualan.qty*(penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_indoor)) as total
+            (penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_indoor+penjualan.b_xuli) as harga_satuan,
+            (penjualan.qty*(penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_indoor+penjualan.b_xuli)) as total
         from
             penjualan
         LEFT JOIN 

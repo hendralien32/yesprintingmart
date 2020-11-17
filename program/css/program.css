@@ -583,6 +583,58 @@ a:hover {
   vertical-align: middle;
 }
 
+#dashboard {
+  width: 100%;
+  display :flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+}
+
+#dashboard #plugin {
+  width:19%;
+  height: 3%;
+  border-radius: 0.7em;
+  padding:10px;
+  margin: 0px 8px 8px 0px;
+  background-color:#127681;
+  color:white;
+}
+
+#dashboard #plugin #isi {
+  display:flex;
+  align-items :center;
+}
+
+#dashboard #plugin #isi .ikon_kiri {
+  font-size: 7em;
+  padding:0px 0px 0px 15px;
+}
+
+#dashboard #plugin #isi .keterangan_kanan {
+  font-size: 0.7em;
+  margin:0px;
+  padding:0px 0px 0px 15px;
+}
+
+#dashboard #plugin #isi .keterangan_kanan p {
+  padding:0px;
+  margin:0px;
+  font-size: 1.7em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+#dashboard #plugin #isi .keterangan_kanan span {
+  font-size: 2.5em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+
+#dashboard #footer {
+  background-color: #0a3236;
+}
+
 #wrapper {
   width: 100%;
   margin: 0px auto;

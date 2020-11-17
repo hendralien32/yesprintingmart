@@ -392,7 +392,7 @@ endif;
                             require_once('laporan_SetoranBank.php');
                             break;
                         default:
-                            require_once('test.php');
+                            require_once('dashboard.php');
                     endswitch;
                 else :
                     echo "$page";

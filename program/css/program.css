@@ -592,7 +592,6 @@ a:hover {
 
 #dashboard #plugin {
   width: 19%;
-  height: 3%;
   border-radius: 0.7em;
   padding: 10px;
   margin: 0px 8px 8px 0px;
@@ -603,6 +602,11 @@ a:hover {
 
 #dashboard #plugin a {
   color: white;
+}
+
+#dashboard #plugin #read_more {
+  position: relative;
+  font-size: 2em;
 }
 
 #dashboard #plugin #isi {
@@ -1111,6 +1115,15 @@ div#generator_container button[type="button"] {
     font-size: 0.7rem;
   }
 
+  #dashboard #plugin {
+    height: 130px;
+  }
+
+  #dashboard #plugin #read_more {
+    left: 88%;
+    top: -40px;
+  }
+
   #isidetail {
     width: 85%;
     margin-left: -40%;
@@ -1176,6 +1189,15 @@ div#generator_container button[type="button"] {
 @media (min-width: 1920px) {
   #wrapper {
     font-size: 0.65vw;
+  }
+
+  #dashboard #plugin {
+    height: 150px;
+  }
+
+  #dashboard #plugin #read_more {
+    left: 90%;
+    top: -35px;
   }
 
   #isidetail {

@@ -30,6 +30,9 @@
                     <span><?= number_format($result); ?> Jobs</span>
                 </div>
             </div>
+            <div id='read_more'>
+            <i class="far fa-arrow-circle-right"></i>
+            </div>
             </a>
         </div>
 

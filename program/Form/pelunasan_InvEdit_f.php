@@ -43,6 +43,7 @@
                         penjualan.b_kotak + 
                         penjualan.b_laminate + 
                         penjualan.b_indoor + 
+                        penjualan.b_xuli + 
                         penjualan.b_potong + 
                         penjualan.b_design + 
                         penjualan.b_lain +
@@ -63,6 +64,7 @@
                         penjualan.b_potong +
                         penjualan.b_design +
                         penjualan.b_indoor +
+                        penjualan.b_xuli + 
                         penjualan.b_delivery
                         ) - penjualan.discount
                     ) 

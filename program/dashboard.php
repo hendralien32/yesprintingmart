@@ -1,4 +1,5 @@
-<?php if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
+<?php require_once "../function.php"; 
+if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
     <h3>DIGITAL PRINTING STATS</h3>
     <div id='dashboard'>
         <div id='plugin'>
@@ -192,7 +193,7 @@
             </div>
         </div>
 
-        <div id='plugin'>
+        <div id='plugin' class="pointer" onclick="LaodSubForm('List_kekurangan_stok')">
             <div id='isi'>
                 <div class='ikon_kiri'>
                     <i class="fal fa-sticky-note"></i>
@@ -295,6 +296,9 @@
                     ?>
                     <span><?= number_format($result); ?> Jenis</span>
                 </div>
+            </div>
+            <div id='read_more'>
+                <i class="far fa-external-link-square-alt"></i>
             </div>
         </div>
         <div id='plugin'>

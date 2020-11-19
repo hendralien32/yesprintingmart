@@ -12,7 +12,8 @@
                     penjualan.b_large + 
                     penjualan.b_kotak + 
                     penjualan.b_laminate + 
-                    penjualan.b_indoor + 
+                    penjualan.b_indoor +
+                    penjualan.b_xuli + 
                     penjualan.b_potong + 
                     penjualan.b_design + 
                     penjualan.b_lain +
@@ -33,6 +34,7 @@
                     penjualan.b_potong +
                     penjualan.b_design +
                     penjualan.b_indoor +
+                    penjualan.b_xuli +
                     penjualan.b_delivery
                     ) - penjualan.discount
                 ) 
@@ -199,9 +201,9 @@ endif;
                                 WHEN penjualan.lebar > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
                                 ELSE ''
                             END) as ukuran,
-                            ((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount) as harga_satuan,
+                            ((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount) as harga_satuan,
                             penjualan.discount as discount,
-                            (((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as total
+                            (((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as total
                         FROM
                             penjualan
                         WHERE

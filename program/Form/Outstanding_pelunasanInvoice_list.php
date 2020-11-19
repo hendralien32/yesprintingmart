@@ -37,7 +37,7 @@
                                     penjualan.client,
                                     customer.nama_client,
                                     LEFT( penjualan.invoice_date, 10 ) as tanggal,
-                                    sum(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as Total_keseluruhan,
+                                    sum(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as Total_keseluruhan,
                                     COALESCE(pelunasan.total_bayar,0) as total_bayar
                                 FROM
                                     penjualan
@@ -181,7 +181,7 @@
                                                             penjualan.no_invoice,                                                      
                                                             penjualan.client,
                                                             customer.nama_client,
-                                                            sum(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as Total_keseluruhan,
+                                                            sum(((penjualan.b_digital+penjualan.b_xbanner+penjualan.b_lain+penjualan.b_offset+penjualan.b_large+penjualan.b_kotak+penjualan.b_laminate+penjualan.b_potong+penjualan.b_design+penjualan.b_indoor+penjualan.b_xuli+penjualan.b_delivery)-penjualan.discount)*penjualan.qty) as Total_keseluruhan,
                                                             COALESCE(pelunasan.total_bayar,0) as total_bayar
                                                         FROM
                                                             penjualan

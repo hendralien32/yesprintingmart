@@ -13,7 +13,7 @@ $mesin_Session = isset($_SESSION['session_MesinDP']) ? $_SESSION['session_MesinD
         <option value="">Pilih Mesin</option>
         <?php
         $array_kode = array(
-            "Konika_C-1085" => "Konika C-1085",
+            "Konika_C-6085" => "Konika C-6085",
             "Konika_C7000" => "Konika C-7000"
         );
         foreach ($array_kode as $kode => $kd) :

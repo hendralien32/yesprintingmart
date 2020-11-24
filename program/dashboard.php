@@ -45,7 +45,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                 <div class='keterangan_kanan'>
                     <p>Digital Printing</p>
                     <p>Total Print FC</p>
-                    <p>Mesin C-1085</p>
+                    <p>Mesin C-6085</p>
                     <?php
                     $sql =
                         "SELECT
@@ -56,7 +56,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                         FROM
                             digital_printing
                         WHERE
-                            digital_printing.mesin = 'Konika_C-1085' and 
+                            digital_printing.mesin = 'Konika_C-6085' and 
                             LEFT(digital_printing.tgl_cetak,7) = '$months'
                     ";
                     $result = $conn_OOP->query($sql);
@@ -76,7 +76,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                 <div class='keterangan_kanan'>
                     <p>Digital Printing</p>
                     <p>Total Print BW</p>
-                    <p>Mesin C-1085</p>
+                    <p>Mesin C-6085</p>
                     <?php
                     $sql =
                         "SELECT
@@ -87,7 +87,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                         FROM
                             digital_printing
                         WHERE
-                            digital_printing.mesin = 'Konika_C-1085' and 
+                            digital_printing.mesin = 'Konika_C-6085' and 
                             LEFT(digital_printing.tgl_cetak,7) = '$months'
                     ";
                     $result = $conn_OOP->query($sql);
@@ -107,7 +107,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                 <div class='keterangan_kanan'>
                     <p>Digital Printing</p>
                     <p>Error & Maintanance</p>
-                    <p>Mesin C-1085</p>
+                    <p>Mesin C-6085</p>
                     <?php
                     $sql =
                         "SELECT
@@ -130,7 +130,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                         FROM
                             digital_printing
                         WHERE
-                            digital_printing.mesin = 'Konika_C-1085' and 
+                            digital_printing.mesin = 'Konika_C-6085' and 
                             LEFT(digital_printing.tgl_cetak,7) = '$months'
                     ";
                     $result = $conn_OOP->query($sql);
@@ -150,7 +150,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                 <div class='keterangan_kanan'>
                     <p>Digital Printing</p>
                     <p>Total Print</p>
-                    <p>Mesin C-1085</p>
+                    <p>Mesin C-6085</p>
                     <?php
                     $sql =
                         "SELECT
@@ -181,7 +181,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                         FROM
                             digital_printing
                         WHERE
-                            digital_printing.mesin = 'Konika_C-1085' and 
+                            digital_printing.mesin = 'Konika_C-6085' and 
                             LEFT(digital_printing.tgl_cetak,7) = '$months'
                     ";
                     $result = $conn_OOP->query($sql);
@@ -309,7 +309,7 @@ if ($_SESSION['level'] == "operator_dp" || $_SESSION['level'] == "admin") : ?>
                 <div class='keterangan_kanan'>
                     <p>Digital Printing</p>
                     <p>Total Print FC</p>
-                    <p>Mesin C-1085</p>
+                    <p>Mesin C-6085</p>
                     <?php
                     $sql =
                         "SELECT

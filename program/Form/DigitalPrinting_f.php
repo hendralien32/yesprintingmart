@@ -17,6 +17,10 @@ $sql =
             WHEN barang.id_barang > 0 THEN barang.nama_barang
             ELSE penjualan.bahan
         END) as bahan,
+        (CASE
+            WHEN penjualan.bahan_sendiri != '' THEN CONCAT(' ( ', penjualan.bahan_sendiri, ' )')
+            ELSE ''
+        END) as bahan_sendiri,
         customer.nama_client,
         penjualan.keterangan,
         penjualan.client_yes,
@@ -262,7 +266,7 @@ echo "
                     <input type="hidden" name="nama_bahan" id="id_BahanDigital" value='' class="form sd" readonly disabled>
                     <input type="hidden" name="validasi_bahan" id="validasi_BahanDigital" class="form sd" readonly disabled>
                     <span id="Alert_ValBahanDigital"></span>
-                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[bahan]</strong>"; ?>
+                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[bahan] $d[bahan_sendiri]</strong>"; ?>
                 </td>
             </tr>
             <tr>
@@ -287,12 +291,31 @@ echo "
             <tr>
                 <td style='width:145px'>Qty</td>
                 <td>
-                    <input id="Qty" type='number' class='form md' value="">
+                    <input id="Qty" type='number' class='form sd' value="">
                     <input id="Val_Qty" type='hidden' class='form md' value="<?= $Qty_Val; ?>">
-                    <div class="contact100-form-checkbox" style='float:right; margin-top:4px; margin-left:10px'>
-                        <input class="input-checkbox100" id="jumlah_click" type="checkbox" name="remember">
-                        <label class="label-checkbox100" for="jumlah_click"> 1 Click <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> </label>
-                    </div>
+                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> 
+                </td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Click</td>
+                <td>
+                    <label class="sisi_radio"> None
+                        <input type="radio" name="radio" id="dua_click" value="2" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="sisi_radio"> 1 ( <= 35.5 Cm / A4 / SRA4)
+                        <input type="radio" name="radio" id="satu_click" value="1">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="sisi_radio"> 4 ( >= 70 Cm)
+                        <input type="radio" name="radio" id="empat_click" value="4">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="sisi_radio"> 6  ( >= 90 Cm Maks 1,2m)
+                        <input type="radio" name="radio" id="enam_click" value="6">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class='clear'></div>
                 </td>
             </tr>
             <tr>

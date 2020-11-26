@@ -6516,15 +6516,10 @@ elseif ($_POST['jenis_submit'] == 'Update_PemotonganLF_Rusak') :
     else :
     endif;
 elseif ($_POST['jenis_submit'] == 'submit_dp') :
-    if ($_POST['jumlah_click'] == "Y") {
-        $qty_POST = $_POST['Qty'];
-        $Error_POST = $_POST['Error'];
-        $hitungan_click = 1;
-    } else {
-        $qty_POST = $_POST['Qty'] * 2;
-        $Error_POST = $_POST['Error'] * 2;
-        $hitungan_click = 2;
-    }
+
+    $qty_POST = $_POST['Qty'] * $_POST['jumlah_click'];
+    $Error_POST = $_POST['Error'] * $_POST['jumlah_click'];
+    $hitungan_click = $_POST['jumlah_click'];
 
     $Final_log =
         "<tr>
@@ -6640,15 +6635,9 @@ elseif ($_POST['jenis_submit'] == 'update_maintenance') :
             did  		  = '$_POST[id_order]'
     ";
 elseif ($_POST['jenis_submit'] == 'update_dp') :
-    if ($_POST['jumlah_click'] == "Y") {
-        $qty_POST = $_POST['Qty'];
-        $Error_POST = $_POST['Error'];
-        $hitungan_click = 1;
-    } else {
-        $qty_POST = $_POST['Qty'] * 2;
-        $Error_POST = $_POST['Error'] * 2;
-        $hitungan_click = 2;
-    }
+    $qty_POST = $_POST['Qty'] * $_POST['jumlah_click'];
+    $Error_POST = $_POST['Error'] * $_POST['jumlah_click'];
+    $hitungan_click = $_POST['jumlah_click'];
 
     $array = array(
         "Qty_OLD"   => "$_POST[Qty]",

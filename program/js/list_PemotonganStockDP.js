@@ -296,10 +296,14 @@ function submit(id) {
   let BahanDigital_OLD = $("#nama_barang_OLD").val();
   let jumlah_click;
 
-  if ($("#jumlah_click").prop("checked") == true) {
-    jumlah_click = "Y";
+  if ($("#satu_click").prop("checked") == true) {
+    jumlah_click = "1";
+  } else if ($("#empat_click").prop("checked") == true) {
+    jumlah_click = "4";
+  } else if ($("#enam_click").prop("checked") == true) {
+    jumlah_click = "6";
   } else {
-    jumlah_click = "N";
+    jumlah_click = "2";
   }
 
   let fdata = new FormData();

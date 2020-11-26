@@ -73,9 +73,10 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                     penjualan.description,
                     penjualan.client,
                     (CASE
+                        WHEN digital_printing.mesin = 'Konika_C-6085' THEN 'C6085'
                         WHEN digital_printing.mesin = 'Konika_C-1085' THEN 'C1085'
                         WHEN digital_printing.mesin = 'Konika_C7000' THEN 'C7000'
-                        ELSE '-'
+                        ELSE '- - -'
                     END) as mesin,
                     (CASE
                         WHEN digital_printing.sisi = '2' THEN digital_printing.qty_cetak * 2
@@ -86,13 +87,11 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                         ELSE digital_printing.error
                     END) as click_error,
                     (CASE
-                        WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.qty_cetak * 1)
-                        WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.qty_cetak / 2)
+                        WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.qty_cetak / digital_printing.hitungan_click)
                         ELSE ROUND(digital_printing.qty_cetak / 2)
                     END) as qty_cetak,
                     (CASE
-                        WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.error * 1)
-                        WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.error / 2)
+                        WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.error / digital_printing.hitungan_click)
                         ELSE ROUND(digital_printing.error / 2)
                     END) as error,
                     digital_printing.qty_etc,

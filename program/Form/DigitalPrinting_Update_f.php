@@ -496,7 +496,7 @@ echo "
                         <input type="radio" name="radio" id="dua_click" value="2" <?= $dua_click ?>>
                         <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 1 ( <= 35.5 Cm / A4 / SRA4)
+                    <label class="sisi_radio"> 1 ( <= 35.5 Cm )
                         <input type="radio" name="radio" id="satu_click" value="1" <?= $satu_click ?>>
                         <span class="checkmark"></span>
                     </label>
@@ -512,12 +512,12 @@ echo "
                 </td>
             </tr>
             <tr>
-                <td style='width:145px'>Alat Tambahan</td>
-                <td><input id="Qty_AlatTambahan" type='number' class='form md' value="<?= $qty_etc ?>"> <input id="id_tambahan" type='hidden' class='form md' value="<?= $d['ID_AlatTambahan'] ?>"></td>
-            </tr>
-            <tr>
                 <td style='width:145px'>Jammed</td>
                 <td><input id="Jammed" type='number' class='form md' value="<?= $jam ?>"></td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Alat Tambahan</td>
+                <td><input id="Qty_AlatTambahan" type='number' class='form md' value="<?= $qty_etc ?>"> <input id="id_tambahan" type='hidden' class='form md' value="<?= $d['ID_AlatTambahan'] ?>"></td>
             </tr>
         </table>
     </div>

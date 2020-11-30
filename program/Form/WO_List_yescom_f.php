@@ -374,7 +374,7 @@ if ($AksesEdit == "Y" or $AksesEdit == "") {
                                 "kilatdingin1" => "Laminating Kilat Dingin",
                                 "doffdingin1" => "Laminating Doff Dingin",
                                 "hard_lemit" => "Hard Laminating / Lamit KTP",
-                                "laminating_floor" => "Laminating Floor"
+                                "laminating_f" => "Laminating Floor"
                             );
                             foreach ($array_kode as $kode => $kd) :
                                 if ($kode == $leminate) {

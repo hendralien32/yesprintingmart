@@ -99,9 +99,9 @@ if ($result->num_rows > 0) :
     }
 
     if ($d['satuan'] == "Kotak" || $d['satuan'] == "KOTAK" || $d['satuan'] == "kotak") {
-        $Qty_Val = $d['Qty_Order'] * 4;
+        $Qty_Val = (int)$d['Qty_Order'] * 4;
     } else {
-        $Qty_Val = $d['Qty_Order'];
+        $Qty_Val = (int)$d['Qty_Order'];
     }
 
     if ($d['client_yes'] != "") {
@@ -292,26 +292,26 @@ echo "
                 <td style='width:145px'>Qty</td>
                 <td>
                     <input id="Qty" type='number' class='form sd' value="">
-                    <input id="Val_Qty" type='hidden' class='form md' value="<?= $Qty_Val; ?>">
+                    <input id="Val_Qty" type='hidden' class='form sd' value="<?= $Qty_Val; ?>">
                     <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> 
                 </td>
             </tr>
             <tr>
                 <td style='width:145px'>Click</td>
                 <td>
-                    <label class="sisi_radio"> None
-                        <input type="radio" name="radio" id="dua_click" value="2" checked>
+                    <label class="sisi_radio"> 1 ( <= 35.5 Cm )
+                        <input type="radio" name="radio" id="satu_click" value="1">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 1 ( <= 35.5 Cm / A4 / SRA4)
-                        <input type="radio" name="radio" id="satu_click" value="1">
+                    <label class="sisi_radio"> 2 ( <= 48,77 Cm)
+                        <input type="radio" name="radio" id="dua_click" value="2" checked>
                         <span class="checkmark"></span>
                     </label>
                     <label class="sisi_radio"> 4 ( >= 70 Cm)
                         <input type="radio" name="radio" id="empat_click" value="4">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 6  ( >= 90 Cm Maks 1,2m)
+                    <label class="sisi_radio"> 6  ( >= 90 Cm )
                         <input type="radio" name="radio" id="enam_click" value="6">
                         <span class="checkmark"></span>
                     </label>
@@ -319,12 +319,12 @@ echo "
                 </td>
             </tr>
             <tr>
-                <td style='width:145px'>Alat Tambahan</td>
-                <td><input id="Qty_AlatTambahan" type='number' class='form md' value=""> <input id="id_tambahan" type='hidden' class='form md' value="<?= $d['ID_AlatTambahan'] ?>"></td>
-            </tr>
-            <tr>
                 <td style='width:145px'>Jammed</td>
                 <td><input id="Jammed" type='number' class='form md' value=""></td>
+            </tr>
+            <tr>
+                <td style='width:145px'>Alat Tambahan</td>
+                <td><input id="Qty_AlatTambahan" type='number' class='form md' value=""> <input id="id_tambahan" type='hidden' class='form md' value="<?= $d['ID_AlatTambahan'] ?>"></td>
             </tr>
         </table>
     </div>

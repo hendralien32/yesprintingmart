@@ -60,7 +60,10 @@ $sql =
                 WHEN wo_list.Spiral = 'N' THEN 'N'
                 ELSE 'N'
         END) as Spiral,
-        wo_list.leminate,
+        (CASE
+                WHEN wo_list.leminate = 'laminating_f' THEN 'laminating_floor'
+                ELSE wo_list.leminate 
+        END) as leminate,
         wo_list.finishing,
         wo_list.qty,
         wo_list.qty_jadi,
@@ -115,10 +118,10 @@ $sql_Server =
     ";
 
 // Yesprintingmart
-$result_Server = $conn_OOP -> query($sql_Server);
+// $result_Server = $conn_OOP -> query($sql_Server);
 
 // Yescom
-// $result_Server = $conn_Server->query($sql_Server);
+$result_Server = $conn_Server->query($sql_Server);
 
 if ($result_Server->num_rows > 0) :
     $row_Server = $result_Server->fetch_assoc();
@@ -159,7 +162,8 @@ if ($_POST['ID_Order'] != "0") {
     if ($conn_OOP->multi_query($query) === TRUE) {
 ?>
 
-        <div id='generator_container'>
+        <div id='generator_container' style="user-select: none">
+            <input type='hidden' value='<?= $_POST['ID_Order'] ?>' id='wid'>
             <h3 class='title_form'><?= $_POST['judul_form'] . "<br>WID : " . $_POST['ID_Order'] . " & No ID : " . $_POST['AksesEdit'] ?></h3>
             <textarea id="generator_select" readonly>////// ACTION START ---->>><?= $generator_code ?><<<---- ACTION END //////</textarea>
             <button type="button" id="button_copy" onclick="Copy_text()"><i class="fas fa-copy"></i> Copy Code</button>

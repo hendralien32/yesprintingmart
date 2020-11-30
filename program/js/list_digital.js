@@ -202,7 +202,7 @@ function submit(id) {
   } else if ($("#validasi_BahanDigital").val() == 0) {
     alert("Nama Bahan Tidak terdaftar");
     return false;
-  } else if ($("#Qty").val() > $("#Val_Qty").val()) {
+  } else if (parseInt($("#Qty").val()) > parseInt($("#Val_Qty").val())) {
     alert("Qty Input Lebih besar dari Qty Order");
     return false;
   }

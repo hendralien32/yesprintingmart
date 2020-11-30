@@ -75,7 +75,6 @@ function search_data() {
 }
 
 function search_typedata() {
-  $("#dari_tanggal").val("");
   $("#ke_tanggal").val("");
   $("#loader").show();
   onload();
@@ -756,10 +755,27 @@ function hapus(cid, nama_WO_LIST, status_WO_LIST) {
 
 function Copy_text() {
   $("#generator_select").select();
-  document.execCommand("copy");
-  $("#button_copy").html("<i class='fas fa-copy'></i> Copied Success !");
-  $("#button_copy").animate({
-    width: "30%",
+  var wid = $("#wid").val();
+  $.ajax({
+    type: "POST",
+    url: "progress/setter_penjualan_prog.php",
+    data: {
+      WO_LIST_ID: wid,
+      jenis_submit: "lock_woList"
+    },
+    success: function (data) {
+      alert('WO List "' + wid + '" sudah di Lock');
+      document.execCommand("copy");
+      $("#button_copy").html("<i class='fas fa-copy'></i> Copied Success !");
+      $("#button_copy").animate({
+        width: "30%",
+      });
+      onload();
+      return false;
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      $("#bagDetail").html(XMLHttpRequest);
+    },
   });
 }
 

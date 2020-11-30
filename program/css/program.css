@@ -203,13 +203,13 @@
   left: 0;
   height: 15px;
   width: 15px;
-  background-color: #eee;
+  background-color: rgb(211, 211, 211);
   border-radius: 50%;
 }
 
 /* On mouse-over, add a grey background color */
 .sisi_radio:hover input ~ .checkmark {
-  background-color: #ccc;
+  background-color: rgb(146, 146, 146);
 }
 
 /* When the radio button is checked, add a blue background */

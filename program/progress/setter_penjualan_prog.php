@@ -3861,7 +3861,7 @@ elseif ($_POST['jenis_submit'] == 'Insert_WO_List') :
             '$_POST[warna_cetakan]',
             '$_POST[alat_tambahan]',
             '$Final_log',
-            'N'
+            'Y'
         )
         ";
 elseif ($_POST['jenis_submit'] == 'delete_WOLIST') :
@@ -6945,6 +6945,15 @@ elseif ($_POST['jenis_submit'] == 'submit_AdjustStock') :
             hapus
         )  VALUES $Insert_keluar
         ;
+    ";
+elseif ($_POST['jenis_submit'] == 'lock_woList') :
+    $sql =
+        "UPDATE
+            wo_list
+        SET
+            akses_edit = 'N'
+        WHERE
+            wio = $_POST[WO_LIST_ID];
     ";
 elseif ($_POST['jenis_submit'] == 'xxxx') :
 endif;

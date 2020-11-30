@@ -5,14 +5,20 @@ require_once "../../function.php";
 if ($_POST['search'] != "") {
     $add_where = "and ( wo_list.id LIKE '%$_POST[search]%' or wo_list.client LIKE '%$_POST[search]%' or wo_list.project LIKE '%$_POST[search]%' or wo_list.so LIKE '%$_POST[search]%' )";
 } else {
-    if ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] != "") :
-        $add_where = "and (LEFT( wo_list.date_create, 10 )>='$_POST[Dari_Tanggal]' and LEFT( wo_list.date_create, 10 )<='$_POST[Ke_Tanggal]')";
-    elseif ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] == "") :
-        $add_where = "and (LEFT( wo_list.date_create, 10 )='$_POST[Dari_Tanggal]')";
-    elseif ($_POST['Dari_Tanggal'] == "" and $_POST['Ke_Tanggal'] != "") :
-        $add_where = "and (LEFT( wo_list.date_create, 10 )='$_POST[Ke_Tanggal]')";
+    if ($_POST['warna_wo'] != '') :
+        $show_WO_Color = "and wo_list.wo_color = '$_POST[warna_wo]'";
     else :
-        $add_where = "";
+        $show_WO_Color = "";
+    endif;
+
+    if ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] != "") :
+        $add_where = "and (LEFT( wo_list.date_create, 10 )>='$_POST[Dari_Tanggal]' and LEFT( wo_list.date_create, 10 )<='$_POST[Ke_Tanggal]') $show_WO_Color";
+    elseif ($_POST['Dari_Tanggal'] != "" and $_POST['Ke_Tanggal'] == "") :
+        $add_where = "and (LEFT( wo_list.date_create, 10 )='$_POST[Dari_Tanggal]') $show_WO_Color";
+    elseif ($_POST['Dari_Tanggal'] == "" and $_POST['Ke_Tanggal'] != "") :
+        $add_where = "and (LEFT( wo_list.date_create, 10 )='$_POST[Ke_Tanggal]') $show_WO_Color";
+    else :
+        $add_where = "$show_WO_Color";
     endif;
 }
 
@@ -20,12 +26,6 @@ if ($_POST['Check_box'] == 'Y') :
     $show_delete = "deleted";
 else :
     $show_delete = "";
-endif;
-
-if ($_POST['warna_wo'] != '') :
-    $show_WO_Color = "and wo_list.wo_color = '$_POST[warna_wo]'";
-else :
-    $show_WO_Color = "";
 endif;
 ?>
 
@@ -68,9 +68,8 @@ endif;
                 WHERE
                     wo_list.status = '$show_delete'
                     $add_where
-                    $show_WO_Color
                 ORDER BY
-                    wo_list.id
+                    wo_list.wio
                 DESC
                 ";
         $no = 0;

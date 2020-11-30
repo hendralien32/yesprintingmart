@@ -384,7 +384,7 @@ else :
                     <tr>
                         <td style='width:150px;' rowspan="2">Bahan</td>
                         <td>
-                            <input type='text' class='form md' id="bahan" autocomplete="off" onchange="autoCalc()" onkeyup="test('bahan')" value='<?= $nama_barang ?>' onChange="validasi('bahan'); Check_KertasSendiri();">
+                            <input type='text' class='form md' id="bahan" autocomplete="off" onkeyup="test('bahan')" value='<?= $nama_barang ?>' onChange="validasi('bahan'); autoCalc(); Check_KertasSendiri();">
                             <input type='text' id='id_bahan' class='form sd' value='<?= $ID_Bahan ?>' readonly disabled style="display:none">
                             <input type='text' id='validasi_bahan' class='form sd' value='<?= $validasi_bahan ?>' readonly disabled style="display:none">
                             <span id="Alert_Valbahan"></span>

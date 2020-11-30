@@ -165,7 +165,12 @@ endif;
                         <li class='<?= ($tab == 'SalesYPM') ? 'active' : ''; ?>'>Penjualan</li>
                     </a>
                 <?php endif; ?>
-                <?php if ($_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
+               
+                <?php if ($_SESSION['level'] == "creative_support" || $_SESSION['level'] == "admin_yes") : ?>
+                    <a href="?page=Wo_List&tab=SalesYescom">
+                        <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
+                    </a>
+                <?php elseif ($_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
                     <a href="?page=penjualan_YESCOM&tab=SalesYescom">
                         <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
                     </a>

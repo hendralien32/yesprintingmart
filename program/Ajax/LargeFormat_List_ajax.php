@@ -85,7 +85,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                                 ON
                                     penjualan.ID_Bahan = barang.id_barang 
                                 WHERE
-                                    penjualan.kode = 'large format' and
+                                    ( penjualan.kode = 'large format' or penjualan.kode='indoor' or penjualan.kode='Xuli' ) and
                                     penjualan.inv_check = 'Y' and
                                     penjualan.status != 'selesai' and
                                     penjualan.cancel != 'Y'

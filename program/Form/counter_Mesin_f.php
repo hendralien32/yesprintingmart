@@ -5,7 +5,7 @@ require_once "../../function.php";
 $ID_Order = isset($_POST['ID_Order']) ? $_POST['ID_Order'] : "";
 
 if($ID_Order != "") : $add_where = "WHERE billing_konika.billing_id='$ID_Order'";
-else : $add_where = "";
+else : $add_where = "WHERE billing_konika.tanggal_billing='$date' and billing_konika.mesin='$_SESSION[session_MesinDP]'";
 endif;
 
 $sql =
@@ -77,20 +77,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             <tr>
                 <td style='width:145px'>Mesin</td>
                 <td>
-                    <select id="type_mesin">
-                        <?php
-                        $array_kode = array(
-                            "Konika_C-6085" => "Konika C-6085",
-                            "Konika_C7000" => "Konika C-7000"
-                        );
-                        foreach ($array_kode as $kode => $kd) :
-                            if ($kode == "$_SESSION[session_MesinDP]") : $pilih = "selected";
-                            else : $pilih = "";
-                            endif;
-                            echo "<option value='$kode' $pilih>$kd</option>";
-                        endforeach;
-                        ?>
-                    </select>
+                    <?= $_SESSION['session_MesinDP'] ?>
                 </td>
             </tr>
             <tr>

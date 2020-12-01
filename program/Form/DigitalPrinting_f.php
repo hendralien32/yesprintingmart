@@ -66,7 +66,8 @@ $sql =
         penjualan.ditunggu,
         penjualan.satuan,
         penjualan.qty as Qty_Order,
-        setter.nama
+        setter.nama,
+        ( penjualan.qty - sisa_qty.qty_cetak ) as qty_cetak
     FROM 
         penjualan
     LEFT JOIN 
@@ -76,7 +77,22 @@ $sql =
     LEFT JOIN 
         (select pm_user.uid, pm_user.nama from pm_user) setter
     ON
-        penjualan.setter = setter.uid  
+        penjualan.setter = setter.uid 
+    LEFT JOIN 
+        (
+            select 
+                digital_printing.oid, 
+                sum((CASE
+                    WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.qty_cetak / digital_printing.hitungan_click)
+                    ELSE ROUND(digital_printing.qty_cetak / 2)
+                END)) as qty_cetak
+            from 
+                digital_printing
+            WHERE
+            	digital_printing.oid = '$ID_Order'
+        ) sisa_qty
+    ON
+        penjualan.oid = sisa_qty.oid  
     LEFT JOIN 
         (select barang.id_barang, barang.nama_barang from barang) barang
     ON
@@ -293,25 +309,23 @@ echo "
                 <td>
                     <input id="Qty" type='number' class='form sd' value="">
                     <input id="Val_Qty" type='hidden' class='form sd' value="<?= $Qty_Val; ?>">
-                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> 
+                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> " . number_format($d['qty_cetak']) . " $d[satuan]</strong>"; ?>
                 </td>
             </tr>
             <tr>
                 <td style='width:145px'>Click</td>
                 <td>
-                    <label class="sisi_radio"> 1 ( <= 35.5 Cm )
-                        <input type="radio" name="radio" id="satu_click" value="1">
-                        <span class="checkmark"></span>
+                    <label class="sisi_radio"> 1 ( <= 35.5 Cm ) <input type="radio" name="radio" id="satu_click" value="1">
+                            <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 2 ( <= 48,77 Cm)
-                        <input type="radio" name="radio" id="dua_click" value="2" checked>
-                        <span class="checkmark"></span>
+                    <label class="sisi_radio"> 2 ( <= 48,77 Cm) <input type="radio" name="radio" id="dua_click" value="2" checked>
+                            <span class="checkmark"></span>
                     </label>
                     <label class="sisi_radio"> 4 ( >= 70 Cm)
                         <input type="radio" name="radio" id="empat_click" value="4">
                         <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 6  ( >= 90 Cm )
+                    <label class="sisi_radio"> 6 ( >= 90 Cm )
                         <input type="radio" name="radio" id="enam_click" value="6">
                         <span class="checkmark"></span>
                     </label>
@@ -412,13 +426,11 @@ echo "
             "SELECT 
                 digital_printing.tgl_cetak,
                 (CASE
-                    WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.qty_cetak * 1)
-                    WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.qty_cetak / 2)
+                    WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.qty_cetak / digital_printing.hitungan_click)
                     ELSE ROUND(digital_printing.qty_cetak / 2)
                 END) as qty_cetak,
                 (CASE
-                    WHEN digital_printing.hitungan_click = '1' THEN ROUND(digital_printing.error * 1)
-                    WHEN digital_printing.hitungan_click = '2' THEN ROUND(digital_printing.error / 2)
+                    WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.error / digital_printing.hitungan_click)
                     ELSE ROUND(digital_printing.error / 2)
                 END) as error,
                 digital_printing.qty_etc,

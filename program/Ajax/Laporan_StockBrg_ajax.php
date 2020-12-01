@@ -211,7 +211,9 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
 
             WHERE
                 barang.jenis_barang = '$jenis_stock' and
-                barang.status_bahan = 'a'
+                barang.status_bahan = 'a' and
+                barang.id_barang != '69' and
+                barang.id_barang != '8'
             order BY
 				barang.nama_barang
 			asc

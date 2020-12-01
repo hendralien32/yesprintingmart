@@ -189,7 +189,11 @@ $sql =
         OLD_digital_KodeBrg.kode_bahan = barang.kode_barang
 
     WHERE
-        barang.jenis_barang = 'KRTS'
+        barang.jenis_barang = 'KRTS' and
+        barang.status_bahan != 'n' and
+        barang.id_barang != '69' and
+        barang.id_barang != '8'
+
     order BY
         barang.nama_barang
     asc

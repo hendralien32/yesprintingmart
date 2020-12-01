@@ -107,6 +107,9 @@ if ($search != "") {
                 $add_where
             GROUP BY
                 flow_barang.no_do
+            ORDER BY
+                flow_barang.tanggal
+            ASC
         ";
 
     $n = 0;

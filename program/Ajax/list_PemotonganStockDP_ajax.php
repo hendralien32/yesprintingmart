@@ -14,7 +14,7 @@ $daftar_hari = array(
     'Saturday' => 'Sabtu'
 );
 
-if($mesin_Session != "") {
+if ($mesin_Session != "") {
     $where_mesin = "and digital_printing.mesin = '$mesin_Session'";
 } else {
     $where_mesin = "";
@@ -28,7 +28,7 @@ else :
     $add_where = "LEFT(digital_printing.tgl_cetak,10) = '$date'";
 endif;
 
-   
+
 if ($_POST['date'] != '') :
     $tanggal_total = date("d F Y", strtotime($_POST['date']));
     $namahari = date('l', strtotime($_POST['date']));
@@ -60,8 +60,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             <th width="5%">ETC</th>
         </tr>
         <?php
-            $sql =
-                "SELECT
+        $sql =
+            "SELECT
                     digital_printing.did,
                     digital_printing.oid,
                     digital_printing.maintanance,
@@ -161,41 +161,41 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 DESC
             ";
 
-            $n = 0;
-            $result = $conn_OOP->query($sql);
+        $n = 0;
+        $result = $conn_OOP->query($sql);
 
-            $jumlahQry = $result->num_rows;
+        $jumlahQry = $result->num_rows;
 
-            if ($result->num_rows > 0) :
-                while ($d = $result->fetch_assoc()) :
-                    $n++;
+        if ($result->num_rows > 0) :
+            while ($d = $result->fetch_assoc()) :
+                $n++;
 
-                    if($d['maintanance']=="Y") {
-                        $icon_maintanance = "<strong style='color:#f1592a'><i class='fas fa-wrench'></i> Maintanance Mesin $d[mesin]</strong>";
-                        $edit = "LaodSubForm(\"maintenance_DP\", \"" . $d['did'] . "\")";
-                    } else {
-                        $icon_maintanance = ""; 
-                        $edit = "LaodForm(\"DigitalPrinting_Update\", \"" . $d['did'] . "\")";
-                    }
+                if ($d['maintanance'] == "Y") {
+                    $icon_maintanance = "<strong style='color:#f1592a'><i class='fas fa-wrench'></i> Maintanance Mesin $d[mesin]</strong>";
+                    $edit = "LaodSubForm(\"maintenance_DP\", \"" . $d['did'] . "\")";
+                } else {
+                    $icon_maintanance = "";
+                    $edit = "LaodForm(\"DigitalPrinting_Update\", \"" . $d['did'] . "\", \"" . $d['oid'] . "\")";
+                }
 
-                    if ($d['id_client'] == "1") :
-                        $detail_yes = "<strong>";
-                        if ($d['id_yes'] != "0") :
-                            $detail_yes .= str_ireplace($cari_keyword, $bold_cari_keyword, $d['id_yes']);
-                        else :
-                            $detail_yes .= "";
-                        endif;
-                        if ($d['so_yes'] != "0") :
-                            $detail_yes .= " / " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['so_yes']) . "";
-                        else :
-                            $detail_yes .= "";
-                        endif;
-                        $detail_yes .= " - <span style='color:#f1592a'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client_yes']) . "</span> </strong>";
+                if ($d['id_client'] == "1") :
+                    $detail_yes = "<strong>";
+                    if ($d['id_yes'] != "0") :
+                        $detail_yes .= str_ireplace($cari_keyword, $bold_cari_keyword, $d['id_yes']);
                     else :
-                        $detail_yes = "";
+                        $detail_yes .= "";
                     endif;
+                    if ($d['so_yes'] != "0") :
+                        $detail_yes .= " / " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['so_yes']) . "";
+                    else :
+                        $detail_yes .= "";
+                    endif;
+                    $detail_yes .= " - <span style='color:#f1592a'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['client_yes']) . "</span> </strong>";
+                else :
+                    $detail_yes = "";
+                endif;
 
-                    echo "
+                echo "
                         <tr>
                             <td>$n</td>
                             <td class='a-center'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</td>
@@ -205,59 +205,59 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                             <td>$d[nama_barang]</td>
                             <td class='a-center'><span class='$d[css_sisi] KodeProject'>$d[sisi]</span></td>
                             <td class='a-center'><b>$d[mesin]</b></td>
-                            <td class='a-right'><strong>" . number_format($d['qty_cetak'])  . " <span style='color:#f1592a'>(" . number_format($d['click_cetak']) . ") </span>". " </strong> Lbr</td>
+                            <td class='a-right'><strong>" . number_format($d['qty_cetak'])  . " <span style='color:#f1592a'>(" . number_format($d['click_cetak']) . ") </span>" . " </strong> Lbr</td>
                             <td class='a-right'><strong>" . number_format($d['error']) . " <span style='color:#f1592a'>(" . number_format($d['click_error']) . ") </span>" . "</strong> Lbr</td>
                             <td class='a-right'><strong>" . number_format($d['jam']) . "</strong> Lbr</td>
                             <td class='a-right'><strong>" . number_format($d['qty_etc']) . "</strong> Pcs</td>
                         </tr>
                     ";
-                    
-                    $total_etc[]   = $d['qty_etc'];
-                    $total_jam[]   = $d['jam'];
-                    $total_error[]   = $d['error'];
-                    $total_qty_cetak[]   = $d['qty_cetak'];
-                    $total_click_cetak[]   = $d['click_cetak'];
-                    $total_click_error[]   = $d['click_error'];
-                    $Nilai_total_etc = array_sum($total_etc);
-                    $Nilai_total_jam = array_sum($total_jam);
-                    $Nilai_total_click_cetak = array_sum($total_click_cetak);
-                    $Nilai_total_click_error = array_sum($total_click_error);
-                    $Nilai_total_error = array_sum($total_error);
-                    $Nilai_total_qty_cetak = array_sum($total_qty_cetak);
-                endwhile;
 
-                
-                if($Nilai_total_click_cetak == 0 || $Nilai_total_click_error == 0) :
-                    $persen_error=0;
-                    $persen_cetak=0;
-                else :
-                    $persen_error=round(($Nilai_total_click_error/$Nilai_total_click_cetak)*100,2);
-                    $persen_cetak=100-$persen_error;
-                endif;
-                
-                
-                echo "
+                $total_etc[]   = $d['qty_etc'];
+                $total_jam[]   = $d['jam'];
+                $total_error[]   = $d['error'];
+                $total_qty_cetak[]   = $d['qty_cetak'];
+                $total_click_cetak[]   = $d['click_cetak'];
+                $total_click_error[]   = $d['click_error'];
+                $Nilai_total_etc = array_sum($total_etc);
+                $Nilai_total_jam = array_sum($total_jam);
+                $Nilai_total_click_cetak = array_sum($total_click_cetak);
+                $Nilai_total_click_error = array_sum($total_click_error);
+                $Nilai_total_error = array_sum($total_error);
+                $Nilai_total_qty_cetak = array_sum($total_qty_cetak);
+            endwhile;
+
+
+            if ($Nilai_total_click_cetak == 0 || $Nilai_total_click_error == 0) :
+                $persen_error = 0;
+                $persen_cetak = 0;
+            else :
+                $persen_error = round(($Nilai_total_click_error / $Nilai_total_click_cetak) * 100, 2);
+                $persen_cetak = 100 - $persen_error;
+            endif;
+
+
+            echo "
                     <tr>
                         <th colspan='8'>Total Cetakan <span style='color:yellow'>$daftar_hari[$namahari], $tanggal_total</span></th>
                         <th class='a-left' style='text-align:right; padding-right: 0.4em;'>
-                            " . number_format($Nilai_total_qty_cetak) . " (". number_format($Nilai_total_click_cetak) .") Lbr<br>
+                            " . number_format($Nilai_total_qty_cetak) . " (" . number_format($Nilai_total_click_cetak) . ") Lbr<br>
                             <span style='color:yellow'>( $persen_cetak % )</span>
                         </th>
                         <th class='a-left' style='text-align:right; padding-right: 0.4em;'>
-                            " . number_format($Nilai_total_error) . " (". number_format($Nilai_total_click_error) .") Lbr<br>
+                            " . number_format($Nilai_total_error) . " (" . number_format($Nilai_total_click_error) . ") Lbr<br>
                             <span style='color:yellow'>( $persen_error % )</span>
                         </th>
                         <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total_jam) . " Lbr</th>
                         <th class='a-left' style='text-align:right; vertical-align:top; padding-right: 0.4em;'>" . number_format($Nilai_total_etc) . " Pcs</th>
                     </tr>
                 ";
-            else :
-                echo "
+        else :
+            echo "
                     <tr>
                         <td colspan='11'><center><b><i class='far fa-empty-set'></i> Data Tidak Ditemukan <i class='far fa-empty-set'></i></b></center></td>
                     </tr>
                 ";
-            endif;
+        endif;
         ?>
     </thead>
     <tbody>

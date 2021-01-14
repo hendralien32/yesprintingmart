@@ -3,6 +3,7 @@ session_start();
 require_once "../../function.php";
 
 $ID_Order = "$_POST[ID_Order]";
+$OID_Order = "$_POST[AksesEdit]";
 $sql =
     "SELECT
         LEFT(digital_printing.tgl_cetak,10) as tanggal,
@@ -17,6 +18,10 @@ $sql =
             WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.qty_cetak / digital_printing.hitungan_click )
             ELSE ROUND(digital_printing.qty_cetak / 2)
         END) as qty_cetak,
+        (penjualan.test + (CASE
+            WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.qty_cetak / digital_printing.hitungan_click )
+            ELSE ROUND(digital_printing.qty_cetak / 2)
+        END)) as abc,
         (CASE
             WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.error / digital_printing.hitungan_click )
             ELSE ROUND(digital_printing.error / 2)
@@ -129,13 +134,34 @@ $sql =
             penjualan.ditunggu,
             penjualan.satuan,
             penjualan.qty as Qty_Order,
-            setter.nama
+            setter.nama,
+            ((CASE
+                WHEN penjualan.satuan LIKE '%Kotak%' THEN penjualan.qty*4
+                WHEN penjualan.satuan LIKE '%pcs%' THEN penjualan.qty
+                WHEN penjualan.satuan LIKE '%lembar%' THEN penjualan.qty
+                ELSE 99999999999
+                END) - IFNULL(sisa_qty.qty_cetak,0) ) as test
         FROM 
             penjualan
         LEFT JOIN 
             (select customer.cid, customer.nama_client from customer) customer
         ON
             penjualan.client = customer.cid   
+        LEFT JOIN 
+            (
+                select 
+                    digital_printing.oid, 
+                    sum((CASE
+                        WHEN digital_printing.hitungan_click != '0' THEN ROUND(digital_printing.qty_cetak / digital_printing.hitungan_click)
+                        ELSE ROUND(digital_printing.qty_cetak / 2)
+                    END)) as qty_cetak
+                from 
+                    digital_printing
+                WHERE
+                    digital_printing.oid = '$OID_Order'
+            ) sisa_qty
+        ON
+            penjualan.oid = sisa_qty.oid  
         LEFT JOIN 
             (select pm_user.uid, pm_user.nama from pm_user) setter
         ON
@@ -456,55 +482,54 @@ echo "
             <tr>
                 <td style='width:145px'>Qty</td>
                 <td>
-                    <input id="Qty" type='number' class='form md' value="<?= $qty_cetak ?>">
-                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> $d[qty]</strong>"; ?> 
+                    <input id="Qty" type='number' class='form sd' value="<?= $qty_cetak ?>">
+                    <input id="Val_Qty" type='hidden' class='form sd' value="<?= $d['qty_cetak']; ?>">
+                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> " . number_format($d['Qty_Order']) . " $d[satuan] <span style='color:red'>( - " . number_format($d['abc']) . " Lembar )</span></strong>"; ?>
                 </td>
             </tr>
             <tr>
                 <td style='width:145px'>Click</td>
                 <td>
                     <?php
-                        if ($hitungan_click == "1") {
-                            $satu_click = "checked";
-                            $dua_click = "";
-                            $empat_click = "";
-                            $enam_click = "";
-                        } elseif ($hitungan_click == "2") {
-                            $satu_click = "";
-                            $dua_click = "checked";
-                            $empat_click = "";
-                            $enam_click = "";
-                        } elseif ($hitungan_click == "4") {
-                            $satu_click = "";
-                            $dua_click = "";
-                            $empat_click = "checked";
-                            $enam_click = "";
-                        } elseif ($hitungan_click == "6") {
-                            $satu_click = "";
-                            $dua_click = "";
-                            $empat_click = "";
-                            $enam_click = "checked";
-                        } else {
-                            $satu_click = "";
-                            $dua_click = "checked";
-                            $empat_click = "";
-                            $enam_click = "";
-                        } 
+                    if ($hitungan_click == "1") {
+                        $satu_click = "checked";
+                        $dua_click = "";
+                        $empat_click = "";
+                        $enam_click = "";
+                    } elseif ($hitungan_click == "2") {
+                        $satu_click = "";
+                        $dua_click = "checked";
+                        $empat_click = "";
+                        $enam_click = "";
+                    } elseif ($hitungan_click == "4") {
+                        $satu_click = "";
+                        $dua_click = "";
+                        $empat_click = "checked";
+                        $enam_click = "";
+                    } elseif ($hitungan_click == "6") {
+                        $satu_click = "";
+                        $dua_click = "";
+                        $empat_click = "";
+                        $enam_click = "checked";
+                    } else {
+                        $satu_click = "";
+                        $dua_click = "checked";
+                        $empat_click = "";
+                        $enam_click = "";
+                    }
                     ?>
-                
-                    <label class="sisi_radio"> None
-                        <input type="radio" name="radio" id="dua_click" value="2" <?= $dua_click ?>>
-                        <span class="checkmark"></span>
+
+                    <label class="sisi_radio"> 1 ( <= 35.5 Cm ) <input type="radio" name="radio" id="satu_click" value="1" <?= $satu_click ?>>
+                            <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 1 ( <= 35.5 Cm )
-                        <input type="radio" name="radio" id="satu_click" value="1" <?= $satu_click ?>>
-                        <span class="checkmark"></span>
+                    <label class="sisi_radio"> 2 ( <= 48,77 Cm) <input type="radio" name="radio" id="dua_click" value="2" <?= $dua_click ?>>
+                            <span class="checkmark"></span>
                     </label>
                     <label class="sisi_radio"> 4 ( >= 70 Cm)
                         <input type="radio" name="radio" id="empat_click" value="4" <?= $empat_click ?>>
                         <span class="checkmark"></span>
                     </label>
-                    <label class="sisi_radio"> 6  ( >= 90 Cm Maks 1,2m)
+                    <label class="sisi_radio"> 6 ( >= 90 Cm )
                         <input type="radio" name="radio" id="enam_click" value="6" <?= $enam_click ?>>
                         <span class="checkmark"></span>
                     </label>

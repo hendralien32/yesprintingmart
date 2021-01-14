@@ -67,7 +67,12 @@ $sql =
         penjualan.satuan,
         penjualan.qty as Qty_Order,
         setter.nama,
-        ( penjualan.qty - sisa_qty.qty_cetak ) as qty_cetak
+        ((CASE
+            WHEN penjualan.satuan LIKE '%Kotak%' THEN penjualan.qty*4
+            WHEN penjualan.satuan LIKE '%pcs%' THEN penjualan.qty
+            WHEN penjualan.satuan LIKE '%lembar%' THEN penjualan.qty
+            ELSE 99999999999
+            END) - IFNULL(sisa_qty.qty_cetak,0) ) as qty_cetak
     FROM 
         penjualan
     LEFT JOIN 
@@ -308,8 +313,8 @@ echo "
                 <td style='width:145px'>Qty</td>
                 <td>
                     <input id="Qty" type='number' class='form sd' value="">
-                    <input id="Val_Qty" type='hidden' class='form sd' value="<?= $Qty_Val; ?>">
-                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> " . number_format($d['qty_cetak']) . " $d[satuan]</strong>"; ?>
+                    <input id="Val_Qty" type='hidden' class='form sd' value="<?= $d['qty_cetak']; ?>">
+                    <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> " . number_format($d['Qty_Order']) . " $d[satuan] <span style='color:red'>( - " . number_format($d['qty_cetak']) . " Lembar )</span></strong>"; ?>
                 </td>
             </tr>
             <tr>

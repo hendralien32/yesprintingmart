@@ -483,7 +483,7 @@ echo "
                 <td style='width:145px'>Qty</td>
                 <td>
                     <input id="Qty" type='number' class='form sd' value="<?= $qty_cetak ?>">
-                    <input id="Val_Qty" type='hidden' class='form sd' value="<?= $d['qty_cetak']; ?>">
+                    <input id="Val_Qty" type='hidden' class='form sd' value="<?= $d['abc']; ?>">
                     <?php echo "<strong style='padding-left:10px; color:#ff7200;' class='noselect'><i class='fas fa-info-square'></i> " . number_format($d['Qty_Order']) . " $d[satuan] <span style='color:red'>( - " . number_format($d['abc']) . " Lembar )</span></strong>"; ?>
                 </td>
             </tr>

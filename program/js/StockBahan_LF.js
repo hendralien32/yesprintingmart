@@ -6,17 +6,18 @@ function onload() {
   $("#loader").show();
 
   var show_habis;
-  if ($("#Check_box").prop("checked") == true) {
-    show_habis = "Y";
-  } else {
-    show_habis = "N";
-  }
+  // if ($("#Check_box").prop("checked") == true) {
+  //   show_habis = "Y";
+  // } else {
+  //   show_habis = "N";
+  // }
   var search_data = $("#search_data").val();
+  var type_bahan = $("#type_bahan").val();
 
   $.ajax({
     type: "POST",
     data: {
-      show_habis: show_habis,
+      type_bahan: type_bahan,
       search_data: search_data,
     },
     url: "Ajax/StockBahan_LF_ajax.php",
@@ -30,6 +31,11 @@ function onload() {
       alert(xhr.responseText);
     },
   });
+}
+
+function search_typedata() {
+  $("#loader").show();
+  onload();
 }
 
 function Show_habis() {

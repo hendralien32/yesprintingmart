@@ -324,3 +324,7 @@ function submit_maintenance(id) {
     },
   });
 }
+
+function copy_sisa(Qty) {
+  $('#Qty').val(Qty);
+}

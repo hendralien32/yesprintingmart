@@ -6,10 +6,12 @@ require_once "../function.php";
 
 <div class="left_content">
     <input type="text" id="search_data" class='search data' placeholder="Kode Bahan, Kode Order, Nama Supplier" onchange="search_data()">
-    <span style='margin-left:10px'>
-        <input class="input-checkbox100" id="Check_box" type="checkbox" name="remember" onclick='Show_habis()'>
-        <label class="label-checkbox100" for="Check_box">Show Stock Habis</label>
-    </span>
+    <select id="type_bahan" onchange="search_typedata()">
+        <option value="D1">Bahan Terbuka</option>
+        <option value="D2">Bahan Baru</option>
+        <option value="D3">Bahan Habis</option>
+    </select>
+    <input type="text" id="session_mesin" value="Mesin : <?= $_SESSION['session_mesin'] ?>" readonly style="border:none">
 </div>
 
 <div id="list_StockBahan_LF">

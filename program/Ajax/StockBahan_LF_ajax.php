@@ -23,14 +23,31 @@ require_once "../../function.php";
         </tr>
 
         <?php
+        if ($_SESSION['session_mesin'] == "Polaris") :
+            $jenis_barang = "and barang.jenis_barang = 'LF'";
+        elseif ($_SESSION['session_mesin'] == "Xuli") :
+            $jenis_barang = "and barang.jenis_barang = 'INDOOR'";
+        elseif ($_SESSION['session_mesin'] == "HP Latex 360") :
+            $jenis_barang = "and barang.jenis_barang = 'INDOOR'";
+        else :
+            $jenis_barang = "";
+        endif;
+
         if ($_POST['search_data'] != "") {
             $add_where = "and ( flow_bahanlf.kode_pemesanan LIKE '%$_POST[search_data]%' or supplier.nama_supplier LIKE '%$_POST[search_data]%' or CONCAT(barang.nama_bahan,'.',flow_bahanlf.no_bahan) LIKE '%$_POST[search_data]%' )";
         } else {
-            $add_where = "and flow_bahanlf.habis = '$_POST[show_habis]' ";
+            if ($_POST['type_bahan'] == "D1") :
+                $add_where = "and flow_bahanlf.habis = 'N' and flow_bahanlf.tanggal_buka != '0000-00-00'";
+            elseif ($_POST['type_bahan'] == "D2") :
+                $add_where = "and flow_bahanlf.tanggal_buka = '0000-00-00'";
+            elseif ($_POST['type_bahan'] == "D3") :
+                $add_where = "and flow_bahanlf.habis = 'Y'";
+            endif;
         }
 
         $sql =
             "SELECT
+                barang.jenis_barang,
                 flow_bahanlf.bid,
                 flow_bahanlf.kode_pemesanan,
                 supplier.nama_supplier,
@@ -55,6 +72,7 @@ require_once "../../function.php";
                     SELECT
                         barang_sub_lf.ID_BarangLF,
                         barang.nama_barang,
+                        barang.jenis_barang,
                         barang_sub_lf.ukuran, 
                         concat(barang.nama_barang,'.',barang_sub_lf.ukuran) as nama_bahan
                     FROM
@@ -63,7 +81,8 @@ require_once "../../function.php";
                         (
                             SELECT
                                 barang.id_barang, 
-                                barang.nama_barang
+                                barang.nama_barang,
+                                barang.jenis_barang
                             FROM
                                 barang
                         ) barang
@@ -99,6 +118,7 @@ require_once "../../function.php";
             WHERE
                 flow_bahanlf.hapus = 'N'
                 $add_where
+                $jenis_barang
             GROUP BY
                 flow_bahanlf.bid
             ";

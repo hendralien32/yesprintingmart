@@ -1,11 +1,11 @@
 <?php
-    require_once "../function.php";
+require_once "../function.php";
 ?>
 
-<script src="js/database_client.js" async type="text/javascript" ></script>
+<script src="js/database_client.js" async type="text/javascript"></script>
 
 <div class="left_content">
-    <?php if($_SESSION['level']=="admin" or $_SESSION['level']=="CS" or $_SESSION['level']=="accounting") : ?>
+    <?php if ($_SESSION['level'] == "admin" or $_SESSION['level'] == "CS" or $_SESSION['level'] == "accounting") : ?>
         <button type="button" onclick="LaodForm('database_client')"><i class="far fa-plus-circle"></i> Add Client</button>
     <?php endif; ?>
     <input type="text" id="nama_client" class='search data' placeholder="Nama Client, Nomor Hp & Email" onchange="search_data()">

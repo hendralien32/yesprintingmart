@@ -357,3 +357,7 @@ function submit(id) {
     },
   });
 }
+
+function copy_sisa(Qty) {
+  $('#Qty').val(Qty);
+}

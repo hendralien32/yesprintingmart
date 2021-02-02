@@ -1110,6 +1110,33 @@ div#generator_container button[type="button"] {
   transition-timing-function: linear;
 }
 
+#faq_wrapper h2 {
+  font-size: 1.2rem;
+}
+
+#faq_wrapper p {
+  font-size: 0.8rem;
+}
+
+#faq_wrapper .id_faq {
+  cursor: pointer;
+}
+
+#faq_wrapper .id_faq, #faq_description {
+  font-size: 0.8rem;
+  vertical-align:middle;
+  margin-bottom: 10px;
+}
+
+#faq_description li:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+#faq_description img {
+  width: 80%;
+  margin-top:8px
+}
+
 @media (min-width: 1366px) {
   #wrapper {
     font-size: 0.7rem;

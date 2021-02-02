@@ -165,7 +165,7 @@ endif;
                         <li class='<?= ($tab == 'SalesYPM') ? 'active' : ''; ?>'>Penjualan</li>
                     </a>
                 <?php endif; ?>
-               
+
                 <?php if ($_SESSION['level'] == "creative_support" || $_SESSION['level'] == "admin_yes") : ?>
                     <a href="?page=Wo_List&tab=SalesYescom">
                         <li class='<?= ($tab == 'SalesYescom') ? 'active' : ''; ?>'>Penjualan Yescom</li>
@@ -192,6 +192,9 @@ endif;
                         </a>
                     <?php endif; ?>
                 <?php endif; ?>
+                <a href="?page=Support">
+                    <li class='<?= ($page == 'Support') ? 'active' : ''; ?>'>FAQ / Support</li>
+                </a>
                 <div class="clear"></div>
             </ul>
         </div>
@@ -395,6 +398,9 @@ endif;
                             break;
                         case 'laporan_setoran_bank':
                             require_once('laporan_SetoranBank.php');
+                            break;
+                        case 'Support':
+                            require_once('support.php');
                             break;
                         default:
                             require_once('dashboard.php');

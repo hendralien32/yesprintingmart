@@ -219,15 +219,6 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
     $num = $result->num_rows;
 
     echo $num;
-} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanDigital") {
-    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='KRTS' AND barang.status_bahan = 'a' ORDER BY barang.nama_barang LIMIT 15");
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $json[] = $row;
-        }
-        echo json_encode($json);
-    }
 } elseif ($term != "" and $tipe_validasi == "autocomplete_stockLF") {
     $sql =
         "SELECT
@@ -289,7 +280,8 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
             barang
         WHERE
             barang.status_bahan='a' and
-            barang.nama_barang LIKE '%$_POST[term]%'
+            barang.nama_barang LIKE '%$_POST[term]%' and 
+            barang.jenis_barang='KRTS'
         LIMIT
             8
     ";
@@ -324,15 +316,52 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
         endwhile;
         echo json_encode($json);
     endif;
-} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanLF") {
-    $result = mysqli_query($conn, "SELECT barang.id_barang, barang.nama_barang FROM barang where barang.nama_barang LIKE '%$_POST[term]%' and barang.jenis_barang='LF' ORDER BY barang.nama_barang LIMIT 15");
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
+} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanIndoor") {
+    $sql =
+        "SELECT 
+            barang.id_barang, 
+            barang.nama_barang 
+        FROM 
+            barang 
+        where 
+            barang.status_bahan='a' and
+            barang.nama_barang LIKE '%$_POST[term]%' and 
+            barang.jenis_barang='INDOOR'
+        ORDER BY 
+            barang.nama_barang 
+        LIMIT 
+            15
+    ";
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
             $json[] = $row;
-        }
+        endwhile;
         echo json_encode($json);
-    }
+    endif;
+} elseif ($term != "" and $tipe_validasi == "autocomplete_BahanLF") {
+    $sql =
+        "SELECT 
+            barang.id_barang, 
+            barang.nama_barang 
+        FROM 
+            barang 
+        where 
+            barang.status_bahan='a' and
+            barang.nama_barang LIKE '%$_POST[term]%' and 
+            barang.jenis_barang='LF'
+        ORDER BY 
+            barang.nama_barang 
+        LIMIT 
+            15
+    ";
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
+            $json[] = $row;
+        endwhile;
+        echo json_encode($json);
+    endif;
 } elseif ($tipe_validasi == "AutoCalc_Price") {
     if ($_POST['Kode_Brg'] == "large format" or $_POST['Kode_Brg'] == "indoor" or $_POST['Kode_Brg'] == "Xuli") :
         $ukuran  = (($_POST['Panjang'] * $_POST['Lebar']) / 10000);

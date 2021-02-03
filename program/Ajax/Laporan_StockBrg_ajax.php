@@ -56,8 +56,8 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)>='$dari_bulan' AND 
-                    left(flow_barang.tanggal, 7)<='$ke_bulan' AND
+                    left(flow_barang.tanggal, 10)>='$dari_bulan' AND 
+                    left(flow_barang.tanggal, 10)<='$ke_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -72,8 +72,8 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)>='$dari_bulan' AND 
-                    left(flow_barang.tanggal, 7)<='$ke_bulan' AND
+                    left(flow_barang.tanggal, 10)>='$dari_bulan' AND 
+                    left(flow_barang.tanggal, 10)<='$ke_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -98,8 +98,8 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)>='$dari_bulan' AND 
-                    left(digital_printing.tgl_cetak, 7)<='$ke_bulan'
+                    left(digital_printing.tgl_cetak, 10)>='$dari_bulan' AND 
+                    left(digital_printing.tgl_cetak, 10)<='$ke_bulan'
                 GROUP BY 
                     digital_printing.id_bahan
                 ) digital
@@ -123,8 +123,8 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)>='$dari_bulan' AND 
-                    left(digital_printing.tgl_cetak, 7)<='$ke_bulan'
+                    left(digital_printing.tgl_cetak, 10)>='$dari_bulan' AND 
+                    left(digital_printing.tgl_cetak, 10)<='$ke_bulan'
                 GROUP BY 
                     digital_printing.kode_bahan
                 ) digital_KodeBrg
@@ -138,7 +138,7 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)<'$dari_bulan' AND
+                    left(flow_barang.tanggal, 10)<'$dari_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -153,7 +153,7 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     flow_barang
                 WHERE
-                    left(flow_barang.tanggal, 7)<'$dari_bulan' AND
+                    left(flow_barang.tanggal, 10)<'$dari_bulan' AND
                     flow_barang.hapus != 'Y'
                 GROUP BY 
                     flow_barang.ID_Bahan
@@ -178,7 +178,7 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)<'$dari_bulan'
+                    left(digital_printing.tgl_cetak, 10)<'$dari_bulan'
                 GROUP BY 
                     digital_printing.id_bahan
                 ) OLD_digital
@@ -202,7 +202,7 @@ $ke_bulan = ($_POST['ke_bulan'] != "") ? $_POST['ke_bulan'] : $_POST['dari_bulan
                 FROM
                     digital_printing
                 WHERE
-                    left(digital_printing.tgl_cetak, 7)<'$dari_bulan'
+                    left(digital_printing.tgl_cetak, 10)<'$dari_bulan'
                 GROUP BY 
                     digital_printing.kode_bahan
                 ) OLD_digital_KodeBrg

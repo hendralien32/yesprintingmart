@@ -13,6 +13,7 @@
         <option value="">Pilih Jenis Bahan</option>
         <option value="KRTS">Kertas Digital</option>
         <option value="LF">Bahan Large Format</option>
+        <option value="INDOOR">Bahan Indoor</option>
         <option value="TNT">Tinta</option>
         <option value="SPRT">Sparepart</option>
         <option value="ETC">Lain-Lain</option>

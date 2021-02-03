@@ -431,7 +431,7 @@ input[type="text"].client {
 .left_content input[type="date"]::before,
 #isidetail input[type="date"]::before {
   content: attr(data-placeholder);
-  width: 35%;
+  width: 32%;
   color: #aaa;
   font-weight: normal;
 }
@@ -1139,6 +1139,10 @@ div#generator_container button[type="button"] {
 }
 
 @media (min-width: 1366px) {
+  .left_content input[type="date"] {
+    width: 14%;
+  }
+
   #faq_wrapper h2 {
     font-size: 1.5vw;
   }

@@ -19,8 +19,8 @@ require_once "../function.php";
         endforeach;
         ?>
     </select>
-    <input type="month" data-placeholder="Dari Bulan" id="dari_bulan" onblur="SearchFrom()" value="<?= $months; ?>" max="<?= $months ?>">
-    <input type="month" data-placeholder="Ke Bulan" id="ke_bulan" onblur="SearchTo()" max="<?= $months ?>" disabled="disabled" readonly>
+    <input type="date" data-placeholder="Dari Tgl" id="dari_bulan" onblur="SearchFrom()" value="<?= $date; ?>" max="<?= $date ?>">
+    <input type="date" data-placeholder="Ke Tgl" id="ke_bulan" onblur="SearchTo()" max="<?= $date ?>" disabled="disabled" readonly>
 </div>
 
 <div id="list_LapStockBrg">

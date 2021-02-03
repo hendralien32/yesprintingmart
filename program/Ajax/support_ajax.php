@@ -23,12 +23,12 @@
     <i class="fad fa-chevron-right"></i> Cara munculkan bleed Question di Quite Imposing</span>
 </div>
 <div class='id_faq' onclick="LaodForm('support',8)">
+    <i class="fad fa-chevron-right"></i> Cara Setting File ID Card
+</div>
+<div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> List Bahan yang support di Large Format, Indoor Xuli & Indoor Latex <span style='color:red'>[ Not Avaiable ]</span>
 </div>
 <div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> Cara Setting File Cutting Bulat ( Nb. Dengan Format Yang sudah di Buat ) <span style='color:red'>[ Not Avaiable ]</span>
-</div>
-<div class='id_faq' onclick="LaodForm('support',0)">
-    <i class="fad fa-chevron-right"></i> Cara Setting File ID Card ( Nb. Dengan Format Yang sudah di Buat ) <span style='color:red'>[ Not Avaiable ]</span>
 </div>
 <!-- <span style='color:red'>[ Not Avaiable ]</span> -->

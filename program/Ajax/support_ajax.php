@@ -11,18 +11,21 @@
     <i class="fad fa-chevron-right"></i> Cara Mengetahui Ukuran Kertas untuk print Digital Printing
 </div>
 <div class='id_faq' onclick="LaodForm('support',4)">
+    <i class="fad fa-chevron-right"></i> Cara kasih Bleed & Step and Repeat file Bleed di Acrobat Menggunakan Quite Imposing</span>
+</div>
+<div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> Cara Buka Orderan Hanya Finishing <span style='color:red'>[ Not Avaiable ]</span>
 </div>
-<div class='id_faq' onclick="LaodForm('support',4)">
+<div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> Cara Buka Orderan Hanya Laminating <span style='color:red'>[ Not Avaiable ]</span>
 </div>
-<div class='id_faq' onclick="LaodForm('support',4)">
+<div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> List Bahan yang support di Large Format, Indoor Xuli & Indoor Latex <span style='color:red'>[ Not Avaiable ]</span>
 </div>
-<div class='id_faq' onclick="LaodForm('support',1)">
+<div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> Cara Setting File Cutting Bulat ( Nb. Dengan Format Yang sudah di Buat ) <span style='color:red'>[ Not Avaiable ]</span>
 </div>
-<div class='id_faq' onclick="LaodForm('support',1)">
+<div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> Cara Setting File ID Card ( Nb. Dengan Format Yang sudah di Buat ) <span style='color:red'>[ Not Avaiable ]</span>
 </div>
 <!-- <span style='color:red'>[ Not Avaiable ]</span> -->

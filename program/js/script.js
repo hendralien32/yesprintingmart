@@ -164,7 +164,7 @@ function LaodForm(id, nid, Akses_Edit) {
         } else {
           outstandinglist();
         }
-      } else if (id == "database_pricelist") {
+      } else if (id == "database_pricelist" || id == "database_bahan") {
         ChangeKodeBrg();
       } else if (id == "penjualan_yescom" || id == "WO_List_yescom") {
         ChangeKodeBrg();

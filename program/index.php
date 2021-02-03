@@ -155,8 +155,8 @@ endif;
                 <a href="../">
                     <li class='<?= ($page == '1') ? 'active' : ''; ?>'>Dashboard</li>
                 </a>
-                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "setter"  and $_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
-                    <a href="?page=<?= ($_SESSION['level'] != 'admin_yes') ? 'Client_YPM' : 'User_YPM'; ?>&tab=DatabaseYPM">
+                <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "operator_lf" and $_SESSION['level'] != "operator_dp") : ?>
+                    <a href="?page=<?= ($_SESSION['level'] != 'admin_yes') ? 'Bahan_YPM' : 'User_YPM'; ?>&tab=DatabaseYPM">
                         <li class='<?= ($tab == 'DatabaseYPM') ? 'active' : ''; ?>'>Database</li>
                     </a>
                 <?php endif; ?>
@@ -219,7 +219,7 @@ endif;
                 </ul>
             <?php elseif ($tab == 'DatabaseYPM') : ?>
                 <ul>
-                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes") : ?>
+                    <?php if ($_SESSION['level'] != "creative_support" and $_SESSION['level'] != "admin_yes" and $_SESSION['level'] != "setter") : ?>
                         <a href="?page=Client_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Client_YPM') ? 'active' : ''; ?>'>Client Database</li>
                         </a>
@@ -236,8 +236,10 @@ endif;
                         <a href="?page=Pricelist_YPM&tab=DatabaseYPM">
                             <li class='<?= ($page == 'Pricelist_YPM') ? 'active' : ''; ?>'>Pricelist Database</li>
                         </a>
+                    <?php endif; ?>
+                    <?php if ($_SESSION['level'] == "creative_support" || $_SESSION['level'] == "admin_yes" || $_SESSION['level'] == "setter" || $_SESSION['level'] == "admin" || $_SESSION['level'] == "accounting" || $_SESSION['level'] == "CS") : ?>
                         <a href="?page=Bahan_YPM&tab=DatabaseYPM">
-                            <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
+                                <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
                         </a>
                     <?php endif; ?>
                     <div class="clear"></div>

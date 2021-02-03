@@ -12,7 +12,9 @@ if (isset($_POST['ID_Order'])) {
             barang.jenis_barang,
             barang.kode_barang,
             barang.min_stock,
-            barang.satuan
+            barang.satuan,
+            barang.panjang_kertas,
+            barang.lebar_kertas 
         FROM
             barang
         WHERE
@@ -35,6 +37,8 @@ if (isset($row)) {
     $kode_barang = $row['kode_barang'];
     $min_stock = $row['min_stock'];
     $satuan = $row['satuan'];
+    $panjang_kertas = $row['panjang_kertas'];
+    $lebar_kertas = $row['lebar_kertas'];
 } else {
     $id_barang = "";
     $nama_barang = "";
@@ -42,6 +46,8 @@ if (isset($row)) {
     $kode_barang = "";
     $min_stock = "";
     $satuan = "";
+    $panjang_kertas = "";
+    $lebar_kertas = "";
 }
 
 echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
@@ -62,7 +68,7 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
             <tr>
                 <td style='width:125px'>Jenis Bahan</td>
                 <td>
-                    <select name="" id="form_JenisBahan">
+                    <select name="" id="form_JenisBahan" onchange="ChangeKodeBrg()">
                         <option value="">Pilih Jenis Bahan</option>
                         <?php
                         $array_kode = array(
@@ -85,6 +91,10 @@ echo "<h3 class='title_form'>$_POST[judul_form]</h3>";
                         ?>
                     </select>
                 </td>
+            </tr>
+            <tr id='ukuran'>
+                <td style='width:125px'>Ukuran Kertas</td>
+                <td><input type="number" id="form_panjang" autocomplete="off" class='form sd' value="<?= $panjang_kertas ?>"> x <input type="number" id="form_lebar" autocomplete="off" class='form sd' value="<?= $lebar_kertas ?>"> Cm</td>
             </tr>
         </table>
     </div>

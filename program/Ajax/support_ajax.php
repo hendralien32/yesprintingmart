@@ -1,6 +1,6 @@
 <h2>FAQs (Pertanyaan yang Sering Diajukan)</h2>
 
-<p>Kategori FAQs merupakan kategori yang berisi tentang pertanyaan-pertanyaan yang sering ditanyakan oleh klien Niagahoster.</p>
+<p>Kategori FAQs merupakan kategori yang berisi tentang pertanyaan-pertanyaan yang sering ditanyakan oleh Program Yesprintingmart.</p>
 <div class='id_faq' onclick="LaodForm('support',1)">
     <i class="fad fa-chevron-right"></i> Cara Buka Orderan Hanya Beli Kotak kartu Nama
 </div>
@@ -8,10 +8,21 @@
     <i class="fad fa-chevron-right"></i> Cara Buka Orderan Hanya Beli Ybanner, Roller Up, Tripod & Softboard
 </div>
 <div class='id_faq' onclick="LaodForm('support',3)">
-    <i class="fad fa-chevron-right"></i>List Bahan yang support di Large Format, Indoor Xuli & Indoor Latex <span style='color:red'>[ Not Avaiable ]</span>
+    <i class="fad fa-chevron-right"></i> Cara Mengetahui Ukuran Kertas untuk print Digital Printing
 </div>
 <div class='id_faq' onclick="LaodForm('support',4)">
-    <i class="fad fa-chevron-right"></i>List Ukuran Kertas <span style='color:red'>[ Not Avaiable ]</span>
+    <i class="fad fa-chevron-right"></i> Cara Buka Orderan Hanya Finishing <span style='color:red'>[ Not Avaiable ]</span>
 </div>
-
+<div class='id_faq' onclick="LaodForm('support',4)">
+    <i class="fad fa-chevron-right"></i> Cara Buka Orderan Hanya Laminating <span style='color:red'>[ Not Avaiable ]</span>
+</div>
+<div class='id_faq' onclick="LaodForm('support',4)">
+    <i class="fad fa-chevron-right"></i> List Bahan yang support di Large Format, Indoor Xuli & Indoor Latex <span style='color:red'>[ Not Avaiable ]</span>
+</div>
+<div class='id_faq' onclick="LaodForm('support',1)">
+    <i class="fad fa-chevron-right"></i> Cara Setting File Cutting Bulat ( Nb. Dengan Format Yang sudah di Buat ) <span style='color:red'>[ Not Avaiable ]</span>
+</div>
+<div class='id_faq' onclick="LaodForm('support',1)">
+    <i class="fad fa-chevron-right"></i> Cara Setting File ID Card ( Nb. Dengan Format Yang sudah di Buat ) <span style='color:red'>[ Not Avaiable ]</span>
+</div>
 <!-- <span style='color:red'>[ Not Avaiable ]</span> -->

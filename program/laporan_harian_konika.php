@@ -14,7 +14,8 @@ $mesin_Session = isset($_SESSION['session_MesinDP']) ? $_SESSION['session_MesinD
         <?php
         $array_kode = array(
             "Konika_C-6085" => "Konika C-6085",
-            "Konika_C7000" => "Konika C-7000"
+            "Konika_C7000" => "Konika C-7000",
+            "Konika_C-1085" => "Konika C-1085"
         );
         foreach ($array_kode as $kode => $kd) :
             if ($kode == "$mesin_Session") : $pilih = "selected";

@@ -20,6 +20,7 @@
                 <th width="1%">#</th>
                 <th width="8%">Kode Barang</th>
                 <th width="25%">Nama Barang</th>
+                <th width="13%">Ukuran</th>
                 <th width="13%">Jenis Barang</th>
                 <th width="12%">Minimal Stock</th>
                 <th width="1%"></th>
@@ -33,6 +34,10 @@
                     barang.kode_barang,
                     barang.min_stock,
                     barang.satuan,
+                    (CASE
+                        WHEN barang.panjang_kertas > 0 || barang.lebar_kertas > 0 THEN CONCAT(barang.panjang_kertas, ' X ', barang.lebar_kertas, ' Cm')
+                        ELSE '- - -'
+                    END) as ukuran,
                     barang.status_bahan
                 FROM
                     barang
@@ -56,8 +61,10 @@
 
                         if($_SESSION['level']=="admin") :
                             $edit = "LaodForm(\"database_bahan\", \"". $row['id_barang'] ."\")";
+                            $hapus = "<td class='pointer' ondblclick='hapus(\"". $row['id_barang'] ."\", \"". $row['nama_barang'] ."\", \"". $row['status_bahan'] ."\")'>$icon</td>";
                         else :
                             $edit ="";
+                            $hapus ="";
                         endif;
 
                         echo "
@@ -65,9 +72,10 @@
                             <td>$no</td>
                             <td onclick='". $edit ."'>$row[kode_barang]</td>
                             <td onclick='". $edit ."'>$row[nama_barang]</td>
+                            <td onclick='". $edit ."'>$row[ukuran]</td>
                             <td onclick='". $edit ."'>$row[jenis_barang]</td>
                             <td onclick='". $edit ."'>$row[min_stock] ". ucfirst($row['satuan']) ."</td>
-                            <td class='pointer' ondblclick='hapus(\"". $row['id_barang'] ."\", \"". $row['nama_barang'] ."\", \"". $row['status_bahan'] ."\")'>$icon</td>
+                            $hapus
                         </tr>
                         ";
                     endwhile;

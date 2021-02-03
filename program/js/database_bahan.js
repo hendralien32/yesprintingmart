@@ -102,6 +102,8 @@ function submit(id) {
     const MinStock      = $('#form_MinStock').val();
     const Satuan        = $('#form_Satuan').val();
     const KodeBrng      = $('#kode_barang').val();
+    const panjang       = $('#form_panjang').val();
+    const lebar         = $('#form_lebar').val();
     
 
     if(Bahan == "") {
@@ -112,6 +114,9 @@ function submit(id) {
         return false;
     } else if( JenisBahan == "" ) {
         alert("Jenis Bahan tidak boleh Kosong");
+        return false;
+    } else if( JenisBahan == "KRTS" && ( panjang == 0 || lebar == 0 || panjang == "" || lebar == ""  ) ) {
+        alert("Ukuran Kertas Error");
         return false;
     } else if ( MinStock == "" ) {
         alert("Minimal Stock tidak boleh Kosong");
@@ -128,6 +133,8 @@ function submit(id) {
     fdata.append("MinStock", MinStock);
     fdata.append("Satuan", Satuan);
     fdata.append("KodeBrng", KodeBrng);
+    fdata.append("panjang", panjang);
+    fdata.append("lebar", lebar);
     fdata.append("jenis_submit", id);
 
     $.ajax({
@@ -152,3 +159,17 @@ function submit(id) {
         }
     });
 }
+
+function ChangeKodeBrg() {
+    var kode_barang = $("#form_JenisBahan").val();
+  
+    if (kode_barang == "KRTS") {
+      $("#ukuran").show();
+      
+    } else {
+        $("#ukuran").hide();
+        $("#form_panjang").val(0);
+        $("#form_lebar").val(0);
+    }
+}
+  

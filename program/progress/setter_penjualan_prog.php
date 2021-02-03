@@ -3565,6 +3565,8 @@ elseif ($_POST['jenis_submit'] == 'submit_bahan') :
             kode_barang,
             min_stock,
             satuan,
+            panjang_kertas,
+            lebar_kertas,
             status_bahan
         ) VALUES (
             '$_POST[Bahan]',
@@ -3572,6 +3574,8 @@ elseif ($_POST['jenis_submit'] == 'submit_bahan') :
             '$angka',
             '$_POST[MinStock]',
             '$Satuan',
+            '$_POST[panjang]',
+            '$_POST[lebar]',
             'a'
         )
         ";
@@ -3609,7 +3613,9 @@ elseif ($_POST['jenis_submit'] == 'update_bahan') :
 			jenis_barang	    = '$_POST[JenisBahan]',
             kode_barang         = '$angka',
             min_stock           = '$_POST[MinStock]',
-            satuan              = '$Satuan'
+            satuan              = '$Satuan',
+            panjang_kertas      = '$_POST[panjang]',
+            lebar_kertas        = '$_POST[lebar]'
 		where
             id_barang			= '$_POST[IdBahan]'
 		limit

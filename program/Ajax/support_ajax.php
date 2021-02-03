@@ -25,6 +25,9 @@
 <div class='id_faq' onclick="LaodForm('support',8)">
     <i class="fad fa-chevron-right"></i> Cara Setting File ID Card
 </div>
+<div class='id_faq' onclick="LaodForm('support',9)">
+    <i class="fad fa-chevron-right"></i> Cara Menyusun File Kartu Nama Format Mesin Uk 9 x 5.5
+</div>
 <div class='id_faq' onclick="LaodForm('support',0)">
     <i class="fad fa-chevron-right"></i> List Bahan yang support di Large Format, Indoor Xuli & Indoor Latex <span style='color:red'>[ Not Avaiable ]</span>
 </div>

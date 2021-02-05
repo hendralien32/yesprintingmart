@@ -282,6 +282,9 @@ if ($term != "" and $tipe_validasi == "autocomplete_client") {
             barang.status_bahan='a' and
             barang.nama_barang LIKE '%$_POST[term]%' and 
             barang.jenis_barang='KRTS'
+        ORDER BY
+            barang.nama_barang
+        ASC
         LIMIT
             8
     ";

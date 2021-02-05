@@ -461,6 +461,8 @@ function ChangeKodeBrg() {
     "Hekter_Tengah",
     "Blok",
     "Ring_Spiral",
+    "Pon_Garis",
+    "Perporasi",
     "b_finishing",
     "b_laminating",
     "b_lain",
@@ -476,8 +478,6 @@ function ChangeKodeBrg() {
     "Tripod",
     "Softboard",
     "CuttingSticker",
-    "Pon_Garis",
-    "Perporasi",
     "b_digital",
     "b_lf",
     "b_indoor",
@@ -652,6 +652,7 @@ function ChangeKodeBrg() {
     $("#ukuran").val("");
     $("#ukuran").attr("readonly", false);
     $("#ukuran").attr("disabled", false);
+    $("#b_finishing").attr("disabled", false);
     $("#perhitungan_meter").hide();
     $("#Auto_Calc").prop("checked", false);
     $("#finishing").show();

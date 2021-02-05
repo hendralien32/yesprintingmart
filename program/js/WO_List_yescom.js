@@ -397,9 +397,12 @@ function test(id) {
   });
 
   if (
-    kode_barang[0] == "large format" ||
     kode_barang[0] == "indoor" ||
     kode_barang[0] == "Xuli"
+  ) {
+    var data_barang = "Indoor";
+  } else if (
+    kode_barang[0] == "large format"
   ) {
     var data_barang = "LF";
   } else {

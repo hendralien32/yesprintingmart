@@ -149,29 +149,13 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                         ELSE 'N'
                     END) as laminating,
                     (CASE
-                        WHEN penjualan.potong ='' THEN 'N'
-                        WHEN penjualan.potong ='N' THEN 'N'
-                        WHEN penjualan.potong ='Y' THEN 'Y'
-                        WHEN penjualan.potong_gantung ='' THEN 'N'
-                        WHEN penjualan.potong_gantung ='N' THEN 'N'
-                        WHEN penjualan.potong_gantung ='Y' THEN 'Y'
-                        WHEN penjualan.pon ='' THEN 'N'
-                        WHEN penjualan.pon ='N' THEN 'N'
-                        WHEN penjualan.pon ='Y' THEN 'Y'
-                        WHEN penjualan.perporasi ='' THEN 'N'
-                        WHEN penjualan.perporasi ='N' THEN 'N'
-                        WHEN penjualan.perporasi ='Y' THEN 'Y'
-                        WHEN penjualan.CuttingSticker ='' THEN 'N'
-                        WHEN penjualan.CuttingSticker ='N' THEN 'N'
                         WHEN penjualan.CuttingSticker ='Y' THEN 'Y'
-                        WHEN penjualan.Hekter_Tengah ='' THEN 'N'
-                        WHEN penjualan.Hekter_Tengah ='N' THEN 'N'
+                        WHEN penjualan.potong ='Y' THEN 'Y'
+                        WHEN penjualan.potong_gantung ='Y' THEN 'Y'
+                        WHEN penjualan.pon ='Y' THEN 'Y'
+                        WHEN penjualan.perporasi ='Y' THEN 'Y'
                         WHEN penjualan.Hekter_Tengah ='Y' THEN 'Y'
-                        WHEN penjualan.Blok ='' THEN 'N'
-                        WHEN penjualan.Blok ='N' THEN 'N'
                         WHEN penjualan.Blok ='Y' THEN 'Y'
-                        WHEN penjualan.Spiral ='' THEN 'N'
-                        WHEN penjualan.Spiral ='N' THEN 'N'
                         WHEN penjualan.Spiral ='Y' THEN 'Y'
                         WHEN penjualan.b_potong > 0 THEN 'Y'
                         ELSE 'N'
@@ -182,7 +166,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                         WHEN penjualan.sisi = '2' THEN 'dua'
                         ELSE ''
                     END) as css_sisi,
-                    penjualan.status
+                    penjualan.status,
+                    penjualan.CuttingSticker
                 FROM
                     penjualan
                 LEFT JOIN 
@@ -231,7 +216,7 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
                 $kode_class = str_replace(" ", "_", $d['kode_barang']);
                 $array_kode = array("urgent", "laminating", "finishing");
                 foreach ($array_kode as $kode) :
-                    if ($d[$kode] != "" && $d[$kode] != "N") : ${'check_' . $kode} = "active";
+                    if ($d[$kode] == "Y") : ${'check_' . $kode} = "active";
                     else : ${'check_' . $kode} = "deactive";
                     endif;
                 endforeach;

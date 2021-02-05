@@ -118,7 +118,7 @@ $sql_Server =
     ";
 
 // Yesprintingmart
-// $result_Server = $conn_OOP -> query($sql_Server);
+// $result_Server = $conn_OOP->query($sql_Server);
 
 // Yescom
 $result_Server = $conn_Server->query($sql_Server);

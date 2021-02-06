@@ -55,8 +55,8 @@ $bold_cari_keyword = "<strong style='text-decoration:underline'>" . $_POST['data
             </th>
             <th width="6%">ID Order</th>
             <th width="3%">K</th>
-            <th width="39%">Client - Description</th>
-            <th width="12%">
+            <th width="36%">Client - Description</th>
+            <th width="11%">
                 <select name="BahanSearch" id="BahanSearch" onchange="BahanSearch();">
                     <option value="">Bahan</option>
                     <?php

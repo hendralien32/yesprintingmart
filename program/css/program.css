@@ -431,7 +431,7 @@ input[type="text"].client {
 .left_content input[type="date"]::before,
 #isidetail input[type="date"]::before {
   content: attr(data-placeholder);
-  width: 32%;
+  width: 35%;
   color: #aaa;
   font-weight: normal;
 }
@@ -530,6 +530,7 @@ input[type="text"].client {
 body {
   margin: 0px;
   font-family: Karla-Regular, B612-Regular;
+  /* font-family: source-sans-pro_Reguler, "Segoe UI"; */
   /* background:url(../../images/light-grey-terrazzo.png) repeat; */
   background-color: #f8f8f8;
   color: #353942;
@@ -692,6 +693,7 @@ a:hover {
 #sub_menu {
   height: 100%;
   margin: 0px;
+  font-weight:bold;
 }
 
 #menu ul {
@@ -868,7 +870,7 @@ table.form_table tr th {
 table.form_table tr td {
   border-bottom: 1px solid #d9d9d9;
   vertical-align: middle;
-  padding: 8px;
+  padding: 9px;
 }
 
 #content .right_content table tr.cancel td {
@@ -1152,7 +1154,7 @@ div#generator_container button[type="button"] {
   }
 
   #wrapper {
-    font-size: 0.7rem;
+    font-size: 0.75em;
   }
 
   #dashboard #plugin {

@@ -15,7 +15,7 @@ elseif ($_POST['data'] != '' && $_POST['client'] != '' && $_POST['invoice'] == "
 elseif ($_POST['invoice'] != "") :
     $Add_Search = "and penjualan.no_invoice LIKE '%$_POST[invoice]%'";
 else :
-    $Add_Search = "and penjualan.cancel!='Y'";
+    $Add_Search = "";
 endif;
 
 if ($_POST['date'] != '') :
@@ -147,7 +147,8 @@ $bold_cari_keyword_client = "<strong style='text-decoration:underline'>" . $_POS
                         penjualan.no_invoice = pelunasan.no_invoice  
                     where
                         penjualan.no_invoice != '' and
-                        penjualan.client !='1'
+                        penjualan.client !='1' and
+                        penjualan.cancel!='Y'
                         $Add_date
                         $Add_Search
                     GROUP BY

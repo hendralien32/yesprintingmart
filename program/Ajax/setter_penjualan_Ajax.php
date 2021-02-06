@@ -43,7 +43,7 @@ $cari_keyword_client = $_POST['client'];
 $bold_cari_keyword_client = "<span style='text-decoration:underline'>" . $_POST['client'] . "</span>";
 
 if ($_SESSION["level"] == "admin") :
-    $width_icon = "6%";
+    $width_icon = "7%";
     $width_bahan = "10%";
 else :
     $width_icon = "3%";
@@ -55,13 +55,13 @@ endif;
     <tbody>
         <tr>
             <th width="2%">#</th>
-            <th width="8%">Tanggal</th>
+            <th width="7%">Tanggal</th>
             <th width="5%">ID Order</th>
             <th width="6%">No. Invoice</th>
             <th width="3%">K</th>
-            <th width="35%">Client - Description</th>
+            <th width="37%">Client - Description</th>
             <th width="9%">Detail Icon</th>
-            <th width="3%">S</th>
+            <th width="2%">S</th>
             <th width="<?= $width_bahan ?>">Bahan</th>
             <th width="8%">Qty</th>
             <th width="5%">
@@ -191,6 +191,8 @@ endif;
         order by
             penjualan.oid
         desc
+        LIMIT
+            500
     ";
 
         // Perform query
@@ -201,9 +203,9 @@ endif;
             while ($d = $result->fetch_assoc()) :
                 $kode_class = str_replace(" ", "_", $d['kode_barang']);
 
-                if ($d['no_invoice'] != "0") : 
+                if ($d['no_invoice'] != "0") :
                     $no_invoice = "#$d[no_invoice]";
-                else : 
+                else :
                     $no_invoice = "-";
                 endif;
 
@@ -211,10 +213,10 @@ endif;
                     $button_Logs = "<span class='icon_status' onclick='LaodForm(\"log\", \"" . $d['oid'] . "\")'><i class='fad fa-file-alt'></i></span>";
                     $selesai = "selesai_prog(\"" . $d['oid'] . " | " . $d['nama_client'] . " - " . $d['description'] . "\", \"" . $d['oid'] . "\", \"" . $d['Finished'] . "\")";
                     $pointer_selesai = "pointer";
-                    if ($d['cancel'] != "Y") : 
+                    if ($d['cancel'] != "Y") :
                         $button_Cancel = "<span class='icon_status' onclick='LaodForm(\"setter_penjualan_cancel\", \"" . $d['oid'] . "\", \" \")'><i class='far fa-trash-alt text-danger'></i></span>";
                         $css_cancel = "";
-                    else : 
+                    else :
                         $button_Cancel = "";
                         $css_cancel = "cancel";
                     endif;
@@ -231,9 +233,9 @@ endif;
                     $button_Logs = "";
                     $selesai = "";
                     $pointer_selesai = "";
-                    if ($d['cancel'] != "Y") : 
+                    if ($d['cancel'] != "Y") :
                         $css_cancel = "";
-                    else : 
+                    else :
                         $css_cancel = "cancel";
                     endif;
 
@@ -246,9 +248,9 @@ endif;
                     endif;
                 endif;
 
-                if ($d['img_design'] != "") : 
+                if ($d['img_design'] != "") :
                     $button_Image = "<span class='icon_status pointer' onclick='LaodSubForm(\"setter_penjualan_preview\", \"" . $d['oid'] . "\")'><i class='fas fa-image'></i></span>";
-                else : 
+                else :
                     $button_Image = "";
                 endif;
 
@@ -261,22 +263,13 @@ endif;
 
                 $edit = "LaodForm(\"setter_penjualan\", \"" . $d['oid'] . "\", \"" . $Akses_Edit . "\")";
 
-                // if ($d['acc'] == "N") :
-                //     $acc = "acc_progress(\"" . $d['oid'] . " | " . $d['nama_client'] . " - " . $d['description'] . "\", \"" . $d['oid'] . "\")";
-                //     $pointer_acc = "pointer";
-                // else :
-                //     $acc = "";
-                //     $pointer_acc = "";
-                // endif;
-                // $tombol_ACC = "<span class='icon_status $pointer_acc' ondblclick='$acc'><i class='fas fa-thumbs-up " . $check_acc . "'></i></span>";
-
                 echo "
                 <tr class='$css_cancel'>
                     <td>" . $no++ . "</td>
                     <td>" . date("d M Y", strtotime($d['tanggal'])) . "</td>
                     <td onclick='" . $edit . "' style='cursor:pointer'>" . str_ireplace($cari_keyword, $bold_cari_keyword, $d['oid']) . "</td>
                     <td>" . str_ireplace($cari_keyword, $bold_cari_keyword, $no_invoice) . "</td>
-                    <td><span class='KodeProject $kode_class'>" . strtoupper($d['code']) . "</span></td>
+                    <td><center><span class='KodeProject $kode_class'>" . strtoupper($d['code']) . "</span></center></td>
                     <td onclick='" . $edit . "' style='cursor:pointer'><b>" . str_ireplace($cari_keyword_client, $bold_cari_keyword_client, $d['nama_client']) . "</b> - " . str_ireplace($cari_keyword, $bold_cari_keyword, $d['description']) . " " . $d['ukuran'] . "</td>
                     <td>
                         <center>

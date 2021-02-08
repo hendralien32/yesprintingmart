@@ -94,8 +94,6 @@ endif;
     <!--===============================================================================================-->
 
     <link rel="icon" type="image/png" href="../images/icons/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="../fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/program.css">
 
@@ -109,7 +107,6 @@ endif;
     <script src="js/script.js"></script>
     <link rel="stylesheet" type="text/css" src="css/Font-Awesome-master/css/all.css">
     <script data-search-pseudo-elements defer src="css/Font-Awesome-master/js/all.js"></script>
-    <link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <script src="js/Plugin/moment-with-locales.js"></script>
     <script src="js/Plugin/moment-timezone-with-data.js"></script>
 
@@ -239,7 +236,7 @@ endif;
                     <?php endif; ?>
                     <?php if ($_SESSION['level'] == "creative_support" || $_SESSION['level'] == "admin_yes" || $_SESSION['level'] == "setter" || $_SESSION['level'] == "admin" || $_SESSION['level'] == "accounting" || $_SESSION['level'] == "CS") : ?>
                         <a href="?page=Bahan_YPM&tab=DatabaseYPM">
-                                <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
+                            <li class='<?= ($page == 'Bahan_YPM') ? 'active' : ''; ?>'>Barang Database</li>
                         </a>
                     <?php endif; ?>
                     <div class="clear"></div>

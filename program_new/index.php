@@ -58,10 +58,12 @@
         </div>
         <div class="menu">
             <ul>
-                <li class='active'>
-                    <div class='icon_menu'><i class="fas fa-home-lg-alt"></i></div>
-                    <div class='icon_menu'>Dashboard</div>
-                </li>
+                <a href='?page=dashboard'>
+                    <li class='active'>
+                        <div class='icon_menu'><i class="fas fa-home-lg-alt"></i></div>
+                        <div class='icon_menu'>Dashboard</div>
+                    </li>
+                </a>
                 <li>
                     <div class='icon_menu'><i class="fas fa-database"></i></div>
                     <div class='icon_menu'>Database</div>
@@ -79,7 +81,9 @@
                     <div class='icon_menu'>Penjualan</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <li>Sales Order Penjualan</li>
+                        <a href='?page=Sales Order Penjualan'>
+                            <li>Sales Order Penjualan</li>
+                        </a>
                         <li>Sales Invoice Penjualan</li>
                         <li>Pelunasan Invoice</li>
                         <li>List Pelunasan Invoice</li>
@@ -135,48 +139,26 @@
             </ul>
         </div>
         <div class="content">
-            <div class="title">
-                <h3>Dashboard</h3>
-            </div>
-            <div class='dashboard_plugin'>
-                <div class='plugin_1'>
-                    <div class='title_plugin'><b><i class="fas fa-dollar-sign"></i> Pendapatan Harian</b></div>
-                    <div class='content_plugin'>
-                        <div class='detail_plugin'>
-                            <p>Hari Ini</p>
-                            <span class='value'>Rp. 4.000.000</span>
-                            <span><b class='positif_value'>12% <i class="fas fa-arrow-up"></i></b> dari hari sebelumnya.</span>
-                        </div>
-                        <div class='detail_plugin'>
-                            <p>Semalam</p>
-                            <span class='value'>Rp. 3.000.000</span>
-                            <span><b class='positif_value'>12% <i class="fas fa-arrow-up"></i></b> dari hari sebelumnya.</span>
-                        </div>
-                    </div>
-                </div>
+            
+            <?php
+            $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-                <div class='plugin_1'>
-                    <div class='title_plugin'><b><i class="fas fa-dollar-sign"></i> Pendapatan Bulanan</b></div>
-                    <div class='content_plugin'>
-                        <div class='detail_plugin'>
-                            <p>Bulan Ini</p>
-                            <span class='value'>Rp. 127.000.000</span>
-                            <span><b class='positif_value'>12% <i class="fas fa-arrow-up"></i></b> dari bulan sebelumnya.</span>
-                        </div>
-                        <div class='detail_plugin'>
-                            <p>Bulan Semalam</p>
-                            <span class='value'>Rp. 117.000.000</span>
-                            <span><b class='positif_value'>12% <i class="fas fa-arrow-up"></i></b> dari bulan sebelumnya.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class='plugin_1'>
-                    <div class='title_plugin'><b><i class="fas fa-dollar-sign"></i> Target Monthly</b></div>
-                    
-                </div>
+            if (isset($page)) :
+                switch ($page):
+                    case 'dashboard':
+                        require_once('dashboard.php');
+                        break;
+                    case 'Sales Order Penjualan':
+                        require_once('sales_order.php');
+                        break;
+                    default:
+                        require_once('dashboard.php');
+                endswitch;
+            else :
+                echo "$page";
+            endif;
+            ?>
         </div>
-    </div>
 </body>
 
 </html>

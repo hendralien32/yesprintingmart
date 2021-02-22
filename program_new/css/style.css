@@ -249,10 +249,6 @@ body {
     align-items: center;
 }
 
-.content .plugin-top .item div {
-    /* border : 1px solid #616683; */
-}
-
 .content .plugin-top .item .left_title {
     font-size: 1.3em;
     color:#3c4854;
@@ -273,7 +269,7 @@ body {
     background-color :#3c4854;
     color:#fff;
     margin-left: 1.2rem;
-    border-radius:10px;
+    border-radius:8px;
 }
 
 .content .plugin-top .item button:hover {
@@ -308,23 +304,16 @@ body {
 }
 
 .content .content-table table.table-list tr td {
-  padding:0.4rem 0.2rem;
-  padding:0.6rem;
-}
-
-.content .content-table table.table-list tr td:nth-child(1),
-.content .content-table table.table-list tr td:nth-child(2),
-.content .content-table table.table-list tr td:nth-child(4),
-.content .content-table table.table-list tr td:nth-child(5) {
-  text-align: center;
-}
+  padding:0.35rem 0.2rem;
+} 
 
 .content .content-table table.table-list tr td.deskripsi {
   display:flex;
   flex-direction:row;
+  align-items: center;
 }
 
-.content .content-table table.table-list tr td.deskripsi div.test {
+.content .content-table table.table-list tr div.test {
   display:flex;
   flex-direction:column;
   line-height: 21px;
@@ -336,15 +325,62 @@ body {
 }
 
 .content .content-table table.table-list tr td.deskripsi div.lf {
-  color: red;
-  padding: 10px;
+  background-color: #9320a1;
+  color:#fafafa;
+  padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
   vertical-align: middle;
 }
-.content .content-table table.table-list tr td .icon_detail i {
-  /* background-color:red; */
-  color:purple;
+
+.content .content-table table.table-list tr td.deskripsi div.dp {
+  background-color: #0077fc;
+  color:#fafafa;
+  padding: 9px;
+  margin-right: 0.8rem;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.content .content-table table.table-list tr td.deskripsi div.ix {
+  background-color: #dd2424;
+  color:#fafafa;
+  padding: 9px;
+  margin-right: 0.8rem;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.content .content-table table.table-list tr td.deskripsi div.il {
+  background-color: #289132;
+  color:#fafafa;
+  padding: 9px;
+  margin-right: 0.8rem;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.content .content-table table.table-list tr td.deskripsi div.o {
+  background-color: #23785d;
+  color:#fafafa;
+  padding: 9px;
+  margin-right: 0.8rem;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.content .content-table table.table-list tr td.deskripsi div.e {
+  background-color: grey;
+  color:#fafafa;
+  padding: 9px;
+  margin-right: 0.8rem;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.content .content-table table.table-list tr td.icon div {
+  background-color: green;
+  color: green;
 }
 
 

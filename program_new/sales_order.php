@@ -61,6 +61,10 @@ require_once '../function.php';
                     ELSE 'N'
                 END) as laminating,
                 (CASE
+                    WHEN penjualan.img_design !='' THEN 'Y'
+                    ELSE 'N'
+                END) as image_design,
+                (CASE
                     WHEN penjualan.CuttingSticker ='Y' THEN 'Y'
                     WHEN penjualan.potong ='Y' THEN 'Y'
                     WHEN penjualan.potong_gantung ='Y' THEN 'Y'
@@ -154,7 +158,7 @@ require_once '../function.php';
                     $telp = "";
                 endif;
 
-                $array_kode = array("Finished", "pembayaran", "akses_edit", "invoice", "finishing", "laminating");
+                $array_kode = array("Finished", "pembayaran", "akses_edit", "invoice", "finishing", "laminating", "image_design");
                 foreach ($array_kode as $kode) {
                     if ($d[$kode] != "" && $d[$kode] != "N") : ${'check_' . $kode} = "active";
                     else : ${'check_' . $kode} = "";
@@ -195,18 +199,20 @@ require_once '../function.php';
                             <span class='$check_akses_edit'><i class='fas fa-pen'></i></span>
                             <span class='$check_invoice'><i class='fas fa-receipt'></i></span>
                             <span class='$check_pembayaran'><i class='fas fa-cash-register'></i></span>
+                            <span class='active'><i class='fas fa-file-alt'></i></span>
                         </div>
                         <div>
                             <span class='$check_Finished'><i class='fas fa-check-double'></i></span>
                             <span class='$check_finishing pointer'><i class='fas fa-cut'></i></span>
                             <span class='$check_laminating'><i class='fas fa-toilet-paper-alt'></i></span>
+                            <span class='$check_image_design'><i class='fas fa-file-image'></i></span>
                         </div>
                     </td>
                     <td><center><b>$d[sisi]</b></center></td>
                     <td>$d[bahan]</td>
                     <td>$d[qty]</td>
                     <td>$d[Nama_Setter]</td>
-                    <td><i class='fas fa-cogs'></i></td>
+                    <td><i class='fas fa-trash'></i></td>
                 </tr>
                 ";
             endwhile;

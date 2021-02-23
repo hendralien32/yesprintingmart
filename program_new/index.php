@@ -15,6 +15,7 @@
     <!--===============================================================================================-->
     <script data-search-pseudo-elements defer src="../vendor/fontawesome-pro-master/js/all.js"></script>
     <script src="../vendor/moment-with-locales.js"></script>
+    <script src="../vendor/vanilla.js"></script>
     <script src="../vendor/moment-timezone-with-data.js"></script>
     <script src="../vendor/jquery-3.4.1.min.js"></script>
 
@@ -139,7 +140,7 @@
             </ul>
         </div>
         <div class="content">
-            
+
             <?php
             $page = isset($_GET['page']) ? $_GET['page'] : 1;
 

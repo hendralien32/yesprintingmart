@@ -308,14 +308,32 @@ body {
     padding:0.7rem;
 }
 
+.content .content-table table.table-list tr th select#SetterSearch {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color:white;
+  font-weight: bold;
+}
+
+.content .content-table table.table-list tr th select#SetterSearch option {
+  color:#495057;
+  padding:0.7rem;
+}
+
 .content .content-table table.table-list tr td {
   padding:0.35rem 0.1rem;
 } 
+
+.content .content-table table.table-list tr td:hover {
+  cursor:pointer;
+}
 
 .content .content-table table.table-list tr td.deskripsi {
   display:flex;
   flex-direction:row;
   align-items: center;
+  vertical-align:center;
 }
 
 .content .content-table table.table-list tr div.test {
@@ -401,6 +419,14 @@ body {
   color:#fe5724;
 }
 
+.content .content-table table.table-list tr td.status_icon div span.pointer {
+  cursor:pointer;
+}
+
+.content .content-table table.table-list tr td.status_icon div span.default {
+  cursor:default;
+}
+
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 565.98px) {
   .header .icon_right .icon #text {
@@ -423,6 +449,10 @@ body {
     .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
         font-size: 1.0rem;
     }
+
+    .content .content-table {
+      font-size: 0.675rem;
+    }
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -438,6 +468,10 @@ body {
 
     .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
         font-size: 0.8rem;
+    }
+
+    .content .content-table {
+      font-size: 0.675rem;
     }
 }
 
@@ -455,6 +489,10 @@ body {
     .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
         font-size: 0.675rem;
     }
+
+    .content .content-table {
+      font-size: 0.675rem;
+    }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
@@ -470,5 +508,9 @@ body {
 
     .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
         font-size: 0.75rem;
+    }
+
+    .content .content-table {
+      font-size: 0.675rem;
     }
 }

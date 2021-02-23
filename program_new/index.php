@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +21,7 @@
     <script src="../vendor/moment-with-locales.js"></script>
     <script src="../vendor/vanilla.js"></script>
     <script src="../vendor/moment-timezone-with-data.js"></script>
-    <script src="../vendor/jquery-3.4.1.min.js"></script>
+    <script src="js/ajax.js"></script>
 
     <!--===============================================================================================-->
     <script>
@@ -26,10 +30,9 @@
             var tanggal = now.lang("id").tz("Asia/Jakarta").format('dddd, Do MMM YYYY');
             var waktu = now.lang("id").tz("Asia/Jakarta").format('[Jam : ]LTS');
 
-            $('#text').html("<b class='tanggal'>" + tanggal + "</b><br><b class='waktu'>" + waktu + "</b>");
+            document.getElementById('text').innerHTML = "<b class='tanggal'>" + tanggal + "</b><br><b class='waktu'>" + waktu + "</b>";
         }
-
-        setInterval(widget, 1000);
+        setInterval(widget, 100);
     </script>
     <title>Hawkbase Ver 5.2</title>
 </head>
@@ -160,6 +163,17 @@
             endif;
             ?>
         </div>
+
+        <!--===============================================================================================-->
+
+        <script data-search-pseudo-elements defer src="../vendor/fontawesome-pro-master/js/all.js"></script>
+        <script src="../vendor/moment-with-locales.js"></script>
+        <script src="../vendor/vanilla.js"></script>
+        <script src="../vendor/moment-timezone-with-data.js"></script>
+        <!-- <script src="js/ajax.js"></script> -->
+
+        <!--===============================================================================================-->
+
 </body>
 
 </html>

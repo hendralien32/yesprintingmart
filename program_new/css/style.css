@@ -101,7 +101,7 @@ body {
 
 .menu {
   height: 45px;
-  font-size: 0.83em;
+  font-size: 0.72em;
   background-color: #fefefe;
   box-shadow: 0px 4px 6px rgba(78, 78, 78, 0.1);
   display: flex;
@@ -124,7 +124,7 @@ body {
 .menu ul li {
   display: flex;
   flex-direction: row;
-  margin-right: 1.5rem;
+  margin-right: 1.1rem;
   cursor: pointer;
   padding: 10px;
 }
@@ -257,6 +257,7 @@ body {
 .content .plugin-top .item .left_title {
     font-size: 1.3em;
     color:#3c4854;
+    text-transform: uppercase;
     border-right : 1px solid #495057;
     padding-right: 1.3rem;
 }
@@ -270,7 +271,7 @@ body {
 .content .plugin-top .item button {
     outline:none;
     border: none;
-    padding:0.8rem 1.6rem;
+    padding:0.7rem 1.4rem;
     background-color :#3c4854;
     color:#fff;
     margin-left: 1.2rem;
@@ -280,6 +281,64 @@ body {
 .content .plugin-top .item button:hover {
     background-color :#fe5724;
     cursor: pointer;
+}
+
+.content .Detail_Search {
+  font-size: 0.75em;
+  padding: 1rem 0rem;
+}
+
+.content .display-none {
+  display: none;
+	overflow: hidden;
+}
+
+.content .display-show {
+  display: block;
+}
+
+.content #plugin-search {
+  font-size: 0.75em;
+  padding: 0rem 0rem 1rem 0rem;
+}
+
+.content #plugin-search input {
+  color:#495057;
+  outline:none;
+  border: 1px solid #d8d8d8;
+  margin-right: 1.2rem;
+  padding: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.content #plugin-search input[type="text"]#search_data {
+  width:33%;
+}
+
+.content #plugin-search input[type="date"] {
+  width:18%;
+  font-size: 0.85rem;
+}
+
+.content #plugin-search input[type="date"]::before {
+  content: attr(data-placeholder);
+  width: 32%;
+  color: #aaa;
+  font-weight: normal;
+}
+
+.content #plugin-search button {
+  outline:none;
+  border: none;
+  padding: 0.8rem;
+  background-color :#3c4854;
+  color:#fff;
+  border-radius:8px;
+}
+
+.content #plugin-search button:hover {
+  background-color :#fe5724;
+  cursor: pointer;
 }
 
 .content .content-table {
@@ -303,12 +362,14 @@ body {
 }
 
 .content .content-table table.table-list tr th {
-    background-color: #495057;
-    color:white;
-    padding:0.7rem;
+  font-size: 1.05em;
+  background-color: #495057;
+  color:white;
+  padding:0.7rem;
 }
 
 .content .content-table table.table-list tr th select#SetterSearch {
+  font-size: 1.05em;
   outline: none;
   border: none;
   background-color: transparent;
@@ -327,6 +388,12 @@ body {
 
 .content .content-table table.table-list tr td:hover {
   cursor:pointer;
+}
+
+.content .content-table table.table-list tr td.data_tidak_ditemukan {
+  padding:15px;
+  font-weight:bold;
+  font-size: 0.7rem;
 }
 
 .content .content-table table.table-list tr td.deskripsi {
@@ -453,6 +520,19 @@ body {
     .content .content-table {
       font-size: 0.675rem;
     }
+
+    .content #plugin-search input[type="text"]#search_data {
+      width:20%;
+    }
+
+    .content #plugin-search input[type="date"] {
+      width:15%;
+    }
+
+    .content #plugin-search input[type="date"]::before {
+      content: attr(data-placeholder);
+      width: 30%;
+    }
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -473,6 +553,19 @@ body {
     .content .content-table {
       font-size: 0.675rem;
     }
+
+    .content #plugin-search input[type="text"]#search_data {
+      width:23%;
+    }
+
+    .content #plugin-search input[type="date"] {
+      width:17%;
+    }
+
+    .content #plugin-search input[type="date"]::before {
+      content: attr(data-placeholder);
+      width: 31%;
+    }
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -486,12 +579,35 @@ body {
         font-size: 1em;
     }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
-        font-size: 0.675rem;
+    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin,
+    .content .content-table {
+      font-size: 0.7rem;
     }
 
-    .content .content-table {
-      font-size: 0.675rem;
+    .content #plugin-search input,
+    .content #plugin-search button,
+    .content #plugin-search input[type="text"]#search_data
+    .content #plugin-search input[type="date"],
+    .content #plugin-search input[type="date"]::before {
+      font-size: 0.8rem;
+    }
+
+    .content #plugin-search input[type="text"]#search_client {
+      width:15%;
+    }
+
+    .content #plugin-search input[type="text"]#search_data {
+      width:26%;
+    }
+
+    .content #plugin-search input[type="date"] {
+      width:20%;
+    }
+
+    .content #plugin-search input[type="date"]::before {
+      content: attr(data-placeholder);
+      width: 32%;
+      font-size: 0.8rem;
     }
 }
 
@@ -506,11 +622,30 @@ body {
         font-size: 1.4em;
     }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
-        font-size: 0.75rem;
-    }
-
+    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin,
     .content .content-table {
       font-size: 0.675rem;
+    }
+
+    .content #plugin-search input,
+    .content #plugin-search button,
+    .content #plugin-search input[type="text"]#search_data
+    .content #plugin-search input[type="date"],
+    .content #plugin-search input[type="date"]::before {
+      font-size: 0.7rem;
+    }
+
+    .content #plugin-search input[type="text"]#search_data {
+      width:33%;
+    }
+
+    .content #plugin-search input[type="date"] {
+      width:18%;
+    }
+
+    .content #plugin-search input[type="date"]::before {
+      content: attr(data-placeholder);
+      width: 32%;
+      font-size: 0.7;
     }
 }

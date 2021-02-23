@@ -14,6 +14,10 @@ body {
   background-color: #f5f6f9;
 }
 
+.pointer {
+  cursor:pointer;
+}
+
 .wrapper {
   position: relative;
   width: 100%;
@@ -189,6 +193,7 @@ body {
   background-color: #fff;
   margin-bottom: 1.9rem;
   margin-right: 1.3rem;
+  border: 1px solid #d8d8d8;
 }
 
 .content .dashboard_plugin .plugin_1 .title_plugin {
@@ -304,7 +309,7 @@ body {
 }
 
 .content .content-table table.table-list tr td {
-  padding:0.35rem 0.2rem;
+  padding:0.35rem 0.1rem;
 } 
 
 .content .content-table table.table-list tr td.deskripsi {
@@ -378,11 +383,23 @@ body {
   vertical-align: middle;
 }
 
-.content .content-table table.table-list tr td.icon div {
-  background-color: green;
-  color: green;
+.content .content-table table.table-list tr td.status_icon {
+  text-align: center;
 }
 
+.content .content-table table.table-list tr td.status_icon div {
+  padding: 5px 0px;
+}
+
+.content .content-table table.table-list tr td.status_icon div span {
+  width: 25px;
+  padding: 3px 3px;
+  /* background-color:#aeaeae; */
+}
+
+.content .content-table table.table-list tr td.status_icon div span.active {
+  color:#fe5724;
+}
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 565.98px) {

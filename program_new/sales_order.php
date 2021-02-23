@@ -21,9 +21,9 @@ require_once '../function.php';
             <th width="8%">Tanggal</th>
             <th width="6%">Order ID</th>
             <th width="43%">Description</th>
-            <th width="8%">Icon</th>
+            <th width="6%">Icon</th>
             <th width="2%">Sisi</th>
-            <th width="15%">Bahan</th>
+            <th width="17%">Bahan</th>
             <th width="8%">Qty</th>
             <th width="6%">Setter</th>
             <th width="3%"> </th>
@@ -52,7 +52,26 @@ require_once '../function.php';
                     ELSE ''
                 END) as Finished,
                 penjualan.acc, 
-                penjualan.no_invoice,
+                (CASE
+                    WHEN penjualan.no_invoice != '0' THEN 'Y'
+                    ELSE 'N'
+                END) as invoice,
+                (CASE
+                    WHEN penjualan.laminate !='' THEN 'Y'
+                    ELSE 'N'
+                END) as laminating,
+                (CASE
+                    WHEN penjualan.CuttingSticker ='Y' THEN 'Y'
+                    WHEN penjualan.potong ='Y' THEN 'Y'
+                    WHEN penjualan.potong_gantung ='Y' THEN 'Y'
+                    WHEN penjualan.pon ='Y' THEN 'Y'
+                    WHEN penjualan.perporasi ='Y' THEN 'Y'
+                    WHEN penjualan.Hekter_Tengah ='Y' THEN 'Y'
+                    WHEN penjualan.Blok ='Y' THEN 'Y'
+                    WHEN penjualan.Spiral ='Y' THEN 'Y'
+                    WHEN penjualan.b_potong > 0 THEN 'Y'
+                    ELSE 'N'
+                END) as finishing,
                 (CASE
                     WHEN barang.id_barang > 0 THEN barang.nama_barang
                     ELSE penjualan.bahan
@@ -62,18 +81,11 @@ require_once '../function.php';
                     WHEN penjualan.panjang > 0 || penjualan.lebar > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
                     ELSE ''
                 END) as ukuran,
-                penjualan.ditunggu,
-                (CASE
-                    WHEN penjualan.acc = 'Y' THEN 'Y'
-                    WHEN penjualan.acc = 'N' THEN 'N'
-                    ELSE 'N'
-                END) as acc,
                 penjualan.Design,
                 penjualan.description,
                 customer.nama_client,
                 customer.no_telp,
                 setter.nama as Nama_Setter,
-                penjualan.cancel,
                 (CASE
                     WHEN penjualan.pembayaran = 'lunas' THEN 'Y'
                     ELSE 'N'
@@ -141,6 +153,14 @@ require_once '../function.php';
                 else :
                     $telp = "";
                 endif;
+
+                $array_kode = array("Finished", "pembayaran", "akses_edit", "invoice", "finishing", "laminating");
+                foreach ($array_kode as $kode) {
+                    if ($d[$kode] != "" && $d[$kode] != "N") : ${'check_' . $kode} = "active";
+                    else : ${'check_' . $kode} = "";
+                    endif;
+                }
+
                 echo "
                 <tr>
                     <td><center>$n</center></td>
@@ -170,20 +190,16 @@ require_once '../function.php';
                             </span>
                         </div>
                     </td>
-                    <td class='icon>
+                    <td class='status_icon'>
                         <div>
-                            <div class='icon_A>
-                                <i class='fas fa-cash-register'></i>
-                                <i class='fas fa-cash-register'></i>
-                                <i class='fas fa-cash-register'></i>
-                            </div>
+                            <span class='$check_akses_edit'><i class='fas fa-pen'></i></span>
+                            <span class='$check_invoice'><i class='fas fa-receipt'></i></span>
+                            <span class='$check_pembayaran'><i class='fas fa-cash-register'></i></span>
                         </div>
                         <div>
-                            <div class='icon_B'>
-                                <i class='fas fa-cash-register'></i>
-                                <i class='fas fa-cash-register'></i>
-                                <i class='fas fa-cash-register'></i>
-                            </div>
+                            <span class='$check_Finished'><i class='fas fa-check-double'></i></span>
+                            <span class='$check_finishing pointer'><i class='fas fa-cut'></i></span>
+                            <span class='$check_laminating'><i class='fas fa-toilet-paper-alt'></i></span>
                         </div>
                     </td>
                     <td><center><b>$d[sisi]</b></center></td>

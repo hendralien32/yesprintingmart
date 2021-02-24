@@ -1,6 +1,5 @@
 <?php
 require_once '../function.php';
-$SalesOrder_Jumlah = isset($_SESSION['SalesOrder_Jumlah']) ? $_SESSION['SalesOrder_Jumlah'] : "0";
 
 ?>
 
@@ -9,7 +8,7 @@ $SalesOrder_Jumlah = isset($_SESSION['SalesOrder_Jumlah']) ? $_SESSION['SalesOrd
 <div class='plugin-top'>
     <div class='item'>
         <div class='left_title'>Sales Order</div>
-        <div class='right_title'><?= $SalesOrder_Jumlah ?> Order</div>
+        <div id='right_title' class='right_title'></div>
     </div>
     <div class='item'>
         <button id='button-search' onclick="search_display()"><i class="fas fa-search-plus"></i></button>
@@ -23,7 +22,6 @@ $SalesOrder_Jumlah = isset($_SESSION['SalesOrder_Jumlah']) ? $_SESSION['SalesOrd
     <input type="text" id='search_data' placeholder="Search Deskripsi" autocomplete="off">
     <input type="date" id='search_drTgl' data-placeholder="Dari Tgl">
     <input type="date" id='search_keTgl' data-placeholder="Ke Tgl" max="<?= $date; ?>">
-    <!-- <button><i class="fal fa-search"></i> Search</button> -->
 </div>
 
 <div id='ajax_load'>

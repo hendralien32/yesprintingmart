@@ -32,7 +32,7 @@ session_start();
 
             document.getElementById('text').innerHTML = "<b class='tanggal'>" + tanggal + "</b><br><b class='waktu'>" + waktu + "</b>";
         }
-        setInterval(widget, 100);
+        setInterval(widget, 50);
     </script>
     <title>Hawkbase Ver 5.2</title>
 </head>
@@ -163,16 +163,6 @@ session_start();
             endif;
             ?>
         </div>
-
-        <!--===============================================================================================-->
-
-        <script data-search-pseudo-elements defer src="../vendor/fontawesome-pro-master/js/all.js"></script>
-        <script src="../vendor/moment-with-locales.js"></script>
-        <script src="../vendor/vanilla.js"></script>
-        <script src="../vendor/moment-timezone-with-data.js"></script>
-        <!-- <script src="js/ajax.js"></script> -->
-
-        <!--===============================================================================================-->
 
 </body>
 

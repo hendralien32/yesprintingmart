@@ -3,6 +3,42 @@ session_start();
 require_once '../../function.php';
 
 $n = 0;
+
+$client = $_POST['client'];
+$data = $_POST['data'];
+$drTgl = $_POST['drTgl'];
+$keTgl = $_POST['keTgl'];
+$limit = $_POST['limit'];
+
+if(( $client != "" || $data != "")) {
+    $show_limit = "LIMIT $limit";
+} else {
+    $show_limit = "";
+}
+
+if ($drTgl != "" and $keTgl != "") :
+    $SearchDate = "and (LEFT( penjualan.waktu, 10 )>='$drTgl' and LEFT( penjualan.waktu, 10 )<='$keTgl')";
+elseif ($drTgl != "" and $keTgl == "") :
+    $SearchDate = "and (LEFT( penjualan.waktu, 10 )='$drTgl')";
+elseif ($drTgl == "" and $keTgl != "") :
+    $SearchDate = "and (LEFT( penjualan.waktu, 10 )='$keTgl')";
+else :
+    $SearchDate = "";
+endif;
+
+if($client!="") {
+    $SearchClient = "and customer.nama_client LIKE '%$client%'";
+} else {
+    $SearchClient = "";
+}
+
+if($data!="") {
+    $SearchData = "and ( penjualan.description LIKE '%$data%' or penjualan.oid LIKE '%$data%' or penjualan.no_invoice LIKE '%$data%')";
+} else {
+    $SearchData = "";
+}
+
+
 $sql =
     "SELECT
         penjualan.oid,
@@ -87,13 +123,14 @@ $sql =
         penjualan.setter = setter.uid  
     WHERE
         penjualan.oid != '' and
-        -- penjualan.client ='1111111'
         penjualan.client !='1'
+        $SearchData
+        $SearchDate
+        $SearchClient
     ORDER BY
         penjualan.oid
     DESC
-    LIMIT
-        50
+    $show_limit
 ";
 
 // Perform query
@@ -135,14 +172,22 @@ $jumlah_order = $result->num_rows;
                             (select pm_user.uid, pm_user.nama from pm_user) setter
                         ON
                             penjualan.setter = setter.uid
+                        LEFT JOIN 
+                            (select customer.cid, customer.nama_client, customer.no_telp from customer) customer
+                        ON
+                            penjualan.client = customer.cid  
                         WHERE
                             penjualan.oid != '' and
                             penjualan.client !='1'
+                            $SearchData
+                            $SearchDate
+                            $SearchClient
                         GROUP BY
                             penjualan.setter
                         ORDER BY
                             setter.nama
                         ASC
+                        $show_limit
                         ";
 
                     $result_Setter = $conn_OOP->query($setter_SQL);
@@ -152,8 +197,6 @@ $jumlah_order = $result->num_rows;
                             $Nama_Setter = ucwords($d['nama']);
                             echo "<option value='$d[setter]'>$Nama_Setter</option>";
                         endwhile;
-                    else :
-                        echo "<option value=''>Setter</option>";
                     endif;
                     ?>
                 </select>

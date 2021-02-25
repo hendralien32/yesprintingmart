@@ -315,6 +315,10 @@ body {
   width:33%;
 }
 
+.content #plugin-search input[type="number"]#search_limit {
+  width:6%;
+}
+
 .content #plugin-search input[type="date"] {
   width:18%;
   font-size: 0.85rem;

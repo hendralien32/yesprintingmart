@@ -18,10 +18,11 @@ require_once '../function.php';
 </div>
 
 <div id='plugin-search' class='display-none'>
-    <input type="text" id='search_client' placeholder="Search Nama Client" autocomplete="off">
-    <input type="text" id='search_data' placeholder="Search Deskripsi" autocomplete="off">
-    <input type="date" id='search_drTgl' data-placeholder="Dari Tgl">
-    <input type="date" id='search_keTgl' data-placeholder="Ke Tgl" max="<?= $date; ?>">
+    <input type="text" id='search_client' placeholder="Search Nama Client" onChange="SearchData()" autocomplete="off">
+    <input type="text" id='search_data' placeholder="Search data ( Deskripsi, oid, No. Invoice )" onChange="SearchData()" autocomplete="off">
+    <input type="date" id='search_drTgl' data-placeholder="Dari Tgl" value="<?= $date; ?>" max="<?= $date; ?>" onChange="SearchDate()">
+    <input type="date" id='search_keTgl' data-placeholder="Ke Tgl" value="<?= $date; ?>" max="<?= $date; ?>" onChange="SearchDate()">
+    <input type="number" id='search_limit' placeholder="Search Deskripsi" value="100" onChange="SearchData()">
 </div>
 
 <div id='ajax_load'>

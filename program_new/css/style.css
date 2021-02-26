@@ -15,7 +15,7 @@ body {
 }
 
 .pointer {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .wrapper {
@@ -118,7 +118,7 @@ body {
   list-style: none;
 }
 .menu ul a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .menu ul li {
@@ -140,7 +140,6 @@ body {
   color: #fe5724;
   border-left: 4px solid #fe5724;
 }
-
 
 .menu li > ul {
   display: none;
@@ -182,7 +181,8 @@ body {
 
 .content .dashboard_plugin {
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: center;
   flex-flow: row wrap;
 }
 
@@ -219,78 +219,63 @@ body {
   font-size: 1.4em;
 }
 
-.content
-  .dashboard_plugin
-  .plugin_1
-  .content_plugin
-  .detail_plugin
-  b.positif_value {
+.content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin b.positif_value {
   color: green;
   margin-right: 0.3rem;
 }
 
-.content
-  .dashboard_plugin
-  .plugin_1
-  .content_plugin
-  .detail_plugin
-  b.negatif_value {
+.content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin b.negatif_value {
   color: red;
   margin-right: 0.3rem;
 }
 
 .content .plugin-top {
-    display:flex;
-    flex-direction: row;
-    margin-bottom: 1.3rem;
-    justify-content:space-between;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1.3rem;
+  justify-content: space-between;
 }
 
 .content .plugin-top .item {
-    display:flex;
-    flex-direction: row;
-    text-align: center;
-    vertical-align: middle;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
 }
 
 .content .plugin-top .item .left_title {
-    font-size: 1.3em;
-    color:#3c4854;
-    text-transform: uppercase;
-    border-right : 1px solid #495057;
-    padding-right: 1.3rem;
+  font-size: 1.3em;
+  color: #3c4854;
+  text-transform: uppercase;
+  border-right: 1px solid #495057;
+  padding-right: 1.3rem;
 }
 
-.content .plugin-top .item .right_title {
-    font-size: 0.9em;
-    color:#495057;
-    padding-left:1.3rem;
+.content .plugin-top .item #right_title {
+  font-size: 0.9em;
+  color: #495057;
+  padding-left: 1.3rem;
 }
 
 .content .plugin-top .item button {
-    outline:none;
-    border: none;
-    padding:0.7rem 1.4rem;
-    background-color :#3c4854;
-    color:#fff;
-    margin-left: 1.2rem;
-    border-radius:8px;
+  outline: none;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  background-color: #3c4854;
+  color: #fff;
+  margin-left: 1.2rem;
+  border-radius: 8px;
 }
 
 .content .plugin-top .item button:hover {
-    background-color :#fe5724;
-    cursor: pointer;
-}
-
-.content .Detail_Search {
-  font-size: 0.75em;
-  padding: 1rem 0rem;
+  background-color: #fe5724;
+  cursor: pointer;
 }
 
 .content .display-none {
   display: none;
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .content .display-show {
@@ -303,28 +288,28 @@ body {
 }
 
 .content #plugin-search input {
-  color:#495057;
-  outline:none;
+  color: #495057;
+  outline: none;
   border: 1px solid #d8d8d8;
   margin-right: 1.2rem;
   padding: 0.8rem;
   font-size: 0.85rem;
 }
 
-.content #plugin-search input[type="text"]#search_data {
-  width:33%;
+.content #plugin-search input[type='text']#search_data {
+  width: 33%;
 }
 
-.content #plugin-search input[type="number"]#search_limit {
-  width:6%;
+.content #plugin-search input[type='number']#search_limit {
+  width: 6%;
 }
 
-.content #plugin-search input[type="date"] {
-  width:18%;
+.content #plugin-search input[type='date'] {
+  width: 18%;
   font-size: 0.85rem;
 }
 
-.content #plugin-search input[type="date"]::before {
+.content #plugin-search input[type='date']::before {
   content: attr(data-placeholder);
   width: 32%;
   color: #aaa;
@@ -332,33 +317,33 @@ body {
 }
 
 .content #plugin-search button {
-  outline:none;
+  outline: none;
   border: none;
   padding: 0.8rem;
-  background-color :#3c4854;
-  color:#fff;
-  border-radius:8px;
+  background-color: #3c4854;
+  color: #fff;
+  border-radius: 8px;
 }
 
 .content #plugin-search button:hover {
-  background-color :#fe5724;
+  background-color: #fe5724;
   cursor: pointer;
 }
 
 .content .content-table {
-    display:flex;
-    justify-content:center;
-    background-color:#fff;
-    font-size: 0.75em;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  font-size: 0.75em;
 }
 
 .content .content-table table.table-list {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .content .content-table table.table-list tr {
-  border-bottom:1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 .content .content-table table.table-list tr:hover {
@@ -368,48 +353,48 @@ body {
 .content .content-table table.table-list tr th {
   font-size: 1.05em;
   background-color: #495057;
-  color:white;
-  padding:0.7rem;
+  color: white;
+  padding: 0.7rem;
 }
 
-.content .content-table table.table-list tr th select#SetterSearch {
+.content .content-table table.table-list tr th select#search_Setter {
   font-size: 1.05em;
   outline: none;
   border: none;
   background-color: transparent;
-  color:white;
+  color: white;
   font-weight: bold;
 }
 
-.content .content-table table.table-list tr th select#SetterSearch option {
-  color:#495057;
-  padding:0.7rem;
+.content .content-table table.table-list tr th select#search_Setter option {
+  color: #495057;
+  padding: 0.7rem;
 }
 
 .content .content-table table.table-list tr td {
-  padding:0.35rem 0.1rem;
-} 
+  padding: 0.35rem 0.1rem;
+}
 
 .content .content-table table.table-list tr td:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .content .content-table table.table-list tr td.data_tidak_ditemukan {
-  padding:15px;
-  font-weight:bold;
+  padding: 15px;
+  font-weight: bold;
   font-size: 0.7rem;
 }
 
 .content .content-table table.table-list tr td.deskripsi {
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  vertical-align:center;
+  vertical-align: center;
 }
 
 .content .content-table table.table-list tr div.test {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   line-height: 21px;
 }
 
@@ -420,7 +405,7 @@ body {
 
 .content .content-table table.table-list tr td.deskripsi div.lf {
   background-color: #9320a1;
-  color:#fafafa;
+  color: #fafafa;
   padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
@@ -429,7 +414,7 @@ body {
 
 .content .content-table table.table-list tr td.deskripsi div.dp {
   background-color: #0077fc;
-  color:#fafafa;
+  color: #fafafa;
   padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
@@ -438,7 +423,7 @@ body {
 
 .content .content-table table.table-list tr td.deskripsi div.ix {
   background-color: #dd2424;
-  color:#fafafa;
+  color: #fafafa;
   padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
@@ -447,7 +432,7 @@ body {
 
 .content .content-table table.table-list tr td.deskripsi div.il {
   background-color: #289132;
-  color:#fafafa;
+  color: #fafafa;
   padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
@@ -456,7 +441,7 @@ body {
 
 .content .content-table table.table-list tr td.deskripsi div.o {
   background-color: #23785d;
-  color:#fafafa;
+  color: #fafafa;
   padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
@@ -465,7 +450,7 @@ body {
 
 .content .content-table table.table-list tr td.deskripsi div.e {
   background-color: grey;
-  color:#fafafa;
+  color: #fafafa;
   padding: 9px;
   margin-right: 0.8rem;
   font-weight: bold;
@@ -487,15 +472,15 @@ body {
 }
 
 .content .content-table table.table-list tr td.status_icon div span.active {
-  color:#fe5724;
+  color: #fe5724;
 }
 
 .content .content-table table.table-list tr td.status_icon div span.pointer {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .content .content-table table.table-list tr td.status_icon div span.default {
-  cursor:default;
+  cursor: default;
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
@@ -508,148 +493,146 @@ body {
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 566px) and (max-width: 767.98px) {
-    .content .dashboard_plugin .plugin_1 {
-        width: 100%;
-        margin-right: 0rem;
-    }
+  .content .dashboard_plugin .plugin_1 {
+    width: 100%;
+    /* margin-right: 0rem; */
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
-        font-size: 1.4em;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
+    font-size: 1.4em;
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
-        font-size: 1.0rem;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
+    font-size: 1rem;
+  }
 
-    .content .content-table {
-      font-size: 0.675rem;
-    }
+  .content .content-table {
+    font-size: 0.675rem;
+  }
 
-    .content #plugin-search input[type="text"]#search_data {
-      width:20%;
-    }
+  .content #plugin-search input[type='text']#search_data {
+    width: 20%;
+  }
 
-    .content #plugin-search input[type="date"] {
-      width:15%;
-    }
+  .content #plugin-search input[type='date'] {
+    width: 15%;
+  }
 
-    .content #plugin-search input[type="date"]::before {
-      content: attr(data-placeholder);
-      width: 30%;
-    }
+  .content #plugin-search input[type='date']::before {
+    content: attr(data-placeholder);
+    width: 30%;
+  }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .content .dashboard_plugin .plugin_1 {
-        width: 44%;
-        margin-right: 2.5rem;
-    }
+  .content .dashboard_plugin .plugin_1 {
+    width: 44%;
+    /* margin-right: 2.5rem; */
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
-        font-size: 1.2em;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
+    font-size: 1.2em;
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
-        font-size: 0.8rem;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin {
+    font-size: 0.8rem;
+  }
 
-    .content .content-table {
-      font-size: 0.675rem;
-    }
+  .content .content-table {
+    font-size: 0.675rem;
+  }
 
-    .content #plugin-search input[type="text"]#search_data {
-      width:23%;
-    }
+  .content #plugin-search input[type='text']#search_data {
+    width: 23%;
+  }
 
-    .content #plugin-search input[type="date"] {
-      width:17%;
-    }
+  .content #plugin-search input[type='date'] {
+    width: 17%;
+  }
 
-    .content #plugin-search input[type="date"]::before {
-      content: attr(data-placeholder);
-      width: 31%;
-    }
+  .content #plugin-search input[type='date']::before {
+    content: attr(data-placeholder);
+    width: 31%;
+  }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .content .dashboard_plugin .plugin_1 {
-        width: 23%;
-        margin-right: 1rem;
-    }
+  .content .dashboard_plugin .plugin_1 {
+    width: 22%;
+    /* margin-right: 1rem; */
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
-        font-size: 1em;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
+    font-size: 1em;
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin,
-    .content .content-table {
-      font-size: 0.7rem;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin,
+  .content .content-table {
+    font-size: 0.7rem;
+  }
 
-    .content #plugin-search input,
-    .content #plugin-search button,
-    .content #plugin-search input[type="text"]#search_data
-    .content #plugin-search input[type="date"],
-    .content #plugin-search input[type="date"]::before {
-      font-size: 0.8rem;
-    }
+  .content #plugin-search input,
+  .content #plugin-search button,
+  .content #plugin-search input[type='text']#search_data .content #plugin-search input[type='date'],
+  .content #plugin-search input[type='date']::before {
+    font-size: 0.8rem;
+  }
 
-    .content #plugin-search input[type="text"]#search_client {
-      width:15%;
-    }
+  .content #plugin-search input[type='text']#search_client {
+    width: 15%;
+  }
 
-    .content #plugin-search input[type="text"]#search_data {
-      width:26%;
-    }
+  .content #plugin-search input[type='text']#search_data {
+    width: 26%;
+  }
 
-    .content #plugin-search input[type="date"] {
-      width:20%;
-    }
+  .content #plugin-search input[type='date'] {
+    width: 20%;
+  }
 
-    .content #plugin-search input[type="date"]::before {
-      content: attr(data-placeholder);
-      width: 32%;
-      font-size: 0.8rem;
-    }
+  .content #plugin-search input[type='date']::before {
+    content: attr(data-placeholder);
+    width: 32%;
+    font-size: 0.8rem;
+  }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-    .content .dashboard_plugin .plugin_1 {
-        width: 24%;
-        margin-right: 0.9rem;
-    }
+  .content .dashboard_plugin .plugin_1 {
+    width: 23%;
+    /* margin-right: 1.1rem; */
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
-        font-size: 1.4em;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin span.value {
+    font-size: 1.4em;
+  }
 
-    .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin,
-    .content .content-table {
-      font-size: 0.675rem;
-    }
+  .content .dashboard_plugin .plugin_1 .content_plugin .detail_plugin,
+  .content .content-table {
+    font-size: 0.675rem;
+  }
 
-    .content #plugin-search input,
-    .content #plugin-search button,
-    .content #plugin-search input[type="text"]#search_data
-    .content #plugin-search input[type="date"],
-    .content #plugin-search input[type="date"]::before {
-      font-size: 0.7rem;
-    }
+  .content #plugin-search input,
+  .content #plugin-search button,
+  .content #plugin-search input[type='text']#search_data .content #plugin-search input[type='date'],
+  .content #plugin-search input[type='date']::before {
+    font-size: 0.7rem;
+  }
 
-    .content #plugin-search input[type="text"]#search_data {
-      width:33%;
-    }
+  .content #plugin-search input[type='text']#search_data {
+    width: 33%;
+  }
 
-    .content #plugin-search input[type="date"] {
-      width:18%;
-    }
+  .content #plugin-search input[type='date'] {
+    width: 18%;
+  }
 
-    .content #plugin-search input[type="date"]::before {
-      content: attr(data-placeholder);
-      width: 32%;
-      font-size: 0.7;
-    }
+  .content #plugin-search input[type='date']::before {
+    content: attr(data-placeholder);
+    width: 32%;
+    font-size: 0.7;
+  }
 }

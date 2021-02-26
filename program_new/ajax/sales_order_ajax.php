@@ -4,40 +4,58 @@ require_once '../../function.php';
 
 $n = 0;
 
+$Setter = $_POST['Setter'];
 $client = $_POST['client'];
 $data = $_POST['data'];
 $drTgl = $_POST['drTgl'];
 $keTgl = $_POST['keTgl'];
 $limit = $_POST['limit'];
+$idSetter = "";
 
-if(( $client != "" || $data != "")) {
-    $show_limit = "LIMIT $limit";
-} else {
-    $show_limit = "";
-}
-
-if ($drTgl != "" and $keTgl != "") :
-    $SearchDate = "and (LEFT( penjualan.waktu, 10 )>='$drTgl' and LEFT( penjualan.waktu, 10 )<='$keTgl')";
-elseif ($drTgl != "" and $keTgl == "") :
-    $SearchDate = "and (LEFT( penjualan.waktu, 10 )='$drTgl')";
-elseif ($drTgl == "" and $keTgl != "") :
-    $SearchDate = "and (LEFT( penjualan.waktu, 10 )='$keTgl')";
+if (isset($Setter)) :
+    $idSetter .= $Setter;
 else :
-    $SearchDate = "";
+    $idSetter .= "$_SESSION[Setter_ID]";
 endif;
 
-if($client!="") {
-    $SearchClient = "and customer.nama_client LIKE '%$client%'";
-} else {
-    $SearchClient = "";
-}
+$_SESSION['Setter_ID'] = "$idSetter";
 
-if($data!="") {
-    $SearchData = "and ( penjualan.description LIKE '%$data%' or penjualan.oid LIKE '%$data%' or penjualan.no_invoice LIKE '%$data%')";
-} else {
-    $SearchData = "";
-}
+$SearchDate = 
+    ($drTgl != "" and $keTgl != "")
+        ? "and (LEFT( penjualan.waktu, 10 )>='$drTgl' and LEFT( penjualan.waktu, 10 )<='$keTgl')"
+        : ((($drTgl != "" and $keTgl == "") || ($drTgl == "" and $keTgl != ""))
+            ? "and (LEFT( penjualan.waktu, 10 )='$drTgl')"
+            : ""
+        );
 
+$show_limit = 
+    ( $client != "" || $data != "") 
+        ? "LIMIT $limit" 
+        : "";
+
+$SearchSetter = 
+    ( $Setter!="" )
+        ? "and penjualan.setter = '$Setter'" 
+        : "";
+
+$SearchClient = 
+    ( $client!="" )
+        ? "and customer.nama_client LIKE '%$client%'" 
+        : "";
+
+$SearchData = 
+    ( $data!="" )
+        ? "and ( penjualan.description LIKE '%$data%' or penjualan.oid LIKE '%$data%' or penjualan.no_invoice LIKE '%$data%')" 
+        : "";
+
+// if else Ternary Operator (?:) dengan jumlah variable lebih dari satu
+// ( $client!="" )
+//     ? 
+//         $SearchClient = "and customer.nama_client LIKE '%$client%'" xor 
+//         $pClient = "client <b>$client</b>"
+//     : 
+//         $SearchClient = "" xor 
+//         $pClient = "";
 
 $sql =
     "SELECT
@@ -57,9 +75,8 @@ $sql =
         (CASE
             WHEN penjualan.status = 'selesai' THEN 'Y'
             WHEN penjualan.status = '' THEN 'N'
-            ELSE ''
+            ELSE 'N'
         END) as Finished,
-        penjualan.acc, 
         (CASE
             WHEN penjualan.no_invoice != '0' THEN 'Y'
             ELSE 'N'
@@ -90,10 +107,9 @@ $sql =
         END) as bahan,
         CONCAT('<b>', penjualan.qty, '</b> ' ,penjualan.satuan) as qty,
         (CASE
-            WHEN penjualan.panjang > 0 || penjualan.lebar > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
+            WHEN ( penjualan.panjang > 0 || penjualan.lebar ) > 0 THEN CONCAT('Uk. ', penjualan.panjang, ' X ', penjualan.lebar, ' Cm')
             ELSE ''
         END) as ukuran,
-        penjualan.Design,
         penjualan.description,
         customer.nama_client,
         customer.no_telp,
@@ -104,7 +120,6 @@ $sql =
         END) as pembayaran,
         (CASE
             WHEN penjualan.akses_edit = 'Y' THEN 'Y'
-            WHEN penjualan.akses_edit = 'N' THEN 'N'
             ELSE 'N'
         END) as akses_edit
     FROM
@@ -124,6 +139,7 @@ $sql =
     WHERE
         penjualan.oid != '' and
         penjualan.client !='1'
+        $SearchSetter
         $SearchData
         $SearchDate
         $SearchClient
@@ -138,11 +154,7 @@ $result = $conn_OOP->query($sql);
 $jumlah_order = $result->num_rows;
 ?>
 
-<span class='display-none' id='jumlah_order'><?= $jumlah_order ?></span>
-
-<div class='Detail_Search display-none'>
-    <i class="far fa-info-circle"></i> Pencarian client <b>Hendra</b> dengan detail <b>Test Print</b> dari periode <b>21-Jan-2021</b> sampai <b>22-Jan-2021</b> Sekitar <b>3.710.000.000</b> hasil (0,75 detik)
-</div>
+<span class='display-none' id='jumlah_order'><?= number_format($jumlah_order) ?> Order</span>
 
 <div class='content-table'>
     <table class='table-list'>
@@ -156,7 +168,7 @@ $jumlah_order = $result->num_rows;
             <th width="14%">Bahan</th>
             <th width="8%">Qty</th>
             <th width="6%">
-                <select name="SetterSearch" id="SetterSearch" onchange="SetterSearch();">
+                <select id="search_Setter" onchange="SearchSetter();">
                     <option value="">Setter</option>
                     <?php
                     $setter_SQL =
@@ -194,8 +206,8 @@ $jumlah_order = $result->num_rows;
 
                     if ($result_Setter->num_rows > 0) :
                         while ($d = $result_Setter->fetch_assoc()) :
-                            $Nama_Setter = ucwords($d['nama']);
-                            echo "<option value='$d[setter]'>$Nama_Setter</option>";
+                            $pilih = $d['setter'] == "$Setter" ? "selected" : "";
+                            echo "<option value='$d[setter]' $pilih>". ucwords($d['nama']) ."</option>";
                         endwhile;
                     endif;
                     ?>
@@ -292,7 +304,7 @@ $jumlah_order = $result->num_rows;
                             <span class='active pointer'><i class='fas fa-file-alt'></i></span>
                         </div>
                         <div>
-                            <span class='$check_Finished'><i class='fas fa-check-double'></i></span>
+                            <span class='$check_Finished' ondblclick='finished($d[oid],\"$d[Finished]\")'><i class='fas fa-check-double'></i></span>
                             <span class='$check_finishing default'><i class='fas fa-cut'></i></span>
                             <span class='$check_laminating default'><i class='fas fa-toilet-paper-alt'></i></span>
                             <span class='$check_image_design $pointer_image_design'><i class='fas fa-file-image'></i></span>

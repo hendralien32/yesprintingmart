@@ -192,6 +192,9 @@ endif;
                 <a href="?page=Support">
                     <li class='<?= ($page == 'Support') ? 'active' : ''; ?>'>FAQ / Support</li>
                 </a>
+                <a href="../program_new">
+                    <li>Program New</li>
+                </a>
                 <div class="clear"></div>
             </ul>
         </div>

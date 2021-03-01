@@ -19,6 +19,19 @@ tSearch.onclick = function () {
   }
 };
 
+//fungsi tombol cancel
+function tCancel() {
+  const cancelBtn = document.getElementById('cancel');
+  const bg_blackOut = document.getElementById('blackout');
+  const alert_box = document.getElementById('alert_box');
+
+  cancelBtn.addEventListener('click', function (e) {
+    bg_blackOut.classList.replace('display-show', 'display-none');
+    alert_box.innerHTML = '';
+    alert_box.style.display = 'none';
+  });
+}
+
 function loadList() {
   const search_client = document.getElementById('search_client').value,
     search_data = document.getElementById('search_data').value,
@@ -78,23 +91,21 @@ function SearchSetter() {
 function finished(id, status) {
   const bg_blackOut = document.getElementById('blackout');
   const alert_box = document.getElementById('alert_box');
-  
-  bg_blackOut.classList.replace('display-none', 'display-show');
-  alert_box.style.display = "block";
+  const sSelesai = status == 'N' ? 'selesai' : '';
 
-  alert_box.innerHTML = "<div class='keterangan'>Ubah Status OID menjadi Selesai ?</div><div class='button'><button id='ok'>OK</button> <button id='cancel'>Cancel</button></div>";
+  bg_blackOut.classList.replace('display-none', 'display-show');
+  document.body.style.overflow = 'hidden';
+  alert_box.style.display = 'block';
+
+  alert_box.innerHTML =
+    "<div class='icon'><i class='fal fa-exclamation-circle'></i></div><div class='keterangan'>Ubah Status pada ID Order order " + id + "?</div><div class='button'><button id='ok'>OK</button> <button id='cancel'>Cancel</button></div>";
 
   tCancel();
-  
+
   const okBtn = document.getElementById('ok');
-  okBtn.addEventListener('click', function(e){
-    // alert(id + " " + status);
-    
+  okBtn.addEventListener('click', function (e) {
     let variable;
-    variable = 
-      'oid=' + id + 
-      '&status=' + status + 
-      '&typeSubmit= statusFinishedOID';
+    variable = 'oid=' + id + '&status=' + status + '&sSelesai=' + sSelesai + '&typeSubmit=statusFinishedOID';
 
     const xhr = ajaxReq();
     let url = 'progress/sql_Progress.php';
@@ -106,13 +117,14 @@ function finished(id, status) {
       if (xhr.readyState == 4 && xhr.status == 200) {
         try {
           hideAlertBox();
-          // loading();
-          // loadList();
-          document.getElementById('ajax_load').innerHTML = xhr.responseText;
+          loading();
+          loadList();
+          // document.getElementById('ajax_load').innerHTML = xhr.responseText;
         } catch (error) {
           throw Error;
         }
       }
     };
+    e.preventDefault();
   });
 }

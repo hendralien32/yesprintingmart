@@ -301,7 +301,7 @@ $jumlah_order = $result->num_rows;
                             <span class='$check_akses_edit'><i class='fas fa-pen'></i></span>
                             <span class='$check_invoice default'><i class='fas fa-receipt'></i></span>
                             <span class='$check_pembayaran default'><i class='fas fa-cash-register'></i></span>
-                            <span class='active pointer'><i class='fas fa-file-alt'></i></span>
+                            <span class='active pointer' onclick='finished($d[oid])'><i class='fas fa-file-alt'></i></span>
                         </div>
                         <div>
                             <span class='$check_Finished' onclick='finished($d[oid],\"$d[Finished]\")'><i class='fas fa-check-double'></i></span>

@@ -23,10 +23,23 @@ session_start();
 
 <body>
     <div class="wrapper">
-        <div id='alert_box'>
-            
-        </div>
+        <div id='alert_box'></div>
         <div id="lightbox">
+            <div id='content-lightbox' class='display-none'>
+                <div class='topForm'>
+                    <span id='titleForm'><i class='fas fa-file-alt'></i> Logs ID #333333</span>
+                    <span id='closeBtn' class='pointer'><i class='fas fa-window-close'></i></span>
+                </div>
+                <div class='content'>
+                    <table id='tLogs'>
+                        <tr>
+                            <th width="2%">#</th>
+                            <th width="20%">Tanggal & Waktu</th>
+                            <th width="78%">Details Logs</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <div id='blackout' class='display-none'></div>
         </div>
         <div class="header">
@@ -50,7 +63,7 @@ session_start();
                     <p>Hendra</p>
                 </div>
                 <div class="icon">
-                    <a href=""><i class="far fa-sign-out"></i></a>
+                    <a href="logout.php"><i class="far fa-sign-out"></i></a>
                 </div>
             </div>
         </div>
@@ -162,7 +175,6 @@ session_start();
 
     <script data-search-pseudo-elements defer src="../vendor/fontawesome-pro-master/js/all.js"></script>
     <script src="../vendor/moment-with-locales.js"></script>
-    <script src="../vendor/vanilla.js"></script>
     <script src="../vendor/moment-timezone-with-data.js"></script>
     <script src="js/script.js"></script>
 

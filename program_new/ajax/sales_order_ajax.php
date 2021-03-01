@@ -269,7 +269,7 @@ $jumlah_order = $result->num_rows;
 
                 echo "
                 <tr>
-                    <td><center>$n</center></td>
+                    <td><center>". number_format($n) ."</center></td>
                     <td>
                         <div class='test'>
                             <span class='client_name'>
@@ -304,7 +304,7 @@ $jumlah_order = $result->num_rows;
                             <span class='active pointer'><i class='fas fa-file-alt'></i></span>
                         </div>
                         <div>
-                            <span class='$check_Finished' ondblclick='finished($d[oid],\"$d[Finished]\")'><i class='fas fa-check-double'></i></span>
+                            <span class='$check_Finished' onclick='finished($d[oid],\"$d[Finished]\")'><i class='fas fa-check-double'></i></span>
                             <span class='$check_finishing default'><i class='fas fa-cut'></i></span>
                             <span class='$check_laminating default'><i class='fas fa-toilet-paper-alt'></i></span>
                             <span class='$check_image_design $pointer_image_design'><i class='fas fa-file-image'></i></span>

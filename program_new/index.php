@@ -17,28 +17,18 @@ session_start();
     <link rel="stylesheet" type="text/css" src="../vendor/fontawesome-pro-master/css/all.css">
 
     <!--===============================================================================================-->
-    <script data-search-pseudo-elements defer src="../vendor/fontawesome-pro-master/js/all.js"></script>
-    <script src="../vendor/moment-with-locales.js"></script>
-    <script src="../vendor/vanilla.js"></script>
-    <script src="../vendor/moment-timezone-with-data.js"></script>
-    <script src="js/ajax.js"></script>
-
-    <!--===============================================================================================-->
-    <script>
-        function widget() {
-            var now = moment();
-            var tanggal = now.lang("id").tz("Asia/Jakarta").format('dddd, Do MMM YYYY');
-            var waktu = now.lang("id").tz("Asia/Jakarta").format('[Jam : ]LTS');
-
-            document.getElementById('text').innerHTML = "<b class='tanggal'>" + tanggal + "</b><br><b class='waktu'>" + waktu + "</b>";
-        }
-        setInterval(widget, 50);
-    </script>
+    
     <title>Hawkbase Ver 5.2</title>
 </head>
 
 <body>
     <div class="wrapper">
+        <div id='alert_box'>
+            
+        </div>
+        <div id="lightbox">
+            <div id='blackout' class='display-none'></div>
+        </div>
         <div class="header">
             <div class="logo">
                 <img src="../images/Logo Yes Program White.png">
@@ -47,9 +37,13 @@ session_start();
                 <div class="icon">
                     <span id="text"></span>
                 </div>
-                <div class="icon">
+                <div class="icon pointer">
                     <i class="far fa-scroll"></i>
                     <span class='notif_number'>13</span>
+
+                    <div id='notif_display' class='display-none'>
+                        
+                    </div>
                 </div>
                 <div class="icon">
                     <img src="../images/profile.jpg">
@@ -163,6 +157,16 @@ session_start();
             endif;
             ?>
         </div>
+
+    <!--===============================================================================================-->
+
+    <script data-search-pseudo-elements defer src="../vendor/fontawesome-pro-master/js/all.js"></script>
+    <script src="../vendor/moment-with-locales.js"></script>
+    <script src="../vendor/vanilla.js"></script>
+    <script src="../vendor/moment-timezone-with-data.js"></script>
+    <script src="js/script.js"></script>
+
+    <!--===============================================================================================-->
 
 </body>
 

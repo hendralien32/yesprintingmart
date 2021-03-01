@@ -25,7 +25,7 @@ $idSetter =
     <input type="text" id='search_client' placeholder="Search Nama Client" onChange="SearchData()" autocomplete="off">
     <input type="text" id='search_data' placeholder="Search data ( Deskripsi, OID, No. Invoice )" onChange="SearchData()" autocomplete="off">
     <input type="date" id='search_drTgl' data-placeholder="Dari Tgl" value="<?= $date; ?>" max="<?= $date; ?>" onChange="SearchDate()">
-    <input type="date" id='search_keTgl' data-placeholder="Ke Tgl" value="<?= $date; ?>" max="<?= $date; ?>" onChange="SearchDate()">
+    <input type="date" id='search_keTgl' data-placeholder="Ke Tgl" max="<?= $date; ?>" onChange="SearchDate()">
     <input type="number" id='search_limit' placeholder="Limit" value="150" onChange="SearchData()" autocomplete="off">
     <input type="hidden" id='ID_Setter' value="<?= $idSetter ?>">
 </div>

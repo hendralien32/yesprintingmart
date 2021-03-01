@@ -1,5 +1,6 @@
 window.addEventListener('load', function () {
   loading();
+  alert_box();
   loadList();
 });
 
@@ -75,9 +76,43 @@ function SearchSetter() {
 }
 
 function finished(id, status) {
-  if (status == 'N') {
-    var sSelesai = 'selesai';
-  } else {
-    var sSelesai = '';
-  }
+  const bg_blackOut = document.getElementById('blackout');
+  const alert_box = document.getElementById('alert_box');
+  
+  bg_blackOut.classList.replace('display-none', 'display-show');
+  alert_box.style.display = "block";
+
+  alert_box.innerHTML = "<div class='keterangan'>Ubah Status OID menjadi Selesai ?</div><div class='button'><button id='ok'>OK</button> <button id='cancel'>Cancel</button></div>";
+
+  tCancel();
+  
+  const okBtn = document.getElementById('ok');
+  okBtn.addEventListener('click', function(e){
+    // alert(id + " " + status);
+    
+    let variable;
+    variable = 
+      'oid=' + id + 
+      '&status=' + status + 
+      '&typeSubmit= statusFinishedOID';
+
+    const xhr = ajaxReq();
+    let url = 'progress/sql_Progress.php';
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    xhr.send(variable);
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        try {
+          hideAlertBox();
+          // loading();
+          // loadList();
+          document.getElementById('ajax_load').innerHTML = xhr.responseText;
+        } catch (error) {
+          throw Error;
+        }
+      }
+    };
+  });
 }

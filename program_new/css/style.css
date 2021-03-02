@@ -97,7 +97,7 @@ a {
 }
 
 .wrapper #lightbox #content-lightbox #lightBoxContent #imgPreview .imageFile img {
-  width: 100%;
+  height: 50%;
 }
 
 .wrapper #lightbox #content-lightbox #lightBoxContent #imgPreview .btnDownload {

@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: ../", true, 301);
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,21 +31,7 @@ session_start();
     <div class="wrapper">
         <div id='alert_box'></div>
         <div id="lightbox">
-            <div id='content-lightbox' class='display-none'>
-                <div class='topForm'>
-                    <span id='titleForm'><i class='fas fa-file-alt'></i> Logs ID #333333</span>
-                    <span id='closeBtn' class='pointer'><i class='fas fa-window-close'></i></span>
-                </div>
-                <div class='content'>
-                    <table id='tLogs'>
-                        <tr>
-                            <th width="2%">#</th>
-                            <th width="20%">Tanggal & Waktu</th>
-                            <th width="78%">Details Logs</th>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+            <div id='content-lightbox' class='display-none'></div>
             <div id='blackout' class='display-none'></div>
         </div>
         <div class="header">
@@ -60,7 +52,7 @@ session_start();
                 </div>
                 <div class="icon">
                     <img src="../images/profile.jpg">
-                    <p>Hendra</p>
+                    <p><?= $_SESSION['username'] ?></p>
                 </div>
                 <div class="icon">
                     <a href="logout.php"><i class="far fa-sign-out"></i></a>

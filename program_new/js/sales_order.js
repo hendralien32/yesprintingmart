@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
   loading();
-  alert_box();
+  hideLightBox();
   loadList();
 });
 
@@ -97,8 +97,7 @@ function finished(id, status) {
   document.body.style.overflow = 'hidden';
   alert_box.style.display = 'block';
 
-  alert_box.innerHTML =
-    "<div class='icon'><i class='fal fa-exclamation-circle'></i></div><div class='keterangan'>Ubah Status pada ID Order order " + id + "?</div><div class='button'><button id='ok'>OK</button> <button id='cancel'>Cancel</button></div>";
+  alert_box.innerHTML = `<div class='icon'><i class='fal fa-exclamation-circle'></i></div><div class='keterangan'>Ubah Status pada ID Order order ${id} ?</div><div class='button'><button id='ok'>OK</button> <button id='closeBtn'>Cancel</button></div>`;
 
   tCancel();
 
@@ -116,7 +115,7 @@ function finished(id, status) {
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
         try {
-          hideAlertBox();
+          hideLightBox();
           loading();
           loadList();
           // document.getElementById('ajax_load').innerHTML = xhr.responseText;
@@ -127,4 +126,36 @@ function finished(id, status) {
     };
     e.preventDefault();
   });
+}
+
+function sLog(id) {
+  const bg_blackOut = document.getElementById('blackout');
+  const ctLightBox = document.getElementById('content-lightbox');
+
+  bg_blackOut.classList.replace('display-none', 'display-show');
+  document.body.style.overflow = 'hidden';
+  ctLightBox.style.display = 'block';
+
+  ctLightBox.innerHTML = `<div class='topForm'><span id='titleForm'><i class='fas fa-file-alt'></i> Logs ID #${id}</span><span id='closeBtn' class='pointer'><i class='fas fa-window-close'></i></span></div><div id='lightBoxContent'></div>`;
+
+  tClose();
+
+  let variable;
+  variable = 'oid=' + id + '&showPage=logList';
+
+  const xhr = ajaxReq();
+  let url = 'progress/notif_prog.php';
+  xhr.open('POST', url, true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  xhr.send(variable);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      try {
+        document.getElementById('lightBoxContent').innerHTML = xhr.responseText;
+      } catch (error) {
+        throw Error;
+      }
+    }
+  };
 }

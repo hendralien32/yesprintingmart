@@ -32,13 +32,16 @@ icon_navbar[1].addEventListener('click', function (e) {
   const div_class = document.getElementById('notif_display');
 
   if (div_class.classList.contains('display-none')) {
+    let variable;
+    variable = 'showPage=kekuranganStockDP';
+
     div_class.classList.replace('display-none', 'display-show');
 
     const xhr = ajaxReq();
     let url = 'progress/notif_prog.php';
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    xhr.send();
+    xhr.send(variable);
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
@@ -60,32 +63,56 @@ icon_navbar[1].addEventListener('click', function (e) {
 function alert_box() {
   const bg_blackOut = document.getElementById('blackout');
   const alert_box = document.getElementById('alert_box');
+  const cLightbox = document.getElementById('content-lightbox');
 
   bg_blackOut.addEventListener('click', function (e) {
     bg_blackOut.classList.replace('display-show', 'display-none');
     alert_box.innerHTML = '';
+    cLightbox.innerHTML = '';
     alert_box.style.display = 'none';
+    cLightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
   });
 }
 
 //menghilangkan alert box
-function hideAlertBox() {
+function hideLightBox() {
+  const bg_blackOut = document.getElementById('blackout');
+  const alert_box = document.getElementById('alert_box');
+  const cLightbox = document.getElementById('content-lightbox');
+
+  bg_blackOut.addEventListener('click', function (e) {
+    bg_blackOut.classList.replace('display-show', 'display-none');
+    alert_box.innerHTML = '';
+    cLightbox.innerHTML = '';
+    alert_box.style.display = 'none';
+    cLightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+}
+
+function tCancel() {
+  const cancelBtn = document.getElementById('closeBtn');
   const bg_blackOut = document.getElementById('blackout');
   const alert_box = document.getElementById('alert_box');
 
-  bg_blackOut.classList.replace('display-show', 'display-none');
-  alert_box.innerHTML = '';
-  alert_box.style.display = 'none';
+  cancelBtn.addEventListener('click', function (e) {
+    bg_blackOut.classList.replace('display-show', 'display-none');
+    alert_box.innerHTML = '';
+    alert_box.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
 }
 
-// function tClose() {
-//   const cancelBtn = document.getElementById('closeBtn');
-//   const bg_blackOut = document.getElementById('blackout');
-//   const cLightbox = document.getElementById('content-lightbox');
+function tClose() {
+  const cancelBtn = document.getElementById('closeBtn');
+  const bg_blackOut = document.getElementById('blackout');
+  const cLightbox = document.getElementById('content-lightbox');
 
-//   cancelBtn.addEventListener('click', function (e) {
-//     bg_blackOut.classList.replace('display-show', 'display-none');
-//     cLightbox.innerHTML = '';
-//     cLightbox.style.display = 'none';
-//   });
-// }
+  cancelBtn.addEventListener('click', function (e) {
+    bg_blackOut.classList.replace('display-show', 'display-none');
+    cLightbox.innerHTML = '';
+    cLightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+}

@@ -1,8 +1,45 @@
 <?php
 require_once "../../function.php";
 
+$namePage = $_POST['showPage'];
 ?>
 
+<?php if( $namePage == "logList" ) : // List Log Per ID
+
+    $sql = 
+        "SELECT 
+            penjualan.history
+        FROM 
+            penjualan
+        WHERE
+            penjualan.oid = '$_POST[oid]'
+    ";
+
+    // Untuk Yesprintingmart
+    $result = $conn_OOP -> query($sql);
+
+    // Untuk YESCOM
+    // $result = $conn_Server -> query($sql); 
+
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+    endif;
+    ?>
+
+    <table id='tLogs'>
+        <tr>
+            <th width='20%'>Tanggal & Waktu</th>
+            <th width='80%' colspan='2'>Details Logs</th>
+        </tr>
+        <?php 
+        $history = str_replace(["<ul>","</ul>"], "", $row['history']);
+        $history_1 = str_replace("<li>", "<tr style='border-right:none'><td colspan='3'>", $history);
+        $FINAL_history = str_replace("</li>", "</td></tr>", $history_1);
+    
+        echo "$FINAL_history";
+        ?>
+    </table>
+<?php elseif( $namePage == "kekuranganStockDP" ) : ?>
     <table>
         <?php
         $sql =
@@ -109,4 +146,6 @@ require_once "../../function.php";
         endif;
         ?>
     </table>
-</div>
+<?php  else : // Notif Page ?>
+    ERROR
+<?php endif; ?>

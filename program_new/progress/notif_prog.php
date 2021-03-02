@@ -39,7 +39,7 @@ $namePage = $_POST['showPage'];
         echo "$FINAL_history";
         ?>
     </table>
-<?php elseif( $namePage == "kekuranganStockDP" ) : ?>
+<?php elseif( $namePage == "kekuranganStockDP" ) : // List Kekurangan Stock ?>
     <table>
         <?php
         $sql =
@@ -146,6 +146,35 @@ $namePage = $_POST['showPage'];
         endif;
         ?>
     </table>
+<?php elseif( $namePage == "imagePreview" ) :
+    $sql =
+    "SELECT 
+            penjualan.posisi_file,
+            penjualan.file_design,
+            penjualan.img_design
+        FROM 
+            penjualan
+        WHERE
+            penjualan.oid = '$_POST[oid]'
+    ";
+
+    $result = $conn_OOP -> query($sql);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+        $image = file_get_contents($row['posisi_file'] . $row['img_design']);
+        $image_codes = base64_encode($image);
+    endif;
+    ?>
+
+    <div id="imgPreview">
+        <div class='imageFile'>
+            <image src="data:image/jpg;charset=utf-8;base64,<?= $image_codes; ?>">
+        </div>
+        <div class='btnDownload'>
+            <span class='styleDownload pointer'><a href='download.php?link=<?= $row['file_design'] ?>&LocationFile=<?= $row['posisi_file'] ?>'>Download Button <i class="fas fa-download"></i></a></span>
+        </div>
+    </div>
+<?php elseif( $namePage == "xXX" ) : ?>
 <?php  else : // Notif Page ?>
     ERROR
 <?php endif; ?>

@@ -91,27 +91,17 @@ function hideLightBox() {
   });
 }
 
-function tCancel() {
+function tClose() {
   const cancelBtn = document.getElementById('closeBtn');
   const bg_blackOut = document.getElementById('blackout');
+  const cLightbox = document.getElementById('content-lightbox');
   const alert_box = document.getElementById('alert_box');
 
   cancelBtn.addEventListener('click', function (e) {
     bg_blackOut.classList.replace('display-show', 'display-none');
     alert_box.innerHTML = '';
-    alert_box.style.display = 'none';
-    document.body.style.overflow = 'auto';
-  });
-}
-
-function tClose() {
-  const cancelBtn = document.getElementById('closeBtn');
-  const bg_blackOut = document.getElementById('blackout');
-  const cLightbox = document.getElementById('content-lightbox');
-
-  cancelBtn.addEventListener('click', function (e) {
-    bg_blackOut.classList.replace('display-show', 'display-none');
     cLightbox.innerHTML = '';
+    alert_box.style.display = 'none';
     cLightbox.style.display = 'none';
     document.body.style.overflow = 'auto';
   });

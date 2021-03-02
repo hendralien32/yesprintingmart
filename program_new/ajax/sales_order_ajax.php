@@ -152,6 +152,7 @@ $sql =
 // Perform query
 $result = $conn_OOP->query($sql);
 $jumlah_order = $result->num_rows;
+
 ?>
 
 <span class='display-none' id='jumlah_order'><?= number_format($jumlah_order) ?> Order</span>
@@ -267,6 +268,11 @@ $jumlah_order = $result->num_rows;
                     endif;
                 }
 
+                $imagePreview = 
+                    ($d['image_design'] == 'Y') 
+                        ? "onclick='imgPreview($d[oid])'"
+                        : "";
+
                 echo "
                 <tr>
                     <td><center>". number_format($n) ."</center></td>
@@ -307,7 +313,7 @@ $jumlah_order = $result->num_rows;
                             <span class='$check_Finished' onclick='finished($d[oid],\"$d[Finished]\")'><i class='fas fa-check-double'></i></span>
                             <span class='$check_finishing default'><i class='fas fa-cut'></i></span>
                             <span class='$check_laminating default'><i class='fas fa-toilet-paper-alt'></i></span>
-                            <span class='$check_image_design $pointer_image_design'><i class='fas fa-file-image'></i></span>
+                            <span class='$check_image_design $pointer_image_design' $imagePreview><i class='fas fa-file-image'></i></span>
                         </div>
                     </td>
                     <td><center><b>$d[sisi]</b></center></td>

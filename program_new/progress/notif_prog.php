@@ -171,7 +171,7 @@ $namePage = $_POST['showPage'];
             <image src="data:image/jpg;charset=utf-8;base64,<?= $image_codes; ?>">
         </div>
         <div class='btnDownload'>
-            <span class='styleDownload pointer'><a href='download.php?link=<?= $row['file_design'] ?>&LocationFile=<?= $row['posisi_file'] ?>'>Download Button <i class="fas fa-download"></i></a></span>
+            <span class='styleDownload pointer'><a href='download.php?link=<?= $row['file_design'] ?>&LocationFile=<?= $row['posisi_file'] ?>'>Download <i class="fas fa-download"></i></a></span>
         </div>
     </div>
 <?php elseif( $namePage == "xXX" ) : ?>

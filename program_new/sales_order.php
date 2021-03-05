@@ -16,7 +16,7 @@ $idSetter =
     </div>
     <div class='item'>
         <button id='button-search'><i class="fas fa-search-plus"></i></button>
-        <button><i class="fal fa-plus"></i> Add Order</button>
+        <button onclick="formLoad('SalesOrder', '')"><i class="fal fa-plus"></i> Add Order</button>
         <button><i class="fal fa-receipt"></i> Create Invoice</button>
     </div>
 </div>

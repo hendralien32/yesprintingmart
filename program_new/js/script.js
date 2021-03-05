@@ -106,3 +106,43 @@ function tClose() {
     document.body.style.overflow = 'auto';
   });
 }
+
+function formLoad(tipe, id) {
+  if (tipe == 'SalesOrder') {
+    var judul = 'Form Add Sales Order';
+    var icon = 'fas fa-file-plus';
+  } else {
+    var judul = '404 Not Found';
+    var icon = 'fas fa-file-plus';
+  }
+
+  const bg_blackOut = document.getElementById('blackout');
+  const ctLightBox = document.getElementById('content-lightbox');
+
+  bg_blackOut.classList.replace('display-none', 'display-show');
+  document.body.style.overflow = 'hidden';
+  ctLightBox.style.display = 'block';
+
+  ctLightBox.innerHTML = `<div class='topForm'><span id='titleForm'><i class='${icon}'></i> ${judul} </span><span id='closeBtn' class='pointer'><i class='fas fa-window-close'></i></span></div><div id='lightBoxContent'></div>`;
+
+  tClose();
+
+  let variable;
+  variable = 'oid=' + id;
+
+  const xhr = ajaxReq();
+  let url = 'form/' + tipe + '_f.php';
+  xhr.open('POST', url, true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  xhr.send(variable);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      try {
+        document.getElementById('lightBoxContent').innerHTML = xhr.responseText;
+      } catch (error) {
+        throw Error;
+      }
+    }
+  };
+}

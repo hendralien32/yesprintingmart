@@ -217,14 +217,14 @@ $jumlah_order = $result->num_rows;
             <th width="2%"> </th>
         </tr>
         <?php
-        if ($jumlah_order > 0) {
+        if ($jumlah_order > 0) :
             // output data of each row
             while ($d = $result->fetch_assoc()) :
                 $n++;
                 $tanggal = date_format(date_create($d['tanggal']), 'j M Y');
                 $Waktu = date_format(date_create($d['tanggal']), 'h:i A');
-                $No_telp = "$d[no_telp]";
 
+                $No_telp = "$d[no_telp]";
                 if (strlen($No_telp) == 12) :
                     $telp = sprintf(
                         "- %s-%s-%s",
@@ -273,6 +273,8 @@ $jumlah_order = $result->num_rows;
                         ? "onclick='imgPreview($d[oid])'"
                         : "";
 
+                $edit = "formLoad(\"SalesOrder\", \"". $d['oid'] ."\")";
+
                 echo "
                 <tr>
                     <td><center>". number_format($n) ."</center></td>
@@ -286,14 +288,14 @@ $jumlah_order = $result->num_rows;
                             </span>
                         </div>
                     </td>
-                    <td><center>$d[oid]</center></td>
-                    <td class='deskripsi'>
+                    <td onclick='$edit'><center>$d[oid]</center></td>
+                    <td class='deskripsi' onclick='$edit'>
                         <div class='$d[kode_barang]'>
                             <span>
                                 $d[code]
                             </span>
                         </div>
-                        <div class='test'>
+                        <div class='test' onclick='$edit'>
                             <span class='client_name'>
                                 $d[nama_client] $telp
                             </span>
@@ -324,13 +326,13 @@ $jumlah_order = $result->num_rows;
                 </tr>
                 ";
             endwhile;
-        } else {
+        else :
             echo "
                 <tr>
                     <td colspan='10' class='data_tidak_ditemukan'><center><i class='far fa-times-circle'></i> Data tidak ditemukan</center></td>
                 </tr>
             ";
-        }
+        endif;
 
         $result->close();
         ?>

@@ -1,51 +1,12 @@
 <?php
 require_once "../../function.php";
-
-$namePage = $_POST['showPage'];
 ?>
 
-<?php if( $namePage == "logList" ) : // List Log Per ID
-
-    $sql = 
-        "SELECT 
-            penjualan.history
-        FROM 
-            penjualan
-        WHERE
-            penjualan.oid = '$_POST[oid]'
-    ";
-
-    // Untuk Yesprintingmart
-    $result = $conn_OOP -> query($sql);
-
-    // Untuk YESCOM
-    // $result = $conn_Server -> query($sql); 
-
-    if ($result->num_rows > 0) :
-        $row = $result->fetch_assoc();
-    endif;
-    ?>
-
-    <table id='tLogs'>
-        <tr>
-            <th width='20%'>Tanggal & Waktu</th>
-            <th width='80%' colspan='2'>Details Logs</th>
-        </tr>
-        <?php 
-        $history = str_replace(["<ul>","</ul>"], "", $row['history']);
-        $history_1 = str_replace("<li>", "<tr style='border-right:none'><td colspan='3'>", $history);
-        $FINAL_history = str_replace("</li>", "</td></tr>", $history_1);
-    
-        echo "$FINAL_history";
-        ?>
-    </table>
-<?php elseif( $namePage == "kekuranganStockDP" ) : // List Kekurangan Stock ?>
-    <table>
         <?php
         $sql =
             "SELECT
-                stock.nama_barang,
-                stock.sisa_stock
+                stock.nama_barang as namaBarang,
+                stock.sisa_stock as sisaStock
             FROM
                 (
                     SELECT
@@ -135,46 +96,9 @@ $namePage = $_POST['showPage'];
         $result = $conn_OOP->query($sql);
 
         if ($result->num_rows > 0) :
-            while ($d = $result->fetch_assoc()) :
-                echo "
-                    <tr>
-                        <td>$d[nama_barang]</td>
-                        <td style='text-align:right; padding-right:0.9em'><b>". number_format($d['sisa_stock']) ."</b> Lbr</td>
-                    </tr>
-                ";
+            while ($row = $result->fetch_assoc()) :
+                $json[] = $row;
             endwhile;
+            echo json_encode($json);
         endif;
         ?>
-    </table>
-<?php elseif( $namePage == "imagePreview" ) :
-    $sql =
-    "SELECT 
-            penjualan.posisi_file,
-            penjualan.file_design,
-            penjualan.img_design
-        FROM 
-            penjualan
-        WHERE
-            penjualan.oid = '$_POST[oid]'
-    ";
-
-    $result = $conn_OOP -> query($sql);
-    if ($result->num_rows > 0) :
-        $row = $result->fetch_assoc();
-        $image = file_get_contents($row['posisi_file'] . $row['img_design']);
-        $image_codes = base64_encode($image);
-    endif;
-    ?>
-
-    <div id="imgPreview">
-        <div class='imageFile'>
-            <image src="data:image/jpg;charset=utf-8;base64,<?= $image_codes; ?>">
-        </div>
-        <div class='btnDownload'>
-            <span class='styleDownload pointer'><a href='download.php?link=<?= $row['file_design'] ?>&LocationFile=<?= $row['posisi_file'] ?>'>Download <i class="fas fa-download"></i></a></span>
-        </div>
-    </div>
-<?php elseif( $namePage == "xXX" ) : ?>
-<?php  else : // Notif Page ?>
-    ERROR
-<?php endif; ?>

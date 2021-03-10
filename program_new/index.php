@@ -1,10 +1,49 @@
 <?php
 session_start();
+require_once "../function.php";
 
 if (!isset($_SESSION["login"])) {
     header("Location: ../", true, 301);
     exit;
 }
+
+
+$sql = 
+    "SELECT
+        akses.aksesDb,
+        akses.SalesOrder,
+        akses.salesOrderYescom,
+        akses.largeFormat,
+        akses.digitalPrinting,
+        akses.laporan,
+        akses.aksesAdd,
+        akses.aksesEdit,
+        akses.aksesDelete
+    FROM
+        akses
+    WHERE
+        akses.userID = '$_SESSION[uid]'
+";
+
+$result = $conn_OOP -> query($sql);
+
+if ($result->num_rows > 0) :
+    $row = $result->fetch_assoc();
+
+    // Array[0] -> Akses Menu
+    $database = explode("," , $row['aksesDb']);
+    $SalesOrder = explode("," , $row['SalesOrder']);
+    $salesOrderYescom = explode("," , $row['salesOrderYescom']);
+    $largeFormat = explode("," , $row['largeFormat']);
+    $digitalPrinting = explode("," , $row['digitalPrinting']);
+    $laporan = explode("," , $row['laporan']);
+    $listDb = array("","User","Client","Supplier","Barang","Pricelist");
+    $listSalesOrder = array("","Sales Invoice Penjualan","Pelunasan Invoice","List Pelunasan Invoice");
+    $listSalesOrderYescom = array("","Sales Order","Sales Invoice","WO List");
+    $listlargeFormat = array("","Order List","Pemotongan Stock","Stock Bahan", "List Pemesanan Bahan");
+    $listdigitalPrinting = array("","Order List","Pemotongan Stock","Laporan Harian Konika","List Pemasukan Kertas","Stock Kertas");
+    $listlaporan = array("","Penjualan","Setoran Bank","Harian Konika");
+endif;
 
 ?>
 
@@ -17,11 +56,9 @@ if (!isset($_SESSION["login"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="../images/icons/favicon.png" />
-
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" src="../vendor/fontawesome-pro-master/css/all.css">
-
     <!--===============================================================================================-->
     
     <title>Hawkbase Ver 5.2</title>
@@ -29,26 +66,25 @@ if (!isset($_SESSION["login"])) {
 
 <body>
     <div class="wrapper">
-        <div id='alert_box'></div>
-        <div id="lightbox">
-            <div id='content-lightbox' class='display-none'></div>
-            <div id='blackout' class='display-none'></div>
-        </div>
         <div class="header">
             <div class="logo">
                 <img src="../images/Logo Yes Program White.png">
             </div>
             <div class="icon_right">
                 <div class="icon">
-                    <span id="text"></span>
+                    <span class="header-time"></span>
                 </div>
-                <div class="icon pointer">
+                <div class="icon">
                     <i class="far fa-scroll"></i>
                     <span class='notif_number'>13</span>
+                    <div class='notif_display display-none'>
+                        <table class='table_notif'>
 
-                    <div id='notif_display' class='display-none'>
-                        
+                        </table>
                     </div>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-bars"></i>
                 </div>
                 <div class="icon">
                     <img src="../images/profile.jpg">
@@ -59,6 +95,7 @@ if (!isset($_SESSION["login"])) {
                 </div>
             </div>
         </div>
+
         <div class="menu">
             <ul>
                 <a href='?page=dashboard'>
@@ -67,101 +104,109 @@ if (!isset($_SESSION["login"])) {
                         <div class='icon_menu'>Dashboard</div>
                     </li>
                 </a>
+                <?php if($database[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-database"></i></div>
                     <div class='icon_menu'>Database</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <li>Database User</li>
-                        <li>Database Client</li>
-                        <li>Database Supplier</li>
-                        <li>Database Barang</li>
-                        <li>Database Pricelist</li>
+                        <?php
+                            for ($i = 1; $i < count($database); $i++) {
+                                if($database[$i] === "Y") {
+                                    echo "<li>Database $listDb[$i]</li>";
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
+                <?php endif ?>
+                <?php if($SalesOrder[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
                     <div class='icon_menu'>Penjualan</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <a href='?page=Sales Order Penjualan'>
-                            <li>Sales Order Penjualan</li>
-                        </a>
-                        <li>Sales Invoice Penjualan</li>
-                        <li>Pelunasan Invoice</li>
-                        <li>List Pelunasan Invoice</li>
+                        <?php
+                            for ($i = 1; $i < count($SalesOrder); $i++) {
+                                if($SalesOrder[$i] === "Y") {
+                                    echo "<li>$listSalesOrder[$i]</li>";
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
+                <?php endif ?>
+                <?php if($salesOrderYescom[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
                     <div class='icon_menu'>Penjualan Yescom</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <li>Sales Order Yescom</li>
-                        <li>Sales Invoice Yescom</li>
-                        <li>WO List Yescom</li>
+                        <?php
+                            for ($i = 1; $i < count($salesOrderYescom); $i++) {
+                                if($salesOrderYescom[$i] === "Y") {
+                                    echo "<li>$listSalesOrderYescom[$i] Yescom</li>";
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
+                <?php endif ?>
+                <?php if($largeFormat[0] == 'Y') : ?>
                 <li>
-                    <div class='icon_menu'><i class="fas fa-clipboard-list-check"></i></div>
+                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
                     <div class='icon_menu'>Large Format</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <li>Large Format Order List</li>
-                        <li>Pemotongan Stock Large Format</li>
-                        <li>Stock Bahan</li>
-                        <li>List Pemesanan Bahan</li>
+                        <?php
+                            for ($i = 1; $i < count($largeFormat); $i++) {
+                                if($largeFormat[$i] === "Y") {
+                                    echo "<li>$listlargeFormat[$i]</li>";
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
+                <?php endif ?>
+                <?php if($digitalPrinting[0] == 'Y') : ?>
                 <li>
-                    <div class='icon_menu'><i class="fas fa-clipboard-list-check"></i></div>
+                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
                     <div class='icon_menu'>Digital Printing</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <li>Digital Printing Order List</li>
-                        <li>Pemotongan Stock Digital Printing</li>
-                        <li>Laporan Harian Konika</li>
-                        <li>List Pemasukan Kertas</li>
-                        <li>Stock Kertas</li>
+                        <?php
+                            for ($i = 1; $i < count($digitalPrinting); $i++) {
+                                if($digitalPrinting[$i] === "Y") {
+                                    echo "<li>$listdigitalPrinting[$i]</li>";
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
+                <?php endif ?>
+                <?php if($laporan[0] == 'Y') : ?>
                 <li>
-                    <div class='icon_menu'><i class="fas fa-file-chart-line"></i></div>
+                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
                     <div class='icon_menu'>Laporan</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
-                        <li>Laporan Penjualan</li>
-                        <li>Laporan Setoran Bank</li>
-                        <li>Laporan Harian Konika</li>
+                        <?php
+                            for ($i = 1; $i < count($laporan); $i++) {
+                                if($laporan[$i] === "Y") {
+                                    echo "<li>Laporan $listlaporan[$i]</li>";
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
+                <?php endif ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-info-square"></i></div>
                     <div class='icon_menu'>FAQs / Support</div>
                 </li>
             </ul>
         </div>
-        <div class="content">
-
-            <?php
-            $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
-            if (isset($page)) :
-                switch ($page):
-                    case 'dashboard':
-                        require_once('dashboard.php');
-                        break;
-                    case 'Sales Order Penjualan':
-                        require_once('sales_order.php');
-                        break;
-                    default:
-                        require_once('dashboard.php');
-                endswitch;
-            else :
-                echo "$page";
-            endif;
-            ?>
-        </div>
+    <div>
 
     <!--===============================================================================================-->
 

@@ -66,6 +66,7 @@ if (isset($_POST["login"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/login_css.css">
+    <link rel="icon" type="image/png" href="images/icons/favicon.png" />
     <script src="program/js/64d58efce2.js" crossorigin="anonymous"></script>
 </head>
 

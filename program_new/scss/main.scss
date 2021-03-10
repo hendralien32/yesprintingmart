@@ -1,0 +1,327 @@
+$mainColor: #3c4854;
+$secondary-color: #fe5724;
+$bgColor: #f5f6f9;
+$whiteColor: #fff;
+$borderColor: #dfdfdf;
+
+@mixin pointer($cursor: default) {
+  cursor: $cursor;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: $bgColor;
+}
+
+.display-none {
+  display: none;
+  overflow: hidden;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+
+  .header {
+    background-color: $mainColor;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    user-select: none;
+
+    .logo {
+      img {
+        margin-left: 1.2em;
+        height: 23px;
+        max-height: 30px;
+        pointer-events: none;
+      }
+    }
+
+    .icon_right {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      color: $whiteColor;
+      margin-right: 1.2em;
+
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.6em 0.4em 0.4em 0.4em;
+
+        &:nth-child(2) {
+          @include pointer(pointer);
+        }
+
+        a {
+          color: $whiteColor;
+        }
+
+        .header-time {
+          font-size: 0.7em;
+          line-height: 1.5em;
+          border-right: 2.1px solid $whiteColor;
+          padding-right: 0.8em;
+        }
+
+        i {
+          cursor: pointer;
+          font-size: 2em;
+        }
+
+        span.notif_number {
+          padding: 2px;
+          color: $mainColor;
+          background-color: yellow;
+          font-size: 0.62em;
+          font-weight: bold;
+          text-align: center;
+          width: 15px;
+          height: 15px;
+          border-radius: 10px;
+          margin-top: -13px;
+          margin-left: -8px;
+        }
+
+        .notif_display {
+          position: absolute;
+          top: 3.1rem;
+          right: 2.1rem;
+          width: 20%;
+          font-size: 0.72em;
+          background-color: $whiteColor;
+          border: 1px solid $borderColor;
+          color: $mainColor;
+          padding: 0.6rem;
+          border-radius: 15px;
+          z-index: 1;
+          box-shadow: 0px 4px 6px rgba(78, 78, 78, 0.1);
+
+          table.table_notif {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+
+            tr {
+              border-bottom: 1px solid $borderColor;
+
+              &:last-child {
+                border-bottom: none;
+              }
+
+              td {
+                padding: 0.5rem;
+              }
+            }
+          }
+        }
+
+        p {
+          margin-right: 0.4rem;
+          font-weight: bold;
+          font-size: 0.83em;
+        }
+      }
+
+      img {
+        height: 23px;
+        border-radius: 10px;
+        margin-right: 0.7rem;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .menu {
+    height: 45px;
+    font-size: 0.72em;
+    background-color: $bgColor;
+    box-shadow: 0px 4px 6px rgba(78, 78, 78, 0.1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: $mainColor;
+    font-weight: 700;
+    text-decoration: none;
+
+    ul {
+      display: flex;
+      flex-direction: row;
+      margin-left: 1.2rem;
+      list-style: none;
+
+      a {
+        text-decoration: none;
+        color: $mainColor;
+      }
+
+      li {
+        @include pointer(pointer);
+        display: flex;
+        flex-direction: row;
+        margin-right: 0.6em;
+        padding: 8px;
+
+        &.active,
+        &:hover {
+          color: #fe5724;
+          border-left: 4px solid #fe5724;
+        }
+
+        &:hover > ul {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          margin-top: 1.5rem;
+          margin-left: -0.875rem;
+          background-color: #fefefe;
+          color: #707689;
+          border-radius: 0px 0 8px 8px;
+        }
+
+        ul {
+          display: none;
+          position: absolute;
+        }
+      }
+
+      .icon_menu {
+        display: flex;
+        flex-direction: row;
+        padding-right: 0.4rem;
+      }
+    }
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 565.98px) {
+  .wrapper {
+    .header {
+      .icon_right {
+        .icon {
+          &:nth-child(3) {
+            margin-top: 0.2em;
+            display: block;
+          }
+
+          .notif_display {
+            width: 60%;
+
+            table.table_notif {
+              font-size: 0.95em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 566px) and (max-width: 767.98px) {
+  .wrapper {
+    .header {
+      .icon_right {
+        .icon {
+          &:nth-child(3) {
+            margin-top: 0.2em;
+            display: block;
+          }
+
+          .notif_display {
+            width: 45%;
+
+            table.table_notif {
+              font-size: 0.95em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .wrapper {
+    .header {
+      .icon_right {
+        .icon {
+          &:nth-child(3) {
+            display: none;
+          }
+
+          .notif_display {
+            width: 33%;
+
+            table.table_notif {
+              font-size: 0.95em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .wrapper {
+    .header {
+      .icon_right {
+        .icon {
+          &:nth-child(3) {
+            display: none;
+          }
+
+          .notif_display {
+            width: 28%;
+
+            table.table_notif {
+              font-size: 0.95em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .wrapper {
+    .header {
+      .icon_right {
+        .icon {
+          &:nth-child(3) {
+            display: none;
+          }
+
+          .notif_display {
+            width: 23%;
+
+            table.table_notif {
+              font-size: 0.95em;
+            }
+          }
+        }
+      }
+    }
+  }
+}

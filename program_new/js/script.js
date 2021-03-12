@@ -1,5 +1,10 @@
 const bahanAlertIcn = document.querySelectorAll('.icon')[1];
 
+// munculkan image loading saat lagi proses load data
+function loading() {
+  document.getElementById('ajax_load').innerHTML = `<div id='loading_status' style='text-align:center'><img src='../images/loading_12.gif' style='width:15%;'></div>`;
+}
+
 // munculkan widget tanggal
 function widget() {
   let now = moment();
@@ -43,4 +48,21 @@ function showListBahan(b) {
             <td>${b.namaBarang}</td>
             <td style='text-align:right; padding-right:0.9em'><b>${b.sisaStock}</b> Lbr</td>
           </tr>`;
+}
+
+function getContent(file, variable) {
+  return fetch(`../program_new/ajax/${file}_ajax.php`, {
+    method: 'POST',
+    body: `${variable}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => response);
+}
+
+function updateContent(data) {
+  const content = document.querySelector('.ajax_load');
+  content.innerHTML = data;
 }

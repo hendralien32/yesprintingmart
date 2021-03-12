@@ -104,6 +104,12 @@ endif;
                         <div class='icon_menu'>Dashboard</div>
                     </li>
                 </a>
+                <a href='?page=absensi'>
+                    <li>
+                        <div class='icon_menu'><i class="fas fa-calendar-alt"></i></div>
+                        <div class='icon_menu'>Absensi</div>
+                    </li>
+                </a>
                 <?php if($database[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-database"></i></div>
@@ -155,7 +161,7 @@ endif;
                 <?php if($largeFormat[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>Large Format</div>
+                    <div class='icon_menu'>LargeFormat</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
                         <?php
@@ -171,7 +177,7 @@ endif;
                 <?php if($digitalPrinting[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>Digital Printing</div>
+                    <div class='icon_menu'>Digital</div>
                     <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
                     <ul>
                         <?php
@@ -202,9 +208,30 @@ endif;
                 <?php endif ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-info-square"></i></div>
-                    <div class='icon_menu'>FAQs / Support</div>
+                    <div class='icon_menu'>FAQs</div>
                 </li>
             </ul>
+        </div>
+
+        <div class="container">
+            <?php
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                if (isset($page)) :
+                    switch ($page):
+                        case 'dashboard':
+                            require_once('dashboard.php');
+                            break;
+                        case 'absensi karyawan':
+                            require_once('absensi.php');
+                            break;
+                        default:
+                            require_once('absensi.php');
+                    endswitch;
+                else :
+                    echo "$page";
+                endif;
+            ?>
         </div>
     <div>
 

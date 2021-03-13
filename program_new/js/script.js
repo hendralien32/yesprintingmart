@@ -19,6 +19,7 @@ setInterval(function () {
   window.innerWidth > 767.98 ? widget() : (document.querySelector('.header-time').innerHTML = '');
 }, 500);
 
+//menampilkan list bahan kurang saat icon notif di navbar di click
 bahanAlertIcn.addEventListener('click', async function () {
   const div_class = document.querySelector('.notif_display');
   if (div_class.classList.contains('display-none')) {
@@ -50,6 +51,7 @@ function showListBahan(b) {
           </tr>`;
 }
 
+//menampilan file ajax saat di load page
 function getContent(file, variable) {
   return fetch(`../program_new/ajax/${file}_ajax.php`, {
     method: 'POST',
@@ -65,4 +67,65 @@ function getContent(file, variable) {
 function updateContent(data) {
   const content = document.querySelector('.ajax_load');
   content.innerHTML = data;
+}
+
+//tampilkan form & menghilangkan form
+const btnAdd = document.querySelectorAll('.add_form');
+const lightboxInput = document.querySelector('.lightbox-input');
+const ctLightBox = document.querySelector('.content-lightbox');
+
+function lightBoxClose() {
+  const bg_blackOut = document.querySelector('.blackout');
+  const cancelBtn = document.querySelector('.closeBtn');
+
+  cancelBtn.addEventListener('click', function (e) {
+    lightboxInput.classList.toggle('display-show');
+    document.body.style.overflow = 'auto';
+    ctLightBox.innerHTML = '';
+    bg_blackOut.remove();
+  });
+
+  bg_blackOut.addEventListener('click', function (e) {
+    lightboxInput.classList.toggle('display-show');
+    document.body.style.overflow = 'auto';
+    ctLightBox.innerHTML = '';
+    bg_blackOut.remove();
+  });
+}
+
+btnAdd.forEach((btn) => {
+  btn.addEventListener('click', async function () {
+    const divBlackOut = document.createElement('div');
+    divBlackOut.className = 'blackout';
+    lightboxInput.appendChild(divBlackOut);
+
+    lightboxInput.classList.toggle('display-show');
+    document.body.style.overflow = 'hidden';
+
+    let reJudulForm = judulForm(this);
+    ctLightBox.innerHTML = `<div class='topForm'><span id='titleForm'><i class='fas fa-file-plus'></i> Add ${reJudulForm} </span><span class='closeBtn'><i class='fas fa-window-close'></i></span></div><div class='lightBoxContent'></div>`;
+
+    lightBoxClose();
+    const ajaxFormLoad = await loadAjaxForm(this);
+    updateform(ajaxFormLoad);
+  });
+});
+
+function loadAjaxForm(file) {
+  //nama File di ambil dari data-form pada button
+  let namaForm = file.dataset.form;
+  return fetch(`../program_new/form/${namaForm}_form.php`, {
+    method: 'POST',
+    body: ``,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => response);
+}
+
+function updateform(ajaxFormLoad) {
+  const content = document.querySelector('.lightBoxContent');
+  content.innerHTML = ajaxFormLoad;
 }

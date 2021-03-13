@@ -66,6 +66,10 @@ endif;
 
 <body>
     <div class="wrapper">
+        <div class="lightbox-input">
+            <div class='content-lightbox'></div>
+        </div>
+
         <div class="header">
             <div class="logo">
                 <img src="../images/Logo Yes Program White.png">

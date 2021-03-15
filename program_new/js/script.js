@@ -124,8 +124,3 @@ function loadAjaxForm(file) {
     .then((response) => response.text())
     .then((response) => response);
 }
-
-function updateform(ajaxFormLoad) {
-  const content = document.querySelector('.lightBoxContent');
-  content.innerHTML = ajaxFormLoad;
-}

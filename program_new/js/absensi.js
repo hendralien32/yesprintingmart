@@ -1,17 +1,24 @@
-window.addEventListener('load', async function () {
+window.addEventListener('load', loadPage);
+
+async function loadPage() {
   const blnDari = document.getElementById('search_drBln').value;
-  const blnKe = document.getElementById('search_keBln').value;
   const username = document.getElementById('search_user').value;
   let variable;
-  variable = `blnDari=${blnDari}&blnke=${blnKe}&username=${username} `;
+  variable = `blnDari=${blnDari}&username=${username}`;
 
   const data = await getContent('absensi', variable);
   updateContent(data);
-});
+
+  const jumlahKaryawan = document.getElementById('jumlahKaryawan').innerHTML;
+  document.getElementById('right_title').innerHTML = jumlahKaryawan;
+}
 
 // function menampilkan search list saat tombol search di tekan
 const btnSearch = document.querySelector('.button-search');
-btnSearch.onclick = function () {
+const inputDate = document.querySelector('#search_drBln');
+const inputSearch = document.querySelector('#search_user');
+
+btnSearch.onclick = () => {
   const divSearch = document.querySelector('.plugin-search');
   divSearch.classList.toggle('display-show');
   if (divSearch.classList.contains('display-show')) {
@@ -21,6 +28,69 @@ btnSearch.onclick = function () {
   }
 };
 
+inputDate.addEventListener('change', loadPage);
+inputSearch.addEventListener('input', loadPage);
+
+// Progress submit Absensi Harian Ke database
+function submitAbsensiHarian() {
+  const errHTML = document.querySelector('.resultQuery');
+  const tglAbsensi = document.querySelector('#tglAbsensi').value;
+  const karyawanUid = document.querySelectorAll('#karyawanUid');
+  const scanMasuk = document.querySelectorAll('#scanMasuk');
+  const scanKeluar = document.querySelectorAll('#scanKeluar');
+  const absensiCB = document.querySelectorAll('#Absen');
+  const cutiCB = document.querySelectorAll('#Cuti');
+
+  if (karyawanUid.length > 0) {
+    let valuekaryawanUid = [];
+    let valueScanMasuk = [];
+    let valueScanKeluar = [];
+    let valueAbsensiCB = [];
+    let valueCutiCB = [];
+
+    for (let i = 0; i < karyawanUid.length; i++) {
+      absensiValue = absensiCB[i].checked == true ? 'Y' : 'N';
+      cutiValue = cutiCB[i].checked == true ? 'Y' : 'N';
+
+      if (scanMasuk[i].value == '' && scanKeluar[i].value == '' && absensiValue == 'N' && cutiValue == 'N') {
+        errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Data Input kosong<br><br></b>`;
+        return false;
+      } else {
+        valuekaryawanUid.push(karyawanUid[i].value);
+        valueScanMasuk.push(scanMasuk[i].value);
+        valueScanKeluar.push(scanKeluar[i].value);
+        valueAbsensiCB.push(absensiValue);
+        valueCutiCB.push(cutiValue);
+      }
+    }
+
+    const variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valuekaryawanUid}&typeProgress=Insert_Absensi`;
+
+    fetch(`../program_new/progress/progress.php`, {
+      method: 'POST',
+      body: `${variable}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then((Response) => Response.text())
+      .then((Response) => {
+        if (Response === 'true') {
+          closeForm();
+          loadPage();
+        } else {
+          errHTML.innerHTML = Response;
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  } else {
+    errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Tidak ada data yang mau di upload<br><br></b>`;
+    return false;
+  }
+}
+
 //di load oleh script.js
 function judulForm(dataBtn) {
   let namaForm = dataBtn.dataset.form;
@@ -28,22 +98,30 @@ function judulForm(dataBtn) {
   var obj = {
     absensi: 'Absensi Harian',
     absensi_individu: 'Absensi Personal',
+    absensi_HariLibur: 'Absensi Set Hari Libur',
   };
 
   return obj[namaForm];
 }
 
-function updateform(ajaxFormLoad) {
+function updateForm(ajaxFormLoad) {
   const content = document.querySelector('.lightBoxContent');
   content.innerHTML = ajaxFormLoad;
-  valCheckBox();
-  submit();
 }
 // selesai Load oleh Script.js
 
-function valCheckBox() {
-  document.addEventListener('click', function (e) {
-    const dataUID = e.target.dataset.uid;
+document.addEventListener('change', async function (e) {
+  // untuk ganti List Absensi di Form saat Input[type=date] di ganti
+  if (e.target.classList.contains('tglAbsensi')) {
+    const tableAbsensi = await reLoadAjaxForm(document.querySelector('#tglAbsensi').value);
+    reUpdateForm(tableAbsensi);
+  }
+
+  // validasi untuk Checkbox Absen dan Cuti, Apabila Absen & Cuti di check maka Scan Masuk dan Scan Keluar Disabled
+  const dataUID = e.target.dataset.uid;
+  if (typeof dataUID === 'undefined') {
+    return false;
+  } else {
     const queryDataUID = document.querySelectorAll(`[data-uid='${dataUID}']`);
     const scanMasuk = queryDataUID[2];
     const scankeluar = queryDataUID[3];
@@ -69,44 +147,23 @@ function valCheckBox() {
     } else if (e.target.value == 'cuti' && e.target.checked == false) {
       checkboxAbsen.disabled = false;
     }
-  });
+  }
+});
+
+// reload List Table Absensi saat diganti Input[type=date] pada form
+function reLoadAjaxForm(variable) {
+  return fetch(`../program_new/form/absensi_sub_form.php`, {
+    method: 'POST',
+    body: `tanggal=${variable}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => response);
 }
 
-function submit() {
-  const btnSubmit = document.querySelector('#submit');
-  btnSubmit.addEventListener('click', function (e) {
-    const tglAbsensi = document.querySelector('#tglAbsensi').value;
-    const karyawanUid = document.querySelectorAll('#karyawanUid');
-    const scanMasuk = document.querySelectorAll('#scanMasuk');
-    const scanKeluar = document.querySelectorAll('#scanKeluar');
-    const absensiCB = document.querySelectorAll('#Absen');
-    const cutiCB = document.querySelectorAll('#Cuti');
-    let valuekaryawanUid = [];
-    let valueScanMasuk = [];
-    let valueScanKeluar = [];
-    let valueAbsensiCB = [];
-    let valueCutiCB = [];
-    for (let i = 0; i < scanMasuk.length; i++) {
-      valuekaryawanUid.push(karyawanUid[i].value);
-      valueScanMasuk.push(scanMasuk[i].value);
-      valueScanKeluar.push(scanKeluar[i].value);
-      valueAbsensiCB.push(absensiCB[i].checked == true ? 'Y' : 'N');
-      valueCutiCB.push(cutiCB[i].checked == true ? 'Y' : 'N');
-    }
-
-    let variable;
-    variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valuekaryawanUid}&typeProgress=Insert_Absensi`;
-
-    fetch(`../program_new/progress/progress.php`, {
-      method : 'POST',
-      body: `${variable}`,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    })
-      .then(Response => Response.text())
-      .then(Response => console.log(Response));
-
-
-  });
+function reUpdateForm(ajaxFormLoad) {
+  const content = document.querySelector('.absensiList');
+  content.innerHTML = ajaxFormLoad;
 }

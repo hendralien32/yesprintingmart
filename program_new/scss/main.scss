@@ -4,7 +4,7 @@ $fontColor: #3c4854;
 $bgColor: #f5f6f9;
 $whiteColor: #fff;
 $borderColor: #dfdfdf;
-$gblFontSize: 0.8em;
+$gblFontSize: 0.72rem;
 
 @mixin pointer($cursor: default) {
   cursor: $cursor;
@@ -83,20 +83,27 @@ body {
 
           .absensiTop {
             margin-bottom: 1.2em;
+
             table {
+              border-collapse: collapse;
+              font-size: $gblFontSize;
+              color: $fontColor;
+
               tr {
                 td {
                   &:first-child {
-                    width: 10%;
+                    width: 30%;
+                  }
+
+                  input[type='date'] {
+                    @include pointer(pointer);
+                    padding: 0.5em 1.3em;
+                    outline: none;
+                    border: 1px solid $borderColor;
+                    border-radius: 4px;
+                    color: $fontColor;
                   }
                 }
-              }
-
-              input[type="text"] {
-                padding: 0.2em 0.8em;
-                outline: none;
-                border: 1px solid $borderColor;
-                border-radius: 1px;
               }
             }
           }
@@ -131,15 +138,16 @@ body {
                   }
 
                   input {
-                    padding: 0.2em 0.8em;
+                    padding: 0.2em 1.3em;
                     outline: none;
                     border: 1px solid $borderColor;
-                    border-radius: 1px;
+                    border-radius: 4px;
                   }
 
-                  input[type="checkbox"],
-                  input[type="time"] {
+                  input[type='checkbox'],
+                  input[type='time'] {
                     @include pointer(pointer);
+                    color: $fontColor;
                   }
                 }
               }
@@ -158,6 +166,7 @@ body {
 
               &:hover {
                 background-color: $secondaryColor;
+                @include pointer(pointer);
               }
             }
           }

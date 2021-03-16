@@ -70,31 +70,30 @@ function updateContent(data) {
 }
 
 //tampilkan form & menghilangkan form
-const btnAdd = document.querySelectorAll('.add_form');
-const lightboxInput = document.querySelector('.lightbox-input');
-const ctLightBox = document.querySelector('.content-lightbox');
-
 function lightBoxClose() {
   const bg_blackOut = document.querySelector('.blackout');
   const cancelBtn = document.querySelector('.closeBtn');
 
-  cancelBtn.addEventListener('click', function (e) {
-    lightboxInput.classList.toggle('display-show');
-    document.body.style.overflow = 'auto';
-    ctLightBox.innerHTML = '';
-    bg_blackOut.remove();
-  });
-
-  bg_blackOut.addEventListener('click', function (e) {
-    lightboxInput.classList.toggle('display-show');
-    document.body.style.overflow = 'auto';
-    ctLightBox.innerHTML = '';
-    bg_blackOut.remove();
-  });
+  cancelBtn.addEventListener('click', closeForm);
+  bg_blackOut.addEventListener('click', closeForm);
 }
 
+function closeForm() {
+  const lightboxInput = document.querySelector('.lightbox-input');
+  const ctLightBox = document.querySelector('.content-lightbox');
+  const bg_blackOut = document.querySelector('.blackout');
+  lightboxInput.classList.toggle('display-show');
+  document.body.style.overflow = 'auto';
+  ctLightBox.innerHTML = '';
+  bg_blackOut.remove();
+}
+
+const btnAdd = document.querySelectorAll('.add_form');
 btnAdd.forEach((btn) => {
   btn.addEventListener('click', async function () {
+    const lightboxInput = document.querySelector('.lightbox-input');
+    const ctLightBox = document.querySelector('.content-lightbox');
+
     const divBlackOut = document.createElement('div');
     divBlackOut.className = 'blackout';
     lightboxInput.appendChild(divBlackOut);
@@ -107,7 +106,7 @@ btnAdd.forEach((btn) => {
 
     lightBoxClose();
     const ajaxFormLoad = await loadAjaxForm(this);
-    updateform(ajaxFormLoad);
+    updateForm(ajaxFormLoad);
   });
 });
 

@@ -7,7 +7,7 @@ if (!isset($_SESSION["login"])) {
 }
 
 
-if($_POST['typeProgress'] == "Insert_Absensi") : 
+if($_POST['typeProgress'] == "Insert_Absensi") : // Absensi Insert Data
     $jumlahArray = count(explode(",", "$_POST[uid]"));
     $uid = explode (",", "$_POST[uid]" );
     $scanMasuk = explode (",", "$_POST[scanMasuk]" );
@@ -18,7 +18,6 @@ if($_POST['typeProgress'] == "Insert_Absensi") :
 
     for($i = 0; $i < $jumlahArray; $i++) {
         $hadir = ( $scanMasuk[$i] != "" ) ? "Y" : "N";
-
         $insertAbsensi[] = "
             (
                 '$uid[$i]',
@@ -31,7 +30,6 @@ if($_POST['typeProgress'] == "Insert_Absensi") :
                 'N',
                 '$uniqueID',
                 'N'
-
             )
         ";
     }
@@ -53,10 +51,26 @@ if($_POST['typeProgress'] == "Insert_Absensi") :
                 hapus
             )  VALUES $New_Insert
     ";
-
-    echo $sql;
 else :
-    echo "Something Wrong";
+
 endif;
+
+if ($conn->multi_query($sql) === TRUE) {
+    echo "true";
+} else {
+    if (mysqli_query($conn, $sql)) {
+        echo "true";
+    } else {
+        echo "
+                <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
+                ERROR : Could not able to execute because \" " . mysqli_error($conn) . " \"<br>
+                Query : $sql <br><br>
+                </b>
+            ";
+    }
+}
+
+// Close connection
+$conn->close();
 
 ?>

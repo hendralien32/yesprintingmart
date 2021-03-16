@@ -5,11 +5,12 @@ require_once "../../function.php";
 ?>
 
 <div class='absensi'>
+    <div class='resultQuery'></div>
     <div class='absensiTop'>
         <table>
             <tr>
                 <td>Tanggal</td>
-                <td><input type="date" name="tanggal" id="tglAbsensi" value="<?= $date; ?>"></td>
+                <td><input type="date" name="tanggal" class='tglAbsensi' id="tglAbsensi" value="<?= $date; ?>" max="<?= $date; ?>"></td>
             </tr>
         </table>
     </div>
@@ -53,15 +54,17 @@ require_once "../../function.php";
                             absensi.uid  = pm_user.uid
                         WHERE
                             pm_user.absensi = 'Y' and
-                            absensi.lembur != 'Y' || absensi.lembur != '' and 
-                            absensi.permisi != 'Y' || absensi.permisi != ''
+                            absensi.hadir is null and
+                            (CASE 
+                                WHEN LEFT(pm_user.tanggal_resign,7) = '0000-00' THEN '9999-12'
+                                ELSE LEFT(pm_user.tanggal_resign,7)
+                            END ) >= '$months'
                         order by
                             pm_user.nama
                         asc
                     ";
                     $result = $conn_OOP->query($sql);
                     $jumlah_order = $result->num_rows;
-                    echo "$sql";
                     $no = 0;
                     if ($jumlah_order > 0) :
                         // output data of each row
@@ -86,9 +89,6 @@ require_once "../../function.php";
         </table>
     </div>
     <div class="absensiSubmit">
-        <button id='submit'>Submit</button>
-    </div>
-
-    <div class='resultQuery'>
+        <button id='submit' onclick='submitAbsensiHarian()'>Submit</button>
     </div>
 </div>

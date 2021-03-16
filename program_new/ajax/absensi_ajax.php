@@ -4,16 +4,17 @@ require_once '../../function.php';
 $n = 0;
 
 $bulanDari = $_POST['blnDari'];
-$blnke = $_POST['blnke'];
 $username = $_POST['username'];
 
 $SearchMonth = 
-    ($bulanDari != "" and $blnke != "")
-        ? "and LEFT(absensi.tanggal,7)>='$bulanDari' and LEFT(absensi.tanggal,7)<='$blnke'"
-        : ((($bulanDari != "" and $blnke == "") || ($bulanDari == "" and $blnke != ""))
-            ? "and LEFT(absensi.tanggal,7)='$bulanDari'"
-            : ""
-        );
+    ($bulanDari != "" )
+        ? "and LEFT(absensi.tanggal,7)='$bulanDari'"
+        : "";
+
+$SearchKaryawan = 
+    ( $username!="" )
+        ? "and pm_user.nama LIKE '%$username%'" 
+        : "";
 
 $sql =
 "SELECT
@@ -31,24 +32,24 @@ LEFT JOIN
     (
         SELECT
             absensi.uid,
-            (CASE 
+            sum(CASE 
                 absensi.absen 
                 WHEN 'Y' THEN 1 
                 ELSE 0 
                 END
             ) as absen,
-            (CASE 
+            sum(CASE 
                 absensi.cuti 
                 WHEN 'Y' THEN 1 
                 ELSE 0 
                 END
             ) as cuti,
-            (CASE
+            sum(CASE
                 WHEN absensi.scan_masuk != '00:00:00' and absensi.hadir = 'Y' then 1
                 ELSE 0
                 END
             ) as hadir,
-            SEC_TO_TIME((CASE
+            SEC_TO_TIME(sum(CASE
                 WHEN absensi.scan_masuk != '00:00:00' 
              		then if(
                         		TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) < 0, 
@@ -58,7 +59,7 @@ LEFT JOIN
                 ELSE 0
                 END
             )) as totalTelat,
-            SEC_TO_TIME((CASE
+            SEC_TO_TIME(sum(CASE
                 WHEN absensi.permisi_keluar != '00:00:00' 
              		then if(
                         		TIME_TO_SEC(TIMEDIFF(absensi.permisi_masuk, absensi.permisi_keluar)) < 0, 
@@ -68,7 +69,7 @@ LEFT JOIN
                 ELSE 0
                 END
             )) as totalPermisi,
-            (CASE
+            sum(CASE
                 WHEN absensi.scan_masuk != '00:00:00' 
              		then if(
                         		TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) > 0, 
@@ -93,11 +94,18 @@ LEFT JOIN
         WHERE
             absensi.hapus != 'Y'
             $SearchMonth
+        GROUP BY
+            absensi.uid
     ) as absensi
 ON
     absensi.uid = pm_user.uid
 WHERE
-    pm_user.absensi = 'Y'
+    pm_user.absensi = 'Y' and
+    (CASE 
+        WHEN LEFT(pm_user.tanggal_resign,7) = '0000-00' THEN '9999-12'
+        ELSE LEFT(pm_user.tanggal_resign,7)
+    END ) >= '$bulanDari'
+    $SearchKaryawan
 ORDER BY
     pm_user.nama
 ";
@@ -106,6 +114,7 @@ ORDER BY
 $result = $conn_OOP->query($sql);
 $jumlah_order = $result->num_rows;
 $days = cal_days_in_month(CAL_GREGORIAN,03,2021);
+echo "<span id='jumlahKaryawan' class='display-none'>$jumlah_order Karyawan</span>";
 ?>
     
     <div class='list-karyawan'>

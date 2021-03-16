@@ -31,24 +31,24 @@ LEFT JOIN
     (
         SELECT
             absensi.uid,
-            sum(CASE 
+            (CASE 
                 absensi.absen 
                 WHEN 'Y' THEN 1 
                 ELSE 0 
                 END
             ) as absen,
-            sum(CASE 
+            (CASE 
                 absensi.cuti 
                 WHEN 'Y' THEN 1 
                 ELSE 0 
                 END
             ) as cuti,
-            sum(CASE
-                WHEN absensi.scan_masuk != '00:00:00' and absensi.lembur = 'N' and absensi.cuti = 'N' then 1
+            (CASE
+                WHEN absensi.scan_masuk != '00:00:00' and absensi.hadir = 'Y' then 1
                 ELSE 0
                 END
             ) as hadir,
-            SEC_TO_TIME(sum(CASE
+            SEC_TO_TIME((CASE
                 WHEN absensi.scan_masuk != '00:00:00' 
              		then if(
                         		TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) < 0, 
@@ -58,7 +58,7 @@ LEFT JOIN
                 ELSE 0
                 END
             )) as totalTelat,
-            SEC_TO_TIME(sum(CASE
+            SEC_TO_TIME((CASE
                 WHEN absensi.permisi_keluar != '00:00:00' 
              		then if(
                         		TIME_TO_SEC(TIMEDIFF(absensi.permisi_masuk, absensi.permisi_keluar)) < 0, 
@@ -68,7 +68,7 @@ LEFT JOIN
                 ELSE 0
                 END
             )) as totalPermisi,
-            sum(CASE
+            (CASE
                 WHEN absensi.scan_masuk != '00:00:00' 
              		then if(
                         		TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) > 0, 
@@ -93,8 +93,6 @@ LEFT JOIN
         WHERE
             absensi.hapus != 'Y'
             $SearchMonth
-        GROUP BY
-            LEFT(absensi.tanggal,7)
     ) as absensi
 ON
     absensi.uid = pm_user.uid
@@ -107,7 +105,6 @@ ORDER BY
 // Perform query
 $result = $conn_OOP->query($sql);
 $jumlah_order = $result->num_rows;
-
 $days = cal_days_in_month(CAL_GREGORIAN,03,2021);
 ?>
     

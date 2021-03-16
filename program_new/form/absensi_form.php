@@ -27,27 +27,41 @@ require_once "../../function.php";
                     $sql = 
                         "SELECT
                             pm_user.uid, 
-                            pm_user.nama
+                            pm_user.nama,
+                            absensi.tanggal,
+                            absensi.hadir,
+                            absensi.cuti,
+                            absensi.absen
                         FROM
                             pm_user
                         LEFT JOIN 
                             (SELECT
                                 absensi.uid,
+                                absensi.tanggal,
                                 absensi.hadir,
-                                absensi.tanggal
+                                absensi.cuti,
+                                absensi.absen,
+                                absensi.lembur,
+                                absensi.permisi
                             FROM
                                 absensi
                             WHERE  
-                                absensi.hadir != 'Y' and
+                                ( absensi.hadir != 'Y' || absensi.cuti != 'Y' || absensi.absen != 'Y') and
                                 absensi.tanggal = '$date'
                             ) absensi
                         ON
                             absensi.uid  = pm_user.uid
                         WHERE
-                            pm_user.absensi = 'Y'
+                            pm_user.absensi = 'Y' and
+                            absensi.lembur != 'Y' || absensi.lembur != '' and 
+                            absensi.permisi != 'Y' || absensi.permisi != ''
+                        order by
+                            pm_user.nama
+                        asc
                     ";
                     $result = $conn_OOP->query($sql);
                     $jumlah_order = $result->num_rows;
+                    echo "$sql";
                     $no = 0;
                     if ($jumlah_order > 0) :
                         // output data of each row
@@ -56,7 +70,10 @@ require_once "../../function.php";
                             echo "
                             <tr>
                                 <td>$no</td>
-                                <td><span data-uid='$d[uid]'>$d[nama]</span></td>
+                                <td>
+                                    <input data-uid='$d[uid]' type='hidden' id='karyawanUid' value='$d[uid]'>
+                                    <span data-uid='$d[uid]'>$d[nama]</span>
+                                </td>
                                 <td><input data-uid='$d[uid]' type='time' id='scanMasuk'></td>
                                 <td><input data-uid='$d[uid]' type='time' id='scanKeluar'></td>
                                 <td><input data-uid='$d[uid]' type='checkbox' id='Absen' value='absen'></td>
@@ -70,5 +87,8 @@ require_once "../../function.php";
     </div>
     <div class="absensiSubmit">
         <button id='submit'>Submit</button>
+    </div>
+
+    <div class='resultQuery'>
     </div>
 </div>

@@ -83,6 +83,22 @@ body {
 
           .absensiTop {
             margin-bottom: 1.2em;
+            table {
+              tr {
+                td {
+                  &:first-child {
+                    width: 10%;
+                  }
+                }
+              }
+
+              input[type="text"] {
+                padding: 0.2em 0.8em;
+                outline: none;
+                border: 1px solid $borderColor;
+                border-radius: 1px;
+              }
+            }
           }
           .absensiList {
             width: 100%;
@@ -121,8 +137,8 @@ body {
                     border-radius: 1px;
                   }
 
-                  input[type='checkbox'],
-                  input[type='time'] {
+                  input[type="checkbox"],
+                  input[type="time"] {
                     @include pointer(pointer);
                   }
                 }

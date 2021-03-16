@@ -45,10 +45,10 @@ function valCheckBox() {
   document.addEventListener('click', function (e) {
     const dataUID = e.target.dataset.uid;
     const queryDataUID = document.querySelectorAll(`[data-uid='${dataUID}']`);
-    const scanMasuk = queryDataUID[1];
-    const scankeluar = queryDataUID[2];
-    const checkboxAbsen = queryDataUID[3];
-    const checkboxCuti = queryDataUID[4];
+    const scanMasuk = queryDataUID[2];
+    const scankeluar = queryDataUID[3];
+    const checkboxAbsen = queryDataUID[4];
+    const checkboxCuti = queryDataUID[5];
 
     if (e.target.checked == true) {
       scanMasuk.disabled = true;
@@ -76,21 +76,37 @@ function submit() {
   const btnSubmit = document.querySelector('#submit');
   btnSubmit.addEventListener('click', function (e) {
     const tglAbsensi = document.querySelector('#tglAbsensi').value;
+    const karyawanUid = document.querySelectorAll('#karyawanUid');
     const scanMasuk = document.querySelectorAll('#scanMasuk');
     const scanKeluar = document.querySelectorAll('#scanKeluar');
     const absensiCB = document.querySelectorAll('#Absen');
     const cutiCB = document.querySelectorAll('#Cuti');
+    let valuekaryawanUid = [];
     let valueScanMasuk = [];
     let valueScanKeluar = [];
     let valueAbsensiCB = [];
     let valueCutiCB = [];
     for (let i = 0; i < scanMasuk.length; i++) {
+      valuekaryawanUid.push(karyawanUid[i].value);
       valueScanMasuk.push(scanMasuk[i].value);
       valueScanKeluar.push(scanKeluar[i].value);
       valueAbsensiCB.push(absensiCB[i].checked == true ? 'Y' : 'N');
       valueCutiCB.push(cutiCB[i].checked == true ? 'Y' : 'N');
     }
 
-    console.log(tglAbsensi);
+    let variable;
+    variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valuekaryawanUid}&typeProgress=Insert_Absensi`;
+
+    fetch(`../program_new/progress/progress.php`, {
+      method : 'POST',
+      body: `${variable}`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then(Response => Response.text())
+      .then(Response => console.log(Response));
+
+
   });
 }

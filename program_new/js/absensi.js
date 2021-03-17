@@ -42,29 +42,21 @@ function submitAbsensiHarian() {
   const cutiCB = document.querySelectorAll('#Cuti');
 
   if (karyawanUid.length > 0) {
-    let valuekaryawanUid = [];
-    let valueScanMasuk = [];
-    let valueScanKeluar = [];
-    let valueAbsensiCB = [];
-    let valueCutiCB = [];
+    // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
+    const valueKaryawanUid = [...karyawanUid].map((k) => k.value);
+    const valueScanMasuk = [...scanMasuk].map((sm) => sm.value);
+    const valueScanKeluar = [...scanKeluar].map((sk) => sk.value);
+    const valueAbsensiCB = [...absensiCB].map((a) => (a.checked == true ? 'Y' : 'N'));
+    const valueCutiCB = [...cutiCB].map((c) => (c.checked == true ? 'Y' : 'N'));
 
     for (let i = 0; i < karyawanUid.length; i++) {
-      absensiValue = absensiCB[i].checked == true ? 'Y' : 'N';
-      cutiValue = cutiCB[i].checked == true ? 'Y' : 'N';
-
-      if (scanMasuk[i].value == '' && scanKeluar[i].value == '' && absensiValue == 'N' && cutiValue == 'N') {
+      if (valueScanMasuk[i] == '' && valueScanKeluar[i] == '' && valueAbsensiCB[i] == 'N' && valueCutiCB[i] == 'N') {
         errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Data Input kosong<br><br></b>`;
         return false;
-      } else {
-        valuekaryawanUid.push(karyawanUid[i].value);
-        valueScanMasuk.push(scanMasuk[i].value);
-        valueScanKeluar.push(scanKeluar[i].value);
-        valueAbsensiCB.push(absensiValue);
-        valueCutiCB.push(cutiValue);
       }
     }
 
-    const variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valuekaryawanUid}&typeProgress=Insert_Absensi`;
+    const variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valueKaryawanUid}&typeProgress=Insert_Absensi`;
 
     fetch(`../program_new/progress/progress.php`, {
       method: 'POST',

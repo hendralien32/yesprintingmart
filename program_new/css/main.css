@@ -129,19 +129,19 @@ body {
 .wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td {
   border-bottom: 1px solid #dfdfdf;
   color: #3c4854;
-  padding: 0.5em 0.4em;
+  padding: 0.5em 0.4em 0.5em 1.2em;
+}
+
+.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td.center {
   text-align: center;
 }
 
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td:nth-child(2) {
-  text-align: left;
-}
-
 .wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td input {
-  padding: 0.2em 1.3em;
+  padding: 0.4em 0.5em;
   outline: none;
   border: 1px solid #dfdfdf;
   border-radius: 4px;
+  margin-right: 10px;
 }
 
 .wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td input[type='checkbox'],
@@ -486,7 +486,8 @@ body {
   display: block;
 }
 
-.wrapper .container .calender-container .plugin-search input {
+.wrapper .container .calender-container .plugin-search input,
+.wrapper .container .calender-container .plugin-search select {
   color: #3c4854;
   outline: none;
   border: 1px solid #dfdfdf;

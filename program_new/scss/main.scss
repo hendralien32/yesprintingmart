@@ -130,18 +130,22 @@ body {
                 td {
                   border-bottom: 1px solid $borderColor;
                   color: $mainColor;
-                  padding: 0.5em 0.4em;
-                  text-align: center;
+                  padding: 0.5em 0.4em 0.5em 1.2em;
 
-                  &:nth-child(2) {
-                    text-align: left;
+                  // &:nth-child(2) {
+                  //   text-align: left;
+                  // }
+
+                  &.center {
+                    text-align: center;
                   }
 
                   input {
-                    padding: 0.2em 1.3em;
+                    padding: 0.4em 0.5em;
                     outline: none;
                     border: 1px solid $borderColor;
                     border-radius: 4px;
+                    margin-right: 10px;
                   }
 
                   input[type='checkbox'],
@@ -431,7 +435,8 @@ body {
           display: block;
         }
 
-        input {
+        input,
+        select {
           color: $mainColor;
           outline: none;
           border: 1px solid $borderColor;

@@ -10,6 +10,7 @@ if (!isset($_SESSION["login"])) {
 
 $sql = 
     "SELECT
+        akses.absensi,
         akses.aksesDb,
         akses.SalesOrder,
         akses.salesOrderYescom,
@@ -31,12 +32,14 @@ if ($result->num_rows > 0) :
     $row = $result->fetch_assoc();
 
     // Array[0] -> Akses Menu
+    $absensi = explode("," , $row['absensi']);
     $database = explode("," , $row['aksesDb']);
     $SalesOrder = explode("," , $row['SalesOrder']);
     $salesOrderYescom = explode("," , $row['salesOrderYescom']);
     $largeFormat = explode("," , $row['largeFormat']);
     $digitalPrinting = explode("," , $row['digitalPrinting']);
     $laporan = explode("," , $row['laporan']);
+    $listAbsensi = array("","Absensi Harian","Absensi Rekapan");
     $listDb = array("","User","Client","Supplier","Barang","Pricelist");
     $listSalesOrder = array("","Sales Invoice Penjualan","Pelunasan Invoice","List Pelunasan Invoice");
     $listSalesOrderYescom = array("","Sales Order","Sales Invoice","WO List");
@@ -108,12 +111,22 @@ endif;
                         <div class='icon_menu'>Dashboard</div>
                     </li>
                 </a>
-                <a href='?page=absensi'>
-                    <li>
-                        <div class='icon_menu'><i class="fas fa-calendar-alt"></i></div>
-                        <div class='icon_menu'>Absensi</div>
-                    </li>
-                </a>
+                <?php if($database[0] == 'Y') : ?>
+                <li>
+                    <div class='icon_menu'><i class="fas fa-fingerprint"></i></div>
+                    <div class='icon_menu'>Absensi</div>
+                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
+                    <ul>
+                        <?php
+                            for ($i = 1; $i < count($absensi); $i++) {
+                                if($absensi[$i] === "Y") {
+                                    echo "<a href='?page=$listAbsensi[$i]'><li>$listAbsensi[$i]</li></a>";
+                                }
+                            }
+                        ?>
+                    </ul>
+                </li>
+                <?php endif ?>
                 <?php if($database[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-database"></i></div>
@@ -226,11 +239,14 @@ endif;
                         case 'dashboard':
                             require_once('dashboard.php');
                             break;
-                        case 'absensi karyawan':
-                            require_once('absensi.php');
+                        case 'Absensi Harian':
+                            require_once('absensi_harian.php');
+                            break;
+                        case 'Absensi Rekapan':
+                            require_once('absensi_rekapan.php');
                             break;
                         default:
-                            require_once('absensi.php');
+                            require_once('xxx.php');
                     endswitch;
                 else :
                     echo "$page";

@@ -28,6 +28,7 @@ if($_POST['typeProgress'] == "Insert_Absensi") : // Absensi Insert Data
                 '$absensiCB[$i]',
                 '$cutiCB[$i]',
                 'N',
+                'N',
                 '$uniqueID',
                 'N'
             )
@@ -47,6 +48,7 @@ if($_POST['typeProgress'] == "Insert_Absensi") : // Absensi Insert Data
                 absen,
                 cuti,
                 lembur,
+                permisi,
                 uniquePost,
                 hapus
             )  VALUES $New_Insert

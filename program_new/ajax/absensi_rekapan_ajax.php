@@ -113,46 +113,45 @@ ORDER BY
 // Perform query
 $result = $conn_OOP->query($sql);
 $jumlah_order = $result->num_rows;
-$days = cal_days_in_month(CAL_GREGORIAN,03,2021);
+$days = cal_days_in_month(CAL_GREGORIAN, substr($bulanDari,5,2), substr($bulanDari,0,4));
 echo "<span id='jumlahKaryawan' class='display-none'>$jumlah_order Karyawan</span>";
 ?>
     
-    <div class='list-karyawan'>
-        <table>
-            <tr>
-                <th>#</th>
-                <th>Karyawan</th>
-                <th>Hadir</th>
-                <th>Libur</th>
-                <th>absen</th>
-                <th>Cuti</th>
-                <th>Telat</th>
-                <th>Total Hari</th>
-                <th>Durasi Telat</th>
-                <th>Durasi Permisi</th>
-            </tr>
-            <?php
-                if ($jumlah_order > 0) :
-                    while ($d = $result->fetch_assoc()) :
-                        $n++;
-                        $libur = $days - $d['hadir'] - $d['absen'];
-
-                        echo "
-                        <tr>
-                            <td>$n</td>
-                            <td>". ucfirst($d['namaKaryawan']) ."</td>
-                            <td>$d[hadir] hari</td>
-                            <td>$libur hari</td>
-                            <td>$d[absen] hari</td>
-                            <td>$d[cuti] hari</td>
-                            <td>$d[telat] hari</td>
-                            <td>$days hari</td>
-                            <td>$d[totalTelat]</td>
-                            <td>$d[totalPermisi]</td>
-                        </tr>
-                        ";
-                    endwhile;
-                endif;
-            ?>
-        </table>
-    </div>
+<div class='list-karyawan'>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Karyawan</th>
+            <th>Hadir</th>
+            <th>Libur</th>
+            <th>Absen</th>
+            <th>Cuti</th>
+            <th>Telat</th>
+            <th>Total Hari</th>
+            <th>Durasi Telat</th>
+            <th>Durasi Permisi</th>
+        </tr>
+        <?php
+            if ($jumlah_order > 0) :
+                while ($d = $result->fetch_assoc()) :
+                    $n++;
+                    $libur = $days - $d['hadir'] - $d['absen'];
+                    echo "
+                    <tr>
+                        <td>$n</td>
+                        <td>". ucfirst($d['namaKaryawan']) ."</td>
+                        <td>$d[hadir] hari</td>
+                        <td>$libur hari</td>
+                        <td>$d[absen] hari</td>
+                        <td>$d[cuti] hari</td>
+                        <td>$d[telat] hari</td>
+                        <td>$days hari</td>
+                        <td>$d[totalTelat]</td>
+                        <td>$d[totalPermisi]</td>
+                    </tr>
+                    ";
+                endwhile;
+            endif;
+        ?>
+    </table>
+</div>

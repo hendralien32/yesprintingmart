@@ -2,13 +2,26 @@ window.addEventListener('load', loadPage);
 
 async function loadPage() {
   const blnDari = document.getElementById('search_drBln').value;
+  const blnKe = document.getElementById('search_keBln').value;
   const username = document.getElementById('search_user').value;
+  const ajaxPage = document.querySelector('.left_title').innerHTML.toLowerCase().replace(' ', '_');
+
   let variable;
-  variable = `blnDari=${blnDari}&username=${username}`;
 
-  const data = await getContent('absensi', variable);
-  updateContent(data);
+  if (ajaxPage == 'absensi_harian') {
+    const typeList = document.getElementById('search_absensi');
+    variable = `drTgl=${blnDari}&keTgl=${blnKe}&username=${username}&jenisList=${typeList.value}`;
 
+    const data = await getContent(ajaxPage, variable);
+    updateContent(data);
+
+    typeList.addEventListener('change', loadPage);
+  } else {
+    variable = `blnDari=${blnDari}&username=${username}`;
+
+    const data = await getContent(ajaxPage, variable);
+    updateContent(data);
+  }
   const jumlahKaryawan = document.getElementById('jumlahKaryawan').innerHTML;
   document.getElementById('right_title').innerHTML = jumlahKaryawan;
 }
@@ -99,7 +112,35 @@ function judulForm(dataBtn) {
 function updateForm(ajaxFormLoad) {
   const content = document.querySelector('.lightBoxContent');
   content.innerHTML = ajaxFormLoad;
+
+  if (content.querySelector('.absensi').classList.contains('individu') == true) {
+    addListAbsensi(content);
+  }
 }
+
+function addListAbsensi(data) {
+  const btnAdd = data.querySelector('.add');
+  let i = 0;
+  btnAdd.addEventListener('click', function (e) {
+    i++;
+    data.querySelector('#dynamic-field').insertAdjacentHTML(
+      'beforeend',
+      `<tr class='row_${i}'>
+          <td><input type='text' data-nomor='${i}' id='namaKaryawan'><i class='far fa-check'></i></td>
+          <td class='center'><input type='time' data-nomor='${i}' id='jamMulai'></td>
+          <td class='center'><input type='time' data-nomor='${i}' id='jamSelesai'></td>
+          <td class='center'><input type='checkbox' data-nomor='${i}' id='permisi' value='permisi'></td>
+          <td class='center'><input type='checkbox' data-nomor='${i}' id='lembur' value='lembur'></td>
+          <td class='center remove' id='${i}'><i class='far fa-minus' id='${i}' onclick='removeListAbsensi(${i})'></i></td>
+      </tr>`
+    );
+  });
+}
+
+function removeListAbsensi(i) {
+  document.querySelector(`.row_${i}`).remove();
+}
+
 // selesai Load oleh Script.js
 
 document.addEventListener('change', async function (e) {

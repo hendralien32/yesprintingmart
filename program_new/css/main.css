@@ -150,6 +150,32 @@ body {
   color: #3c4854;
 }
 
+.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete {
+  width: 10vw;
+  position: absolute;
+  background-color: #fff;
+  color: #3c4854;
+  border: 1px solid #dfdfdf;
+  margin-top: 5px;
+  border-radius: 4px;
+  display: none;
+}
+
+.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete .item {
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete .item.active, .wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete .item:hover {
+  cursor: pointer;
+  background-color: #3c4854;
+  color: #fff;
+}
+
+.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete.display-show {
+  display: block;
+}
+
 .wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiSubmit {
   text-align: center;
 }

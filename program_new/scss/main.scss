@@ -132,10 +132,6 @@ body {
                   color: $mainColor;
                   padding: 0.5em 0.4em 0.5em 1.2em;
 
-                  // &:nth-child(2) {
-                  //   text-align: left;
-                  // }
-
                   &.center {
                     text-align: center;
                   }
@@ -152,6 +148,33 @@ body {
                   input[type='time'] {
                     @include pointer(pointer);
                     color: $fontColor;
+                  }
+
+                  .autocomplete {
+                    width: 10vw;
+                    position: absolute;
+                    background-color: $whiteColor;
+                    color: $mainColor;
+                    border: 1px solid $borderColor;
+                    margin-top: 5px;
+                    border-radius: 4px;
+                    display: none;
+
+                    .item {
+                      padding: 0.4rem 1rem;
+                      border-bottom: 1px solid $borderColor;
+
+                      &.active,
+                      &:hover {
+                        @include pointer(pointer);
+                        background-color: $mainColor;
+                        color: $whiteColor;
+                      }
+                    }
+
+                    &.display-show {
+                      display: block;
+                    }
                   }
                 }
               }

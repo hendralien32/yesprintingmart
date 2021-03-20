@@ -31,7 +31,7 @@ const btnSearch = document.querySelector('.button-search');
 const inputDate = document.querySelector('#search_drBln');
 const inputSearch = document.querySelector('#search_user');
 
-btnSearch.onclick = () => {
+btnSearch.onclick = (e) => {
   const divSearch = document.querySelector('.plugin-search');
   divSearch.classList.toggle('display-show');
   if (divSearch.classList.contains('display-show')) {
@@ -103,7 +103,6 @@ function judulForm(dataBtn) {
   var obj = {
     absensi: 'Absensi Harian',
     absensi_individu: 'Absensi Personal',
-    absensi_HariLibur: 'Absensi Set Hari Libur',
   };
 
   return obj[namaForm];
@@ -115,18 +114,104 @@ function updateForm(ajaxFormLoad) {
 
   if (content.querySelector('.absensi').classList.contains('individu') == true) {
     addListAbsensi(content);
+    autocomplete(content);
   }
+}
+
+function autocomplete(data) {
+  data.addEventListener('input', async (e) => {
+    if (e.target.getAttribute('id') == 'namaKaryawan') {
+      currentFocus = -1;
+
+      const nomor = e.target.dataset.nomor;
+      const inputKaryawan = data.querySelector(`.namaKaryawan_${nomor}`);
+      const divAutoComplete = data.querySelector(`.ac_${nomor}`);
+
+      const res = await fetch('../program_new/json/state_capitals.json');
+      const karyawans = await res.json();
+
+      let matches = karyawans.filter((karyawan) => {
+        const regex = new RegExp(`^${inputKaryawan.value}`, 'gi');
+        return karyawan.name.match(regex) || karyawan.abbr.match(regex);
+      });
+
+      if (inputKaryawan.value === '') {
+        matches = [];
+        divAutoComplete.style.display = 'hidden';
+        divAutoComplete.style.border = 'none';
+        divAutoComplete.innerHTML = '';
+      }
+
+      if (matches.length > 0) {
+        divAutoComplete.style.display = 'block';
+        const html = matches.map((match) => `<div class='item'>${match.name} <input type='hidden' id='test' value='${match.name}|${match.abbr}|${nomor}'></div>`).join('');
+        divAutoComplete.innerHTML = html;
+      } else {
+        divAutoComplete.style.display = 'hidden';
+        divAutoComplete.style.border = 'none';
+        divAutoComplete.innerHTML = '';
+      }
+    }
+  });
+
+  data.addEventListener('click', (e) => {
+    const a = e.target;
+    const parent = a.parentNode;
+    const grandParent = parent.parentNode;
+
+    if (a.classList.contains('item')) {
+      const data = a.querySelector('#test').value.split('|');
+      const valueInput = data[0];
+      const uidInput = data[1];
+      const nilai_row = data[2];
+
+      const inputNama = grandParent.querySelector(`.namaKaryawan_${nilai_row}`);
+      const inputUID = grandParent.querySelector(`.idKaryawan_${nilai_row}`);
+      const divAutoComplete = grandParent.querySelector(`.ac_${nilai_row}`);
+      const checked = grandParent.querySelector(`.checklist_${nilai_row}`);
+      divAutoComplete.innerHTML = '';
+      divAutoComplete.style.display = 'hidden';
+      inputNama.value = valueInput;
+      inputUID.value = uidInput;
+      checked.innerHTML = `<i class="far fa-check"></i>;`;
+    }
+  });
+
+  data.addEventListener('keydown', function (e) {
+    const a = e.target;
+    const parent = a.parentNode;
+    const y = parent.querySelectorAll('.item');
+    console.log(currentFocus);
+    if (e.keyCode == 40 && y.length - 2 >= currentFocus) {
+      console.log(y[1 + currentFocus++].querySelector('#test').parentNode.classList.add('active'));
+    } else if (e.keyCode == 38 && currentFocus >= 1) {
+      console.log(y[currentFocus-- - 1].querySelector('#test').parentNode.classList.add('active'));
+    } else if (e.keyCode == 13) {
+      const doc = y[currentFocus].querySelector('#test').parentNode.parentNode.parentNode;
+      const inputUID = doc.getElementById(idKaryawan_1);
+    } else {
+      return false;
+    }
+  });
 }
 
 function addListAbsensi(data) {
   const btnAdd = data.querySelector('.add');
-  let i = 0;
-  btnAdd.addEventListener('click', function (e) {
+  let i = 1;
+
+  btnAdd.addEventListener('click', (e) => {
     i++;
     data.querySelector('#dynamic-field').insertAdjacentHTML(
       'beforeend',
       `<tr class='row_${i}'>
-          <td><input type='text' data-nomor='${i}' id='namaKaryawan'><i class='far fa-check'></i></td>
+          <td>
+            <input type='text' data-nomor='${i}' class='namaKaryawan_${i}' id='namaKaryawan'>
+            <div class='autocomplete ac_${i}'>
+              
+            </div>
+            <input type='text' data-nomor='${i}' class='idKaryawan_${i}' id='idKaryawan' style='width:15%'>
+            <span class='checklist_${i}'></span>
+          </td>
           <td class='center'><input type='time' data-nomor='${i}' id='jamMulai'></td>
           <td class='center'><input type='time' data-nomor='${i}' id='jamSelesai'></td>
           <td class='center'><input type='checkbox' data-nomor='${i}' id='permisi' value='permisi'></td>
@@ -134,6 +219,22 @@ function addListAbsensi(data) {
           <td class='center remove' id='${i}'><i class='far fa-minus' id='${i}' onclick='removeListAbsensi(${i})'></i></td>
       </tr>`
     );
+  });
+
+  data.addEventListener('click', (e) => {
+    const queryDataUID = document.querySelectorAll(`[data-nomor='${e.target.dataset.nomor}']`);
+    const permisiCb = queryDataUID[4];
+    const lemburCb = queryDataUID[5];
+
+    if (e.target.value == 'lembur' && e.target.checked == true) {
+      permisiCb.disabled = true;
+    } else if (e.target.value == 'lembur' && e.target.checked == false) {
+      permisiCb.disabled = false;
+    } else if (e.target.value == 'permisi' && e.target.checked == true) {
+      lemburCb.disabled = true;
+    } else if (e.target.value == 'permisi' && e.target.checked == false) {
+      lemburCb.disabled = false;
+    }
   });
 }
 
@@ -143,7 +244,7 @@ function removeListAbsensi(i) {
 
 // selesai Load oleh Script.js
 
-document.addEventListener('change', async function (e) {
+document.addEventListener('change', async (e) => {
   // untuk ganti List Absensi di Form saat Input[type=date] di ganti
   if (e.target.classList.contains('tglAbsensi')) {
     const tableAbsensi = await reLoadAjaxForm(document.querySelector('#tglAbsensi').value);

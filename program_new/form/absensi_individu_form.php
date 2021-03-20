@@ -26,11 +26,18 @@ require_once "../../function.php";
             </tr>
             <tbody id='dynamic-field'>
                 <tr>
-                    <td><input type='text' id='namaKaryawan'><i class='far fa-check'></i></td>
-                    <td class='center'><input type='time' id='jamMulai'></td>
-                    <td class='center'><input type='time' id='jamSelesai'></td>
-                    <td class='center'><input type='checkbox' id='permisi' value='permisi'></td>
-                    <td class='center'><input type='checkbox' id='lembur' value='lembur'></td>
+                    <td>
+                        <input type='text' data-nomor='1' class='namaKaryawan_1' id='namaKaryawan'>
+                        <div class='autocomplete ac_1'>
+                            
+                        </div>
+                        <input type='text' data-nomor='1' class='idKaryawan_1' id='idKaryawan' style='width:15%'>
+                        <span class='checklist_1'></span>
+                    </td>
+                    <td class='center'><input data-nomor='1' type='time' id='jamMulai'></td>
+                    <td class='center'><input data-nomor='1' type='time' id='jamSelesai'></td>
+                    <td class='center'><input data-nomor='1' type='checkbox' id='permisi' value='permisi'></td>
+                    <td class='center'><input data-nomor='1' type='checkbox' id='lembur' value='lembur'></td>
                     <td class='center add'><i class='far fa-plus'></i></td>
                 </tr>
             </tbody>

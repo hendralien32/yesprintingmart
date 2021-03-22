@@ -32,7 +32,13 @@ bahanAlertIcn.addEventListener('click', async function () {
 });
 
 function getListBahan() {
-  return fetch('../program_new/json/json_data.php')
+  return fetch('../program_new/json/json_data.php', {
+    method: 'POST',
+    body: `jenisData=listKekuranganKertas`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    })
     .then((response) => response.json())
     .then((response) => response);
 }

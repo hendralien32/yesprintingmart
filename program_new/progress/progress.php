@@ -64,40 +64,85 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
     $cutiCB = explode (",", "$_POST[cutiCB]" );
 
     for($i = 0; $i < $jumlahArray; $i++) {
-        if($lemburCB[$i] == "Y") {
-            $lembur_mulai = $jamMulai[$i];
-            $lembur_selesai = $jamSelesai[$i];
-        } else {
-            $lembur_mulai = "";
+        ($lemburCB[$i] == "Y") 
+        ?   $lembur_mulai = $jamMulai[$i] xor
+            $lembur_selesai = $jamSelesai[$i]
+        :   $lembur_mulai = "" xor
             $lembur_selesai = "";
-        }
-
-        if($permisiCB[$i] == "Y") {
-            $permisi_keluar = $jamMulai[$i];
-            $permisi_masuk = $jamSelesai[$i];
-        } else {
-            $permisi_keluar = "";
+    
+        ($permisiCB[$i] == "Y") 
+        ?   $permisi_keluar = $jamMulai[$i] xor
+            $permisi_masuk = $jamSelesai[$i]
+        :   $permisi_keluar = "" xor
             $permisi_masuk = "";
-        }
 
-        $insertAbsensi[] = "
-            (
-                '$uid[$i]',
-                '$_POST[tglAbensi]',
-                '$permisi_keluar',
-                '$permisi_masuk',
-                '$lembur_mulai',
-                '$lembur_selesai',
-                'N',
-                'N',
-                '$cutiCB[$i]',
-                '$lemburCB[$i]',
-                '$permisiCB[$i]',
-                '$uniqueID',
-                'N'
-            )
-        ";
+        if($cutiCB[$i] == 'Y') :
+            $cutiSql =
+                "SELECT
+                    karyawan.nama
+                FROM
+                    absensi
+                LEFT JOIN
+                    (SELECT
+                        pm_user.nama,
+                        pm_user.uid
+                    FROM
+                        pm_user
+                    ) karyawan
+                ON
+                    karyawan.uid = absensi.uid
+                WHERE
+                    absensi.tanggal = '$_POST[tglAbensi]' and
+                    absensi.cuti = '$cutiCB[$i]' and
+                    absensi.uid = '$uid[$i]'
+                LIMIT
+                    1
+            ";    
+            $result = $conn_OOP->query($cutiSql);
+            if ($result->num_rows > 0) :
+                $row = $result->fetch_assoc();
+                $checked[] = "$row[nama] Cuti sudah terdaftar";
+                $insertAbsensi[] = "";
+            else :
+                $insertAbsensi[] = "
+                    (
+                        '$uid[$i]',
+                        '$_POST[tglAbensi]',
+                        '$permisi_keluar',
+                        '$permisi_masuk',
+                        '$lembur_mulai',
+                        '$lembur_selesai',
+                        'N',
+                        'N',
+                        '$cutiCB[$i]',
+                        '$lemburCB[$i]',
+                        '$permisiCB[$i]',
+                        '$uniqueID',
+                        'N'
+                    )
+                ";
+            endif;
+        else :
+            $insertAbsensi[] = "
+                (
+                    '$uid[$i]',
+                    '$_POST[tglAbensi]',
+                    '$permisi_keluar',
+                    '$permisi_masuk',
+                    '$lembur_mulai',
+                    '$lembur_selesai',
+                    'N',
+                    'N',
+                    '$cutiCB[$i]',
+                    '$lemburCB[$i]',
+                    '$permisiCB[$i]',
+                    '$uniqueID',
+                    'N'
+                )
+            ";
+        endif;
     }
+    $test = implode(" | ", $checked);
 
     $New_Insert = implode(',', $insertAbsensi);
 
@@ -131,15 +176,13 @@ if ($conn->multi_query($sql) === TRUE) {
         echo "true";
     } else {
         $resultChecked = 
-            isset($checked) 
-                ? $checked 
+            isset($test) 
+                ? $test 
                 : "";
 
         echo "
                 <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
-                ERROR : Could not able to execute because \" " . mysqli_error($conn) . " \"<br>
-                Query : $sql <br><br>
-                Another Error : $resultChecked <br><br>
+                ERROR : $resultChecked <br><br>
                 </b>
             ";
     }

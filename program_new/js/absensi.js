@@ -77,7 +77,7 @@ function autocomplete(data) {
       const inputUid = data.querySelector(`.idKaryawan_${nomor}`);
       const divAutoComplete = data.querySelector(`.ac_${nomor}`);
       const checked = data.querySelector(`.checklist_${nomor}`);
-      
+
       const karyawans = await fetch('../program_new/json/json_data.php', {
         method: 'POST',
         body: `jenisData=karyawanAbsensi`,
@@ -85,8 +85,8 @@ function autocomplete(data) {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       })
-      .then((response) => response.json())
-      .then((response) => response);
+        .then((response) => response.json())
+        .then((response) => response);
 
       let matches = karyawans.filter((karyawan) => {
         const regex = new RegExp(`${inputKaryawan.value}`, 'gi');
@@ -105,14 +105,15 @@ function autocomplete(data) {
       if (matches.length > 0) {
         divAutoComplete.style.display = 'block';
         divAutoComplete.style.border = '1px solid #dfdfdf';
-        const html = matches.map(
-          (match) => {
-            if(match.nama != inputKaryawan.value) {
+        const html = matches
+          .map((match) => {
+            if (match.nama != inputKaryawan.value) {
               checked.innerHTML = '';
               inputUid.value = '';
             }
-          return `<div class='item'>${match.nama} <input type='hidden' id='uidKaryawan' value='${match.nama}|${match.uid}|${nomor}'></div>`
-          }).join('');    
+            return `<div class='item'>${match.nama} <input type='hidden' id='uidKaryawan' value='${match.nama}|${match.uid}|${nomor}'></div>`;
+          })
+          .join('');
         divAutoComplete.innerHTML = html;
         const item = divAutoComplete.querySelectorAll('.item');
         addActive(item);
@@ -131,45 +132,45 @@ function autocomplete(data) {
 
     if (e.target.classList.contains('item')) {
       const doc2 = a.querySelector('#uidKaryawan');
-      selectList(grandParent,doc2);
+      selectList(grandParent, doc2);
     }
   });
 
-  data.parentNode.addEventListener('click', e => {
+  data.parentNode.addEventListener('click', (e) => {
     // menghilangkan isi list autocomplete saat kita click diluar list Item
-    if(e.target.classList.contains('item') === false) {
+    if (e.target.classList.contains('item') === false) {
       const listAutocomplete = document.querySelector('.autocomplete');
       listAutocomplete.innerHTML = '';
       listAutocomplete.style.display = 'hidden';
       listAutocomplete.style.border = 'none';
-    };
-  })
+    }
+  });
 
   data.addEventListener('mouseover', function (e) {
     // untuk menghilangkan Class Active di Item saat hover
     const target = e.target.classList.contains('item');
-    if(target === true) {
+    if (target === true) {
       const item = data.querySelectorAll('.item');
-      removeActive(item)
+      removeActive(item);
     }
   });
 
   data.addEventListener('keydown', function (e) {
     const parent = e.target.parentNode;
     const item = parent.querySelectorAll('.item');
-    if (e.keyCode == 40 && item.length - 2 >= currentFocus) { 
+    if (e.keyCode == 40 && item.length - 2 >= currentFocus) {
       // ketika Tekan Tombol Bawah
       currentFocus = currentFocus++ + 1;
       addActive(item);
-    } else if (e.keyCode == 38 && currentFocus >= 1) { 
+    } else if (e.keyCode == 38 && currentFocus >= 1) {
       // ketika Tekan Tombol Atas
       currentFocus = currentFocus-- - 1;
       addActive(item);
-    } else if (e.keyCode == 13 || e.keyCode == 9) { 
+    } else if (e.keyCode == 13 || e.keyCode == 9) {
       // ketika Tekan Tombol Enter & Tab
       const doc = item[currentFocus].querySelector('#uidKaryawan').parentNode.parentNode.parentNode;
       const doc2 = item[currentFocus].querySelector('#uidKaryawan');
-      selectList(doc,doc2);
+      selectList(doc, doc2);
     }
   });
 }
@@ -187,13 +188,13 @@ function removeActive(item) {
 }
 
 function closeAllList(grandParent, nilai_row) {
-    const divAutoComplete = grandParent.querySelector(`.ac_${nilai_row}`);
-    divAutoComplete.innerHTML = '';
-    divAutoComplete.style.display = 'hidden';
-    divAutoComplete.style.border = 'none';
+  const divAutoComplete = grandParent.querySelector(`.ac_${nilai_row}`);
+  divAutoComplete.innerHTML = '';
+  divAutoComplete.style.display = 'hidden';
+  divAutoComplete.style.border = 'none';
 }
 
-function selectList(a,b) {
+function selectList(a, b) {
   const data = b.value.split('|');
   const valueInput = data[0];
   const uidInput = data[1];
@@ -205,8 +206,8 @@ function selectList(a,b) {
   inputNama.value = valueInput;
   inputUID.value = uidInput;
   checked.innerHTML = `<i class="far fa-check"></i>;`;
-  
-  closeAllList(a,nilai_row);
+
+  closeAllList(a, nilai_row);
 }
 // Autocomplete Progress DONE //
 
@@ -335,7 +336,6 @@ function reUpdateForm(ajaxFormLoad) {
   content.innerHTML = ajaxFormLoad;
 }
 
-
 // Progress submit Ke database
 async function submitAbsensiHarian() {
   const errHTML = document.querySelector('.resultQuery');
@@ -365,7 +365,7 @@ async function submitAbsensiHarian() {
     const variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valueKaryawanUid}&typeProgress=Insert_Absensi`;
 
     const data = await fetchSubmitProgress(variable);
-    resultSubmit(data)
+    resultSubmit(data);
   } else {
     errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Tidak ada data yang mau di upload<br><br></b>`;
     return false;
@@ -394,13 +394,13 @@ async function submitAbsensiIndividu() {
 
     // validasi sebelum POST ke progress.php
     for (let i = 0; i < idKaryawan.length; i++) {
-      if ((valuePermisi[i] == 'N' && valueLembur[i] == 'N' && valueCuti[i] == 'N')) {
+      if (valuePermisi[i] == 'N' && valueLembur[i] == 'N' && valueCuti[i] == 'N') {
         errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Checkbox Permisi, Lembur & Cuti harus dipilih<br><br></b>`;
         return false;
       } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y' || valueCuti[i] == 'Y') && valueIdKaryawan[i] == '') {
         errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Nama Karyawan Harus diisi<br><br></b>`;
         return false;
-      } else if((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y') && valueIdKaryawan[i] != '' && valueJamMulai[i] == '' && valueJamSelesai[i] == '' ) {
+      } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y') && valueIdKaryawan[i] != '' && valueJamMulai[i] == '' && valueJamSelesai[i] == '') {
         errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Jam Mulai dan Jam Selesai Harus diisi<br><br></b>`;
         return false;
       }
@@ -409,7 +409,7 @@ async function submitAbsensiIndividu() {
     const variable = `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&typeProgress=Insert_Absensi_Individu`;
 
     const data = await fetchSubmitProgress(variable);
-    resultSubmit(data)
+    resultSubmit(data);
   } else {
     errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Tidak ada data yang mau di upload<br><br></b>`;
     return false;

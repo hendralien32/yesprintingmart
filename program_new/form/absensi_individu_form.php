@@ -10,7 +10,7 @@ require_once "../../function.php";
         <table>
             <tr>
                 <td>Tanggal</td>
-                <td><input type="date" name="tanggal" class='tglAbsensi' id="tglAbsensi" value="<?= $date; ?>" max="<?= $date; ?>"></td>
+                <td><input type="date" name="tanggal" class='tglAbsensi' id="tglAbsensi" value="<?= $date; ?>"></td>
             </tr>
         </table>
     </div>

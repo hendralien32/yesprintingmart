@@ -38,7 +38,7 @@ function getListBahan() {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    })
+  })
     .then((response) => response.json())
     .then((response) => response);
 }
@@ -129,3 +129,88 @@ function loadAjaxForm(file) {
     .then((response) => response.text())
     .then((response) => response);
 }
+
+// Confirm BOX START
+async function confirmForm(jenis, tipe, id) {
+  const lightboxConfirmation = document.querySelector('.lightbox-confirmation');
+  const contentLightbox = lightboxConfirmation.querySelector('.content-lightbox');
+
+  const divBlackOut = document.createElement('div');
+  divBlackOut.className = 'blackout';
+  lightboxConfirmation.appendChild(divBlackOut);
+  lightboxConfirmation.classList.toggle('display-show');
+  document.body.style.overflow = 'hidden';
+
+  const ajaxConfirmForm = await loadConfirmForm(jenis, tipe);
+  contentLightbox.innerHTML = ajaxConfirmForm;
+
+  ActionConfirmBox(lightboxConfirmation, id, tipe);
+}
+
+function loadConfirmForm(file, tipe) {
+  //nama File di ambil dari data-form pada button
+  return fetch(`../program_new/form/confirm/${file}_cb.php`, {
+    method: 'POST',
+    body: `tipe=${tipe}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => response);
+}
+
+function ActionConfirmBox(lightboxConfirmation, id, tipe) {
+  const btnNo = lightboxConfirmation.querySelector('.no-btn');
+  const btnYes = lightboxConfirmation.querySelector('.yes-btn');
+  const bg_blackOut = lightboxConfirmation.querySelector('.blackout');
+
+  btnNo.addEventListener('click', function () {
+    closeActionCb(lightboxConfirmation);
+  });
+
+  bg_blackOut.addEventListener('click', function () {
+    closeActionCb(lightboxConfirmation);
+  });
+
+  btnYes.addEventListener('click', function () {
+    yesActionCb(lightboxConfirmation, id, tipe);
+  });
+}
+
+function closeActionCb(lightboxConfirmation) {
+  const contentLightbox = lightboxConfirmation.querySelector('.content-lightbox');
+  const bg_blackOut = lightboxConfirmation.querySelector('.blackout');
+
+  lightboxConfirmation.classList.toggle('display-show');
+  document.body.style.overflow = 'auto';
+  contentLightbox.innerHTML = '';
+  bg_blackOut.remove();
+}
+
+function yesActionCb(lightboxConfirmation, id, tipe) {
+  const errHTML = lightboxConfirmation.querySelector('.resultError');
+  fetch(`../program_new/progress/progress.php`, {
+    method: 'POST',
+    body: `typeProgress=${tipe}&idKaryawan=${id}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => {
+      if (response === 'true') {
+        closeActionCb(lightboxConfirmation);
+        loadPage();
+      } else {
+        errHTML.innerHTML = `<i class="far fa-exclamation-circle"></i> Proses penghapusan data ERROR`;
+        errHTML.style.borderBottom = '1px solid #dfdfdf';
+        errHTML.style.paddingBottom = '10px';
+        return false;
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+// CONFIRM BOX END

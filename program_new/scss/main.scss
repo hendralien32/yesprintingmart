@@ -38,10 +38,121 @@ body {
   display: block;
 }
 
+.btn:hover {
+  color: $secondaryColor;
+  @include pointer(pointer);
+}
+
 .wrapper {
   position: relative;
   width: 100%;
   min-height: 100vh;
+
+  .lightbox-confirmation {
+    overflow: hidden;
+    display: none;
+
+    &.display-show {
+      display: block;
+    }
+
+    .content-lightbox {
+      width: 30%;
+      position: fixed;
+      margin: 16% 35%;
+      z-index: 2;
+      background: $whiteColor;
+      color: $mainColor;
+      overflow: auto;
+      border-radius: 5px;
+
+      .lineBlack {
+        width: 100%;
+        height: 10px;
+        background-color: $mainColor;
+        opacity: 0.8;
+      }
+
+      .content {
+        padding: 0 1.3em 0 1.3em;
+
+        .Title-Content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 15px 0;
+          font-size: 2em;
+          border-bottom: 1px solid $borderColor;
+
+          p {
+            margin-top: 10px;
+            font-size: 0.5em;
+            font-weight: bold;
+          }
+        }
+
+        .Text-Content {
+          margin: 10px 0;
+          font-size: 0.8em;
+          text-align: left;
+          line-height: 1.6em;
+          padding-bottom: 10px;
+          border-bottom: 1px solid $borderColor;
+        }
+
+        .resultError {
+          font-size: 0.8em;
+          text-align: center;
+          color: red;
+          font-weight: bold;
+        }
+
+        .Btn-Content {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          margin: 13px auto 18px auto;
+
+          .no-btn {
+            display: inline-block;
+            border: none;
+            outline: none;
+            color: $whiteColor;
+            background-color: $mainColor;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            @include pointer(pointer);
+            font-size: 0.75rem;
+          }
+
+          .yes-btn {
+            display: inline-block;
+            border: none;
+            outline: none;
+            color: $whiteColor;
+            background-color: $secondaryColor;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            @include pointer(pointer);
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+
+    .blackout {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      position: fixed;
+      opacity: 0.7;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
 
   .lightbox-input {
     display: none;
@@ -196,6 +307,103 @@ body {
                 @include pointer(pointer);
               }
             }
+          }
+        }
+      }
+    }
+
+    .blackout {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      position: fixed;
+      opacity: 0.7;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+
+  .lightbox-Small {
+    overflow: hidden;
+    // display: none;
+
+    &.display-show {
+      display: block;
+    }
+
+    .content-lightbox {
+      width: 45%;
+      height: 50%;
+      position: fixed;
+      margin: 15% 27.5%;
+      z-index: 2;
+      background: $whiteColor;
+      color: $mainColor;
+      overflow: auto;
+      border-radius: 5px;
+
+      .lineBlack {
+        width: 100%;
+        height: 10px;
+        background-color: $mainColor;
+        opacity: 0.8;
+      }
+      .content {
+        padding: 0 1.3em 0 1.3em;
+
+        .Title-Content {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 10px 0;
+          font-size: 1.5em;
+          border-bottom: 1px solid $borderColor;
+
+          p {
+            margin-left: 15px;
+            font-size: 0.6em;
+            font-weight: bold;
+          }
+        }
+
+        .resultError {
+          font-size: 0.8em;
+          text-align: center;
+          color: red;
+          font-weight: bold;
+        }
+
+        .Btn-Content {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          margin: 13px auto 18px auto;
+
+          .no-btn {
+            display: inline-block;
+            border: none;
+            outline: none;
+            color: $whiteColor;
+            background-color: $mainColor;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            @include pointer(pointer);
+            font-size: 0.75rem;
+          }
+
+          .yes-btn {
+            display: inline-block;
+            border: none;
+            outline: none;
+            color: $whiteColor;
+            background-color: $secondaryColor;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            @include pointer(pointer);
+            font-size: 0.75rem;
           }
         }
       }
@@ -369,11 +577,10 @@ body {
           display: flex;
           flex-direction: column;
           position: absolute;
-          margin-top: 1.5rem;
-          margin-left: -0.875rem;
+          margin-top: 1.2rem;
+          margin-left: -0.75rem;
           background-color: $bgColor;
           color: $fontColor;
-          border-radius: 0px 0 8px 8px;
         }
 
         ul {
@@ -411,7 +618,7 @@ body {
 
           .left_title {
             font-size: 1.3em;
-            color: #3c4854;
+            color: $mainColor;
             text-transform: uppercase;
             border-right: 1px solid $fontColor;
             padding-right: 1.3rem;
@@ -487,14 +694,13 @@ body {
             }
 
             td {
-              &:nth-child(2) {
-                text-align: left;
-              }
-
               border-bottom: 1px solid $borderColor;
               color: $mainColor;
               padding: 0.8em 0.6em;
               text-align: center;
+              &:nth-child(2) {
+                text-align: left;
+              }
             }
           }
         }
@@ -506,6 +712,12 @@ body {
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 565.98px) {
   .wrapper {
+    .lightbox-confirmation {
+      .content-lightbox {
+        width: 50%;
+        margin: 33% 25%;
+      }
+    }
     .header {
       .icon_right {
         .icon {
@@ -530,6 +742,12 @@ body {
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 566px) and (max-width: 767.98px) {
   .wrapper {
+    .lightbox-confirmation {
+      .content-lightbox {
+        width: 50%;
+        margin: 33% 25%;
+      }
+    }
     .header {
       .icon_right {
         .icon {
@@ -554,6 +772,12 @@ body {
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
   .wrapper {
+    .lightbox-confirmation {
+      .content-lightbox {
+        width: 40%;
+        margin: 25% 30%;
+      }
+    }
     .header {
       .icon_right {
         .icon {
@@ -577,6 +801,12 @@ body {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
   .wrapper {
+    .lightbox-confirmation {
+      .content-lightbox {
+        width: 40%;
+        margin: 28% 30%;
+      }
+    }
     .header {
       .icon_right {
         .icon {
@@ -600,6 +830,12 @@ body {
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   .wrapper {
+    .lightbox-confirmation {
+      .content-lightbox {
+        width: 33%;
+        margin: 16% 33.5%;
+      }
+    }
     .header {
       .icon_right {
         .icon {

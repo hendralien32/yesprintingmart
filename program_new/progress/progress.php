@@ -94,7 +94,8 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
                 WHERE
                     absensi.tanggal = '$_POST[tglAbensi]' and
                     absensi.cuti = '$cutiCB[$i]' and
-                    absensi.uid = '$uid[$i]'
+                    absensi.uid = '$uid[$i]' and
+                    absensi.hapus != 'Y'
                 LIMIT
                     1
             ";    
@@ -104,6 +105,7 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
                 $checked[] = "$row[nama] Cuti sudah terdaftar";
                 $insertAbsensi[] = "";
             else :
+                $checked[] = "";
                 $insertAbsensi[] = "
                     (
                         '$uid[$i]',
@@ -123,6 +125,7 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
                 ";
             endif;
         else :
+            $checked[] = "";
             $insertAbsensi[] = "
                 (
                     '$uid[$i]',
@@ -143,7 +146,6 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
         endif;
     }
     $test = implode(" | ", $checked);
-
     $New_Insert = implode(',', $insertAbsensi);
 
     $sql =
@@ -165,9 +167,24 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
             )  VALUES $New_Insert
     ";
 
+elseif($_POST['typeProgress'] == "Hapus_Absensi") : // Absensi Delete Data
+    $sql =
+        "UPDATE
+            absensi
+        SET
+            hapus = 'Y'
+        WHERE
+            absensiID = $_POST[idKaryawan];
+    ";
+elseif($_POST['typeProgress'] == "xxx") :
 else :
 
 endif;
+
+$resultChecked = 
+(isset($test)) 
+    ? $test 
+    : "";
 
 if ($conn->multi_query($sql) === TRUE) {
     echo "true";
@@ -175,11 +192,6 @@ if ($conn->multi_query($sql) === TRUE) {
     if (mysqli_query($conn, $sql)) {
         echo "true";
     } else {
-        $resultChecked = 
-            isset($test) 
-                ? $test 
-                : "";
-
         echo "
                 <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
                 ERROR : $resultChecked <br><br>

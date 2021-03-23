@@ -48,7 +48,8 @@ require_once "../../function.php";
                                 absensi
                             WHERE  
                                 ( absensi.hadir != 'Y' || absensi.cuti != 'Y' || absensi.absen != 'Y') and
-                                absensi.tanggal = '$date'
+                                absensi.tanggal = '$date' and
+                                absensi.hapus != 'Y'
                             ) absensi
                         ON
                             absensi.uid  = pm_user.uid

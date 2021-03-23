@@ -7,7 +7,6 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-
 $sql = 
     "SELECT
         akses.absensi,
@@ -71,6 +70,34 @@ endif;
     <div class="wrapper">
         <div class="lightbox-input">
             <div class='content-lightbox'></div>
+        </div>
+        <div class="lightbox-confirmation">
+            <div class='content-lightbox'></div>
+        </div>
+        <div class="lightbox-Small">
+            <div class='content-lightbox'>
+                <div class='lineBlack'></div>
+                <div class='content'>
+                    <div class='Title-Content'>
+                        <i class='far fa-pen-square'></i>
+                        <p>Edit Data Absensi</p>
+                    </div>
+                    <div class='Text-Content'>
+                        <div class='input-left'>
+                            A
+                        </div>
+                        <div class='input-right'>
+                            B
+                        </div>
+                    </div>
+                    <div class='resultError'></div>
+                    <div class="Btn-Content">
+                        <button class="no-btn">Tutup Form</button>
+                        <button class="yes-btn">Submit Data</button>
+                    </div>
+                </div>
+            </div>
+            <div class='blackout'></div>
         </div>
 
         <div class="header">
@@ -246,7 +273,7 @@ endif;
                             require_once('absensi_rekapan.php');
                             break;
                         default:
-                            require_once('xxx.php');
+                            require_once('dashboard.php');
                     endswitch;
                 else :
                     echo "$page";

@@ -375,7 +375,7 @@ async function submitAbsensiHarian() {
 async function submitAbsensiIndividu() {
   const errHTML = document.querySelector('.resultQuery');
 
-  const tglAbsensi = document.querySelector('#tglAbsensi').value;
+  const tglAbsensi = document.querySelector('#tglAbsensiHarian').value;
   const idKaryawan = document.querySelectorAll('#idKaryawan');
   const jamMulai = document.querySelectorAll('#jamMulai');
   const jamSelesai = document.querySelectorAll('#jamSelesai');
@@ -441,5 +441,8 @@ function resultSubmit(data) {
     return false;
   }
 }
-
 // Progress submit Ke database END
+
+function smallLightBox(jenis, tipe, id) {
+  console.log(id);
+}

@@ -112,6 +112,7 @@
     $sql = 
         "SELECT
             $sqlName
+            absensi.absensiID as id,
             absensi.tanggal,
             karyawan.nama as namaKaryawan,
             absensi.uniquePost
@@ -147,6 +148,7 @@
             <th width="12%">Karyawan</th>
             <th>Tanggal</th>
             <?= $tableTH ?>
+            <th width="6%"></th>
         </tr>
         <?php
             if ($jumlah_order > 0) :
@@ -192,6 +194,10 @@
                         <td>". ucfirst($d['namaKaryawan']) ."</td>
                         <td>$tglAbsensi</td>
                         $tableTR
+                        <td>
+                            <span style='padding-right:8px;'><i class='fas fa-pen-square btn' onclick='smallLightBox(\"edit\",\"Absensi_Edit_Individu\",\"$d[id]\")'></i></span>
+                            <span><i class='fas fa-trash-alt btn' onclick='confirmForm(\"delete_absensi\",\"Hapus_Absensi\",\"$d[id]\")'></i></span>
+                        </td>
                     </tr>
                     ";
                 endwhile;

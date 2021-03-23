@@ -39,7 +39,8 @@ $bulan = substr($tanggal,0,7);
                         absensi
                     WHERE  
                         ( absensi.hadir != 'Y' || absensi.cuti != 'Y' || absensi.absen != 'Y') and
-                        absensi.tanggal = '$tanggal'
+                        absensi.tanggal = '$tanggal' and
+                        absensi.hapus != 'Y'
                     ) absensi
                 ON
                     absensi.uid  = pm_user.uid

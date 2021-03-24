@@ -84,10 +84,65 @@ endif;
                     </div>
                     <div class='Text-Content'>
                         <div class='input-left'>
-                            A
+                            <table>
+                                <tr>
+                                    <td><b>Nama Karyawan</b></td>
+                                    <td><input type="text" value='Evi' class='disabled' disabled readonly></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Scan Masuk</b></td>
+                                    <td><input type="time"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Scan Keluar</b></td>
+                                    <td><input type="time"></td>
+                                </tr>
+                            </table>
                         </div>
                         <div class='input-right'>
-                            B
+                            <table>
+                                <tr>
+                                    <td><b>Tanggal</b></td>
+                                    <td colspan="2"><input type='date'></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2"><b>Jenis Absensi</b></td>
+                                    <td>
+                                        <div class="form-checkbox">
+                                            <input class="input-checkbox100" id="absen" type="checkbox">
+                                            <label class="label-checkbox100" for="absen">
+                                                Absen
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-checkbox">
+                                            <input class="input-checkbox100" id="cuti" type="checkbox">
+                                            <label class="label-checkbox100" for="cuti">
+                                                Cuti
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-checkbox">
+                                            <input class="input-checkbox100" id="permisi" type="checkbox">
+                                            <label class="label-checkbox100" for="permisi">
+                                                Permisi
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-checkbox">
+                                            <input class="input-checkbox100" id="lembur" type="checkbox">
+                                            <label class="label-checkbox100" for="lembur">
+                                                Lembur
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <div class='resultError'></div>

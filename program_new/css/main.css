@@ -1,3 +1,4 @@
+@import url(../../vendor/fontawesome-pro-master/css/all.css);
 * {
   padding: 0px;
   margin: 0px;
@@ -338,10 +339,10 @@ body {
 }
 
 .wrapper .lightbox-Small .content-lightbox {
-  width: 45%;
+  width: 52%;
   height: 50%;
   position: fixed;
-  margin: 15% 27.5%;
+  margin: 15% 24%;
   z-index: 2;
   background: #fff;
   color: #3c4854;
@@ -380,6 +381,136 @@ body {
   margin-left: 15px;
   font-size: 0.6em;
   font-weight: bold;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px solid #dfdfdf;
+  margin: 15px 0;
+  padding-bottom: 15px;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right {
+  padding: 5px;
+  width: 49%;
+  background-color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8em;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr {
+  height: 45px;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td {
+  padding: 7px 0;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td:first-child,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td:first-child {
+  padding-right: 10px;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td input,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td input {
+  padding: 5px 10px;
+  border: 1px solid #dfdfdf;
+  outline: none;
+  border-radius: 5px;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td input.disabled,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td input.disabled {
+  border: none;
+  background: none;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox {
+  color: #fff;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100 {
+  display: none;
+  color: #fff;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100 {
+  color: #3c4854;
+  line-height: 1.4;
+  display: inline-block;
+  position: relative;
+  padding-left: 26px;
+  cursor: pointer;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100::before,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Pro';
+  font-size: 13px;
+  color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #dfdfdf;
+  font-weight: bold;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+  color: #fe5724;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+  background: #e2e2e2;
+}
+
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .fa-info-square,
+.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .fa-info-square {
+  color: #fe5724;
 }
 
 .wrapper .lightbox-Small .content-lightbox .content .resultError {

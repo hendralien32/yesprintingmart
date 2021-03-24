@@ -6,6 +6,9 @@ $whiteColor: #fff;
 $borderColor: #dfdfdf;
 $gblFontSize: 0.72rem;
 
+// @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+@import url(../../vendor/fontawesome-pro-master/css/all.css);
+
 @mixin pointer($cursor: default) {
   cursor: $cursor;
 }
@@ -333,10 +336,10 @@ body {
     }
 
     .content-lightbox {
-      width: 45%;
+      width: 52%;
       height: 50%;
       position: fixed;
-      margin: 15% 27.5%;
+      margin: 15% 24%;
       z-index: 2;
       background: $whiteColor;
       color: $mainColor;
@@ -364,6 +367,104 @@ body {
             margin-left: 15px;
             font-size: 0.6em;
             font-weight: bold;
+          }
+        }
+
+        .Text-Content {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: space-between;
+          border-bottom: 1px solid $borderColor;
+          margin: 15px 0;
+          padding-bottom: 15px;
+
+          .input-left,
+          .input-right {
+            padding: 5px;
+            width: 49%;
+            background-color: $whiteColor;
+            user-select: none;
+
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              font-size: 0.8em;
+
+              tr {
+                height: 45px;
+
+                td {
+                  padding: 7px 0;
+
+                  &:first-child {
+                    padding-right: 10px;
+                  }
+
+                  input {
+                    padding: 5px 10px;
+                    border: 1px solid $borderColor;
+                    outline: none;
+                    border-radius: 5px;
+
+                    &.disabled {
+                      border: none;
+                      background: none;
+                    }
+                  }
+
+                  .form-checkbox {
+                    color: #fff;
+
+                    .input-checkbox100 {
+                      display: none;
+                      color: #fff;
+                    }
+
+                    .label-checkbox100 {
+                      color: $fontColor;
+                      line-height: 1.4;
+                      display: inline-block;
+                      position: relative;
+                      padding-left: 26px;
+                      @include pointer(pointer);
+
+                      &::before {
+                        content: '\f00c';
+                        font-family: 'Font Awesome 5 Pro';
+                        font-size: 13px;
+                        color: transparent;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        width: 1.3em;
+                        height: 1.3em;
+                        border-radius: 2px;
+                        background: $whiteColor;
+                        border: 1px solid $borderColor;
+                        font-weight: bold;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                      }
+                    }
+
+                    .input-checkbox100:checked + .label-checkbox100::before {
+                      color: $secondaryColor;
+                    }
+
+                    .input-checkbox100:disabled + .label-checkbox100::before {
+                      background: #e2e2e2;
+                    }
+
+                    .fa-info-square {
+                      color: $secondaryColor;
+                    }
+                  }
+                }
+              }
+            }
           }
         }
 

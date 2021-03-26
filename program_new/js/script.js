@@ -75,83 +75,30 @@ function updateContent(data) {
   content.innerHTML = data;
 }
 
-//tampilkan form & menghilangkan form
-function lightBoxClose() {
-  const bg_blackOut = document.querySelector('.blackout');
-  const cancelBtn = document.querySelector('.closeBtn');
-
-  cancelBtn.addEventListener('click', closeForm);
-  bg_blackOut.addEventListener('click', closeForm);
-}
-
-function closeForm() {
-  const lightboxInput = document.querySelector('.lightbox-input');
-  const ctLightBox = document.querySelector('.content-lightbox');
-  const bg_blackOut = document.querySelector('.blackout');
-  lightboxInput.classList.toggle('display-show');
-  document.body.style.overflow = 'auto';
-  ctLightBox.innerHTML = '';
-  bg_blackOut.remove();
-}
-
-const btnAdd = document.querySelectorAll('.add_form');
-btnAdd.forEach((btn) => {
-  btn.addEventListener('click', async function () {
-    const lightboxInput = document.querySelector('.lightbox-input');
-    const ctLightBox = document.querySelector('.content-lightbox');
-
-    const divBlackOut = document.createElement('div');
-    divBlackOut.className = 'blackout';
-    lightboxInput.appendChild(divBlackOut);
-
-    lightboxInput.classList.toggle('display-show');
-    document.body.style.overflow = 'hidden';
-
-    let reJudulForm = judulForm(this);
-    ctLightBox.innerHTML = `<div class='topForm'><span id='titleForm'><i class='fas fa-file-plus'></i> Add ${reJudulForm} </span><span class='closeBtn'><i class='fas fa-window-close'></i></span></div><div class='lightBoxContent'></div>`;
-
-    lightBoxClose();
-    const ajaxFormLoad = await loadAjaxForm(this);
-    updateForm(ajaxFormLoad);
-  });
-});
-
-function loadAjaxForm(file) {
-  //nama File di ambil dari data-form pada button
-  let namaForm = file.dataset.form;
-  return fetch(`../program_new/form/${namaForm}_form.php`, {
-    method: 'POST',
-    body: ``,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  })
-    .then((response) => response.text())
-    .then((response) => response);
-}
-
-// Confirm BOX START
-async function confirmForm(jenis, tipe, id) {
-  const lightboxConfirmation = document.querySelector('.lightbox-confirmation');
-  const contentLightbox = lightboxConfirmation.querySelector('.content-lightbox');
-
+async function showForm(file, tipe, id, lightboxSize) {
+  const lightbox = document.querySelector(`.lightbox`);
   const divBlackOut = document.createElement('div');
   divBlackOut.className = 'blackout';
-  lightboxConfirmation.appendChild(divBlackOut);
-  lightboxConfirmation.classList.toggle('display-show');
   document.body.style.overflow = 'hidden';
 
-  const ajaxConfirmForm = await loadConfirmForm(jenis, tipe);
-  contentLightbox.innerHTML = ajaxConfirmForm;
+  const divLightboxSize = document.createElement('div');
+  divLightboxSize.className = `${lightboxSize}`;
+  lightbox.appendChild(divLightboxSize);
+  lightbox.appendChild(divBlackOut);
+  lightbox.classList.toggle('display-show');
 
-  ActionConfirmBox(lightboxConfirmation, id, tipe);
+  const sizeLightbox = lightbox.querySelector(`.${lightboxSize}`);
+  const ajaxLightbox = await loadLightbox(file, tipe, id);
+  sizeLightbox.innerHTML = ajaxLightbox;
+
+  actionLightbox(lightbox, id, tipe);
+  actionChecked(lightbox, tipe);
 }
 
-function loadConfirmForm(file, tipe) {
-  //nama File di ambil dari data-form pada button
-  return fetch(`../program_new/form/confirm/${file}_cb.php`, {
+function loadLightbox(file, tipe, id) {
+  return fetch(`../program_new/form/${file}_form.php`, {
     method: 'POST',
-    body: `tipe=${tipe}`,
+    body: `tipe=${tipe}&id=${id}`,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -160,39 +107,39 @@ function loadConfirmForm(file, tipe) {
     .then((response) => response);
 }
 
-function ActionConfirmBox(lightboxConfirmation, id, tipe) {
-  const btnNo = lightboxConfirmation.querySelector('.no-btn');
-  const btnYes = lightboxConfirmation.querySelector('.yes-btn');
-  const bg_blackOut = lightboxConfirmation.querySelector('.blackout');
+function actionLightbox(lightbox, id, tipe) {
+  const btnNo = lightbox.querySelector('.no-btn');
+  const btnYes = lightbox.querySelector('.yes-btn');
+  const bg_blackOut = lightbox.querySelector('.blackout');
 
   btnNo.addEventListener('click', function () {
-    closeActionCb(lightboxConfirmation);
+    closelightbox(lightbox);
   });
 
   bg_blackOut.addEventListener('click', function () {
-    closeActionCb(lightboxConfirmation);
+    closelightbox(lightbox);
   });
 
-  btnYes.addEventListener('click', function () {
-    yesActionCb(lightboxConfirmation, id, tipe);
+  btnYes.addEventListener('click', async function () {
+    const data = await variable(lightbox, id, tipe);
+    yesLightbox(lightbox, data);
   });
 }
 
-function closeActionCb(lightboxConfirmation) {
-  const contentLightbox = lightboxConfirmation.querySelector('.content-lightbox');
-  const bg_blackOut = lightboxConfirmation.querySelector('.blackout');
+function closelightbox(lightbox) {
+  const bg_blackOut = lightbox.querySelector('.blackout');
 
-  lightboxConfirmation.classList.toggle('display-show');
+  lightbox.classList.toggle('display-show');
   document.body.style.overflow = 'auto';
-  contentLightbox.innerHTML = '';
+  lightbox.innerHTML = '';
   bg_blackOut.remove();
 }
 
-function yesActionCb(lightboxConfirmation, id, tipe) {
-  const errHTML = lightboxConfirmation.querySelector('.resultError');
+function yesLightbox(lightbox, variable) {
+  const errHTML = lightbox.querySelector('.resultError');
   fetch(`../program_new/progress/progress.php`, {
     method: 'POST',
-    body: `typeProgress=${tipe}&idKaryawan=${id}`,
+    body: `${variable}`,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -200,12 +147,13 @@ function yesActionCb(lightboxConfirmation, id, tipe) {
     .then((response) => response.text())
     .then((response) => {
       if (response === 'true') {
-        closeActionCb(lightboxConfirmation);
+        closelightbox(lightbox);
         loadPage();
       } else {
-        errHTML.innerHTML = `<i class="far fa-exclamation-circle"></i> Proses penghapusan data ERROR`;
+        errHTML.innerHTML = `<i class="far fa-exclamation-circle"></i> ${response}`;
         errHTML.style.borderBottom = '1px solid #dfdfdf';
         errHTML.style.paddingBottom = '10px';
+        errHTML.style.paddingTop = '10px';
         return false;
       }
     })

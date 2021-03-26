@@ -148,7 +148,7 @@
             <th width="12%">Karyawan</th>
             <th>Tanggal</th>
             <?= $tableTH ?>
-            <th width="6%"></th>
+            <th width="8%"></th>
         </tr>
         <?php
             if ($jumlah_order > 0) :
@@ -195,8 +195,8 @@
                         <td>$tglAbsensi</td>
                         $tableTR
                         <td>
-                            <span style='padding-right:8px;'><i class='fas fa-pen-square btn' onclick='smallLightBox(\"edit\",\"Absensi_Edit_Individu\",\"$d[id]\")'></i></span>
-                            <span><i class='fas fa-trash-alt btn' onclick='confirmForm(\"delete_absensi\",\"Hapus_Absensi\",\"$d[id]\")'></i></span>
+                            <span style='padding-right:8px;'><i class='fas fa-pen-square btn' onclick='showForm(\"absensi_individu\",\"Form_Update_Absensi_Individu\",\"$d[id]\",\"lightbox-Small\")'></i></span>
+                            <span style='padding-right:8px;'><i class='fas fa-trash-alt btn' onclick='showForm(\"absensi_individu\",\"ConfirmBox_Hapus\",\"$d[id]\",\"lightbox-confirmation\")'></i></span>
                         </td>
                     </tr>
                     ";

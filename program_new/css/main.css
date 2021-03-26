@@ -35,125 +35,6 @@ body {
   min-height: 100vh;
 }
 
-.wrapper .lightbox-confirmation {
-  overflow: hidden;
-  display: none;
-}
-
-.wrapper .lightbox-confirmation.display-show {
-  display: block;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox {
-  width: 30%;
-  position: fixed;
-  margin: 16% 35%;
-  z-index: 2;
-  background: #fff;
-  color: #3c4854;
-  overflow: auto;
-  border-radius: 5px;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .lineBlack {
-  width: 100%;
-  height: 10px;
-  background-color: #3c4854;
-  opacity: 0.8;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content {
-  padding: 0 1.3em 0 1.3em;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .Title-Content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 15px 0;
-  font-size: 2em;
-  border-bottom: 1px solid #dfdfdf;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .Title-Content p {
-  margin-top: 10px;
-  font-size: 0.5em;
-  font-weight: bold;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .Text-Content {
-  margin: 10px 0;
-  font-size: 0.8em;
-  text-align: left;
-  line-height: 1.6em;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #dfdfdf;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .resultError {
-  font-size: 0.8em;
-  text-align: center;
-  color: red;
-  font-weight: bold;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .Btn-Content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  margin: 13px auto 18px auto;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .Btn-Content .no-btn {
-  display: inline-block;
-  border: none;
-  outline: none;
-  color: #fff;
-  background-color: #3c4854;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.75rem;
-}
-
-.wrapper .lightbox-confirmation .content-lightbox .content .Btn-Content .yes-btn {
-  display: inline-block;
-  border: none;
-  outline: none;
-  color: #fff;
-  background-color: #fe5724;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.75rem;
-}
-
-.wrapper .lightbox-confirmation .blackout {
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  position: fixed;
-  opacity: 0.7;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
 .wrapper .lightbox-input {
   display: none;
   overflow: hidden;
@@ -330,19 +211,19 @@ body {
   z-index: 1;
 }
 
-.wrapper .lightbox-Small {
+.wrapper .lightbox {
   overflow: hidden;
+  display: none;
 }
 
-.wrapper .lightbox-Small.display-show {
+.wrapper .lightbox.display-show {
   display: block;
 }
 
-.wrapper .lightbox-Small .content-lightbox {
-  width: 52%;
-  height: 50%;
+.wrapper .lightbox .lightbox-confirmation {
+  width: 30%;
   position: fixed;
-  margin: 15% 24%;
+  margin: 16% 35%;
   z-index: 2;
   background: #fff;
   color: #3c4854;
@@ -350,18 +231,118 @@ body {
   border-radius: 5px;
 }
 
-.wrapper .lightbox-Small .content-lightbox .lineBlack {
+.wrapper .lightbox .lightbox-confirmation .lineBlack {
   width: 100%;
   height: 10px;
   background-color: #3c4854;
   opacity: 0.8;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content {
+.wrapper .lightbox .lightbox-confirmation .content {
   padding: 0 1.3em 0 1.3em;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Title-Content {
+.wrapper .lightbox .lightbox-confirmation .content .Title-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 15px 0;
+  font-size: 2em;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Title-Content p {
+  margin-top: 10px;
+  font-size: 0.5em;
+  font-weight: bold;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content {
+  margin: 10px 0;
+  font-size: 0.8em;
+  text-align: left;
+  line-height: 1.6em;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .resultError {
+  font-size: 0.8em;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Btn-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 13px auto 18px auto;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Btn-Content .no-btn {
+  display: inline-block;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #3c4854;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Btn-Content .yes-btn {
+  display: inline-block;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #fe5724;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-Small {
+  z-index: 2;
+  width: 50%;
+  height: 48%;
+  position: fixed;
+  margin: 15% 24%;
+  background: #fff;
+  color: #3c4854;
+  overflow: auto;
+  border-radius: 5px;
+}
+
+.wrapper .lightbox .lightbox-Small .lineBlack {
+  width: 100%;
+  height: 10px;
+  background-color: #3c4854;
+  opacity: 0.8;
+}
+
+.wrapper .lightbox .lightbox-Small .content {
+  padding: 0 1.3em 0 1.3em;
+}
+
+.wrapper .lightbox .lightbox-Small .content .Title-Content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -373,17 +354,17 @@ body {
       -ms-flex-align: center;
           align-items: center;
   padding: 10px 0;
-  font-size: 1.5em;
+  font-size: 1.3em;
   border-bottom: 1px solid #dfdfdf;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Title-Content p {
+.wrapper .lightbox .lightbox-Small .content .Title-Content p {
   margin-left: 15px;
   font-size: 0.6em;
   font-weight: bold;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content {
+.wrapper .lightbox .lightbox-Small .content .Text-Content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -398,12 +379,13 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
   border-bottom: 1px solid #dfdfdf;
-  margin: 15px 0;
+  margin: 10px 0;
   padding-bottom: 15px;
+  font-size: 0.88rem;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right {
   padding: 5px;
   width: 49%;
   background-color: #fff;
@@ -413,55 +395,57 @@ body {
           user-select: none;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8em;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr {
-  height: 45px;
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr {
+  height: 25px;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td {
   padding: 7px 0;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td:first-child,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td:first-child {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td:first-child,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td:first-child {
   padding-right: 10px;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td input,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td input {
-  padding: 5px 10px;
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td input,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td input {
+  padding: 3px 8px;
   border: 1px solid #dfdfdf;
   outline: none;
   border-radius: 5px;
+  color: #3c4854;
+  font-size: 12px;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td input.disabled,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td input.disabled {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td input.disabled,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td input.disabled {
   border: none;
   background: none;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox {
   color: #fff;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100 {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100 {
   display: none;
   color: #fff;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100 {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100 {
   color: #3c4854;
   line-height: 1.4;
   display: inline-block;
@@ -470,8 +454,8 @@ body {
   cursor: pointer;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100::before,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100::before,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
   content: '\f00c';
   font-family: 'Font Awesome 5 Pro';
   font-size: 13px;
@@ -498,29 +482,29 @@ body {
           transform: translateY(-50%);
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
   color: #fe5724;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
   background: #e2e2e2;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-left table tr td .form-checkbox .fa-info-square,
-.wrapper .lightbox-Small .content-lightbox .content .Text-Content .input-right table tr td .form-checkbox .fa-info-square {
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-left table tr td .form-checkbox .fa-info-square,
+.wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .fa-info-square {
   color: #fe5724;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .resultError {
-  font-size: 0.8em;
+.wrapper .lightbox .lightbox-Small .content .resultError {
+  font-size: 0.72em;
   text-align: center;
   color: red;
   font-weight: bold;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Btn-Content {
+.wrapper .lightbox .lightbox-Small .content .Btn-Content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -533,7 +517,7 @@ body {
   margin: 13px auto 18px auto;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Btn-Content .no-btn {
+.wrapper .lightbox .lightbox-Small .content .Btn-Content .no-btn {
   display: inline-block;
   border: none;
   outline: none;
@@ -546,7 +530,7 @@ body {
   font-size: 0.75rem;
 }
 
-.wrapper .lightbox-Small .content-lightbox .content .Btn-Content .yes-btn {
+.wrapper .lightbox .lightbox-Small .content .Btn-Content .yes-btn {
   display: inline-block;
   border: none;
   outline: none;
@@ -559,7 +543,651 @@ body {
   font-size: 0.75rem;
 }
 
-.wrapper .lightbox-Small .blackout {
+.wrapper .lightbox .lightbox-medium {
+  z-index: 2;
+  width: 80%;
+  height: 80%;
+  position: fixed;
+  margin: 5% 10%;
+  background: #fff;
+  color: #3c4854;
+  overflow: auto;
+  border-radius: 5px;
+}
+
+.wrapper .lightbox .lightbox-medium .lineBlack {
+  width: 100%;
+  height: 10px;
+  background-color: #3c4854;
+  opacity: 0.8;
+}
+
+.wrapper .lightbox .lightbox-medium .content {
+  padding: 0 1.3em 0 1.3em;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Title-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 0;
+  font-size: 1.3em;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Title-Content p {
+  margin-left: 15px;
+  font-size: 0.6em;
+  font-weight: bold;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px solid #dfdfdf;
+  font-size: 0.88rem;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right {
+  padding: 5px;
+  width: 49%;
+  background-color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8em;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr {
+  height: 25px;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td {
+  padding: 7px 0;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td:first-child,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td:first-child {
+  padding-right: 10px;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td input,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td input {
+  padding: 3px 8px;
+  border: 1px solid #dfdfdf;
+  outline: none;
+  border-radius: 5px;
+  color: #3c4854;
+  font-size: 12px;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td input.disabled,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td input.disabled {
+  border: none;
+  background: none;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox {
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100 {
+  display: none;
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100 {
+  color: #3c4854;
+  line-height: 1.4;
+  display: inline-block;
+  position: relative;
+  padding-left: 26px;
+  cursor: pointer;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100::before,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Pro';
+  font-size: 13px;
+  color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #dfdfdf;
+  font-weight: bold;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+  background: #e2e2e2;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td .form-checkbox .fa-info-square,
+.wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .fa-info-square {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.72rem;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr th {
+  background-color: #3c4854;
+  color: #fff;
+  padding: 0.5em 0.4em;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr:hover {
+  background: #f1f1f1;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td {
+  border-bottom: 1px solid #dfdfdf;
+  color: #3c4854;
+  padding: 0.5em 0.4em 0.5em 1.2em;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td.center {
+  text-align: center;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input {
+  padding: 0.4em 0.5em;
+  outline: none;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input[type='checkbox'],
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input[type='time'] {
+  cursor: pointer;
+  color: #3c4854;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox {
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .input-checkbox100 {
+  display: none;
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .label-checkbox100 {
+  color: #3c4854;
+  line-height: 1.4;
+  display: inline-block;
+  position: relative;
+  padding-left: 26px;
+  cursor: pointer;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .label-checkbox100::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Pro';
+  font-size: 13px;
+  color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #dfdfdf;
+  font-weight: bold;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+  background: #e2e2e2;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .fa-info-square {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete {
+  width: 12vw;
+  position: absolute;
+  background-color: #fff;
+  color: #3c4854;
+  border: 1px solid #dfdfdf;
+  margin-top: 5px;
+  border-radius: 4px;
+  display: none;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete .item {
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete .item.active, .wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete .item:hover {
+  cursor: pointer;
+  background-color: #3c4854;
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete.display-show {
+  display: block;
+}
+
+.wrapper .lightbox .lightbox-medium .content .resultError {
+  font-size: 0.72em;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Btn-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 13px auto 18px auto;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Btn-Content .no-btn {
+  display: inline-block;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #3c4854;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Btn-Content .yes-btn {
+  display: inline-block;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #fe5724;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-large {
+  z-index: 2;
+  width: 90%;
+  height: 95%;
+  position: fixed;
+  margin: 1.25% 5%;
+  background: #fff;
+  color: #3c4854;
+  overflow: auto;
+  border-radius: 5px;
+}
+
+.wrapper .lightbox .lightbox-large .lineBlack {
+  width: 100%;
+  height: 10px;
+  background-color: #3c4854;
+  opacity: 0.8;
+}
+
+.wrapper .lightbox .lightbox-large .content {
+  padding: 0 1.3em 0 1.3em;
+}
+
+.wrapper .lightbox .lightbox-large .content .Title-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 0;
+  font-size: 1.3em;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-large .content .Title-Content p {
+  margin-left: 15px;
+  font-size: 0.6em;
+  font-weight: bold;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px solid #dfdfdf;
+  font-size: 0.88rem;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right {
+  padding: 5px;
+  width: 49%;
+  background-color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8em;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr {
+  height: 25px;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td {
+  padding: 7px 0;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td:first-child,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td:first-child {
+  padding-right: 10px;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td input,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td input {
+  padding: 0.4em 0.5em;
+  outline: none;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td input.disabled,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td input.disabled {
+  border: none;
+  background: none;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.72rem;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr th {
+  background-color: #3c4854;
+  color: #fff;
+  padding: 0.5em 0.4em;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr:hover {
+  background: #f1f1f1;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td {
+  border-bottom: 1px solid #dfdfdf;
+  color: #3c4854;
+  padding: 0.5em 0.4em 0.5em 1.2em;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td.center {
+  text-align: center;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td input {
+  padding: 0.4em 0.5em;
+  outline: none;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td input[type='time'] {
+  cursor: pointer;
+  color: #3c4854;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox {
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .input-checkbox100 {
+  display: none;
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .label-checkbox100 {
+  color: #3c4854;
+  line-height: 1.4;
+  display: inline-block;
+  position: relative;
+  padding-left: 26px;
+  cursor: pointer;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .label-checkbox100::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Pro';
+  font-size: 13px;
+  color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #dfdfdf;
+  font-weight: bold;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+  background: #e2e2e2;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .fa-info-square {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete {
+  width: 12vw;
+  position: absolute;
+  background-color: #fff;
+  color: #3c4854;
+  border: 1px solid #dfdfdf;
+  margin-top: 5px;
+  border-radius: 4px;
+  display: none;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete .item {
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete .item.active, .wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete .item:hover {
+  cursor: pointer;
+  background-color: #3c4854;
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete.display-show {
+  display: block;
+}
+
+.wrapper .lightbox .lightbox-large .content .resultError {
+  font-size: 0.72em;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+
+.wrapper .lightbox .lightbox-large .content .Btn-Content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 13px auto 18px auto;
+}
+
+.wrapper .lightbox .lightbox-large .content .Btn-Content .no-btn {
+  display: inline-block;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #3c4854;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-large .content .Btn-Content .yes-btn {
+  display: inline-block;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #fe5724;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.wrapper .lightbox .blackout {
   width: 100%;
   height: 100%;
   background-color: black;
@@ -915,7 +1543,12 @@ body {
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 565.98px) {
-  .wrapper .lightbox-confirmation .content-lightbox {
+  .wrapper .lightbox .lightbox-Small {
+    width: 90%;
+    height: 50%;
+    margin: 31% 5%;
+  }
+  .wrapper .lightbox .lightbox-confirmation {
     width: 50%;
     margin: 33% 25%;
   }
@@ -933,7 +1566,12 @@ body {
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 566px) and (max-width: 767.98px) {
-  .wrapper .lightbox-confirmation .content-lightbox {
+  .wrapper .lightbox .lightbox-Small {
+    width: 90%;
+    height: 55%;
+    margin: 26% 5%;
+  }
+  .wrapper .lightbox .lightbox-confirmation {
     width: 50%;
     margin: 33% 25%;
   }
@@ -951,7 +1589,12 @@ body {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .wrapper .lightbox-confirmation .content-lightbox {
+  .wrapper .lightbox .lightbox-Small {
+    width: 78%;
+    height: 54%;
+    margin: 18% 11%;
+  }
+  .wrapper .lightbox .lightbox-confirmation {
     width: 40%;
     margin: 25% 30%;
   }
@@ -969,8 +1612,13 @@ body {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
   .wrapper .lightbox-confirmation .content-lightbox {
-    width: 40%;
-    margin: 28% 30%;
+    width: 52%;
+    width: 48%;
+    margin: 28% 24%;
+  }
+  .wrapper .lightbox-confirmation .lightbox-confirmation {
+    width: 33%;
+    margin: 16% 33.5%;
   }
   .wrapper .header .icon_right .icon:nth-child(3) {
     display: none;
@@ -985,7 +1633,12 @@ body {
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  .wrapper .lightbox-confirmation .content-lightbox {
+  .wrapper .lightbox .lightbox-Small {
+    width: 45%;
+    height: 48%;
+    margin: 15% 27.5%;
+  }
+  .wrapper .lightbox .lightbox-confirmation {
     width: 33%;
     margin: 16% 33.5%;
   }

@@ -19,8 +19,8 @@ $days = cal_days_in_month(CAL_GREGORIAN, substr($months,5,2), substr($months,0,4
         </div>
         <div class='item'>
             <button class='button-search'><i class="fas fa-search-plus"></i></button>
-            <button class='add_form' data-form='absensi'><i class="fal fa-plus"></i> Absensi Harian</button>
-            <button class='add_form' data-form='absensi_individu'><i class="fal fa-plus"></i> Absensi Personal</button>
+            <button class='add_form' data-form='absensi' onclick="showForm('absensi_individu','Insert_Absensi','','lightbox-medium')"><i class="fal fa-plus"></i> Absensi Harian</button>
+            <button class='add_form' data-form='absensi_individu' onclick="showForm('absensi_individu','Form_Absensi_Individu','','lightbox-medium')"><i class="fal fa-plus"></i> Absensi Personal</button>
         </div>
     </div>
     <div class='plugin-search'>

@@ -8,7 +8,9 @@ if (!isset($_SESSION["login"])) {
 
 $uniqueID = uniqid();
 
-if($_POST['typeProgress'] == "Insert_Absensi") : // Absensi Insert Data
+$typeProgress = !empty($_POST['typeProgress']) ? $_POST['typeProgress'] : '';
+
+if($typeProgress == "Insert_Absensi") : // Absensi Insert Data
     $jumlahArray = count(explode(",", "$_POST[uid]"));
     $uid = explode (",", "$_POST[uid]" );
     $scanMasuk = explode (",", "$_POST[scanMasuk]" );
@@ -54,7 +56,7 @@ if($_POST['typeProgress'] == "Insert_Absensi") : // Absensi Insert Data
             )  VALUES $New_Insert
     ";
 
-elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Personal Insert Data
+elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Data Individu
     $jumlahArray = count(explode(",", "$_POST[uid]"));
     $uid = explode (",", "$_POST[uid]" );
     $jamMulai = explode (",", "$_POST[jamMulai]" );
@@ -102,7 +104,7 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
             $result = $conn_OOP->query($cutiSql);
             if ($result->num_rows > 0) :
                 $row = $result->fetch_assoc();
-                $checked[] = "$row[nama] Cuti sudah terdaftar";
+                $checked[] = "$row[nama] Cuti sudah terdaftar, ";
                 $insertAbsensi[] = "";
             else :
                 $checked[] = "";
@@ -148,35 +150,86 @@ elseif($_POST['typeProgress'] == "Insert_Absensi_Individu") : // Absensi Persona
     $test = implode(" | ", $checked);
     $New_Insert = implode(',', $insertAbsensi);
 
-    $sql =
-        "INSERT INTO absensi 
-            (
-                uid,
-                tanggal,
-                permisi_keluar,
-                permisi_masuk,
-                lembur_mulai,
-                lembur_selesai,
-                hadir,
-                absen,
-                cuti,
-                lembur,
-                permisi,
-                uniquePost,
-                hapus
-            )  VALUES $New_Insert
-    ";
+    if($_POST['error']=="") {
+        $sql =
+            "INSERT INTO absensi 
+                (
+                    uid,
+                    tanggal,
+                    permisi_keluar,
+                    permisi_masuk,
+                    lembur_mulai,
+                    lembur_selesai,
+                    hadir,
+                    absen,
+                    cuti,
+                    lembur,
+                    permisi,
+                    uniquePost,
+                    hapus
+                )  VALUES $New_Insert
+        ";
+    } else {
+        $sql = "";
+    }
 
-elseif($_POST['typeProgress'] == "Hapus_Absensi") : // Absensi Delete Data
+elseif($typeProgress == "ConfirmBox_Hapus") : // Absensi Delete Data
     $sql =
         "UPDATE
             absensi
         SET
             hapus = 'Y'
         WHERE
-            absensiID = $_POST[idKaryawan];
+            absensiID = $_POST[idAbsensi];
     ";
-elseif($_POST['typeProgress'] == "xxx") :
+elseif($typeProgress == "Form_Update_Absensi_Individu") : // Absensi Update Data Individu
+    $jam_mulai = $_POST['jam_mulai'];
+    $jam_selesai = $_POST['jam_selesai'];
+    $absen = $_POST['absen'];
+    $cuti = $_POST['cuti'];
+    $permisi = $_POST['permisi'];
+    $lembur = $_POST['lembur'];
+
+    if($permisi == 'Y') {
+        $setUpdate ="
+            permisi_keluar = '$jam_mulai',
+            permisi_masuk = '$jam_selesai',
+            hadir = 'N',
+        ";
+    } elseif($lembur == 'Y') {
+        $setUpdate ="
+            lembur_mulai = '$jam_mulai',
+            lembur_selesai = '$jam_selesai',
+            hadir = 'N',
+        ";
+    }  elseif($cuti == 'Y' || $absen == 'Y') {
+        $setUpdate ="
+            scan_masuk = '0000-00-00',
+            scan_pulang = '0000-00-00',
+            hadir = 'N',
+        ";
+    } else {
+        $setUpdate ="
+            scan_masuk = '$jam_mulai',
+            scan_pulang = '$jam_selesai',
+            hadir = 'Y',
+        ";
+    }
+
+    $sql =
+        "UPDATE
+            absensi
+        SET
+            $setUpdate
+            cuti = '$cuti',
+            lembur = '$lembur',
+            permisi = '$permisi',
+            absen = '$absen'
+        WHERE
+            absensiID = $_POST[idAbsensi];
+    ";
+    
+elseif($typeProgress == "xxx") :
 else :
 
 endif;
@@ -186,18 +239,27 @@ $resultChecked =
     ? $test 
     : "";
 
-if ($conn->multi_query($sql) === TRUE) {
-    echo "true";
-} else {
-    if (mysqli_query($conn, $sql)) {
+$resultError = 
+(isset($_POST['error'])) 
+    ? $_POST['error'] 
+    : "";
+
+if($resultChecked == "" && $resultError == "") {
+    if ($conn->multi_query($sql) === TRUE) {
         echo "true";
     } else {
-        echo "
-                <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
-                ERROR : $resultChecked <br><br>
-                </b>
-            ";
+        if (mysqli_query($conn, $sql)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
     }
+} else {
+    echo "
+        <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
+        ERROR : $resultChecked $resultError <br>
+        </b>
+    ";
 }
 
 // Close connection

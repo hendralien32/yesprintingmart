@@ -44,32 +44,281 @@ btnSearch.onclick = (e) => {
 inputDate.addEventListener('change', loadPage);
 inputSearch.addEventListener('input', loadPage);
 
-//di load oleh script.js
-function judulForm(dataBtn) {
-  let namaForm = dataBtn.dataset.form;
+// selesai Load oleh Script.js
 
-  var obj = {
-    absensi: 'Absensi Harian',
-    absensi_individu: 'Absensi Personal',
-  };
+// document.addEventListener('change', async (e) => {
+//   // untuk ganti List Absensi di Form saat Input[type=date] di ganti
+//   if (e.target.classList.contains('tglAbsensi')) {
+//     const tableAbsensi = await reLoadAjaxForm(document.querySelector('#tglAbsensi').value);
+//     reUpdateForm(tableAbsensi);
+//   }
 
-  return obj[namaForm];
-}
+//   // validasi untuk Checkbox Absen dan Cuti, Apabila Absen & Cuti di check maka Scan Masuk dan Scan Keluar Disabled
+//   const dataUID = e.target.dataset.uid;
+//   if (typeof dataUID === 'undefined') {
+//     return false;
+//   } else {
+//     const queryDataUID = document.querySelectorAll(`[data-uid='${dataUID}']`);
+//     const scanMasuk = queryDataUID[2];
+//     const scankeluar = queryDataUID[3];
+//     const checkboxAbsen = queryDataUID[4];
+//     const checkboxCuti = queryDataUID[5];
 
-function updateForm(ajaxFormLoad) {
-  const content = document.querySelector('.lightBoxContent');
-  content.innerHTML = ajaxFormLoad;
+//     if (e.target.checked == true) {
+//       scanMasuk.disabled = true;
+//       scankeluar.disabled = true;
+//       scanMasuk.value = '';
+//       scankeluar.value = '';
+//     } else if (e.target.checked == false) {
+//       scanMasuk.disabled = false;
+//       scankeluar.disabled = false;
+//     }
 
-  if (content.querySelector('.absensi').classList.contains('individu') == true) {
-    addListAbsensi(content);
-    autocomplete(content);
+//     if (e.target.value == 'absen' && e.target.checked == true) {
+//       checkboxCuti.disabled = true;
+//     } else if (e.target.value == 'absen' && e.target.checked == false) {
+//       checkboxCuti.disabled = false;
+//     } else if (e.target.value == 'cuti' && e.target.checked == true) {
+//       checkboxAbsen.disabled = true;
+//     } else if (e.target.value == 'cuti' && e.target.checked == false) {
+//       checkboxAbsen.disabled = false;
+//     }
+//   }
+// });
+
+function variable(lightbox, id, tipe) {
+  if (tipe == 'ConfirmBox_Hapus') {
+    return `typeProgress=${tipe}&idAbsensi=${id}`;
+  }
+
+  if (tipe == 'Form_Update_Absensi_Individu') {
+    const jam_mulai = lightbox.querySelector('#jam_mulai').value;
+    const jam_selesai = lightbox.querySelector('#jam_selesai').value;
+    const absen = lightbox.querySelector('#absen').checked == true ? 'Y' : 'N';
+    const cuti = lightbox.querySelector('#cuti').checked == true ? 'Y' : 'N';
+    const permisi = lightbox.querySelector('#permisi').checked == true ? 'Y' : 'N';
+    const lembur = lightbox.querySelector('#lembur').checked == true ? 'Y' : 'N';
+
+    return `typeProgress=${tipe}&idAbsensi=${id}&jam_mulai=${jam_mulai}&jam_selesai=${jam_selesai}&absen=${absen}&cuti=${cuti}&permisi=${permisi}&lembur=${lembur}`;
+  }
+
+  if (tipe == 'Form_Absensi_Individu') {
+    const tglAbsensi = lightbox.querySelector('#tglAbsensiHarian').value;
+    const idKaryawan = lightbox.querySelectorAll('#idKaryawan');
+    const jamMulai = lightbox.querySelectorAll('#jamMulai');
+    const jamSelesai = lightbox.querySelectorAll('#jamSelesai');
+    const permisi = lightbox.querySelectorAll('#permisi');
+    const lembur = lightbox.querySelectorAll('#lembur');
+    const cuti = lightbox.querySelectorAll('#cuti');
+
+    if (idKaryawan.length > 0) {
+      // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
+      const valueIdKaryawan = [...idKaryawan].map((k) => k.value);
+      const valueJamMulai = [...jamMulai].map((jm) => jm.value);
+      const valueJamSelesai = [...jamSelesai].map((js) => js.value);
+      const valuePermisi = [...permisi].map((p) => (p.checked == true ? 'Y' : 'N'));
+      const valueLembur = [...lembur].map((l) => (l.checked == true ? 'Y' : 'N'));
+      const valueCuti = [...cuti].map((c) => (c.checked == true ? 'Y' : 'N'));
+      let error = '';
+
+      // validasi sebelum POST ke progress.php
+      for (let i = 0; i < idKaryawan.length; i++) {
+        if (valuePermisi[i] == 'N' && valueLembur[i] == 'N' && valueCuti[i] == 'N') {
+          error = `Checkbox Permisi, Lembur, Cuti harus dipilih`;
+        } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y' || valueCuti[i] == 'Y') && valueIdKaryawan[i] == '') {
+          error = `Nama Karyawan Harus diisi`;
+        } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y') && valueIdKaryawan[i] != '' && valueJamMulai[i] == '' && valueJamSelesai[i] == '') {
+          error = `Jam Mulai dan Jam Selesai Harus diisi`;
+        }
+      }
+
+      return `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&error=${error}&typeProgress=${tipe}`;
+    }
+  }
+
+  if (tipe == 'Insert_Absensi') {
+    const tglAbsensi = lightbox.querySelector('#tglAbsensi').value;
+    const karyawanUid = lightbox.querySelectorAll('#karyawanUid');
+    const scanMasuk = lightbox.querySelectorAll('#scanMasuk');
+    const scanKeluar = lightbox.querySelectorAll('#scanKeluar');
+    const absensiCB = lightbox.querySelectorAll('#Absen');
+    const cutiCB = lightbox.querySelectorAll('#Cuti');
+
+    if (karyawanUid.length > 0) {
+      // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
+      const valueKaryawanUid = [...karyawanUid].map((k) => k.value);
+      const valueScanMasuk = [...scanMasuk].map((sm) => sm.value);
+      const valueScanKeluar = [...scanKeluar].map((sk) => sk.value);
+      const valueAbsensiCB = [...absensiCB].map((a) => (a.checked == true ? 'Y' : 'N'));
+      const valueCutiCB = [...cutiCB].map((c) => (c.checked == true ? 'Y' : 'N'));
+      let error = '';
+
+      for (let i = 0; i < karyawanUid.length; i++) {
+        if (valueScanMasuk[i] == '' && valueScanKeluar[i] == '' && valueAbsensiCB[i] == 'N' && valueCutiCB[i] == 'N') {
+          error = `Data Input kosong`;
+        }
+      }
+
+      return `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valueKaryawanUid}&error=${error}&typeProgress=Insert_Absensi`;
+    }
   }
 }
 
+function actionChecked(lightbox, tipe) {
+  if (tipe == 'Form_Update_Absensi_Individu') {
+    const jamMulai = lightbox.querySelector('#jam_mulai');
+    const jamSelesai = lightbox.querySelector('#jam_selesai');
+    const hadir = lightbox.querySelector('#hadir');
+    const absen = lightbox.querySelector('#absen');
+    const cuti = lightbox.querySelector('#cuti');
+    const permisi = lightbox.querySelector('#permisi');
+    const lembur = lightbox.querySelector('#lembur');
+
+    const tempJamMulai = [...jamMulai.value];
+    const tempJamSelesai = [...jamSelesai.value];
+
+    lightbox.addEventListener('click', function (e) {
+      if (e.target.getAttribute('id') === null) return false;
+      let data = [jamMulai, jamSelesai, hadir, absen, cuti, permisi, lembur];
+      const ID = e.target.getAttribute('id');
+      const test = lightbox.querySelector(`#${ID}`);
+
+      if (test.checked === false) {
+        data.map((d) => {
+          if (test.getAttribute('id') == 'jam_mulai' || test.getAttribute('id') == 'jam_selesai') return;
+          d.disabled = false;
+        });
+      } else {
+        data.map((d) => {
+          if (d === test) {
+            if (d.getAttribute('id') == 'hadir' || d.getAttribute('id') == 'permisi' || d.getAttribute('id') == 'lembur') {
+              data[0].disabled = false;
+              data[0].value = tempJamMulai.join('');
+              data[1].disabled = false;
+              data[1].value = tempJamSelesai.join('');
+            }
+            d.disabled = false;
+          } else {
+            d.disabled = true;
+            d.value = '0000-00-00';
+          }
+        });
+      }
+    });
+
+    return;
+  }
+
+  if (tipe == 'Form_Absensi_Individu') {
+    addListAbsensi(lightbox);
+    autocomplete(lightbox);
+    return;
+  }
+
+  if (tipe == 'Insert_Absensi') {
+    changeDateAbsensi(lightbox);
+    return;
+  }
+}
+
+function changeDateAbsensi(lightbox) {
+  const inputDate = lightbox.querySelector('#tglAbsensi');
+
+  inputDate.addEventListener('change', async (e) => {
+    const tableAbsensi = await reLoadAjaxForm(inputDate.value);
+    reUpdateForm(tableAbsensi);
+  });
+}
+
+function reLoadAjaxForm(variable) {
+  return fetch(`../program_new/form/absensi_sub_form.php`, {
+    method: 'POST',
+    body: `tanggal=${variable}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => response);
+}
+
+function reUpdateForm(ajaxFormLoad) {
+  const content = document.querySelector('.Table-Content');
+  content.innerHTML = ajaxFormLoad;
+}
+
+function addListAbsensi(data) {
+  const btnAdd = data.querySelector('.add');
+  let i = 1;
+
+  btnAdd.addEventListener('click', (e) => {
+    i++;
+    data.querySelector('#dynamic-field').insertAdjacentHTML(
+      'beforeend',
+      `<tr class='row_${i}'>
+          <td>
+            <input type='text' data-nomor='${i}' class='namaKaryawan_${i}' id='namaKaryawan'>
+            <div class='autocomplete ac_${i}'>
+              
+            </div>
+            <input type='hidden' data-nomor='${i}' class='idKaryawan_${i}' id='idKaryawan' style='width:15%'>
+            <span class='checklist_${i}'></span>
+          </td>
+          <td class='center'><input type='time' data-nomor='${i}' id='jamMulai'></td>
+          <td class='center'><input type='time' data-nomor='${i}' id='jamSelesai'></td>
+          <td class='center'><input type='checkbox' data-nomor='${i}' id='permisi' value='permisi'></td>
+          <td class='center'><input type='checkbox' data-nomor='${i}' id='lembur' value='lembur'></td>
+          <td class='center'><input type='checkbox' data-nomor='${i}' id='cuti' value='cuti'></td>
+          <td class='center remove' id='${i}'><i class='far fa-minus btn' id='${i}' onclick='removeListAbsensi(${i})'></i></td>
+      </tr>`
+    );
+  });
+
+  data.addEventListener('click', (e) => {
+    const queryDataUID = document.querySelectorAll(`[data-nomor='${e.target.dataset.nomor}']`);
+    const jamMasuk = queryDataUID[2];
+    const jamKeluar = queryDataUID[3];
+    const permisiCb = queryDataUID[4];
+    const lemburCb = queryDataUID[5];
+    const cutiCb = queryDataUID[6];
+
+    if (e.target.value == 'lembur' && e.target.checked == true) {
+      permisiCb.disabled = true;
+      cutiCb.disabled = true;
+    } else if (e.target.value == 'lembur' && e.target.checked == false) {
+      permisiCb.disabled = false;
+      cutiCb.disabled = false;
+    } else if (e.target.value == 'permisi' && e.target.checked == true) {
+      lemburCb.disabled = true;
+      cutiCb.disabled = true;
+    } else if (e.target.value == 'permisi' && e.target.checked == false) {
+      lemburCb.disabled = false;
+      cutiCb.disabled = false;
+    } else if (e.target.value == 'cuti' && e.target.checked == true) {
+      lemburCb.disabled = true;
+      permisiCb.disabled = true;
+      jamMasuk.disabled = true;
+      jamKeluar.disabled = true;
+    } else if (e.target.value == 'cuti' && e.target.checked == false) {
+      lemburCb.disabled = false;
+      permisiCb.disabled = false;
+      jamMasuk.disabled = false;
+      jamKeluar.disabled = false;
+    }
+  });
+}
+
+function removeListAbsensi(i) {
+  document.querySelector(`.row_${i}`).remove();
+}
+
 // Autocomplete Progress Start
-function autocomplete(data) {
-  data.addEventListener('input', async (e) => {
+function autocomplete(lightbox) {
+  const inputNama = lightbox.querySelector('#namaKaryawan');
+
+  inputNama.addEventListener('input', async (e) => {
     if (e.target.getAttribute('id') == 'namaKaryawan') {
+      const data = inputNama.parentNode;
       currentFocus = 0;
 
       const nomor = e.target.dataset.nomor;
@@ -127,8 +376,8 @@ function autocomplete(data) {
     }
   });
 
-  data.addEventListener('click', (e) => {
-    const grandParent = e.target.parentNode.parentNode;
+  inputNama.addEventListener('click', (e) => {
+    const grandParent = e.target.parentNode;
 
     if (e.target.classList.contains('item')) {
       const doc2 = a.querySelector('#uidKaryawan');
@@ -136,17 +385,18 @@ function autocomplete(data) {
     }
   });
 
-  data.parentNode.addEventListener('click', (e) => {
+  inputNama.parentNode.addEventListener('click', (e) => {
     // menghilangkan isi list autocomplete saat kita click diluar list Item
     if (e.target.classList.contains('item') === false) {
       const listAutocomplete = document.querySelector('.autocomplete');
+      if (listAutocomplete === null) return;
       listAutocomplete.innerHTML = '';
       listAutocomplete.style.display = 'hidden';
       listAutocomplete.style.border = 'none';
     }
   });
 
-  data.addEventListener('mouseover', function (e) {
+  inputNama.addEventListener('mouseover', function (e) {
     // untuk menghilangkan Class Active di Item saat hover
     const target = e.target.classList.contains('item');
     if (target === true) {
@@ -155,9 +405,10 @@ function autocomplete(data) {
     }
   });
 
-  data.addEventListener('keydown', function (e) {
+  inputNama.addEventListener('keydown', function (e) {
     const parent = e.target.parentNode;
     const item = parent.querySelectorAll('.item');
+
     if (e.keyCode == 40 && item.length - 2 >= currentFocus) {
       // ketika Tekan Tombol Bawah
       currentFocus = currentFocus++ + 1;
@@ -210,239 +461,3 @@ function selectList(a, b) {
   closeAllList(a, nilai_row);
 }
 // Autocomplete Progress DONE //
-
-function addListAbsensi(data) {
-  const btnAdd = data.querySelector('.add');
-  let i = 1;
-
-  btnAdd.addEventListener('click', (e) => {
-    i++;
-    data.querySelector('#dynamic-field').insertAdjacentHTML(
-      'beforeend',
-      `<tr class='row_${i}'>
-          <td>
-            <input type='text' data-nomor='${i}' class='namaKaryawan_${i}' id='namaKaryawan'>
-            <div class='autocomplete ac_${i}'>
-              
-            </div>
-            <input type='hidden' data-nomor='${i}' class='idKaryawan_${i}' id='idKaryawan' style='width:15%'>
-            <span class='checklist_${i}'></span>
-          </td>
-          <td class='center'><input type='time' data-nomor='${i}' id='jamMulai'></td>
-          <td class='center'><input type='time' data-nomor='${i}' id='jamSelesai'></td>
-          <td class='center'><input type='checkbox' data-nomor='${i}' id='permisi' value='permisi'></td>
-          <td class='center'><input type='checkbox' data-nomor='${i}' id='lembur' value='lembur'></td>
-          <td class='center'><input type='checkbox' data-nomor='${i}' id='cuti' value='cuti'></td>
-          <td class='center remove' id='${i}'><i class='far fa-minus' id='${i}' onclick='removeListAbsensi(${i})'></i></td>
-      </tr>`
-    );
-  });
-
-  data.addEventListener('click', (e) => {
-    const queryDataUID = document.querySelectorAll(`[data-nomor='${e.target.dataset.nomor}']`);
-    const jamMasuk = queryDataUID[2];
-    const jamKeluar = queryDataUID[3];
-    const permisiCb = queryDataUID[4];
-    const lemburCb = queryDataUID[5];
-    const cutiCb = queryDataUID[6];
-
-    if (e.target.value == 'lembur' && e.target.checked == true) {
-      permisiCb.disabled = true;
-      cutiCb.disabled = true;
-    } else if (e.target.value == 'lembur' && e.target.checked == false) {
-      permisiCb.disabled = false;
-      cutiCb.disabled = false;
-    } else if (e.target.value == 'permisi' && e.target.checked == true) {
-      lemburCb.disabled = true;
-      cutiCb.disabled = true;
-    } else if (e.target.value == 'permisi' && e.target.checked == false) {
-      lemburCb.disabled = false;
-      cutiCb.disabled = false;
-    } else if (e.target.value == 'cuti' && e.target.checked == true) {
-      lemburCb.disabled = true;
-      permisiCb.disabled = true;
-      jamMasuk.disabled = true;
-      jamKeluar.disabled = true;
-    } else if (e.target.value == 'cuti' && e.target.checked == false) {
-      lemburCb.disabled = false;
-      permisiCb.disabled = false;
-      jamMasuk.disabled = false;
-      jamKeluar.disabled = false;
-    }
-  });
-}
-
-function removeListAbsensi(i) {
-  document.querySelector(`.row_${i}`).remove();
-}
-
-// selesai Load oleh Script.js
-
-document.addEventListener('change', async (e) => {
-  // untuk ganti List Absensi di Form saat Input[type=date] di ganti
-  if (e.target.classList.contains('tglAbsensi')) {
-    const tableAbsensi = await reLoadAjaxForm(document.querySelector('#tglAbsensi').value);
-    reUpdateForm(tableAbsensi);
-  }
-
-  // validasi untuk Checkbox Absen dan Cuti, Apabila Absen & Cuti di check maka Scan Masuk dan Scan Keluar Disabled
-  const dataUID = e.target.dataset.uid;
-  if (typeof dataUID === 'undefined') {
-    return false;
-  } else {
-    const queryDataUID = document.querySelectorAll(`[data-uid='${dataUID}']`);
-    const scanMasuk = queryDataUID[2];
-    const scankeluar = queryDataUID[3];
-    const checkboxAbsen = queryDataUID[4];
-    const checkboxCuti = queryDataUID[5];
-
-    if (e.target.checked == true) {
-      scanMasuk.disabled = true;
-      scankeluar.disabled = true;
-      scanMasuk.value = '';
-      scankeluar.value = '';
-    } else if (e.target.checked == false) {
-      scanMasuk.disabled = false;
-      scankeluar.disabled = false;
-    }
-
-    if (e.target.value == 'absen' && e.target.checked == true) {
-      checkboxCuti.disabled = true;
-    } else if (e.target.value == 'absen' && e.target.checked == false) {
-      checkboxCuti.disabled = false;
-    } else if (e.target.value == 'cuti' && e.target.checked == true) {
-      checkboxAbsen.disabled = true;
-    } else if (e.target.value == 'cuti' && e.target.checked == false) {
-      checkboxAbsen.disabled = false;
-    }
-  }
-});
-
-// reload List Table Absensi saat diganti Input[type=date] pada form
-function reLoadAjaxForm(variable) {
-  return fetch(`../program_new/form/absensi_sub_form.php`, {
-    method: 'POST',
-    body: `tanggal=${variable}`,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  })
-    .then((response) => response.text())
-    .then((response) => response);
-}
-
-function reUpdateForm(ajaxFormLoad) {
-  const content = document.querySelector('.absensiList');
-  content.innerHTML = ajaxFormLoad;
-}
-
-// Progress submit Ke database
-async function submitAbsensiHarian() {
-  const errHTML = document.querySelector('.resultQuery');
-
-  const tglAbsensi = document.querySelector('#tglAbsensi').value;
-  const karyawanUid = document.querySelectorAll('#karyawanUid');
-  const scanMasuk = document.querySelectorAll('#scanMasuk');
-  const scanKeluar = document.querySelectorAll('#scanKeluar');
-  const absensiCB = document.querySelectorAll('#Absen');
-  const cutiCB = document.querySelectorAll('#Cuti');
-
-  if (karyawanUid.length > 0) {
-    // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
-    const valueKaryawanUid = [...karyawanUid].map((k) => k.value);
-    const valueScanMasuk = [...scanMasuk].map((sm) => sm.value);
-    const valueScanKeluar = [...scanKeluar].map((sk) => sk.value);
-    const valueAbsensiCB = [...absensiCB].map((a) => (a.checked == true ? 'Y' : 'N'));
-    const valueCutiCB = [...cutiCB].map((c) => (c.checked == true ? 'Y' : 'N'));
-
-    for (let i = 0; i < karyawanUid.length; i++) {
-      if (valueScanMasuk[i] == '' && valueScanKeluar[i] == '' && valueAbsensiCB[i] == 'N' && valueCutiCB[i] == 'N') {
-        errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Data Input kosong<br><br></b>`;
-        return false;
-      }
-    }
-
-    const variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valueKaryawanUid}&typeProgress=Insert_Absensi`;
-
-    const data = await fetchSubmitProgress(variable);
-    resultSubmit(data);
-  } else {
-    errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Tidak ada data yang mau di upload<br><br></b>`;
-    return false;
-  }
-}
-
-async function submitAbsensiIndividu() {
-  const errHTML = document.querySelector('.resultQuery');
-
-  const tglAbsensi = document.querySelector('#tglAbsensiHarian').value;
-  const idKaryawan = document.querySelectorAll('#idKaryawan');
-  const jamMulai = document.querySelectorAll('#jamMulai');
-  const jamSelesai = document.querySelectorAll('#jamSelesai');
-  const permisi = document.querySelectorAll('#permisi');
-  const lembur = document.querySelectorAll('#lembur');
-  const cuti = document.querySelectorAll('#cuti');
-
-  if (idKaryawan.length > 0) {
-    // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
-    const valueIdKaryawan = [...idKaryawan].map((k) => k.value);
-    const valueJamMulai = [...jamMulai].map((jm) => jm.value);
-    const valueJamSelesai = [...jamSelesai].map((js) => js.value);
-    const valuePermisi = [...permisi].map((p) => (p.checked == true ? 'Y' : 'N'));
-    const valueLembur = [...lembur].map((l) => (l.checked == true ? 'Y' : 'N'));
-    const valueCuti = [...cuti].map((c) => (c.checked == true ? 'Y' : 'N'));
-
-    // validasi sebelum POST ke progress.php
-    for (let i = 0; i < idKaryawan.length; i++) {
-      if (valuePermisi[i] == 'N' && valueLembur[i] == 'N' && valueCuti[i] == 'N') {
-        errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Checkbox Permisi, Lembur & Cuti harus dipilih<br><br></b>`;
-        return false;
-      } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y' || valueCuti[i] == 'Y') && valueIdKaryawan[i] == '') {
-        errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Nama Karyawan Harus diisi<br><br></b>`;
-        return false;
-      } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y') && valueIdKaryawan[i] != '' && valueJamMulai[i] == '' && valueJamSelesai[i] == '') {
-        errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Jam Mulai dan Jam Selesai Harus diisi<br><br></b>`;
-        return false;
-      }
-    }
-
-    const variable = `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&typeProgress=Insert_Absensi_Individu`;
-
-    const data = await fetchSubmitProgress(variable);
-    resultSubmit(data);
-  } else {
-    errHTML.innerHTML = `<b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>ERROR : Tidak ada data yang mau di upload<br><br></b>`;
-    return false;
-  }
-}
-
-function fetchSubmitProgress(variable) {
-  return fetch(`../program_new/progress/progress.php`, {
-    method: 'POST',
-    body: `${variable}`,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  })
-    .then((Response) => Response.text())
-    .then((Response) => Response)
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-}
-
-function resultSubmit(data) {
-  const errHTML = document.querySelector('.resultQuery');
-  if (data === 'true') {
-    closeForm();
-    loadPage();
-  } else {
-    errHTML.innerHTML = data;
-    return false;
-  }
-}
-// Progress submit Ke database END
-
-function smallLightBox(jenis, tipe, id) {
-  console.log(id);
-}

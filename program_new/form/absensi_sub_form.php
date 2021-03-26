@@ -71,8 +71,22 @@ $bulan = substr($tanggal,0,7);
                         </td>
                         <td><input data-uid='$d[uid]' type='time' id='scanMasuk'></td>
                         <td><input data-uid='$d[uid]' type='time' id='scanKeluar'></td>
-                        <td><input data-uid='$d[uid]' type='checkbox' id='Absen' value='absen'></td>
-                        <td><input data-uid='$d[uid]' type='checkbox' id='Cuti' value='cuti'></td>
+                        <td>
+                            <div class='form-checkbox'>
+                                <input data-uid='$d[uid]' class='input-checkbox100' id='Absen' type='checkbox' value='absen>
+                                <label class='label-checkbox100' for='Absen'>
+                                    Absen
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class='form-checkbox'>
+                                <input data-uid='$d[uid]' class='input-checkbox100' id='Cuti' type='checkbox' value='cuti>
+                                <label class='label-checkbox100' for='Cuti'>
+                                    Cuti
+                                </label>
+                            </div>
+                        </td>
                     </tr>
                     ";
                 endwhile;

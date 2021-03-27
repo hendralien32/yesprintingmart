@@ -666,7 +666,6 @@ body {
                   margin-right: 10px;
                 }
 
-                input[type='checkbox'],
                 input[type='time'] {
                   @include pointer(pointer);
                   color: $fontColor;
@@ -873,6 +872,56 @@ body {
                       background: none;
                     }
                   }
+
+                  .form-checkbox {
+                    color: #fff;
+
+                    .input-checkbox100 {
+                      display: none;
+                      color: #fff;
+                    }
+
+                    .label-checkbox100 {
+                      color: $fontColor;
+                      line-height: 1.4;
+                      display: inline-block;
+                      position: relative;
+                      padding-left: 26px;
+                      @include pointer(pointer);
+
+                      &::before {
+                        content: '\f00c';
+                        font-family: 'Font Awesome 5 Pro';
+                        font-size: 13px;
+                        color: transparent;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        width: 1.3em;
+                        height: 1.3em;
+                        border-radius: 2px;
+                        background: $whiteColor;
+                        border: 1px solid $borderColor;
+                        font-weight: bold;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                      }
+                    }
+
+                    .input-checkbox100:checked + .label-checkbox100::before {
+                      color: $secondaryColor;
+                    }
+
+                    .input-checkbox100:disabled + .label-checkbox100::before {
+                      background: #e2e2e2;
+                    }
+
+                    .fa-info-square {
+                      color: $secondaryColor;
+                    }
+                  }
                 }
               }
             }
@@ -889,14 +938,14 @@ body {
             font-size: $gblFontSize;
 
             tr {
+              &:hover {
+                @include hoverTable;
+              }
+
               th {
                 background-color: $mainColor;
                 color: $whiteColor;
                 padding: 0.5em 0.4em;
-              }
-
-              &:hover {
-                @include hoverTable;
               }
 
               td {

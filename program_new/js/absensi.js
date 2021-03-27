@@ -217,7 +217,31 @@ function actionChecked(lightbox, tipe) {
 
   if (tipe == 'Insert_Absensi') {
     changeDateAbsensi(lightbox);
-    return;
+
+    lightbox.addEventListener('click', function (e) {
+      if (e.target.getAttribute('id') === null) return;
+      const data = ['scanMasuk', 'scanKeluar', 'Cuti', 'Absen'];
+      const id = e.target.getAttribute('class').split('_');
+      if (id[0] === 'Absen' || id[0] === 'Cuti') {
+        if (e.target.checked === true) {
+          data.map((d) => {
+            lightbox.querySelector(`.scanMasuk_${id[1]}`).disabled = true;
+            lightbox.querySelector(`.scanKeluar_${id[1]}`).disabled = true;
+          });
+        } else {
+          data.map((d) => {
+            lightbox.querySelector(`.${d}_${id[1]}`).disabled = false;
+          });
+        }
+      }
+      // if (b[0] === 'Cuti') {
+      //   lightbox.querySelector(`#${a[1]}_${b[1]}`).disabled = true;
+      //   return;
+      // } else {
+      //   lightbox.querySelector(`#${a[0]}_${b[1]}`).disabled = true;
+      //   return;
+      // }
+    });
   }
 }
 
@@ -266,9 +290,24 @@ function addListAbsensi(data) {
           </td>
           <td class='center'><input type='time' data-nomor='${i}' id='jamMulai'></td>
           <td class='center'><input type='time' data-nomor='${i}' id='jamSelesai'></td>
-          <td class='center'><input type='checkbox' data-nomor='${i}' id='permisi' value='permisi'></td>
-          <td class='center'><input type='checkbox' data-nomor='${i}' id='lembur' value='lembur'></td>
-          <td class='center'><input type='checkbox' data-nomor='${i}' id='cuti' value='cuti'></td>
+          <td class='center'>
+            <div class='form-checkbox'>
+                <input data-nomor='${i}' class='input-checkbox100' id='permisi ${i}' type='checkbox' value='permisi'>
+                <label class='label-checkbox100' for='permisi ${i}'></label>
+            </div>
+          </td>
+          <td class='center'>
+            <div class='form-checkbox'>
+                <input data-nomor='${i}' class='input-checkbox100' id='lembur ${i}' type='checkbox' value='lembur'>
+                <label class='label-checkbox100' for='lembur ${i}'></label>
+            </div>
+          </td>
+          <td class='center'>
+            <div class='form-checkbox'>
+                <input data-nomor='${i}' class='input-checkbox100' id='cuti ${i}' type='checkbox' value='cuti'>
+                <label class='label-checkbox100' for='cuti ${i}'></label>
+            </div>
+          </td>
           <td class='center remove' id='${i}'><i class='far fa-minus btn' id='${i}' onclick='removeListAbsensi(${i})'></i></td>
       </tr>`
     );

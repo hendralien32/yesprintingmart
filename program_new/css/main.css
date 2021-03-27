@@ -763,7 +763,6 @@ body {
   margin-right: 10px;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input[type='checkbox'],
 .wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input[type='time'] {
   cursor: pointer;
   color: #3c4854;
@@ -1009,6 +1008,70 @@ body {
   background: none;
 }
 
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox {
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100 {
+  display: none;
+  color: #fff;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100 {
+  color: #3c4854;
+  line-height: 1.4;
+  display: inline-block;
+  position: relative;
+  padding-left: 26px;
+  cursor: pointer;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox .label-checkbox100::before,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Pro';
+  font-size: 13px;
+  color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #dfdfdf;
+  font-weight: bold;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+  color: #fe5724;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+  background: #e2e2e2;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox .fa-info-square,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td .form-checkbox .fa-info-square {
+  color: #fe5724;
+}
+
 .wrapper .lightbox .lightbox-large .content .Table-Content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1025,14 +1088,14 @@ body {
   font-size: 0.72rem;
 }
 
+.wrapper .lightbox .lightbox-large .content .Table-Content table tr:hover {
+  background: #f1f1f1;
+}
+
 .wrapper .lightbox .lightbox-large .content .Table-Content table tr th {
   background-color: #3c4854;
   color: #fff;
   padding: 0.5em 0.4em;
-}
-
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr:hover {
-  background: #f1f1f1;
 }
 
 .wrapper .lightbox .lightbox-large .content .Table-Content table tr td {

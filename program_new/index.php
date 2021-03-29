@@ -38,7 +38,7 @@ if ($result->num_rows > 0) :
     $largeFormat = explode("," , $row['largeFormat']);
     $digitalPrinting = explode("," , $row['digitalPrinting']);
     $laporan = explode("," , $row['laporan']);
-    $listAbsensi = array("","Absensi Harian","Absensi Rekapan");
+    $listAbsensi = array("","Absensi List", "Absensi Harian","Absensi Rekapan");
     $listDb = array("","User","Client","Supplier","Barang","Pricelist");
     $listSalesOrder = array("","Sales Invoice Penjualan","Pelunasan Invoice","List Pelunasan Invoice");
     $listSalesOrderYescom = array("","Sales Order","Sales Invoice","WO List");
@@ -245,6 +245,9 @@ endif;
                             break;
                         case 'Absensi Rekapan':
                             require_once('absensi_rekapan.php');
+                            break;
+                        case 'Absensi List':
+                            require_once('absensi_list.php');
                             break;
                         default:
                             require_once('dashboard.php');

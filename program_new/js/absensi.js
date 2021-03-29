@@ -107,9 +107,10 @@ function variable(lightbox, id, tipe) {
     const idKaryawan = lightbox.querySelectorAll('#idKaryawan');
     const jamMulai = lightbox.querySelectorAll('#jamMulai');
     const jamSelesai = lightbox.querySelectorAll('#jamSelesai');
-    const permisi = lightbox.querySelectorAll('#permisi');
-    const lembur = lightbox.querySelectorAll('#lembur');
-    const cuti = lightbox.querySelectorAll('#cuti');
+    const permisi = lightbox.querySelectorAll('.permisi');
+    const lembur = lightbox.querySelectorAll('.lembur');
+    const cuti = lightbox.querySelectorAll('.cuti');
+    let variable = '';
 
     if (idKaryawan.length > 0) {
       // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
@@ -132,17 +133,20 @@ function variable(lightbox, id, tipe) {
         }
       }
 
-      return `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&error=${error}&typeProgress=${tipe}`;
+      variable = `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&error=${error}&typeProgress=${tipe}`;
     }
+    console.log(variable);
+    return variable;
   }
 
   if (tipe == 'Insert_Absensi') {
     const tglAbsensi = lightbox.querySelector('#tglAbsensi').value;
     const karyawanUid = lightbox.querySelectorAll('#karyawanUid');
-    const scanMasuk = lightbox.querySelectorAll('#scanMasuk');
-    const scanKeluar = lightbox.querySelectorAll('#scanKeluar');
-    const absensiCB = lightbox.querySelectorAll('#Absen');
-    const cutiCB = lightbox.querySelectorAll('#Cuti');
+    const scanMasuk = lightbox.querySelectorAll('.scanMasuk');
+    const scanKeluar = lightbox.querySelectorAll('.scanKeluar');
+    const absensiCB = lightbox.querySelectorAll('.Absen');
+    const cutiCB = lightbox.querySelectorAll('.Cuti');
+    let variable = '';
 
     if (karyawanUid.length > 0) {
       // [...TEXT] => Spread Operator (...) untuk bisa mengambil value pada nodeList
@@ -159,8 +163,12 @@ function variable(lightbox, id, tipe) {
         }
       }
 
-      return `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valueKaryawanUid}&error=${error}&typeProgress=Insert_Absensi`;
+      variable = `tglAbensi=${tglAbsensi}&scanMasuk=${valueScanMasuk}&scanKeluar=${valueScanKeluar}&absensiCB=${valueAbsensiCB}&cutiCB=${valueCutiCB}&uid=${valueKaryawanUid}&error=${error}&typeProgress=Insert_Absensi`;
+    } else {
+      error = `Tidak ada Data`;
+      variable = `tglAbensi=&scanMasuk=&scanKeluar=&absensiCB=&cutiCB=&uid=&error=${error}&typeProgress=Insert_Absensi`;
     }
+    return variable;
   }
 }
 
@@ -221,26 +229,29 @@ function actionChecked(lightbox, tipe) {
     lightbox.addEventListener('click', function (e) {
       if (e.target.getAttribute('id') === null) return;
       const data = ['scanMasuk', 'scanKeluar', 'Cuti', 'Absen'];
-      const id = e.target.getAttribute('class').split('_');
+      const id = e.target.getAttribute('id').split('_');
       if (id[0] === 'Absen' || id[0] === 'Cuti') {
         if (e.target.checked === true) {
           data.map((d) => {
-            lightbox.querySelector(`.scanMasuk_${id[1]}`).disabled = true;
-            lightbox.querySelector(`.scanKeluar_${id[1]}`).disabled = true;
+            if (lightbox.querySelector(`#${d}_${id[1]}`).value === id[0].toLowerCase()) {
+              lightbox.querySelector(`#${d}_${id[1]}`).disabled = false;
+              return;
+            } else {
+              lightbox.querySelector(`#${d}_${id[1]}`).disabled = true;
+            }
+
+            if (lightbox.querySelector(`#${d}_${id[1]}`).getAttribute('class') == 'scanMasuk' || lightbox.querySelector(`#${d}_${id[1]}`).getAttribute('class') == 'scanKeluar') {
+              lightbox.querySelector(`#${d}_${id[1]}`).value = '0000-00-00';
+              return;
+            }
           });
+          return;
         } else {
           data.map((d) => {
-            lightbox.querySelector(`.${d}_${id[1]}`).disabled = false;
+            lightbox.querySelector(`#${d}_${id[1]}`).disabled = false;
           });
         }
       }
-      // if (b[0] === 'Cuti') {
-      //   lightbox.querySelector(`#${a[1]}_${b[1]}`).disabled = true;
-      //   return;
-      // } else {
-      //   lightbox.querySelector(`#${a[0]}_${b[1]}`).disabled = true;
-      //   return;
-      // }
     });
   }
 }

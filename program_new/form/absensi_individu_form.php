@@ -214,19 +214,19 @@ $tipe = $_POST['tipe'];
                         <td class='center'><input data-nomor='1' type='time' id='jamSelesai'></td>
                         <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-nomor='1' class='input-checkbox100' id='permisi 1' type='checkbox' value='permisi'>
+                                <input data-nomor='1' class='input-checkbox100 permisi' id='permisi 1' type='checkbox' value='permisi'>
                                 <label class='label-checkbox100' for='permisi 1'></label>
                             </div>
                         </td>
                         <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-nomor='1' class='input-checkbox100' id='lembur 1' type='checkbox' value='lembur'>
+                                <input data-nomor='1' class='input-checkbox100 lembur' id='lembur 1' type='checkbox' value='lembur'>
                                 <label class='label-checkbox100' for='lembur 1'></label>
                             </div>
                         </td>
                         <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-nomor='1' class='input-checkbox100' id='cuti 1' type='checkbox' value='cuti'>
+                                <input data-nomor='1' class='input-checkbox100 cuti' id='cuti 1' type='checkbox' value='cuti'>
                                 <label class='label-checkbox100' for='cuti 1'></label>
                             </div>
                         </td>
@@ -323,18 +323,18 @@ $tipe = $_POST['tipe'];
                                         <input data-uid='$d[uid]' type='hidden' id='karyawanUid' value='$d[uid]'>
                                         <span data-uid='$d[uid]'>$d[nama]</span>
                                     </td>
-                                    <td class='center'><input data-uid='$d[uid]' type='time' class='scanMasuk_$d[uid]' id='scanMasuk'></td>
-                                    <td class='center'><input data-uid='$d[uid]' type='time' class='scanKeluar_$d[uid]' id='scanKeluar'></td>
+                                    <td class='center'><input data-uid='$d[uid]' type='time' class='scanMasuk' id='scanMasuk_$d[uid]'></td>
+                                    <td class='center'><input data-uid='$d[uid]' type='time' class='scanKeluar' id='scanKeluar_$d[uid]'></td>
                                     <td class='center'>
                                         <div class='form-checkbox'>
-                                            <input data-uid='$d[uid]' class='input-checkbox100' class='id='Absen_$d[uid]'' id='Absen' type='checkbox' value='absen'>
-                                            <label class='label-checkbox100' for='Absen'></label>
+                                            <input data-uid='$d[uid]' class='input-checkbox100 Absen' id='Absen_$d[uid]' type='checkbox' value='absen'>
+                                            <label class='label-checkbox100' for='Absen_$d[uid]'></label>
                                         </div>
                                     </td>
                                     <td class='center'>
                                         <div class='form-checkbox'>
-                                            <input data-uid='$d[uid]' class='input-checkbox100' class='id='Cuti_$d[uid]'' id='Cuti' type='checkbox' value='cuti' disabled>
-                                            <label class='label-checkbox100' for='Cuti'></label>
+                                            <input data-uid='$d[uid]' class='input-checkbox100 Cuti' id='Cuti_$d[uid]' type='checkbox' value='cuti'>
+                                            <label class='label-checkbox100' for='Cuti_$d[uid]'></label>
                                         </div>
                                     </td>
                                 </tr>

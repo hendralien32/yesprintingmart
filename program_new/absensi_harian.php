@@ -25,8 +25,8 @@ $days = cal_days_in_month(CAL_GREGORIAN, substr($months,5,2), substr($months,0,4
     </div>
     <div class='plugin-search'>
         <input type="text" id='search_user' placeholder="Search Nama Karyawan" autocomplete="off">
-        <input type="date" id='search_drBln' data-placeholder="Dari Bulan" value="<?php echo "$months-01"; ?>">  
-        <input type="date" id='search_keBln' data-placeholder="ke Bulan" value="<?php echo "$months-$days"; ?>">
+        <input type="date" id='search_drBln' data-placeholder="Dari Bulan" value="<?php echo "$date"; ?>">  
+        <input type="date" id='search_keBln' data-placeholder="ke Bulan" value="<?php echo "$date"; ?>">
         <select id='search_absensi'>
             <option value=''>List Absensi</option>
             <option value='permisi'>List Permisi</option>

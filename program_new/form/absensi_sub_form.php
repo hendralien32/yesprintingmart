@@ -64,27 +64,23 @@ $bulan = substr($tanggal,0,7);
                     $no++;
                     echo "
                     <tr>
-                        <td>$no</td>
+                        <td class='center'>$no</td>
                         <td>
                             <input data-uid='$d[uid]' type='hidden' id='karyawanUid' value='$d[uid]'>
                             <span data-uid='$d[uid]'>$d[nama]</span>
                         </td>
-                        <td><input data-uid='$d[uid]' type='time' id='scanMasuk'></td>
-                        <td><input data-uid='$d[uid]' type='time' id='scanKeluar'></td>
-                        <td>
+                        <td class='center'><input data-uid='$d[uid]' type='time' class='scanMasuk' id='scanMasuk_$d[uid]'></td>
+                        <td class='center'><input data-uid='$d[uid]' type='time' class='scanKeluar' id='scanKeluar_$d[uid]'></td>
+                        <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-uid='$d[uid]' class='input-checkbox100' id='Absen' type='checkbox' value='absen>
-                                <label class='label-checkbox100' for='Absen'>
-                                    Absen
-                                </label>
+                                <input data-uid='$d[uid]' class='input-checkbox100 Absen' id='Absen_$d[uid]' type='checkbox' value='absen'>
+                                <label class='label-checkbox100' for='Absen_$d[uid]'></label>
                             </div>
                         </td>
-                        <td>
+                        <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-uid='$d[uid]' class='input-checkbox100' id='Cuti' type='checkbox' value='cuti>
-                                <label class='label-checkbox100' for='Cuti'>
-                                    Cuti
-                                </label>
+                                <input data-uid='$d[uid]' class='input-checkbox100 Cuti' id='Cuti_$d[uid]' type='checkbox' value='cuti'>
+                                <label class='label-checkbox100' for='Cuti_$d[uid]'></label>
                             </div>
                         </td>
                     </tr>

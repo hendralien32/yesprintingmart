@@ -134,6 +134,7 @@
             $SearchDate
         ORDER BY
             karyawan.nama, absensi.tanggal
+        ASC
     ";
 
     $result = $conn_OOP->query($sql);

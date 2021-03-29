@@ -66,17 +66,14 @@ elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Da
     $cutiCB = explode (",", "$_POST[cutiCB]" );
 
     for($i = 0; $i < $jumlahArray; $i++) {
+        // if you really want to make multiple assignments in one statement, you can use the list construct:
         ($lemburCB[$i] == "Y") 
-        ?   $lembur_mulai = $jamMulai[$i] xor
-            $lembur_selesai = $jamSelesai[$i]
-        :   $lembur_mulai = "" xor
-            $lembur_selesai = "";
-    
+        ? (list($lembur_mulai, $lembur_selesai) = array($jamMulai[$i], $jamSelesai[$i]))
+        : (list($lembur_mulai, $lembur_selesai) = array("", ""));
+
         ($permisiCB[$i] == "Y") 
-        ?   $permisi_keluar = $jamMulai[$i] xor
-            $permisi_masuk = $jamSelesai[$i]
-        :   $permisi_keluar = "" xor
-            $permisi_masuk = "";
+        ? (list($permisi_keluar, $permisi_masuk) = array($jamMulai[$i], $jamSelesai[$i]))
+        : (list($permisi_keluar, $permisi_masuk) = array("", ""));
 
         if($cutiCB[$i] == 'Y') :
             $cutiSql =

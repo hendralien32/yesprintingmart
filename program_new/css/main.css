@@ -1604,6 +1604,25 @@ body {
   text-align: left;
 }
 
+.wrapper .container .calender-container .calender-display .day-of-week,
+.wrapper .container .calender-container .calender-display .date-grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[7];
+      grid-template-columns: repeat(7, 1fr);
+}
+
+.wrapper .container .calender-container .calender-display .day-of-week div,
+.wrapper .container .calender-container .calender-display .date-grid div {
+  padding: 1rem;
+  border: 1px solid #dfdfdf;
+}
+
+.wrapper .container .calender-container .calender-display .date-grid div:first-child {
+  -ms-grid-column: 6;
+  grid-column: 6;
+}
+
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 565.98px) {
   .wrapper .lightbox .lightbox-Small {

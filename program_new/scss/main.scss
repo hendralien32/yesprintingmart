@@ -1395,16 +1395,47 @@ body {
         .date-grid {
           display: grid;
           grid-template-columns: repeat(7, 1fr);
+        }
 
+        .day-of-week {
           div {
-            padding: 1rem;
-            border: 1px solid $borderColor;
+            padding: 0.3rem;
+            background-color: $mainColor;
+            color: $whiteColor;
+            text-align: center;
+            font-weight: bold;
           }
         }
 
         .date-grid {
-          & div:first-child {
-            grid-column: 6;
+          .day {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            border: 1px solid $borderColor;
+            height: 100px;
+            font-weight: bold;
+
+            &:nth-child(7n + 1) {
+              color: #da2e22;
+              font-weight: 700;
+            }
+
+            span {
+              margin-top: 10px;
+              display: inline-block;
+              ul {
+                li {
+                  list-style: none;
+                  font-size: 0.75rem;
+                  padding: 0.2rem 0;
+                }
+              }
+            }
+          }
+          .padding {
+            background-color: $borderColor;
+            border-right: 1px solid $whiteColor;
           }
         }
       }

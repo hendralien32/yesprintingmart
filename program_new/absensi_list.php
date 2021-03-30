@@ -26,6 +26,20 @@ $idSetter =
     </div>
 
     <div class='ajax_load'>
+        <div class='calender-display'>
+            <div class="day-of-week">
+                <div>Minggu</div>
+                <div>Senin</div>
+                <div>Selasa</div>
+                <div>Rabu</div>
+                <div>Kamis</div>
+                <div>Jum'at</div>
+                <div>Sabtu</div>
+            </div>
+            <div class="date-grid">
+                
+            </div>
+        </div>
 
     </div>
 </div>

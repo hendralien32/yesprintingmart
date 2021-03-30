@@ -5,7 +5,7 @@ async function loadPage() {
   const blnKe = document.getElementById('search_keBln').value;
   const username = document.getElementById('search_user').value;
   const ajaxPage = document.querySelector('.left_title').innerHTML.toLowerCase().replace(' ', '_');
-
+  const rightTitle = document.getElementById('right_title');
   let variable;
 
   if (ajaxPage == 'absensi_harian') {
@@ -16,14 +16,86 @@ async function loadPage() {
     updateContent(data);
 
     typeList.addEventListener('change', loadPage);
+
+    const jumlahKaryawan = document.getElementById('jumlahKaryawan').innerHTML;
+    rightTitle.innerHTML = jumlahKaryawan;
+  } else if (ajaxPage == 'absensi_list') {
+    const calendar = document.querySelector('.date-grid');
+    const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    variable = `bulanDari=${blnDari}&jenisData=${ajaxPage}`;
+    const JSONdata = await getJSON(variable);
+    var obj = JSON.parse(JSONdata);
+
+    const dt = new Date(`${blnDari}-01`);
+    const day = dt.getDate();
+    const month = dt.getMonth();
+    const year = dt.getFullYear();
+    const firstDayOfMonth = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const dateString = firstDayOfMonth.toLocaleDateString(['ban', 'id'], {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
+    rightTitle.innerText = `${dateString.split(' ')[2]} ${year}`;
+    calendar.innerHTML = '';
+
+    for (let i = 1; i <= paddingDays + daysInMonth; i++) {
+      const daySquare = document.createElement('div');
+      daySquare.classList.add('day');
+
+      if (i > paddingDays) {
+        const dataDate = new Date(`${month + 1}/${i - paddingDays}/${year}`).toLocaleDateString().slice(0, 10);
+        const eventForDay = obj.find((t) => {
+          return t.Tanggal === new Date(dataDate).toLocaleDateString().slice(0, 10);
+        });
+
+        daySquare.innerHTML = `<time">${i - paddingDays}</time>`;
+        if (eventForDay) {
+          const eventDiv = document.createElement('span');
+          eventDiv.classList.add('event');
+          const ul = document.createElement('ul');
+          eventDiv.appendChild(ul);
+          if (eventForDay.Telat > 0) {
+            ul.innerHTML += `<li><i class="fas fa-clock"></i> ${eventForDay.Telat} Orang</li>`;
+          }
+          if (eventForDay.Absen > 0) {
+            ul.innerHTML += `<li><i class="fas fa-user-times"></i> ${eventForDay.Absen} Orang</li>`;
+          }
+          if (eventForDay.Cuti > 0) {
+            ul.innerHTML += `<li><i class="fab fa-cuttlefish"></i> ${eventForDay.Cuti} Orang</li>`;
+          }
+          daySquare.appendChild(eventDiv);
+        }
+      } else {
+        daySquare.classList.add('padding');
+      }
+
+      calendar.appendChild(daySquare);
+    }
   } else {
     variable = `blnDari=${blnDari}&username=${username}`;
 
     const data = await getContent(ajaxPage, variable);
     updateContent(data);
+    const jumlahKaryawan = document.getElementById('jumlahKaryawan').innerHTML;
+    rightTitle.innerHTML = jumlahKaryawan;
   }
-  const jumlahKaryawan = document.getElementById('jumlahKaryawan').innerHTML;
-  document.getElementById('right_title').innerHTML = jumlahKaryawan;
+}
+
+function getJSON(variable) {
+  return fetch('../program_new/json/json_data.php', {
+    method: 'POST',
+    body: `${variable}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.json())
+    .then((response) => JSON.stringify(response));
 }
 
 // function menampilkan search list saat tombol search di tekan
@@ -45,46 +117,6 @@ inputDate.addEventListener('change', loadPage);
 inputSearch.addEventListener('input', loadPage);
 
 // selesai Load oleh Script.js
-
-// document.addEventListener('change', async (e) => {
-//   // untuk ganti List Absensi di Form saat Input[type=date] di ganti
-//   if (e.target.classList.contains('tglAbsensi')) {
-//     const tableAbsensi = await reLoadAjaxForm(document.querySelector('#tglAbsensi').value);
-//     reUpdateForm(tableAbsensi);
-//   }
-
-//   // validasi untuk Checkbox Absen dan Cuti, Apabila Absen & Cuti di check maka Scan Masuk dan Scan Keluar Disabled
-//   const dataUID = e.target.dataset.uid;
-//   if (typeof dataUID === 'undefined') {
-//     return false;
-//   } else {
-//     const queryDataUID = document.querySelectorAll(`[data-uid='${dataUID}']`);
-//     const scanMasuk = queryDataUID[2];
-//     const scankeluar = queryDataUID[3];
-//     const checkboxAbsen = queryDataUID[4];
-//     const checkboxCuti = queryDataUID[5];
-
-//     if (e.target.checked == true) {
-//       scanMasuk.disabled = true;
-//       scankeluar.disabled = true;
-//       scanMasuk.value = '';
-//       scankeluar.value = '';
-//     } else if (e.target.checked == false) {
-//       scanMasuk.disabled = false;
-//       scankeluar.disabled = false;
-//     }
-
-//     if (e.target.value == 'absen' && e.target.checked == true) {
-//       checkboxCuti.disabled = true;
-//     } else if (e.target.value == 'absen' && e.target.checked == false) {
-//       checkboxCuti.disabled = false;
-//     } else if (e.target.value == 'cuti' && e.target.checked == true) {
-//       checkboxAbsen.disabled = true;
-//     } else if (e.target.value == 'cuti' && e.target.checked == false) {
-//       checkboxAbsen.disabled = false;
-//     }
-//   }
-// });
 
 function variable(lightbox, id, tipe) {
   if (tipe == 'ConfirmBox_Hapus') {
@@ -135,7 +167,6 @@ function variable(lightbox, id, tipe) {
 
       variable = `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&error=${error}&typeProgress=${tipe}`;
     }
-    console.log(variable);
     return variable;
   }
 

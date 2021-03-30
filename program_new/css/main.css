@@ -1612,15 +1612,47 @@ body {
       grid-template-columns: repeat(7, 1fr);
 }
 
-.wrapper .container .calender-container .calender-display .day-of-week div,
-.wrapper .container .calender-container .calender-display .date-grid div {
-  padding: 1rem;
-  border: 1px solid #dfdfdf;
+.wrapper .container .calender-container .calender-display .day-of-week div {
+  padding: 0.3rem;
+  background-color: #3c4854;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
 }
 
-.wrapper .container .calender-container .calender-display .date-grid div:first-child {
-  -ms-grid-column: 6;
-  grid-column: 6;
+.wrapper .container .calender-container .calender-display .date-grid .day {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 8px;
+  border: 1px solid #dfdfdf;
+  height: 100px;
+  font-weight: bold;
+}
+
+.wrapper .container .calender-container .calender-display .date-grid .day:nth-child(7n + 1) {
+  color: #da2e22;
+  font-weight: 700;
+}
+
+.wrapper .container .calender-container .calender-display .date-grid .day span {
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.wrapper .container .calender-container .calender-display .date-grid .day span ul li {
+  list-style: none;
+  font-size: 0.75rem;
+  padding: 0.2rem 0;
+}
+
+.wrapper .container .calender-container .calender-display .date-grid .padding {
+  background-color: #dfdfdf;
+  border-right: 1px solid #fff;
 }
 
 /* Extra small devices (portrait phones, less than 576px) */

@@ -122,6 +122,67 @@ elseif ($jenisData == "listKekuranganKertas") : // JSON list Kekurangan Stock Ke
         while ($row = $result->fetch_assoc()) :
             $array[] = $row;
         endwhile;
+    else :
+            $array[] = "";
+    endif;
+elseif ($jenisData == "absensi_list") : // JSON list Absensi Cuti, Telat, Absen
+    $sql = 
+        "SELECT
+            absensi.tanggal as Tanggal,
+            sum(CASE 
+                absensi.absen 
+                WHEN 'Y' THEN 1 
+                ELSE 0 
+                END
+            ) as Absen,
+            sum(CASE 
+                absensi.cuti 
+                WHEN 'Y' THEN 1 
+                ELSE 0 
+                END
+            ) as Cuti,
+            sum(CASE
+                WHEN absensi.scan_masuk != '00:00:00' 
+             		then if(
+                        		TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) > 0, 
+            					1,
+             					0
+                            )
+                ELSE 0
+                END
+            ) as Telat
+        FROM
+            absensi
+        LEFT JOIN
+            (
+                SELECT
+                    pm_user.uid,
+                    pm_user.jam_masuk
+                FROM
+                    pm_user
+            ) as user
+        ON
+            user.uid = absensi.uid
+        WHERE
+            left(absensi.tanggal,7) = '$_POST[bulanDari]' and
+            absensi.hapus != 'Y'
+        GROUP BY
+            absensi.tanggal
+        ORDER BY
+            absensi.tanggal
+    ";
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        while ($row = $result->fetch_assoc()) :
+            $arr_data['Tanggal'] = date_format(date_create($row['Tanggal']),"n/j/Y");
+            $arr_data['Absen'] = $row['Absen'];
+            $arr_data['Cuti'] = $row['Cuti'];
+            $arr_data['Telat'] = $row['Telat'];
+
+            $array[] = array_merge($arr_data);
+        endwhile;
+    else :
+        $array[] = "";
     endif;
 endif;
 

@@ -30,7 +30,18 @@ if (isset($_POST["login"])) {
     $vpass        = htmlentities($_POST["password"], ENT_QUOTES);
     $password     = md5("pmart" . "$vpass");
 
-    $result = mysqli_query($conn, "SELECT username, password, uid, level FROM pm_user where (username='$username' and status='a') or (uid='$username' and status='a')");
+    $result = mysqli_query($conn, 
+        "SELECT 
+            pm_user.username, 
+            pm_user.password, 
+            pm_user.uid, 
+            pm_user.level 
+        FROM 
+            pm_user 
+        WHERE 
+            (pm_user.username='$username' || pm_user.uid='$username') and
+            pm_user.status='a'
+    ");
 
     //check user
     if (mysqli_num_rows($result) === 1) {
@@ -49,7 +60,6 @@ if (isset($_POST["login"])) {
                 setcookie('uid', $row['uid'], time() + 86400);
                 setcookie('key', hash('sha256', $row['username']), time() + 86400);
             }
-
             header("location:program/");
             exit;
         }

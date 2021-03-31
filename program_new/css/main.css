@@ -35,182 +35,6 @@ body {
   min-height: 100vh;
 }
 
-.wrapper .lightbox-input {
-  display: none;
-  overflow: hidden;
-}
-
-.wrapper .lightbox-input.display-show {
-  display: block;
-}
-
-.wrapper .lightbox-input .content-lightbox {
-  width: 80%;
-  height: 95%;
-  margin: 1.25% 10%;
-  font-size: 0.85rem;
-  position: fixed;
-  z-index: 3;
-  background: #fff;
-  color: #3c4854;
-  overflow: auto;
-}
-
-.wrapper .lightbox-input .content-lightbox .topForm {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  background-color: #3c4854;
-  color: #fff;
-  padding: 0.8em;
-  font-weight: bold;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent {
-  padding: 1.2em;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiTop {
-  margin-bottom: 1.2em;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiTop table {
-  border-collapse: collapse;
-  font-size: 0.72rem;
-  color: #3c4854;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiTop table tr td:first-child {
-  width: 30%;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiTop table tr td input[type='date'] {
-  cursor: pointer;
-  padding: 0.5em 1.3em;
-  outline: none;
-  border: 1px solid #dfdfdf;
-  border-radius: 4px;
-  color: #3c4854;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList {
-  width: 100%;
-  margin-bottom: 1.2em;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 0.72rem;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr th {
-  background-color: #3c4854;
-  color: #fff;
-  padding: 0.5em 0.4em;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr:hover {
-  background: #f1f1f1;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td {
-  border-bottom: 1px solid #dfdfdf;
-  color: #3c4854;
-  padding: 0.5em 0.4em 0.5em 1.2em;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td.center {
-  text-align: center;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td input {
-  padding: 0.4em 0.5em;
-  outline: none;
-  border: 1px solid #dfdfdf;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td input[type='checkbox'],
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td input[type='time'] {
-  cursor: pointer;
-  color: #3c4854;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete {
-  width: 10vw;
-  position: absolute;
-  background-color: #fff;
-  color: #3c4854;
-  border: 1px solid #dfdfdf;
-  margin-top: 5px;
-  border-radius: 4px;
-  display: none;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete .item {
-  padding: 0.4rem 1rem;
-  border-bottom: 1px solid #dfdfdf;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete .item.active, .wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete .item:hover {
-  cursor: pointer;
-  background-color: #3c4854;
-  color: #fff;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiList table tr td .autocomplete.display-show {
-  display: block;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiSubmit {
-  text-align: center;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiSubmit #submit {
-  padding: 0.5em 2.7em;
-  outline: none;
-  background-color: #3c4854;
-  color: #fff;
-  border-radius: 4px;
-  border: none;
-}
-
-.wrapper .lightbox-input .content-lightbox .lightBoxContent .absensi .absensiSubmit #submit:hover {
-  background-color: #fe5724;
-  cursor: pointer;
-}
-
-.wrapper .lightbox-input .blackout {
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  position: fixed;
-  opacity: 0.7;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
 .wrapper .lightbox {
   overflow: hidden;
   display: none;
@@ -273,6 +97,38 @@ body {
   border-bottom: 1px solid #dfdfdf;
 }
 
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content table tr {
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content table tr th {
+  padding: 0.6em 0.4em;
+  background-color: #3c4854;
+  color: #fff;
+  text-align: center;
+  width: 100% / 3;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content table tr td {
+  width: 100% / 3;
+  border-top: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+  border-left: 1px solid #dfdfdf;
+  vertical-align: top;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content table tr td ul li {
+  padding: 0.6em 0.4em;
+  list-style: none;
+  width: 100%;
+  border-bottom: 1px solid #dfdfdf;
+}
+
 .wrapper .lightbox .lightbox-confirmation .content .resultError {
   font-size: 0.8em;
   text-align: center;
@@ -306,6 +162,10 @@ body {
   font-size: 0.75rem;
 }
 
+.wrapper .lightbox .lightbox-confirmation .content .Btn-Content .no-btn.display-none {
+  display: none;
+}
+
 .wrapper .lightbox .lightbox-confirmation .content .Btn-Content .yes-btn {
   display: inline-block;
   border: none;
@@ -317,6 +177,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-confirmation .content .Btn-Content .yes-btn.display-none {
+  display: none;
 }
 
 .wrapper .lightbox .lightbox-Small {
@@ -530,6 +394,10 @@ body {
   font-size: 0.75rem;
 }
 
+.wrapper .lightbox .lightbox-Small .content .Btn-Content .no-btn.display-none {
+  display: none;
+}
+
 .wrapper .lightbox .lightbox-Small .content .Btn-Content .yes-btn {
   display: inline-block;
   border: none;
@@ -541,6 +409,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-Small .content .Btn-Content .yes-btn.display-none {
+  display: none;
 }
 
 .wrapper .lightbox .lightbox-medium {
@@ -884,6 +756,10 @@ body {
   font-size: 0.75rem;
 }
 
+.wrapper .lightbox .lightbox-medium .content .Btn-Content .no-btn.display-none {
+  display: none;
+}
+
 .wrapper .lightbox .lightbox-medium .content .Btn-Content .yes-btn {
   display: inline-block;
   border: none;
@@ -895,6 +771,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Btn-Content .yes-btn.display-none {
+  display: none;
 }
 
 .wrapper .lightbox .lightbox-large {
@@ -1237,6 +1117,10 @@ body {
   font-size: 0.75rem;
 }
 
+.wrapper .lightbox .lightbox-large .content .Btn-Content .no-btn.display-none {
+  display: none;
+}
+
 .wrapper .lightbox .lightbox-large .content .Btn-Content .yes-btn {
   display: inline-block;
   border: none;
@@ -1248,6 +1132,10 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.75rem;
+}
+
+.wrapper .lightbox .lightbox-large .content .Btn-Content .yes-btn.display-none {
+  display: none;
 }
 
 .wrapper .lightbox .blackout {

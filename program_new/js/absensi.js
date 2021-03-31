@@ -1,5 +1,21 @@
 window.addEventListener('load', loadPage);
 
+// function menampilkan search list saat tombol search di tekan
+const btnSearch = document.querySelector('.button-search');
+const inputDate = document.querySelector('#search_drBln');
+const inputDateKe = document.querySelector('#search_keBln');
+const inputSearch = document.querySelector('#search_user');
+
+btnSearch.onclick = (e) => {
+  const divSearch = document.querySelector('.plugin-search');
+  divSearch.classList.toggle('display-show');
+  if (divSearch.classList.contains('display-show')) {
+    btnSearch.innerHTML = "<i class='fas fa-search-minus'></i>";
+  } else {
+    btnSearch.innerHTML = "<i class='fas fa-search-plus'></i>";
+  }
+};
+
 async function loadPage() {
   const blnDari = document.getElementById('search_drBln').value;
   const blnKe = document.getElementById('search_keBln').value;
@@ -22,12 +38,13 @@ async function loadPage() {
   } else if (ajaxPage == 'absensi_list') {
     const calendar = document.querySelector('.date-grid');
     const weekdays = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
     variable = `bulanDari=${blnDari}&jenisData=${ajaxPage}`;
     const JSONdata = await getJSON(variable);
     var obj = JSON.parse(JSONdata);
 
     const dt = new Date(`${blnDari}-01`);
-    const day = dt.getDate();
+    // const day = dt.getDate();
     const month = dt.getMonth();
     const year = dt.getFullYear();
     const firstDayOfMonth = new Date(year, month, 1);
@@ -41,6 +58,7 @@ async function loadPage() {
     });
     const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
     rightTitle.innerText = `${dateString.split(' ')[2]} ${year}`;
+
     calendar.innerHTML = '';
 
     for (let i = 1; i <= paddingDays + daysInMonth; i++) {
@@ -53,7 +71,7 @@ async function loadPage() {
           return t.Tanggal === new Date(dataDate).toLocaleDateString().slice(0, 10);
         });
 
-        daySquare.innerHTML = `<time">${i - paddingDays}</time>`;
+        daySquare.innerHTML = `<time>${i - paddingDays}</time>`;
         if (eventForDay) {
           const eventDiv = document.createElement('span');
           eventDiv.classList.add('event');
@@ -69,11 +87,14 @@ async function loadPage() {
             ul.innerHTML += `<li><i class="fab fa-cuttlefish"></i> ${eventForDay.Cuti} Orang</li>`;
           }
           daySquare.appendChild(eventDiv);
+          daySquare.style.cursor = 'pointer';
+          eventDiv.parentNode.addEventListener('click', function (e) {
+            showForm('absensi_individu', 'listAbsensi', `${dataDate}`, 'lightbox-confirmation');
+          });
         }
       } else {
         daySquare.classList.add('padding');
       }
-
       calendar.appendChild(daySquare);
     }
   } else {
@@ -84,6 +105,10 @@ async function loadPage() {
     const jumlahKaryawan = document.getElementById('jumlahKaryawan').innerHTML;
     rightTitle.innerHTML = jumlahKaryawan;
   }
+
+  inputDate.addEventListener('change', loadPage);
+  inputDateKe.addEventListener('change', loadPage);
+  inputSearch.addEventListener('input', loadPage);
 }
 
 function getJSON(variable) {
@@ -97,24 +122,6 @@ function getJSON(variable) {
     .then((response) => response.json())
     .then((response) => JSON.stringify(response));
 }
-
-// function menampilkan search list saat tombol search di tekan
-const btnSearch = document.querySelector('.button-search');
-const inputDate = document.querySelector('#search_drBln');
-const inputSearch = document.querySelector('#search_user');
-
-btnSearch.onclick = (e) => {
-  const divSearch = document.querySelector('.plugin-search');
-  divSearch.classList.toggle('display-show');
-  if (divSearch.classList.contains('display-show')) {
-    btnSearch.innerHTML = "<i class='fas fa-search-minus'></i>";
-  } else {
-    btnSearch.innerHTML = "<i class='fas fa-search-plus'></i>";
-  }
-};
-
-inputDate.addEventListener('change', loadPage);
-inputSearch.addEventListener('input', loadPage);
 
 // selesai Load oleh Script.js
 

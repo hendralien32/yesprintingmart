@@ -114,7 +114,7 @@ ORDER BY
 $result = $conn_OOP->query($sql);
 $jumlah_order = $result->num_rows;
 $days = cal_days_in_month(CAL_GREGORIAN, substr($bulanDari,5,2), substr($bulanDari,0,4));
-echo "<span id='jumlahKaryawan' class='display-none'>$jumlah_order Karyawan</span>";
+echo "<span id='jumlahKaryawan' class='display-none'>Bulan ". format_bulanTahun($bulanDari) .", Total $jumlah_order Karyawan</span>";
 ?>
     
 <div class='list-karyawan'>
@@ -135,7 +135,7 @@ echo "<span id='jumlahKaryawan' class='display-none'>$jumlah_order Karyawan</spa
             if ($jumlah_order > 0) :
                 while ($d = $result->fetch_assoc()) :
                     $n++;
-                    $libur = $days - $d['hadir'] - $d['absen'];
+                    $libur = $days - $d['hadir'] - $d['absen'] - $d['cuti'];
                     echo "
                     <tr>
                         <td>$n</td>

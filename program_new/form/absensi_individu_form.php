@@ -22,6 +22,7 @@ $tipe = $_POST['tipe'];
             <button class="yes-btn">Iya, Hapus Data</button>
         </div>
     </div>
+    <?= die(); ?>
     
 <?php elseif($_POST['tipe'] == "Form_Update_Absensi_Individu") :
     $sql = 
@@ -173,6 +174,7 @@ $tipe = $_POST['tipe'];
             <button class="yes-btn">Submit Data</button>
         </div>
     </div>
+    <?= die(); ?>
     
 <?php elseif($_POST['tipe'] == "Form_Absensi_Individu") : ?>
     <div class='content'>
@@ -241,6 +243,7 @@ $tipe = $_POST['tipe'];
             <button class="yes-btn">Submit Data</button>
         </div>
     </div>
+    <?= die(); ?>
 <?php elseif($_POST['tipe'] == "Insert_Absensi") : ?>
     <div class='content'>
         <div class='Title-Content'>
@@ -252,7 +255,7 @@ $tipe = $_POST['tipe'];
                 <table>
                     <tr>
                         <td>Tanggal</td>
-                        <td><input type="date" name="tanggal" class='tglAbsensi' id="tglAbsensi" value="<?= $date; ?>" max="<?= $date; ?>"></td>
+                        <td><input type="date" name="tanggal" class='tglAbsensi' id="tglAbsensi" value="<?= $date; ?>"</td>
                     </tr>
                 </table>
             </div>
@@ -350,6 +353,109 @@ $tipe = $_POST['tipe'];
             <button class="yes-btn">Submit Data</button>
         </div>
     </div>
+    <?= die(); ?>
+<?php elseif($_POST['tipe'] == "listAbsensi") :
+    $date = date_format(date_create($_POST['id']),"Y-m-d");
+
+    $sql = 
+        "SELECT
+            GROUP_CONCAT((CASE 
+                absensi.cuti 
+                WHEN 'Y' THEN user.nama
+                END
+            )) as karyawanCuti,
+            GROUP_CONCAT((CASE 
+                absensi.absen 
+                WHEN 'Y' THEN user.nama
+                END
+            )) as karyawanAbsen,
+            GROUP_CONCAT((CASE 
+                WHEN TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) > 0 THEN user.nama
+                END
+            )) as karyawanTelat
+        FROM
+            absensi
+        LEFT JOIN
+            (
+                SELECT
+                    pm_user.uid,
+                    pm_user.nama,
+                    pm_user.jam_masuk
+                FROM
+                    pm_user
+            ) as user
+        ON
+            user.uid = absensi.uid
+        WHERE
+            absensi.tanggal = '$date' and
+            ( 
+                absensi.cuti = 'Y' || 
+                absensi.absen = 'Y' || 
+                absensi.hadir = 'Y' || 
+                TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) > 0 
+            )
+    ";
+
+    $result = $conn_OOP->query($sql);
+    if ($result->num_rows > 0) :
+        $row = $result->fetch_assoc();
+
+        $karyawanCuti = array_filter(explode(",", $row['karyawanCuti']));
+        $karyawanAbsen = array_filter(explode(",", $row['karyawanAbsen']));
+        $karyawanTelat = array_filter(explode(",", $row['karyawanTelat']));
+    endif;
+
+    ?>
+    <div class='content'>
+        <div class='Title-Content'>
+            <i class="fas fa-calendar-day"></i>
+            <p><?php echo format_hari_tanggal($date) ?></p>
+        </div>
+        <div class='Text-Content'>
+            <table>
+                <tr>
+                    <th>Telat</th>
+                    <th>Absen</th>
+                    <th>Cuti</th>
+                </tr>
+                <tr>
+                    <td>
+                        <ul>
+                            <?php 
+                                foreach($karyawanCuti as $namaKaryawan) {
+                                    echo "<li>". ucwords($namaKaryawan) ."</li>";
+                                }
+                            ?>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <?php 
+                                foreach($karyawanAbsen as $namaKaryawan) {
+                                    echo "<li>". ucwords($namaKaryawan) ."</li>";
+                                }
+                            ?>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <?php 
+                                foreach($karyawanTelat as $namaKaryawan) {
+                                    echo "<li>". ucwords($namaKaryawan) ."</li>";
+                                }
+                            ?>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class='resultError'></div>
+        <div class="Btn-Content">
+            <button class="yes-btn display-none">Submit Data</button>
+            <button class="no-btn">Tutup Form</button>
+        </div>
+    </div>
+    <?= die(); ?>
 <?php elseif($_POST['tipe'] == "xxx") : ?>
 <?php else : ?>
     <div class='content'>
@@ -362,7 +468,7 @@ $tipe = $_POST['tipe'];
         </div>
         <div class='resultError'></div>
         <div class="Btn-Content">
-            <button class="no-btn">Tidak, Tutup Form</button>
+            <button class="no-btn">Tutup Form</button>
         </div>
     </div>
 <?php endif; ?>

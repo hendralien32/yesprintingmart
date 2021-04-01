@@ -128,6 +128,10 @@ body {
                     list-style: none;
                     width: 100%;
                     border-bottom: 1px solid $borderColor;
+
+                    &:last-child {
+                      border-bottom: none;
+                    }
                   }
                 }
               }

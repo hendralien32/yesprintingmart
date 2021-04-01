@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "../../function.php";
 
 $tipe = $_POST['tipe'];

@@ -1,51 +1,10 @@
 <?php
-session_start();
 require_once "../function.php";
 
 if (!isset($_SESSION["login"])) {
     header("Location: ../", true, 301);
     exit;
 }
-
-$sql = 
-    "SELECT
-        akses.absensi,
-        akses.aksesDb,
-        akses.SalesOrder,
-        akses.salesOrderYescom,
-        akses.largeFormat,
-        akses.digitalPrinting,
-        akses.laporan,
-        akses.aksesAdd,
-        akses.aksesEdit,
-        akses.aksesDelete
-    FROM
-        akses
-    WHERE
-        akses.userID = '$_SESSION[uid]'
-";
-
-$result = $conn_OOP -> query($sql);
-
-if ($result->num_rows > 0) :
-    $row = $result->fetch_assoc();
-
-    // Array[0] -> Akses Menu
-    $absensi = explode("," , $row['absensi']);
-    $database = explode("," , $row['aksesDb']);
-    $SalesOrder = explode("," , $row['SalesOrder']);
-    $salesOrderYescom = explode("," , $row['salesOrderYescom']);
-    $largeFormat = explode("," , $row['largeFormat']);
-    $digitalPrinting = explode("," , $row['digitalPrinting']);
-    $laporan = explode("," , $row['laporan']);
-    $listAbsensi = array("","Absensi List", "Absensi Harian","Absensi Rekapan");
-    $listDb = array("","User","Client","Supplier","Barang","Pricelist");
-    $listSalesOrder = array("","Sales Invoice Penjualan","Pelunasan Invoice","List Pelunasan Invoice");
-    $listSalesOrderYescom = array("","Sales Order","Sales Invoice","WO List");
-    $listlargeFormat = array("","Order List","Pemotongan Stock","Stock Bahan", "List Pemesanan Bahan");
-    $listdigitalPrinting = array("","Order List","Pemotongan Stock","Laporan Harian Konika","List Pemasukan Kertas","Stock Kertas");
-    $listlaporan = array("","Penjualan","Setoran Bank","Harian Konika");
-endif;
 
 ?>
 
@@ -112,7 +71,7 @@ endif;
                         <div class='icon_menu'>Dashboard</div>
                     </li>
                 </a>
-                <?php if($database[0] == 'Y') : ?>
+                <?php if($absensi[0] == 'Y') : ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-fingerprint"></i></div>
                     <div class='icon_menu'>Absensi</div>
@@ -137,7 +96,7 @@ endif;
                         <?php
                             for ($i = 1; $i < count($database); $i++) {
                                 if($database[$i] === "Y") {
-                                    echo "<li>Database $listDb[$i]</li>";
+                                    echo "<a href='?page=$listDb[$i]'><li>$listDb[$i]</li></a>";
                                 }
                             }
                         ?>
@@ -249,6 +208,9 @@ endif;
                         case 'Absensi List':
                             require_once('absensi_list.php');
                             break;
+                        case 'Database User':
+                                require_once('database_user.php');
+                                break;
                         default:
                             require_once('dashboard.php');
                     endswitch;

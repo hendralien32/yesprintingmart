@@ -1,5 +1,4 @@
 <?php
-session_start();
 require 'function.php';
 
 
@@ -35,9 +34,29 @@ if (isset($_POST["login"])) {
             pm_user.username, 
             pm_user.password, 
             pm_user.uid, 
-            pm_user.level 
+            pm_user.level,
+            akses.absensi,
+            akses.aksesDb,
+            akses.SalesOrder,
+            akses.salesOrderYescom,
+            akses.largeFormat,
+            akses.digitalPrinting,
+            akses.laporan,
+            akses.aksesAdd,
+            akses.aksesEdit,
+            akses.aksesDelete
         FROM 
             pm_user 
+        LEFT JOIN
+            (SELECT
+                akses.*
+            FROM
+                akses
+            WHERE
+                akses.hapus != 'Y'
+            ) akses
+        ON
+            pm_user.aksesID = akses.aksesID
         WHERE 
             (pm_user.username='$username' || pm_user.uid='$username') and
             pm_user.status='a'
@@ -49,10 +68,20 @@ if (isset($_POST["login"])) {
         $row = mysqli_fetch_assoc($result);
         if ($password == $row["password"]) {
             // set Session 
-            $_SESSION["login"]         = true;
-            $_SESSION["uid"]         = $row["uid"];
-            $_SESSION["username"]     = $row["username"];
-            $_SESSION["level"]         = $row["level"];
+            $_SESSION["login"]                  = true;
+            $_SESSION["uid"]                    = $row["uid"];
+            $_SESSION["username"]               = $row["username"];
+            $_SESSION["level"]                  = $row["level"];
+            $_SESSION["aksesAbsensi"]           = $row["absensi"];
+            $_SESSION["aksesDb"]                = $row["aksesDb"];
+            $_SESSION["aksesSalesOrder"]        = $row["SalesOrder"];
+            $_SESSION["aksesSalesOrderYescom"]  = $row["salesOrderYescom"];
+            $_SESSION["aksesLF"]                = $row["largeFormat"];
+            $_SESSION["aksesDP"]                = $row["digitalPrinting"];
+            $_SESSION["aksesLaporan"]           = $row["laporan"];
+            $_SESSION["aksesAdd"]               = $row["aksesAdd"];
+            $_SESSION["aksesEdit"]              = $row["aksesEdit"];
+            $_SESSION["aksesDelete"]            = $row["aksesDelete"];
 
             //check remember me
             if (isset($_POST['remember'])) {
@@ -60,7 +89,7 @@ if (isset($_POST["login"])) {
                 setcookie('uid', $row['uid'], time() + 86400);
                 setcookie('key', hash('sha256', $row['username']), time() + 86400);
             }
-            header("location:program/");
+            header("location:program_new/");
             exit;
         }
     }

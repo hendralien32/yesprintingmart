@@ -1,10 +1,6 @@
 <?php
 require_once '../function.php';
 
-$idSetter = 
-    isset($_SESSION['Setter_ID']) 
-        ? $_SESSION['Setter_ID'] 
-        : "";
 ?>
 
 <script src="js/absensi.js" async type="text/javascript"></script>

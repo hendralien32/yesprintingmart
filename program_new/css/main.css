@@ -129,6 +129,10 @@ body {
   border-bottom: 1px solid #dfdfdf;
 }
 
+.wrapper .lightbox .lightbox-confirmation .content .Text-Content table tr td ul li:last-child {
+  border-bottom: none;
+}
+
 .wrapper .lightbox .lightbox-confirmation .content .resultError {
   font-size: 0.8em;
   text-align: center;

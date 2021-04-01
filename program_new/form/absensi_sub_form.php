@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "../../function.php";
 
 $tanggal = $_POST['tanggal'];

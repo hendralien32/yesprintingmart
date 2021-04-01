@@ -1,5 +1,4 @@
 <?php 
-    session_start();
     require_once '../../function.php';
     $n = 0;
 
@@ -149,7 +148,7 @@
             <th width="12%">Karyawan</th>
             <th>Tanggal</th>
             <?= $tableTH ?>
-            <th width="8%"></th>
+            <th></th>
         </tr>
         <?php
             if ($jumlah_order > 0) :
@@ -187,17 +186,26 @@
 
                     endif;
 
-                    $tglAbsensi = date_format(date_create($d['tanggal']),"d M Y");
+                    $iconEdit = "";
+                    $iconHapus = "";
+
+                    if($aksesEditAbsensi == 'Y') :
+                        $iconEdit = "<span style='padding-right:8px;'><i class='fas fa-pen-square btn' onclick='showForm(\"absensi_individu\",\"Form_Update_Absensi_Individu\",\"$d[id]\",\"lightbox-Small\")'></i></span>";
+                    endif;
+
+                    if($aksesDeleteAbsensi == 'Y') :
+                        $iconHapus = "<span style='padding-right:8px;'><i class='fas fa-trash-alt btn' onclick='showForm(\"absensi_individu\",\"ConfirmBox_Hapus\",\"$d[id]\",\"lightbox-confirmation\")'></i></span>";
+                    endif;
 
                     echo "
                     <tr>
                         <td>$n</td>
                         <td>". ucfirst($d['namaKaryawan']) ."</td>
-                        <td>$tglAbsensi</td>
+                        <td>". format_tanggal($d['tanggal']) ."</td>
                         $tableTR
                         <td>
-                            <span style='padding-right:8px;'><i class='fas fa-pen-square btn' onclick='showForm(\"absensi_individu\",\"Form_Update_Absensi_Individu\",\"$d[id]\",\"lightbox-Small\")'></i></span>
-                            <span style='padding-right:8px;'><i class='fas fa-trash-alt btn' onclick='showForm(\"absensi_individu\",\"ConfirmBox_Hapus\",\"$d[id]\",\"lightbox-confirmation\")'></i></span>
+                            $iconEdit
+                            $iconHapus
                         </td>
                     </tr>
                     ";

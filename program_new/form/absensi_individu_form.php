@@ -204,9 +204,9 @@ $tipe = $_POST['tipe'];
                     <th width="4%"></th>
                 </tr>
                 <tbody id='dynamic-field'>
-                    <tr>
+                    <tr class='row_1'>
                         <td>
-                            <input type='text' data-nomor='1' class='namaKaryawan_1' id='namaKaryawan'>
+                            <input type='text' data-nomor='1' class='namaKaryawan_1' id='namaKaryawan' autocomplete='off'>
                             <div class='autocomplete ac_1'></div>
                             <input type='hidden' data-nomor='1' class='idKaryawan_1' id='idKaryawan' style='width:15%'>
                             <span class='checklist_1'></span>
@@ -215,19 +215,19 @@ $tipe = $_POST['tipe'];
                         <td class='center'><input data-nomor='1' type='time' id='jamSelesai'></td>
                         <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-nomor='1' class='input-checkbox100 permisi' id='permisi 1' type='checkbox' value='permisi'>
+                                <input data-nomor='1' data-input='permisi' class='input-checkbox100 permisi' id='permisi 1' type='checkbox' value='permisi'>
                                 <label class='label-checkbox100' for='permisi 1'></label>
                             </div>
                         </td>
                         <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-nomor='1' class='input-checkbox100 lembur' id='lembur 1' type='checkbox' value='lembur'>
+                                <input data-nomor='1' data-input='lembur' class='input-checkbox100 lembur' id='lembur 1' type='checkbox' value='lembur'>
                                 <label class='label-checkbox100' for='lembur 1'></label>
                             </div>
                         </td>
                         <td class='center'>
                             <div class='form-checkbox'>
-                                <input data-nomor='1' class='input-checkbox100 cuti' id='cuti 1' type='checkbox' value='cuti'>
+                                <input data-nomor='1' data-input='cuti' class='input-checkbox100 cuti' id='cuti 1' type='checkbox' value='cuti'>
                                 <label class='label-checkbox100' for='cuti 1'></label>
                             </div>
                         </td>

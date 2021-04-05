@@ -100,10 +100,10 @@ elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Da
             $result = $conn_OOP->query($cutiSql);
             if ($result->num_rows > 0) :
                 $row = $result->fetch_assoc();
-                $checked[] = "$row[nama] Cuti sudah terdaftar, ";
+                $checked[] = "$row[nama]";
                 $insertAbsensi[] = "";
             else :
-                $checked[] = "";
+                $checked[] = null;
                 $insertAbsensi[] = "
                     (
                         '$uid[$i]',
@@ -123,7 +123,7 @@ elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Da
                 ";
             endif;
         else :
-            $checked[] = "";
+            $checked[] = null;
             $insertAbsensi[] = "
                 (
                     '$uid[$i]',
@@ -143,10 +143,12 @@ elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Da
             ";
         endif;
     }
-    $test = implode(" | ", $checked);
+    $a = array_filter($checked);
+    $test = implode(", ", $a);
+    $test .= ' Cuti sudah terdaftar';
     $New_Insert = implode(',', $insertAbsensi);
 
-    if($_POST['error']=="") {
+    if($_POST['error']=="false") {
         $sql =
             "INSERT INTO absensi 
                 (
@@ -231,16 +233,16 @@ else :
 endif;
 
 $resultChecked = 
-(isset($test)) 
-    ? $test 
-    : "";
+(empty($a)) 
+    ? true
+    : $test;
 
 $resultError = 
-(isset($_POST['error'])) 
-    ? $_POST['error'] 
-    : "";
+(isset($_POST['error']) && $_POST['error'] == 'false') 
+    ? ""
+    : "& $_POST[error]";
 
-if($resultChecked == "" && $resultError == "") {
+if($resultChecked === true && ($resultError === 'false' || $resultError === '')) {
     if ($conn->multi_query($sql) === TRUE) {
         echo "true";
     } else {
@@ -253,8 +255,8 @@ if($resultChecked == "" && $resultError == "") {
 } else {
     echo "
         <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
-        ERROR : $resultChecked $resultError <br>
-        </b>
+        ERROR : $resultChecked $resultError
+        </>
     ";
 }
 

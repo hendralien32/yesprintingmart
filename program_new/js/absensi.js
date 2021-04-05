@@ -146,9 +146,9 @@ function variable(lightbox, id, tipe) {
     const idKaryawan = lightbox.querySelectorAll('#idKaryawan');
     const jamMulai = lightbox.querySelectorAll('#jamMulai');
     const jamSelesai = lightbox.querySelectorAll('#jamSelesai');
-    const permisi = lightbox.querySelectorAll('.permisi');
-    const lembur = lightbox.querySelectorAll('.lembur');
-    const cuti = lightbox.querySelectorAll('.cuti');
+    const permisi = lightbox.querySelectorAll('[data-input~="permisi"]');
+    const lembur = lightbox.querySelectorAll('[data-input~="lembur"]');
+    const cuti = lightbox.querySelectorAll('[data-input~="cuti"]');
     let variable = '';
 
     if (idKaryawan.length > 0) {
@@ -169,11 +169,14 @@ function variable(lightbox, id, tipe) {
           error = `Nama Karyawan Harus diisi`;
         } else if ((valuePermisi[i] == 'Y' || valueLembur[i] == 'Y') && valueIdKaryawan[i] != '' && valueJamMulai[i] == '' && valueJamSelesai[i] == '') {
           error = `Jam Mulai dan Jam Selesai Harus diisi`;
+        } else {
+          error = false;
         }
       }
 
       variable = `tglAbensi=${tglAbsensi}&jamMulai=${valueJamMulai}&jamSelesai=${valueJamSelesai}&permisiCB=${valuePermisi}&lemburCB=${valueLembur}&cutiCB=${valueCuti}&uid=${valueIdKaryawan}&error=${error}&typeProgress=${tipe}`;
     }
+    console.log(variable);
     return variable;
   }
 
@@ -198,6 +201,8 @@ function variable(lightbox, id, tipe) {
       for (let i = 0; i < karyawanUid.length; i++) {
         if (valueScanMasuk[i] == '' && valueScanKeluar[i] == '' && valueAbsensiCB[i] == 'N' && valueCutiCB[i] == 'N') {
           error = `Data Input kosong`;
+        } else {
+          error = false;
         }
       }
 
@@ -251,14 +256,14 @@ function actionChecked(lightbox, tipe) {
         });
       }
     });
-
-    return;
   }
 
   if (tipe == 'Form_Absensi_Individu') {
     addListAbsensi(lightbox);
-    autocomplete(lightbox);
-    return;
+    lightbox.addEventListener('click', function (e) {
+      if (e.target.getAttribute('id') != 'namaKaryawan') return false;
+      autocomplete(e.target.parentNode);
+    });
   }
 
   if (tipe == 'Insert_Absensi') {
@@ -330,10 +335,8 @@ function addListAbsensi(data) {
       'beforeend',
       `<tr class='row_${i}'>
           <td>
-            <input type='text' data-nomor='${i}' class='namaKaryawan_${i}' id='namaKaryawan'>
-            <div class='autocomplete ac_${i}'>
-              
-            </div>
+            <input type='text' data-nomor='${i}' class='namaKaryawan_${i}' id='namaKaryawan' autocomplete='off'>
+            <div class='autocomplete ac_${i}'></div>
             <input type='hidden' data-nomor='${i}' class='idKaryawan_${i}' id='idKaryawan' style='width:15%'>
             <span class='checklist_${i}'></span>
           </td>
@@ -341,19 +344,19 @@ function addListAbsensi(data) {
           <td class='center'><input type='time' data-nomor='${i}' id='jamSelesai'></td>
           <td class='center'>
             <div class='form-checkbox'>
-                <input data-nomor='${i}' class='input-checkbox100' id='permisi ${i}' type='checkbox' value='permisi'>
+                <input data-nomor='${i}' data-input='permisi' class='input-checkbox100' id='permisi ${i}' type='checkbox' value='permisi'>
                 <label class='label-checkbox100' for='permisi ${i}'></label>
             </div>
           </td>
           <td class='center'>
             <div class='form-checkbox'>
-                <input data-nomor='${i}' class='input-checkbox100' id='lembur ${i}' type='checkbox' value='lembur'>
+                <input data-nomor='${i}' data-input='lembur' class='input-checkbox100' id='lembur ${i}' type='checkbox' value='lembur'>
                 <label class='label-checkbox100' for='lembur ${i}'></label>
             </div>
           </td>
           <td class='center'>
             <div class='form-checkbox'>
-                <input data-nomor='${i}' class='input-checkbox100' id='cuti ${i}' type='checkbox' value='cuti'>
+                <input data-nomor='${i}' data-input='cuti' class='input-checkbox100' id='cuti ${i}' type='checkbox' value='cuti'>
                 <label class='label-checkbox100' for='cuti ${i}'></label>
             </div>
           </td>
@@ -405,90 +408,91 @@ function autocomplete(lightbox) {
   const inputNama = lightbox.querySelector('#namaKaryawan');
 
   inputNama.addEventListener('input', async (e) => {
-    if (e.target.getAttribute('id') == 'namaKaryawan') {
-      const data = inputNama.parentNode;
-      currentFocus = 0;
+    const data = inputNama.parentNode;
+    currentFocus = 0;
 
-      const nomor = e.target.dataset.nomor;
-      const inputKaryawan = data.querySelector(`.namaKaryawan_${nomor}`);
-      const inputUid = data.querySelector(`.idKaryawan_${nomor}`);
-      const divAutoComplete = data.querySelector(`.ac_${nomor}`);
-      const checked = data.querySelector(`.checklist_${nomor}`);
+    const nomor = e.target.dataset.nomor;
+    const inputKaryawan = data.querySelector(`.namaKaryawan_${nomor}`);
+    const inputUid = data.querySelector(`.idKaryawan_${nomor}`);
+    const divAutoComplete = data.querySelector(`.ac_${nomor}`);
+    const checked = data.querySelector(`.checklist_${nomor}`);
 
-      const karyawans = await fetch('../program_new/json/json_data.php', {
-        method: 'POST',
-        body: `jenisData=karyawanAbsensi`,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
-        .then((response) => response.json())
-        .then((response) => response);
+    const karyawans = await fetch('../program_new/json/json_data.php', {
+      method: 'POST',
+      body: `jenisData=karyawanAbsensi`,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => response);
 
-      let matches = karyawans.filter((karyawan) => {
-        const regex = new RegExp(`${inputKaryawan.value}`, 'gi');
-        return karyawan.nama.match(regex);
-      });
+    let matches = karyawans.filter((karyawan) => {
+      const regex = new RegExp(`${inputKaryawan.value}`, 'gi');
+      return karyawan.nama.match(regex);
+    });
 
-      if (inputKaryawan.value === '') {
-        matches = [];
-        divAutoComplete.style.display = 'hidden';
-        divAutoComplete.style.border = 'none';
-        divAutoComplete.innerHTML = '';
-        checked.innerHTML = '';
-        inputUid.value = '';
-      }
-
-      if (matches.length > 0) {
-        divAutoComplete.style.display = 'block';
-        divAutoComplete.style.border = '1px solid #dfdfdf';
-        const html = matches
-          .map((match) => {
-            if (match.nama != inputKaryawan.value) {
-              checked.innerHTML = '';
-              inputUid.value = '';
-            }
-            return `<div class='item'>${match.nama} <input type='hidden' id='uidKaryawan' value='${match.nama}|${match.uid}|${nomor}'></div>`;
-          })
-          .join('');
-        divAutoComplete.innerHTML = html;
-        const item = divAutoComplete.querySelectorAll('.item');
-        addActive(item);
-      } else {
-        divAutoComplete.style.display = 'hidden';
-        divAutoComplete.style.border = 'none';
-        divAutoComplete.innerHTML = '';
-        checked.innerHTML = '';
-        inputUid.value = '';
-      }
+    if (inputKaryawan.value === '') {
+      matches = [];
+      divAutoComplete.style.display = 'hidden';
+      divAutoComplete.style.border = 'none';
+      divAutoComplete.innerHTML = '';
+      checked.innerHTML = '';
+      inputUid.value = '';
     }
-  });
 
-  inputNama.addEventListener('click', (e) => {
-    const grandParent = e.target.parentNode;
-
-    if (e.target.classList.contains('item')) {
-      const doc2 = a.querySelector('#uidKaryawan');
-      selectList(grandParent, doc2);
+    if (matches.length > 0) {
+      divAutoComplete.style.display = 'block';
+      divAutoComplete.style.border = '1px solid #dfdfdf';
+      let i = 1;
+      const html = matches
+        .map((match) => {
+          if (match.nama != inputKaryawan.value) {
+            checked.innerHTML = '';
+            inputUid.value = '';
+          }
+          return `<div class='item'>${match.nama} <input type='hidden' id='uidKaryawan ${i++}' value='${match.nama}|${match.uid}|${nomor}'></div>`;
+        })
+        .join('');
+      divAutoComplete.innerHTML = html;
+      const item = divAutoComplete.querySelectorAll('.item');
+      addActive(item);
+    } else {
+      divAutoComplete.style.display = 'hidden';
+      divAutoComplete.style.border = 'none';
+      divAutoComplete.innerHTML = '';
+      checked.innerHTML = '';
+      inputUid.value = '';
+      currentFocus = 0;
     }
   });
 
   inputNama.parentNode.addEventListener('click', (e) => {
-    // menghilangkan isi list autocomplete saat kita click diluar list Item
-    if (e.target.classList.contains('item') === false) {
-      const listAutocomplete = document.querySelector('.autocomplete');
-      if (listAutocomplete === null) return;
-      listAutocomplete.innerHTML = '';
-      listAutocomplete.style.display = 'hidden';
-      listAutocomplete.style.border = 'none';
+    const a = e.target.parentNode.parentNode;
+
+    if (e.target.classList.contains('item')) {
+      const ValueInput = a.querySelector('input[type=hidden]').value;
+      selectList(a, ValueInput);
     }
   });
 
-  inputNama.addEventListener('mouseover', function (e) {
+  document.addEventListener('click', (e) => {
+    // menghilangkan isi list autocomplete saat kita click diluar list Item
+    if (e.target.classList.contains('item') === false) {
+      const listAutocomplete = document.querySelector('.autocomplete');
+      if (listAutocomplete === null) return false;
+      listAutocomplete.innerHTML = '';
+      listAutocomplete.style.display = 'hidden';
+      listAutocomplete.style.border = 'none';
+      currentFocus = 0;
+    }
+  });
+
+  inputNama.parentNode.addEventListener('mouseover', function (e) {
     // untuk menghilangkan Class Active di Item saat hover
     const target = e.target.classList.contains('item');
     if (target === true) {
-      const item = data.querySelectorAll('.item');
+      const item = document.querySelectorAll('.item');
       removeActive(item);
     }
   });
@@ -507,8 +511,8 @@ function autocomplete(lightbox) {
       addActive(item);
     } else if (e.keyCode == 13 || e.keyCode == 9) {
       // ketika Tekan Tombol Enter & Tab
-      const doc = item[currentFocus].querySelector('#uidKaryawan').parentNode.parentNode.parentNode;
-      const doc2 = item[currentFocus].querySelector('#uidKaryawan');
+      const doc = item[currentFocus].querySelector('input[type=hidden]').parentNode.parentNode.parentNode;
+      const doc2 = item[currentFocus].querySelector('input[type=hidden]').value;
       selectList(doc, doc2);
     }
   });
@@ -531,10 +535,11 @@ function closeAllList(grandParent, nilai_row) {
   divAutoComplete.innerHTML = '';
   divAutoComplete.style.display = 'hidden';
   divAutoComplete.style.border = 'none';
+  currentFocus = 0;
 }
 
 function selectList(a, b) {
-  const data = b.value.split('|');
+  const data = b.split('|');
   const valueInput = data[0];
   const uidInput = data[1];
   const nilai_row = data[2];

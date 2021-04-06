@@ -408,7 +408,7 @@ $tipe = $_POST['tipe'];
     <div class='content'>
         <div class='Title-Content'>
             <i class="fas fa-calendar-day"></i>
-            <p><?php echo format_hari_tanggal($date) ?></p>
+            <p><?= format_hari_tanggal($date) ?></p>
         </div>
         <div class='Text-Content'>
             <table>

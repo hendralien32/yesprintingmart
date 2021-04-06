@@ -238,11 +238,14 @@ $resultChecked =
     : $test;
 
 $resultError = 
-(isset($_POST['error']) && $_POST['error'] == 'false') 
+isset($_POST['error'])
     ? ""
-    : "& $_POST[error]";
+    : (isset($_POST['error']) && ($_POST['error'] == 'false')
+        ? "& $_POST[error]"
+        : ""
+    );
 
-if($resultChecked === true && ($resultError === 'false' || $resultError === '')) {
+if($resultChecked === true && $resultError === '') {
     if ($conn->multi_query($sql) === TRUE) {
         echo "true";
     } else {

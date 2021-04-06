@@ -392,7 +392,8 @@ $tipe = $_POST['tipe'];
                 absensi.absen = 'Y' || 
                 absensi.hadir = 'Y' || 
                 TIME_TO_SEC(TIMEDIFF(absensi.scan_masuk, user.jam_masuk)) > 0 
-            )
+            ) and
+            absensi.hapus != 'Y'
     ";
 
     $result = $conn_OOP->query($sql);

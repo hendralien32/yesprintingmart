@@ -1,5 +1,4 @@
 <?php
-session_start();
 date_default_timezone_set('Asia/Jakarta');
 $conn = mysqli_connect("localhost", "root", "", "new_ypm") or die();
 $conn_OOP = new mysqli("localhost", "root", "", "new_ypm");

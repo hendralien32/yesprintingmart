@@ -1,5 +1,5 @@
 <?php
-require_once '../function.php';
+require_once '../function_new.php';
 
 $days = cal_days_in_month(CAL_GREGORIAN, substr($months,5,2), substr($months,0,4));
 ?>

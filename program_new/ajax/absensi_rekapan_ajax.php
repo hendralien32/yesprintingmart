@@ -1,5 +1,5 @@
 <?php
-require_once '../../function.php';
+require_once '../../function_new.php';
 $n = 0;
 
 $bulanDari = $_POST['blnDari'];

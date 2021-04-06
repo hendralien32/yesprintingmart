@@ -1,5 +1,5 @@
 <?php
-require_once "../../function.php";
+require_once "../../function_new.php";
 
 $tanggal = $_POST['tanggal'];
 $bulan = substr($tanggal,0,7);

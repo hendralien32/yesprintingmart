@@ -1,5 +1,5 @@
 <?php
-require_once "../../function.php";
+require_once "../../function_new.php";
 
 if (!isset($_SESSION["login"])) {
     die("Error");

@@ -1,6 +1,5 @@
 <?php
-require 'function.php';
-
+require 'function_new.php';
 
 if (isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
     $id = $_COOKIE['id'];
@@ -30,36 +29,59 @@ if (isset($_POST["login"])) {
     $password     = md5("pmart" . "$vpass");
 
     $result = mysqli_query($conn, 
-        "SELECT 
-            pm_user.username, 
-            pm_user.password, 
-            pm_user.uid, 
-            pm_user.level,
-            akses.absensi,
-            akses.aksesDb,
-            akses.SalesOrder,
-            akses.salesOrderYescom,
-            akses.largeFormat,
-            akses.digitalPrinting,
-            akses.laporan,
-            akses.aksesAdd,
-            akses.aksesEdit,
-            akses.aksesDelete
+        "SELECT
+            pm_user.uid,
+            pm_user.nama,
+            pm_user.username,
+            pm_user.password,
+            GROUP_CONCAT(database_accessrole.page_type) as page_type,
+            GROUP_CONCAT(database_accessrole.page_name SEPARATOR '|') as page_name,
+            GROUP_CONCAT(database_accessrole.access_page SEPARATOR '|') as access_page,
+            GROUP_CONCAT(database_accessrole.access_add SEPARATOR '|') as access_add,
+            GROUP_CONCAT(database_accessrole.access_edit SEPARATOR '|') as access_edit,
+            GROUP_CONCAT(database_accessrole.access_delete SEPARATOR '|') as access_delete,
+            GROUP_CONCAT(database_accessrole.access_download SEPARATOR '|') as access_download,
+            GROUP_CONCAT(database_accessrole.access_imagePreview SEPARATOR '|') as access_imagePreview
         FROM 
-            pm_user 
+            pm_user
         LEFT JOIN
-            (SELECT
-                akses.*
+            ( SELECT
+                database_page.page_type,
+                GROUP_CONCAT(database_page.page_name) as page_name,
+                GROUP_CONCAT(database_accessrole.access_page) as access_page,
+                GROUP_CONCAT(database_accessrole.access_add) as access_add,
+                GROUP_CONCAT(database_accessrole.access_edit) as access_edit,
+                GROUP_CONCAT(database_accessrole.access_delete) as access_delete,
+                GROUP_CONCAT(database_accessrole.access_download) as access_download,
+                GROUP_CONCAT(database_accessrole.access_imagePreview) as access_imagePreview,
+                database_accessrole.user_id
             FROM
-                akses
-            WHERE
-                akses.hapus != 'Y'
-            ) akses
+                database_accessrole
+            LEFT JOIN
+                (SELECT
+                    database_page.page_id,
+                    database_page.page_name,
+                    database_page.page_type,
+                    database_page.page_delete
+                FROM
+                    database_page
+                WHERE
+                    database_page.page_delete = 'N'
+                ORDER BY
+                    database_page.page_name
+                ) as database_page
+            ON
+                database_accessrole.page_id = database_page.page_id
+            GROUP BY
+            database_page.page_type
+            ) as database_accessrole
         ON
-            pm_user.aksesID = akses.aksesID
-        WHERE 
+            pm_user.uid = database_accessrole.user_id
+        WHERE
             (pm_user.username='$username' || pm_user.uid='$username') and
-            pm_user.status='a'
+            pm_user.status = 'a'
+        GROUP BY
+            pm_user.uid
     ");
 
     //check user
@@ -71,17 +93,15 @@ if (isset($_POST["login"])) {
             $_SESSION["login"]                  = true;
             $_SESSION["uid"]                    = $row["uid"];
             $_SESSION["username"]               = $row["username"];
-            $_SESSION["level"]                  = $row["level"];
-            $_SESSION["aksesAbsensi"]           = $row["absensi"];
-            $_SESSION["aksesDb"]                = $row["aksesDb"];
-            $_SESSION["aksesSalesOrder"]        = $row["SalesOrder"];
-            $_SESSION["aksesSalesOrderYescom"]  = $row["salesOrderYescom"];
-            $_SESSION["aksesLF"]                = $row["largeFormat"];
-            $_SESSION["aksesDP"]                = $row["digitalPrinting"];
-            $_SESSION["aksesLaporan"]           = $row["laporan"];
-            $_SESSION["aksesAdd"]               = $row["aksesAdd"];
-            $_SESSION["aksesEdit"]              = $row["aksesEdit"];
-            $_SESSION["aksesDelete"]            = $row["aksesDelete"];
+
+            $_SESSION["page_type"]              = $row["page_type"];
+            $_SESSION["page_name"]              = $row["page_name"];
+            $_SESSION["access_page"]            = $row["access_page"];
+            $_SESSION["access_add"]             = $row["access_add"];
+            $_SESSION["access_edit"]            = $row["access_edit"];
+            $_SESSION["access_delete"]          = $row["access_delete"];
+            $_SESSION["access_download"]        = $row["access_download"];
+            $_SESSION["access_imagePreview"]    = $row["access_imagePreview"];
 
             //check remember me
             if (isset($_POST['remember'])) {
@@ -101,7 +121,7 @@ if (isset($_POST["login"])) {
 <html>
 
 <head>
-    <title>YES 5.1</title>
+    <title>YES 5.2</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/login_css.css">

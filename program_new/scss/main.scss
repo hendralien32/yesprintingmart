@@ -65,6 +65,7 @@ body {
 
     .lightbox-confirmation {
       width: 30%;
+      max-height: 100%;
       position: fixed;
       z-index: 3;
       background: $whiteColor;
@@ -155,6 +156,7 @@ body {
           flex-direction: row;
           justify-content: space-around;
           margin: 13px auto 18px auto;
+          user-select: none;
 
           .no-btn {
             display: inline-block;
@@ -194,15 +196,16 @@ body {
     }
 
     .lightbox-Small {
-      z-index: 2;
       width: 50%;
       height: 48%;
+      max-height: 100%;
       position: fixed;
-      margin: 15% 24%;
+      z-index: 3;
       background: $whiteColor;
       color: $mainColor;
       overflow: auto;
       border-radius: 5px;
+      margin-top: 100vh;
 
       .lineBlack {
         width: 100%;
@@ -342,6 +345,7 @@ body {
           flex-direction: row;
           justify-content: space-around;
           margin: 13px auto 18px auto;
+          user-select: none;
 
           .no-btn {
             display: inline-block;
@@ -381,15 +385,16 @@ body {
     }
 
     .lightbox-medium {
-      z-index: 2;
       width: 80%;
       height: 80%;
+      max-height: 100%;
       position: fixed;
-      margin: 5% 10%;
+      z-index: 3;
       background: $whiteColor;
       color: $mainColor;
       overflow: auto;
       border-radius: 5px;
+      margin-top: 100vh;
 
       .lineBlack {
         width: 100%;
@@ -650,6 +655,7 @@ body {
           flex-direction: row;
           justify-content: space-around;
           margin: 13px auto 18px auto;
+          user-select: none;
 
           .no-btn {
             display: inline-block;
@@ -689,15 +695,16 @@ body {
     }
 
     .lightbox-large {
-      z-index: 2;
       width: 90%;
-      height: 95%;
+      height: 100%;
+      max-height: 100%;
       position: fixed;
-      margin: 1.25% 5%;
+      z-index: 3;
       background: $whiteColor;
       color: $mainColor;
       overflow: auto;
       border-radius: 5px;
+      margin-top: 100vh;
 
       .lineBlack {
         width: 100%;
@@ -957,6 +964,7 @@ body {
           flex-direction: row;
           justify-content: space-around;
           margin: 13px auto 18px auto;
+          user-select: none;
 
           .no-btn {
             display: inline-block;
@@ -1224,6 +1232,7 @@ body {
             color: $whiteColor;
             margin-left: 1.2rem;
             border-radius: 8px;
+            user-select: none;
 
             &:hover {
               background-color: $secondaryColor;

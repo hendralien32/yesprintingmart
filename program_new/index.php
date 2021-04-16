@@ -6,7 +6,40 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
+$page_type = $_SESSION["page_type"];
+$page_name = $_SESSION["page_name"];
+$access_page = $_SESSION["access_page"];
+$access_add = $_SESSION["access_add"];
+$access_edit = $_SESSION["access_edit"];
+$access_delete = $_SESSION["access_delete"];
+$access_download = $_SESSION["access_download"];
+$access_imagePreview = $_SESSION["access_imagePreview"];
+
+// echo "
+// page_type = $page_type<br>
+// page_name = $page_name<br>
+// access_page = $access_page<br>
+// access_add = $access_add<br>
+// access_edit = $access_edit<br>
+// access_delete = $access_delete<br>
+// access_download = $access_download<br>
+// access_imagePreview = $access_imagePreview <br><br><br>
+// ";
+
+$page = explode("," , $page_type);
+$pageName = explode("|" , $page_name);
+
+// Access Role User Account
+$pageAccess = explode("|" , $access_page);
+$addAccess = explode("|" , $access_add);
+$editAccess = explode("|" , $access_edit);
+$deleteAccess = explode("|" , $access_delete);
+$downloadAccess = explode("|" , $access_download);
+$imagePreviewAccess = explode("|" , $access_imagePreview);
+
+// printf()
 ?>
+                
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,118 +104,40 @@ if (!isset($_SESSION["login"])) {
                         <div class='icon_menu'>Dashboard</div>
                     </li>
                 </a>
-                <?php if($absensi[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-fingerprint"></i></div>
-                    <div class='icon_menu'>Absensi</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($absensi); $i++) {
-                                if($absensi[$i] === "Y") {
-                                    echo "<a href='?page=$listAbsensi[$i]'><li>$listAbsensi[$i]</li></a>";
+                <?php
+                    for ($x = 0; $x < count($page); $x++) {
+                        $listPageName = explode("," , $pageName[$x]);
+                        $listPageAccess = explode("," , $pageAccess[$x]);
+                    
+                        $listAddAccess = explode("," , $addAccess[$x]);
+                        $listEditAccess = explode("," , $editAccess[$x]);
+                        $listDeleteAccess = explode("," , $deleteAccess[$x]);
+                        $listDownloadAccess = explode("," , $downloadAccess[$x]);
+                        $listImagePreviewAccess = explode("," , $imagePreviewAccess[$x]);
+                    
+                        $menuAccess = in_array("Y", $listPageAccess);
+                    
+                        if($menuAccess == 1) {
+                            echo "
+                                <li>
+                                    <div class='icon_menu'><i class='fas fa-fingerprint'></i></div>
+                                    <div class='icon_menu'>$page[$x]</div>
+                                    <div class='icon_menu'><i class='far fa-chevron-down'></i></div>
+                            ";
+                            
+                            echo "<ul>";
+                            for ($i = 0; $i < count($listPageName); $i++) {
+                                if($listPageAccess[$i] == "Y") {
+                                    echo "<a href='?page=$listPageName[$i]'><li>$listPageName[$i]</li></a>";
                                 }
                             }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
-                <?php if($database[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-database"></i></div>
-                    <div class='icon_menu'>Database</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($database); $i++) {
-                                if($database[$i] === "Y") {
-                                    echo "<a href='?page=$listDb[$i]'><li>$listDb[$i]</li></a>";
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
-                <?php if($SalesOrder[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>Penjualan</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($SalesOrder); $i++) {
-                                if($SalesOrder[$i] === "Y") {
-                                    echo "<li>$listSalesOrder[$i]</li>";
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
-                <?php if($salesOrderYescom[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>Penjualan Yescom</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($salesOrderYescom); $i++) {
-                                if($salesOrderYescom[$i] === "Y") {
-                                    echo "<li>$listSalesOrderYescom[$i] Yescom</li>";
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
-                <?php if($largeFormat[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>LargeFormat</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($largeFormat); $i++) {
-                                if($largeFormat[$i] === "Y") {
-                                    echo "<li>$listlargeFormat[$i]</li>";
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
-                <?php if($digitalPrinting[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>Digital</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($digitalPrinting); $i++) {
-                                if($digitalPrinting[$i] === "Y") {
-                                    echo "<li>$listdigitalPrinting[$i]</li>";
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
-                <?php if($laporan[0] == 'Y') : ?>
-                <li>
-                    <div class='icon_menu'><i class="fas fa-shopping-cart"></i></div>
-                    <div class='icon_menu'>Laporan</div>
-                    <div class='icon_menu'><i class="far fa-chevron-down"></i></div>
-                    <ul>
-                        <?php
-                            for ($i = 1; $i < count($laporan); $i++) {
-                                if($laporan[$i] === "Y") {
-                                    echo "<li>Laporan $listlaporan[$i]</li>";
-                                }
-                            }
-                        ?>
-                    </ul>
-                </li>
-                <?php endif ?>
+                            echo "
+                                </ul>
+                                </li>
+                            ";
+                        }
+                    }
+                ?>
                 <li>
                     <div class='icon_menu'><i class="fas fa-info-square"></i></div>
                     <div class='icon_menu'>FAQs</div>

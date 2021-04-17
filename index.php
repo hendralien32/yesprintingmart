@@ -36,10 +36,12 @@ if (isset($_POST["login"])) {
             pm_user.password,
             pm_user.level,
             GROUP_CONCAT(database_accessrole.page_type) as page_type,
+            GROUP_CONCAT(database_accessrole.page_id SEPARATOR '|') as page_id,
             GROUP_CONCAT(database_accessrole.page_name SEPARATOR '|') as page_name,
             GROUP_CONCAT(database_accessrole.access_page SEPARATOR '|') as access_page,
             GROUP_CONCAT(database_accessrole.access_add SEPARATOR '|') as access_add,
             GROUP_CONCAT(database_accessrole.access_edit SEPARATOR '|') as access_edit,
+            GROUP_CONCAT(database_accessrole.access_log SEPARATOR '|') as access_log,
             GROUP_CONCAT(database_accessrole.access_delete SEPARATOR '|') as access_delete,
             GROUP_CONCAT(database_accessrole.access_download SEPARATOR '|') as access_download,
             GROUP_CONCAT(database_accessrole.access_imagePreview SEPARATOR '|') as access_imagePreview
@@ -48,11 +50,13 @@ if (isset($_POST["login"])) {
         LEFT JOIN
             ( SELECT
                 database_page.page_type,
+                GROUP_CONCAT(database_page.page_id) as page_id,
                 GROUP_CONCAT(database_page.page_name) as page_name,
                 GROUP_CONCAT(database_accessrole.access_page) as access_page,
                 GROUP_CONCAT(database_accessrole.access_add) as access_add,
                 GROUP_CONCAT(database_accessrole.access_edit) as access_edit,
                 GROUP_CONCAT(database_accessrole.access_delete) as access_delete,
+                GROUP_CONCAT(database_accessrole.access_log) as access_log,
                 GROUP_CONCAT(database_accessrole.access_download) as access_download,
                 GROUP_CONCAT(database_accessrole.access_imagePreview) as access_imagePreview,
                 database_accessrole.user_id
@@ -97,10 +101,12 @@ if (isset($_POST["login"])) {
             $_SESSION["level"]                  = $row["level"];
 
             $_SESSION["page_type"]              = $row["page_type"];
+            $_SESSION["page_id"]                = $row["page_id"];
             $_SESSION["page_name"]              = $row["page_name"];
             $_SESSION["access_page"]            = $row["access_page"];
             $_SESSION["access_add"]             = $row["access_add"];
             $_SESSION["access_edit"]            = $row["access_edit"];
+            $_SESSION["access_log"]             = $row["access_log"];
             $_SESSION["access_delete"]          = $row["access_delete"];
             $_SESSION["access_download"]        = $row["access_download"];
             $_SESSION["access_imagePreview"]    = $row["access_imagePreview"];

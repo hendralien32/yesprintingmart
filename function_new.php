@@ -17,15 +17,18 @@ $months = date('Y-m');
 
 if(isset($_SESSION["login"])) :
     $page_type = $_SESSION["page_type"];
+    $page_id = $_SESSION["page_id"];
     $page_name = $_SESSION["page_name"];
     $access_page = $_SESSION["access_page"];
     $access_add = $_SESSION["access_add"];
     $access_edit = $_SESSION["access_edit"];
     $access_delete = $_SESSION["access_delete"];
+    $access_log = $_SESSION["access_log"];
     $access_download = $_SESSION["access_download"];
     $access_imagePreview = $_SESSION["access_imagePreview"];
 
     $page = explode("," , $page_type);
+    $pageId = explode("|" , $page_id);
     $pageName = explode("|" , $page_name);
 
     // Access Role User Account
@@ -33,16 +36,21 @@ if(isset($_SESSION["login"])) :
     $addAccess = explode("|" , $access_add);
     $editAccess = explode("|" , $access_edit);
     $deleteAccess = explode("|" , $access_delete);
+    $logAccess = explode("|" , $access_log);
     $downloadAccess = explode("|" , $access_download);
     $imagePreviewAccess = explode("|" , $access_imagePreview);
 
-    for ($x = 0; $x < count($page); $x++) {
+    $countRow = count($page);
+
+    for ($x = 0; $x < $countRow; $x++) {
+        $listPageId = explode("," , $pageId[$x]);
         $listPageName = explode("," , $pageName[$x]);
         $listPageAccess = explode("," , $pageAccess[$x]);
 
         $listAddAccess = explode("," , $addAccess[$x]);
         $listEditAccess = explode("," , $editAccess[$x]);
         $listDeleteAccess = explode("," , $deleteAccess[$x]);
+        $listLogAccess = explode("," , $logAccess[$x]);
         $listDownloadAccess = explode("," , $downloadAccess[$x]);
         $listImagePreviewAccess = explode("," , $imagePreviewAccess[$x]);
 
@@ -52,6 +60,7 @@ if(isset($_SESSION["login"])) :
                 ${'add_'.$namePageName} = $listAddAccess[$i];
                 ${'edit_'.$namePageName} = $listEditAccess[$i];
                 ${'delete_'.$namePageName} = $listDeleteAccess[$i];
+                ${'log_'.$namePageName} = $listLogAccess[$i];
                 ${'download_'.$namePageName} = $listDownloadAccess[$i];
                 ${'imagePreview_'.$namePageName} = $listImagePreviewAccess[$i];
             }

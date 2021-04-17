@@ -292,19 +292,21 @@ body {
                       display: inline-block;
                       position: relative;
                       padding-left: 26px;
+                      text-align: center;
+                      vertical-align: middle;
                       @include pointer(pointer);
 
                       &::before {
                         content: '\f00c';
                         font-family: 'Font Awesome 5 Pro';
-                        font-size: 13px;
+                        font-size: 12px;
                         color: transparent;
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         position: absolute;
-                        width: 1.3em;
-                        height: 1.3em;
+                        width: 17px;
+                        height: 17px;
                         border-radius: 2px;
                         background: $whiteColor;
                         border: 1px solid $borderColor;
@@ -479,19 +481,21 @@ body {
                       display: inline-block;
                       position: relative;
                       padding-left: 26px;
+                      text-align: center;
+                      vertical-align: middle;
                       @include pointer(pointer);
 
                       &::before {
                         content: '\f00c';
                         font-family: 'Font Awesome 5 Pro';
-                        font-size: 13px;
+                        font-size: 12px;
                         color: transparent;
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         position: absolute;
-                        width: 1.3em;
-                        height: 1.3em;
+                        width: 17px;
+                        height: 17px;
                         border-radius: 2px;
                         background: $whiteColor;
                         border: 1px solid $borderColor;
@@ -852,7 +856,7 @@ body {
               td {
                 border-bottom: 1px solid $borderColor;
                 color: $mainColor;
-                padding: 0.5em 0.4em 0.5em 1.2em;
+                padding: 0.8em 0.4em 0.8em 1.2em;
 
                 &.center {
                   text-align: center;
@@ -885,19 +889,21 @@ body {
                     display: inline-block;
                     position: relative;
                     padding-left: 26px;
+                    text-align: center;
+                    vertical-align: middle;
                     @include pointer(pointer);
 
                     &::before {
                       content: '\f00c';
                       font-family: 'Font Awesome 5 Pro';
-                      font-size: 13px;
+                      font-size: 12px;
                       color: transparent;
                       display: flex;
                       justify-content: center;
                       align-items: center;
                       position: absolute;
-                      width: 1.3em;
-                      height: 1.3em;
+                      width: 17px;
+                      height: 17px;
                       border-radius: 2px;
                       background: $whiteColor;
                       border: 1px solid $borderColor;
@@ -1361,7 +1367,6 @@ body {
       .lightbox-Small {
         width: 90%;
         height: 50%;
-        margin: 31% 5%;
       }
 
       .lightbox-confirmation {
@@ -1397,7 +1402,6 @@ body {
       .lightbox-Small {
         width: 90%;
         height: 55%;
-        margin: 26% 5%;
       }
       .lightbox-confirmation {
         width: 50%;

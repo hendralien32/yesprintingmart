@@ -339,6 +339,8 @@ body {
   display: inline-block;
   position: relative;
   padding-left: 26px;
+  text-align: center;
+  vertical-align: middle;
   cursor: pointer;
 }
 
@@ -346,7 +348,7 @@ body {
 .wrapper .lightbox .lightbox-Small .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
   content: '\f00c';
   font-family: 'Font Awesome 5 Pro';
-  font-size: 13px;
+  font-size: 12px;
   color: transparent;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -358,8 +360,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
   position: absolute;
-  width: 1.3em;
-  height: 1.3em;
+  width: 17px;
+  height: 17px;
   border-radius: 2px;
   background: #fff;
   border: 1px solid #dfdfdf;
@@ -574,6 +576,8 @@ body {
   display: inline-block;
   position: relative;
   padding-left: 26px;
+  text-align: center;
+  vertical-align: middle;
   cursor: pointer;
 }
 
@@ -581,7 +585,7 @@ body {
 .wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td .form-checkbox .label-checkbox100::before {
   content: '\f00c';
   font-family: 'Font Awesome 5 Pro';
-  font-size: 13px;
+  font-size: 12px;
   color: transparent;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -593,8 +597,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
   position: absolute;
-  width: 1.3em;
-  height: 1.3em;
+  width: 17px;
+  height: 17px;
   border-radius: 2px;
   background: #fff;
   border: 1px solid #dfdfdf;
@@ -1015,7 +1019,7 @@ body {
 .wrapper .lightbox .lightbox-large .content .Table-Content table tr td {
   border-bottom: 1px solid #dfdfdf;
   color: #3c4854;
-  padding: 0.5em 0.4em 0.5em 1.2em;
+  padding: 0.8em 0.4em 0.8em 1.2em;
 }
 
 .wrapper .lightbox .lightbox-large .content .Table-Content table tr td.center {
@@ -1050,13 +1054,15 @@ body {
   display: inline-block;
   position: relative;
   padding-left: 26px;
+  text-align: center;
+  vertical-align: middle;
   cursor: pointer;
 }
 
 .wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .label-checkbox100::before {
   content: '\f00c';
   font-family: 'Font Awesome 5 Pro';
-  font-size: 13px;
+  font-size: 12px;
   color: transparent;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1068,8 +1074,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
   position: absolute;
-  width: 1.3em;
-  height: 1.3em;
+  width: 17px;
+  height: 17px;
   border-radius: 2px;
   background: #fff;
   border: 1px solid #dfdfdf;
@@ -1590,7 +1596,6 @@ body {
   .wrapper .lightbox .lightbox-Small {
     width: 90%;
     height: 50%;
-    margin: 31% 5%;
   }
   .wrapper .lightbox .lightbox-confirmation {
     width: 50%;
@@ -1612,7 +1617,6 @@ body {
   .wrapper .lightbox .lightbox-Small {
     width: 90%;
     height: 55%;
-    margin: 26% 5%;
   }
   .wrapper .lightbox .lightbox-confirmation {
     width: 50%;

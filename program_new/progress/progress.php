@@ -10,6 +10,8 @@ $uniqueID = uniqid();
 $typeProgress = !empty($_POST['typeProgress']) ? $_POST['typeProgress'] : '';
 
 if($typeProgress == "Insert_Absensi") : // Absensi Insert Data
+    ($add_Absensi_Harian == 'N') ? die("error") : true;
+
     $jumlahArray = count(explode(",", "$_POST[uid]"));
     $uid = explode (",", "$_POST[uid]" );
     $scanMasuk = explode (",", "$_POST[scanMasuk]" );
@@ -56,6 +58,8 @@ if($typeProgress == "Insert_Absensi") : // Absensi Insert Data
     ";
 
 elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Data Individu
+    ($add_Absensi_Harian == 'N') ? die("error") : true;
+
     $jumlahArray = count(explode(",", "$_POST[uid]"));
     $uid = explode (",", "$_POST[uid]" );
     $jamMulai = explode (",", "$_POST[jamMulai]" );
@@ -172,6 +176,7 @@ elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Da
     }
 
 elseif($typeProgress == "ConfirmBox_Hapus") : // Absensi Delete Data
+    ($delete_Absensi_Harian == 'N') ? die("error") : true;
     $sql =
         "UPDATE
             absensi
@@ -181,6 +186,8 @@ elseif($typeProgress == "ConfirmBox_Hapus") : // Absensi Delete Data
             absensiID = $_POST[idAbsensi];
     ";
 elseif($typeProgress == "Form_Update_Absensi_Individu") : // Absensi Update Data Individu
+    ($edit_Absensi_Harian == 'N') ? die("error") : true;
+
     $jam_mulai = $_POST['jam_mulai'];
     $jam_selesai = $_POST['jam_selesai'];
     $absen = $_POST['absen'];

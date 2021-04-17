@@ -34,6 +34,7 @@ if (isset($_POST["login"])) {
             pm_user.nama,
             pm_user.username,
             pm_user.password,
+            pm_user.level,
             GROUP_CONCAT(database_accessrole.page_type) as page_type,
             GROUP_CONCAT(database_accessrole.page_name SEPARATOR '|') as page_name,
             GROUP_CONCAT(database_accessrole.access_page SEPARATOR '|') as access_page,
@@ -93,6 +94,7 @@ if (isset($_POST["login"])) {
             $_SESSION["login"]                  = true;
             $_SESSION["uid"]                    = $row["uid"];
             $_SESSION["username"]               = $row["username"];
+            $_SESSION["level"]                  = $row["level"];
 
             $_SESSION["page_type"]              = $row["page_type"];
             $_SESSION["page_name"]              = $row["page_name"];

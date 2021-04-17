@@ -15,6 +15,50 @@ if ($conn_OOP->connect_error) {
 $date   = date('Y-m-d');
 $months = date('Y-m');
 
+if(isset($_SESSION["login"])) :
+    $page_type = $_SESSION["page_type"];
+    $page_name = $_SESSION["page_name"];
+    $access_page = $_SESSION["access_page"];
+    $access_add = $_SESSION["access_add"];
+    $access_edit = $_SESSION["access_edit"];
+    $access_delete = $_SESSION["access_delete"];
+    $access_download = $_SESSION["access_download"];
+    $access_imagePreview = $_SESSION["access_imagePreview"];
+
+    $page = explode("," , $page_type);
+    $pageName = explode("|" , $page_name);
+
+    // Access Role User Account
+    $pageAccess = explode("|" , $access_page);
+    $addAccess = explode("|" , $access_add);
+    $editAccess = explode("|" , $access_edit);
+    $deleteAccess = explode("|" , $access_delete);
+    $downloadAccess = explode("|" , $access_download);
+    $imagePreviewAccess = explode("|" , $access_imagePreview);
+
+    for ($x = 0; $x < count($page); $x++) {
+        $listPageName = explode("," , $pageName[$x]);
+        $listPageAccess = explode("," , $pageAccess[$x]);
+
+        $listAddAccess = explode("," , $addAccess[$x]);
+        $listEditAccess = explode("," , $editAccess[$x]);
+        $listDeleteAccess = explode("," , $deleteAccess[$x]);
+        $listDownloadAccess = explode("," , $downloadAccess[$x]);
+        $listImagePreviewAccess = explode("," , $imagePreviewAccess[$x]);
+
+        for ($i = 0; $i < count($listPageName); $i++) {
+            if($listPageAccess[$i] == "Y") {
+                $namePageName = str_replace(" ", "_", $listPageName[$i]);
+                ${'add_'.$namePageName} = $listAddAccess[$i];
+                ${'edit_'.$namePageName} = $listEditAccess[$i];
+                ${'delete_'.$namePageName} = $listDeleteAccess[$i];
+                ${'download_'.$namePageName} = $listDownloadAccess[$i];
+                ${'imagePreview_'.$namePageName} = $listImagePreviewAccess[$i];
+            }
+        }
+    }
+endif;
+
 function format_hari_tanggal($waktu) {
     $hari_array = array(
         'Minggu',

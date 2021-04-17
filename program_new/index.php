@@ -5,39 +5,6 @@ if (!isset($_SESSION["login"])) {
     header("Location: ../", true, 301);
     exit;
 }
-
-$page_type = $_SESSION["page_type"];
-$page_name = $_SESSION["page_name"];
-$access_page = $_SESSION["access_page"];
-$access_add = $_SESSION["access_add"];
-$access_edit = $_SESSION["access_edit"];
-$access_delete = $_SESSION["access_delete"];
-$access_download = $_SESSION["access_download"];
-$access_imagePreview = $_SESSION["access_imagePreview"];
-
-// echo "
-// page_type = $page_type<br>
-// page_name = $page_name<br>
-// access_page = $access_page<br>
-// access_add = $access_add<br>
-// access_edit = $access_edit<br>
-// access_delete = $access_delete<br>
-// access_download = $access_download<br>
-// access_imagePreview = $access_imagePreview <br><br><br>
-// ";
-
-$page = explode("," , $page_type);
-$pageName = explode("|" , $page_name);
-
-// Access Role User Account
-$pageAccess = explode("|" , $access_page);
-$addAccess = explode("|" , $access_add);
-$editAccess = explode("|" , $access_edit);
-$deleteAccess = explode("|" , $access_delete);
-$downloadAccess = explode("|" , $access_download);
-$imagePreviewAccess = explode("|" , $access_imagePreview);
-
-// printf()
 ?>
                 
 
@@ -108,13 +75,6 @@ $imagePreviewAccess = explode("|" , $access_imagePreview);
                     for ($x = 0; $x < count($page); $x++) {
                         $listPageName = explode("," , $pageName[$x]);
                         $listPageAccess = explode("," , $pageAccess[$x]);
-                    
-                        $listAddAccess = explode("," , $addAccess[$x]);
-                        $listEditAccess = explode("," , $editAccess[$x]);
-                        $listDeleteAccess = explode("," , $deleteAccess[$x]);
-                        $listDownloadAccess = explode("," , $downloadAccess[$x]);
-                        $listImagePreviewAccess = explode("," , $imagePreviewAccess[$x]);
-                    
                         $menuAccess = in_array("Y", $listPageAccess);
                     
                         if($menuAccess == 1) {
@@ -123,9 +83,8 @@ $imagePreviewAccess = explode("|" , $access_imagePreview);
                                     <div class='icon_menu'><i class='fas fa-fingerprint'></i></div>
                                     <div class='icon_menu'>$page[$x]</div>
                                     <div class='icon_menu'><i class='far fa-chevron-down'></i></div>
+                                    <ul>
                             ";
-                            
-                            echo "<ul>";
                             for ($i = 0; $i < count($listPageName); $i++) {
                                 if($listPageAccess[$i] == "Y") {
                                     echo "<a href='?page=$listPageName[$i]'><li>$listPageName[$i]</li></a>";

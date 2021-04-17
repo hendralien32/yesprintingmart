@@ -189,11 +189,11 @@
                     $iconEdit = "";
                     $iconHapus = "";
 
-                    if($aksesEditAbsensi == 'Y') :
+                    if($edit_Absensi_Harian == 'Y') :
                         $iconEdit = "<span style='padding-right:8px;'><i class='fas fa-pen-square btn' onclick='showForm(\"absensi_individu\",\"Form_Update_Absensi_Individu\",\"$d[id]\",\"lightbox-Small\")'></i></span>";
                     endif;
 
-                    if($aksesDeleteAbsensi == 'Y') :
+                    if($delete_Absensi_Harian == 'Y') :
                         $iconHapus = "<span style='padding-right:8px;'><i class='fas fa-trash-alt btn' onclick='showForm(\"absensi_individu\",\"ConfirmBox_Hapus\",\"$d[id]\",\"lightbox-confirmation\")'></i></span>";
                     endif;
 

@@ -1634,7 +1634,6 @@ body {
   .wrapper .lightbox .lightbox-Small {
     width: 78%;
     height: 54%;
-    margin: 18% 11%;
   }
   .wrapper .lightbox .lightbox-confirmation {
     width: 40%;
@@ -1655,7 +1654,6 @@ body {
   .wrapper .lightbox-confirmation .content-lightbox {
     width: 52%;
     width: 48%;
-    margin: 28% 24%;
   }
   .wrapper .lightbox-confirmation .lightbox-confirmation {
     width: 33%;
@@ -1676,7 +1674,6 @@ body {
   .wrapper .lightbox .lightbox-Small {
     width: 45%;
     height: 48%;
-    margin: 15% 27.5%;
   }
   .wrapper .lightbox .lightbox-confirmation {
     width: 33%;

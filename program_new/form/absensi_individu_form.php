@@ -422,7 +422,7 @@ $tipe = $_POST['tipe'];
                     <td>
                         <ul>
                             <?php 
-                                foreach($karyawanCuti as $namaKaryawan) {
+                                foreach($karyawanTelat as $namaKaryawan) {
                                     echo "<li>". ucwords($namaKaryawan) ."</li>";
                                 }
                             ?>
@@ -440,7 +440,7 @@ $tipe = $_POST['tipe'];
                     <td>
                         <ul>
                             <?php 
-                                foreach($karyawanTelat as $namaKaryawan) {
+                                foreach($karyawanCuti as $namaKaryawan) {
                                     echo "<li>". ucwords($namaKaryawan) ."</li>";
                                 }
                             ?>

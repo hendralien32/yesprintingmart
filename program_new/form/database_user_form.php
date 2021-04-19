@@ -14,32 +14,32 @@ $tipe = $_POST['tipe'];
             <div class='input-left'>
                 <table>
                     <tr>
-                        <td>Username</td>
-                        <td><input type='text'></td>
+                        <td>Username <sup>*</sup></td>
+                        <td><input id='username' type='text' autocomplete='off'> <span id='alert_username'></span></td>
                     </tr>
                     <tr>
-                        <td>Password</td>
-                        <td><input type='text'></td>
+                        <td>Password <sup>*</sup></td>
+                        <td><input id='password' type='password'> <span id='alert_password'></span></td>
                     </tr>
                     <tr>
-                        <td>Retype Password</td>
-                        <td><input type='text'></td>
+                        <td>Retype Password <sup>*</sup></td>
+                        <td><input id='retypePassword' type='password'> <span id='alert_retype'></span></td>
                     </tr>
                 </table>
             </div>
             <div class='input-right'>
                 <table>
                     <tr>
-                        <td>Nama</td>
-                        <td><input type='text'></td>
+                        <td>Nama <sup>*</sup></td>
+                        <td><input id='nama' type='text' autocomplete='off'></td>
                     </tr>
                     <tr>
                         <td>Tanggal Masuk</td>
-                        <td><input type='text'></td>
+                        <td><input id='tglMasuk' type='date'></td>
                     </tr>
                     <tr>
                         <td>Tanggal Keluar</td>
-                        <td><input type='text'></td>
+                        <td><input id='tglKeluar' type='date'></td>
                     </tr>
                 </table>
             </div>  
@@ -64,8 +64,8 @@ $tipe = $_POST['tipe'];
                     $listPageId = explode("," , $pageId[$x]);
                     $listPageName = explode("," , $pageName[$x]);
                     $rowspan = count($listPageName) + 1;
-
                     echo "
+                        <tbody>
                         <tr>
                             <td rowspan='". $rowspan ."'>$nomor</td>
                             <td rowspan='". $rowspan ."'>$page[$x]</td>
@@ -73,7 +73,6 @@ $tipe = $_POST['tipe'];
                     ";
                     for ($i = 0; $i < count($listPageName); $i++) {
                         $namePageName = str_replace(" ", "_", $listPageName[$i]);
-
                         echo "
                         <tr>
                             <td>
@@ -128,6 +127,7 @@ $tipe = $_POST['tipe'];
                         </tr>
                         ";
                     }
+                    echo "</tbody>";
                 }
             ?>
         </table>

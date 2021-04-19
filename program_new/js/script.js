@@ -92,7 +92,17 @@ async function showForm(file, tipe, id, lightboxSize) {
   sizeLightbox.innerHTML = ajaxLightbox;
 
   actionLightbox(lightbox, id, tipe);
-  actionChecked(lightbox, tipe);
+  switch (tipe) {
+    case 'Add_User':
+      break;
+    case 'Insert_Absensi':
+    case 'Form_Absensi_Individu':
+    case 'Form_Update_Absensi_Individu':
+      actionChecked(lightbox, tipe);
+      break;
+    default:
+      console.log('ERROR 404');
+  }
 }
 
 function loadLightbox(file, tipe, id) {

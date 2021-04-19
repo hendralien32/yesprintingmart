@@ -544,7 +544,7 @@ body {
 
 .wrapper .lightbox .lightbox-medium .content .Text-Content .input-left table tr td input,
 .wrapper .lightbox .lightbox-medium .content .Text-Content .input-right table tr td input {
-  padding: 3px 8px;
+  padding: 0.5em 0.8em;
   border: 1px solid #dfdfdf;
   outline: none;
   border-radius: 5px;
@@ -640,61 +640,67 @@ body {
   font-size: 0.72rem;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr th {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody:hover td[rowspan] {
+  background: #f1f1f1;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr:hover td {
+  background: #f1f1f1;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr th {
   background-color: #3c4854;
   color: #fff;
   padding: 0.5em 0.4em;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr:hover {
-  background: #f1f1f1;
-}
-
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td {
   border-bottom: 1px solid #dfdfdf;
   color: #3c4854;
-  padding: 0.5em 0.4em 0.5em 1.2em;
+  padding: 0.8em 0.4em 0.8em 1.2em;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td.center {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td.center {
   text-align: center;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td input {
   padding: 0.4em 0.5em;
   outline: none;
   border: 1px solid #dfdfdf;
   border-radius: 4px;
   margin-right: 10px;
-}
-
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td input[type='time'] {
-  cursor: pointer;
   color: #3c4854;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td input[type='time'] {
+  cursor: pointer;
+}
+
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox {
   color: #fff;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .input-checkbox100 {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox .input-checkbox100 {
   display: none;
   color: #fff;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .label-checkbox100 {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox .label-checkbox100 {
   color: #3c4854;
   line-height: 1.4;
   display: inline-block;
   position: relative;
   padding-left: 26px;
+  text-align: center;
+  vertical-align: middle;
   cursor: pointer;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .label-checkbox100::before {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox .label-checkbox100::before {
   content: '\f00c';
   font-family: 'Font Awesome 5 Pro';
-  font-size: 13px;
+  font-size: 12px;
   color: transparent;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -706,8 +712,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
   position: absolute;
-  width: 1.3em;
-  height: 1.3em;
+  width: 17px;
+  height: 17px;
   border-radius: 2px;
   background: #fff;
   border: 1px solid #dfdfdf;
@@ -718,19 +724,19 @@ body {
           transform: translateY(-50%);
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
   color: #fe5724;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
   background: #e2e2e2;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .form-checkbox .fa-info-square {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .form-checkbox .fa-info-square {
   color: #fe5724;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .autocomplete {
   width: 12vw;
   position: absolute;
   background-color: #fff;
@@ -741,18 +747,18 @@ body {
   display: none;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete .item {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .autocomplete .item {
   padding: 0.4rem 1rem;
   border-bottom: 1px solid #dfdfdf;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete .item.active, .wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete .item:hover {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .autocomplete .item.active, .wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .autocomplete .item:hover {
   cursor: pointer;
   background-color: #3c4854;
   color: #fff;
 }
 
-.wrapper .lightbox .lightbox-medium .content .Table-Content table tr td .autocomplete.display-show {
+.wrapper .lightbox .lightbox-medium .content .Table-Content table tbody tr td .autocomplete.display-show {
   display: block;
 }
 
@@ -911,19 +917,30 @@ body {
   padding-right: 10px;
 }
 
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td sup,
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td sup {
+  font-size: 1.7em;
+}
+
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td input,
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td input {
-  padding: 0.4em 0.5em;
+  padding: 0.5em 0.8em;
   outline: none;
   border: 1px solid #dfdfdf;
   border-radius: 4px;
   margin-right: 10px;
+  color: #3c4854;
 }
 
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td input.disabled,
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td input.disabled {
   border: none;
   background: none;
+}
+
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td input[type='date'],
+.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td input[type='date'] {
+  cursor: pointer;
 }
 
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td .form-checkbox,
@@ -1006,49 +1023,53 @@ body {
   font-size: 0.72rem;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr:hover {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody:hover td[rowspan] {
   background: #f1f1f1;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr th {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr:hover td {
+  background: #f1f1f1;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr th {
   background-color: #3c4854;
   color: #fff;
   padding: 0.5em 0.4em;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td {
   border-bottom: 1px solid #dfdfdf;
   color: #3c4854;
   padding: 0.8em 0.4em 0.8em 1.2em;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td.center {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td.center {
   text-align: center;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td input {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td input {
   padding: 0.4em 0.5em;
   outline: none;
   border: 1px solid #dfdfdf;
   border-radius: 4px;
   margin-right: 10px;
-}
-
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td input[type='time'] {
-  cursor: pointer;
   color: #3c4854;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td input[type='time'] {
+  cursor: pointer;
+}
+
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox {
   color: #fff;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .input-checkbox100 {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox .input-checkbox100 {
   display: none;
   color: #fff;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .label-checkbox100 {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox .label-checkbox100 {
   color: #3c4854;
   line-height: 1.4;
   display: inline-block;
@@ -1059,7 +1080,7 @@ body {
   cursor: pointer;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .label-checkbox100::before {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox .label-checkbox100::before {
   content: '\f00c';
   font-family: 'Font Awesome 5 Pro';
   font-size: 12px;
@@ -1086,19 +1107,19 @@ body {
           transform: translateY(-50%);
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox .input-checkbox100:checked + .label-checkbox100::before {
   color: #fe5724;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox .input-checkbox100:disabled + .label-checkbox100::before {
   background: #e2e2e2;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .form-checkbox .fa-info-square {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .form-checkbox .fa-info-square {
   color: #fe5724;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .autocomplete {
   width: 12vw;
   position: absolute;
   background-color: #fff;
@@ -1109,18 +1130,18 @@ body {
   display: none;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete .item {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .autocomplete .item {
   padding: 0.4rem 1rem;
   border-bottom: 1px solid #dfdfdf;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete .item.active, .wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete .item:hover {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .autocomplete .item.active, .wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .autocomplete .item:hover {
   cursor: pointer;
   background-color: #3c4854;
   color: #fff;
 }
 
-.wrapper .lightbox .lightbox-large .content .Table-Content table tr td .autocomplete.display-show {
+.wrapper .lightbox .lightbox-large .content .Table-Content table tbody tr td .autocomplete.display-show {
   display: block;
 }
 

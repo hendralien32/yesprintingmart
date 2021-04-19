@@ -454,7 +454,7 @@ body {
                   }
 
                   input {
-                    padding: 3px 8px;
+                    padding: 0.5em 0.8em;
                     border: 1px solid $borderColor;
                     outline: none;
                     border-radius: 5px;
@@ -532,114 +532,124 @@ body {
             border-collapse: collapse;
             width: 100%;
             font-size: $gblFontSize;
-
-            tr {
-              th {
-                background-color: $mainColor;
-                color: $whiteColor;
-                padding: 0.5em 0.4em;
-              }
-
+            tbody {
               &:hover {
-                @include hoverTable;
+                td[rowspan] {
+                  @include hoverTable;
+                }
               }
 
-              td {
-                border-bottom: 1px solid $borderColor;
-                color: $mainColor;
-                padding: 0.5em 0.4em 0.5em 1.2em;
-
-                &.center {
-                  text-align: center;
-                }
-
-                input {
-                  padding: 0.4em 0.5em;
-                  outline: none;
-                  border: 1px solid $borderColor;
-                  border-radius: 4px;
-                  margin-right: 10px;
-                }
-
-                input[type='time'] {
-                  @include pointer(pointer);
-                  color: $fontColor;
-                }
-
-                .form-checkbox {
-                  color: #fff;
-
-                  .input-checkbox100 {
-                    display: none;
-                    color: #fff;
-                  }
-
-                  .label-checkbox100 {
-                    color: $fontColor;
-                    line-height: 1.4;
-                    display: inline-block;
-                    position: relative;
-                    padding-left: 26px;
-                    @include pointer(pointer);
-
-                    &::before {
-                      content: '\f00c';
-                      font-family: 'Font Awesome 5 Pro';
-                      font-size: 13px;
-                      color: transparent;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      position: absolute;
-                      width: 1.3em;
-                      height: 1.3em;
-                      border-radius: 2px;
-                      background: $whiteColor;
-                      border: 1px solid $borderColor;
-                      font-weight: bold;
-                      left: 0;
-                      top: 50%;
-                      transform: translateY(-50%);
-                    }
-                  }
-
-                  .input-checkbox100:checked + .label-checkbox100::before {
-                    color: $secondaryColor;
-                  }
-
-                  .input-checkbox100:disabled + .label-checkbox100::before {
-                    background: #e2e2e2;
-                  }
-
-                  .fa-info-square {
-                    color: $secondaryColor;
+              tr {
+                &:hover {
+                  td {
+                    @include hoverTable;
                   }
                 }
 
-                .autocomplete {
-                  width: 12vw;
-                  position: absolute;
-                  background-color: $whiteColor;
+                th {
+                  background-color: $mainColor;
+                  color: $whiteColor;
+                  padding: 0.5em 0.4em;
+                }
+                td {
+                  border-bottom: 1px solid $borderColor;
                   color: $mainColor;
-                  border: 1px solid $borderColor;
-                  margin-top: 5px;
-                  border-radius: 4px;
-                  display: none;
+                  padding: 0.8em 0.4em 0.8em 1.2em;
 
-                  .item {
-                    padding: 0.4rem 1rem;
-                    border-bottom: 1px solid $borderColor;
+                  &.center {
+                    text-align: center;
+                  }
 
-                    &.active,
-                    &:hover {
+                  input {
+                    padding: 0.4em 0.5em;
+                    outline: none;
+                    border: 1px solid $borderColor;
+                    border-radius: 4px;
+                    margin-right: 10px;
+                    color: $fontColor;
+
+                    &[type='time'] {
                       @include pointer(pointer);
-                      background-color: $mainColor;
-                      color: $whiteColor;
                     }
                   }
 
-                  &.display-show {
-                    display: block;
+                  .form-checkbox {
+                    color: #fff;
+
+                    .input-checkbox100 {
+                      display: none;
+                      color: #fff;
+                    }
+
+                    .label-checkbox100 {
+                      color: $fontColor;
+                      line-height: 1.4;
+                      display: inline-block;
+                      position: relative;
+                      padding-left: 26px;
+                      text-align: center;
+                      vertical-align: middle;
+                      @include pointer(pointer);
+
+                      &::before {
+                        content: '\f00c';
+                        font-family: 'Font Awesome 5 Pro';
+                        font-size: 12px;
+                        color: transparent;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        width: 17px;
+                        height: 17px;
+                        border-radius: 2px;
+                        background: $whiteColor;
+                        border: 1px solid $borderColor;
+                        font-weight: bold;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                      }
+                    }
+
+                    .input-checkbox100:checked + .label-checkbox100::before {
+                      color: $secondaryColor;
+                    }
+
+                    .input-checkbox100:disabled + .label-checkbox100::before {
+                      background: #e2e2e2;
+                    }
+
+                    .fa-info-square {
+                      color: $secondaryColor;
+                    }
+                  }
+
+                  .autocomplete {
+                    width: 12vw;
+                    position: absolute;
+                    background-color: $whiteColor;
+                    color: $mainColor;
+                    border: 1px solid $borderColor;
+                    margin-top: 5px;
+                    border-radius: 4px;
+                    display: none;
+
+                    .item {
+                      padding: 0.4rem 1rem;
+                      border-bottom: 1px solid $borderColor;
+
+                      &.active,
+                      &:hover {
+                        @include pointer(pointer);
+                        background-color: $mainColor;
+                        color: $whiteColor;
+                      }
+                    }
+
+                    &.display-show {
+                      display: block;
+                    }
                   }
                 }
               }
@@ -765,16 +775,25 @@ body {
                     padding-right: 10px;
                   }
 
+                  sup {
+                    font-size: 1.7em;
+                  }
+
                   input {
-                    padding: 0.4em 0.5em;
+                    padding: 0.5em 0.8em;
                     outline: none;
                     border: 1px solid $borderColor;
                     border-radius: 4px;
                     margin-right: 10px;
+                    color: $fontColor;
 
                     &.disabled {
                       border: none;
                       background: none;
+                    }
+
+                    &[type='date'] {
+                      @include pointer(pointer);
                     }
                   }
 
@@ -841,116 +860,124 @@ body {
             border-collapse: collapse;
             width: 100%;
             font-size: $gblFontSize;
-
-            tr {
+            tbody {
               &:hover {
-                @include hoverTable;
+                td[rowspan] {
+                  @include hoverTable;
+                }
               }
 
-              th {
-                background-color: $mainColor;
-                color: $whiteColor;
-                padding: 0.5em 0.4em;
-              }
-
-              td {
-                border-bottom: 1px solid $borderColor;
-                color: $mainColor;
-                padding: 0.8em 0.4em 0.8em 1.2em;
-
-                &.center {
-                  text-align: center;
-                }
-
-                input {
-                  padding: 0.4em 0.5em;
-                  outline: none;
-                  border: 1px solid $borderColor;
-                  border-radius: 4px;
-                  margin-right: 10px;
-
-                  &[type='time'] {
-                    @include pointer(pointer);
-                    color: $fontColor;
+              tr {
+                &:hover {
+                  td {
+                    @include hoverTable;
                   }
                 }
 
-                .form-checkbox {
-                  color: #fff;
-
-                  .input-checkbox100 {
-                    display: none;
-                    color: #fff;
-                  }
-
-                  .label-checkbox100 {
-                    color: $fontColor;
-                    line-height: 1.4;
-                    display: inline-block;
-                    position: relative;
-                    padding-left: 26px;
-                    text-align: center;
-                    vertical-align: middle;
-                    @include pointer(pointer);
-
-                    &::before {
-                      content: '\f00c';
-                      font-family: 'Font Awesome 5 Pro';
-                      font-size: 12px;
-                      color: transparent;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      position: absolute;
-                      width: 17px;
-                      height: 17px;
-                      border-radius: 2px;
-                      background: $whiteColor;
-                      border: 1px solid $borderColor;
-                      font-weight: bold;
-                      left: 0;
-                      top: 50%;
-                      transform: translateY(-50%);
-                    }
-                  }
-
-                  .input-checkbox100:checked + .label-checkbox100::before {
-                    color: $secondaryColor;
-                  }
-
-                  .input-checkbox100:disabled + .label-checkbox100::before {
-                    background: #e2e2e2;
-                  }
-
-                  .fa-info-square {
-                    color: $secondaryColor;
-                  }
+                th {
+                  background-color: $mainColor;
+                  color: $whiteColor;
+                  padding: 0.5em 0.4em;
                 }
-
-                .autocomplete {
-                  width: 12vw;
-                  position: absolute;
-                  background-color: $whiteColor;
+                td {
+                  border-bottom: 1px solid $borderColor;
                   color: $mainColor;
-                  border: 1px solid $borderColor;
-                  margin-top: 5px;
-                  border-radius: 4px;
-                  display: none;
+                  padding: 0.8em 0.4em 0.8em 1.2em;
 
-                  .item {
-                    padding: 0.4rem 1rem;
-                    border-bottom: 1px solid $borderColor;
+                  &.center {
+                    text-align: center;
+                  }
 
-                    &.active,
-                    &:hover {
+                  input {
+                    padding: 0.4em 0.5em;
+                    outline: none;
+                    border: 1px solid $borderColor;
+                    border-radius: 4px;
+                    margin-right: 10px;
+                    color: $fontColor;
+
+                    &[type='time'] {
                       @include pointer(pointer);
-                      background-color: $mainColor;
-                      color: $whiteColor;
                     }
                   }
 
-                  &.display-show {
-                    display: block;
+                  .form-checkbox {
+                    color: #fff;
+
+                    .input-checkbox100 {
+                      display: none;
+                      color: #fff;
+                    }
+
+                    .label-checkbox100 {
+                      color: $fontColor;
+                      line-height: 1.4;
+                      display: inline-block;
+                      position: relative;
+                      padding-left: 26px;
+                      text-align: center;
+                      vertical-align: middle;
+                      @include pointer(pointer);
+
+                      &::before {
+                        content: '\f00c';
+                        font-family: 'Font Awesome 5 Pro';
+                        font-size: 12px;
+                        color: transparent;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        width: 17px;
+                        height: 17px;
+                        border-radius: 2px;
+                        background: $whiteColor;
+                        border: 1px solid $borderColor;
+                        font-weight: bold;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                      }
+                    }
+
+                    .input-checkbox100:checked + .label-checkbox100::before {
+                      color: $secondaryColor;
+                    }
+
+                    .input-checkbox100:disabled + .label-checkbox100::before {
+                      background: #e2e2e2;
+                    }
+
+                    .fa-info-square {
+                      color: $secondaryColor;
+                    }
+                  }
+
+                  .autocomplete {
+                    width: 12vw;
+                    position: absolute;
+                    background-color: $whiteColor;
+                    color: $mainColor;
+                    border: 1px solid $borderColor;
+                    margin-top: 5px;
+                    border-radius: 4px;
+                    display: none;
+
+                    .item {
+                      padding: 0.4rem 1rem;
+                      border-bottom: 1px solid $borderColor;
+
+                      &.active,
+                      &:hover {
+                        @include pointer(pointer);
+                        background-color: $mainColor;
+                        color: $whiteColor;
+                      }
+                    }
+
+                    &.display-show {
+                      display: block;
+                    }
                   }
                 }
               }

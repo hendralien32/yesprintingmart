@@ -2,7 +2,19 @@ const bahanAlertIcn = document.querySelectorAll('.icon')[1];
 
 // munculkan image loading saat lagi proses load data
 function loading() {
-  document.getElementById('ajax_load').innerHTML = `<div id='loading_status' style='text-align:center'><img src='../images/loading_12.gif' style='width:15%;'></div>`;
+  const ajaxPage = document.querySelector('.left_title').innerHTML.toLowerCase().replace(' ', '_');
+  const loadingImage = `
+    <div id='loading_status' style='text-align:center'>
+      <img src='../images/loading_12.gif' style='width:15%;'>
+    </div>
+  `;
+  switch (ajaxPage) {
+    case 'absensi_list':
+      document.querySelector('.date-grid').innerHTML = loadingImage;
+      break;
+    default:
+      document.querySelector('.ajax_load').innerHTML = loadingImage;
+  }
 }
 
 // munculkan widget tanggal
@@ -98,6 +110,7 @@ async function showForm(file, tipe, id, lightboxSize) {
     case 'Insert_Absensi':
     case 'Form_Absensi_Individu':
     case 'Form_Update_Absensi_Individu':
+    case 'ConfirmBox_Hapus':
       actionChecked(lightbox, tipe);
       break;
     default:
@@ -152,6 +165,7 @@ function yesLightbox(lightbox, variable) {
     body: `${variable}`,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json',
     },
   })
     .then((response) => response.text())

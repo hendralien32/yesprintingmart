@@ -14,15 +14,15 @@ $tipe = $_POST['tipe'];
             <div class='input-left'>
                 <table>
                     <tr>
-                        <td>Username <sup>*</sup></td>
+                        <td>Username</td>
                         <td><input id='username' type='text' autocomplete='off'> <span id='alert_username'></span></td>
                     </tr>
                     <tr>
-                        <td>Password <sup>*</sup></td>
+                        <td>Password</td>
                         <td><input id='password' type='password'> <span id='alert_password'></span></td>
                     </tr>
                     <tr>
-                        <td>Retype Password <sup>*</sup></td>
+                        <td>Retype Password</td>
                         <td><input id='retypePassword' type='password'> <span id='alert_retype'></span></td>
                     </tr>
                 </table>
@@ -30,8 +30,8 @@ $tipe = $_POST['tipe'];
             <div class='input-right'>
                 <table>
                     <tr>
-                        <td>Nama <sup>*</sup></td>
-                        <td><input id='nama' type='text' autocomplete='off'></td>
+                        <td>Nama</td>
+                        <td><input id='nama' type='text' autocomplete='off'> <span id='alert_retype'></span></td>
                     </tr>
                     <tr>
                         <td>Tanggal Masuk</td>
@@ -78,8 +78,7 @@ $tipe = $_POST['tipe'];
                             <td>
                                 <div class='form-checkbox'>
                                     <input class='input-checkbox100 page_$namePageName' id='Page $namePageName' type='checkbox' onclick=test(\"$namePageName\")>
-                                    <label class='label-checkbox100' for='Page $namePageName'>$listPageName[$i]</label>
-                                    <input type='hidden' value='$listPageId[$i]'>
+                                    <label class='label-checkbox100 pageName' data-pageID='$listPageId[$i]' for='Page $namePageName'>$listPageName[$i]</label>
                                 </div>
                             </td>
                             <td class='center'>

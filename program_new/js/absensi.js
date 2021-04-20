@@ -17,6 +17,8 @@ btnSearch.onclick = (e) => {
 };
 
 async function loadPage() {
+  loading();
+
   const blnDari = document.getElementById('search_drBln').value;
   const blnKe = document.getElementById('search_keBln').value;
   const username = document.getElementById('search_user').value;

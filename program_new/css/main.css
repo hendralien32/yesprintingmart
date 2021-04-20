@@ -917,11 +917,6 @@ body {
   padding-right: 10px;
 }
 
-.wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td sup,
-.wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td sup {
-  font-size: 1.7em;
-}
-
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-left table tr td input,
 .wrapper .lightbox .lightbox-large .content .Text-Content .input-right table tr td input {
   padding: 0.5em 0.8em;

@@ -7,7 +7,16 @@ if (!isset($_SESSION["login"])) {
 
 $uniqueID = uniqid();
 
-$typeProgress = !empty($_POST['typeProgress']) ? $_POST['typeProgress'] : '';
+$content = trim(file_get_contents("php://input"));
+$decoded = json_decode($content, true);
+if(is_array($decoded)) {
+    $typeProgress = $decoded['typeProgress'];
+    $error = $decoded['error'];
+} else {
+    $typeProgress = !empty($_POST['typeProgress']) ? $_POST['typeProgress'] : '';
+    $error = !empty($_POST['error']) ? $_POST['error'] : 'false';
+}
+
 
 if($typeProgress == "Insert_Absensi") : // Absensi Insert Data
     ($add_Absensi_Harian == 'N') ? die("error") : true;
@@ -234,6 +243,77 @@ elseif($typeProgress == "Form_Update_Absensi_Individu") : // Absensi Update Data
             absensiID = $_POST[idAbsensi];
     ";
     
+elseif($typeProgress == "insert_user") :
+
+    $listPage = explode (",", "$decoded[listPage]" );
+    $jumlahPage = count($listPage);
+    // $roleAccess = ['page' , 'add' , 'edit' , 'delete' , 'log' , 'download' , 'imagePreview'];
+
+    for($i = 0; $i < $jumlahPage ; $i++) {
+        $page = explode ("|", "$listPage[$i]");
+        $access = explode (",", $decoded[$page[0]] );
+        $roleAccess = "";
+        for($j = 0; $j < count($access); $j++) {
+            $roleAccess .= "'$access[$j]',"; 
+        }
+
+        //LAST_INSERT_ID() untuk mengambil ID yang sudah terbuka pada pm_user
+
+        $insertRCA[] = "
+            (
+                $roleAccess
+                '$page[1]',
+                LAST_INSERT_ID()
+            )
+        ";
+    }
+
+    $New_Insert = implode(',', $insertRCA);
+
+    $password = htmlentities($decoded['password'], ENT_QUOTES);
+    $pass     = md5("pmart" . "$password");
+
+    $sql = 
+        "INSERT INTO pm_user 
+            (
+                nama,
+                username,
+                password,
+                password_visible,
+                tanggal_masuk,
+                tanggal_resign,
+                absensi,
+                jam_masuk,
+                jam_pulang,
+                status
+            )  VALUES (
+                '$decoded[nama]',
+                '$decoded[username]',
+                '$pass',
+                '$decoded[password]',
+                '$decoded[tglMasuk]',
+                '$decoded[tglKeluar]',
+                'Y',
+                '09:00:00',
+                '18:00:00',
+                'a'
+            );
+    ";
+
+    $sql .= 
+        "INSERT INTO database_accessrole
+            (
+                access_page,
+                access_add,
+                access_edit,
+                access_delete,
+                access_log,
+                access_download,
+                access_imagePreview,
+                page_id,
+                user_id
+            ) VALUE $New_Insert
+    ";
 elseif($typeProgress == "xxx") :
 else :
 
@@ -245,12 +325,9 @@ $resultChecked =
     : $test;
 
 $resultError = 
-isset($_POST['error'])
-    ? ""
-    : (isset($_POST['error']) && ($_POST['error'] == 'false')
-        ? "& $_POST[error]"
-        : ""
-    );
+$error != "" && $error != "false"
+    ? "& $error"
+    : "";
 
 if($resultChecked === true && $resultError === '') {
     if ($conn->multi_query($sql) === TRUE) {
@@ -265,7 +342,7 @@ if($resultChecked === true && $resultError === '') {
 } else {
     echo "
         <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
-        ERROR : $resultChecked $resultError
+        ERROR : $resultChecked $resultError 
         </>
     ";
 }

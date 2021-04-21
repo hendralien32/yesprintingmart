@@ -330,10 +330,10 @@ $error != "" && $error != "false"
     : "";
 
 if($resultChecked === true && $resultError === '') {
-    if ($conn->multi_query($sql) === TRUE) {
+    if ($conn_OOP->multi_query($sql) === TRUE) {
         echo "true";
     } else {
-        if (mysqli_query($conn, $sql)) {
+        if ($conn_OOP->query($sql) === TRUE) {
             echo "true";
         } else {
             echo "false";

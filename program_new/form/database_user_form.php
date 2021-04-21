@@ -15,7 +15,7 @@ $tipe = $_POST['tipe'];
                 <table>
                     <tr>
                         <td>Username</td>
-                        <td><input id='username' type='text' autocomplete='off'> <span id='alert_username'></span></td>
+                        <td><input id='username' type='text' autocomplete='off' onkeyup="validasi('username')"> <span id='alert_username'></span></td>
                     </tr>
                     <tr>
                         <td>Password</td>

@@ -34,6 +34,9 @@ function variable(lightbox, id, tipe) {
       const tglMasuk = lightbox.querySelector('#tglMasuk').value;
       const tglKeluar = lightbox.querySelector('#tglKeluar').value;
       const page = lightbox.querySelectorAll('.pageName');
+
+      const alertUsername = lightbox.querySelector('#alert_username');
+
       const listPage = [...page].map((obj) => obj.innerHTML.replace(/\s/g, '') + '|' + obj.dataset.pageid).join(',');
 
       [...page].map((obj) => {
@@ -43,6 +46,8 @@ function variable(lightbox, id, tipe) {
           [NameObj]: [...lightbox.querySelectorAll(`.${checkbox}`)].map((a) => (a.checked == true ? 'Y' : 'N')).join(','),
         });
       });
+
+      console.log(alertUsername);
 
       const iconError = `<i class='fas fa-times'></i>`;
       if ([...username].length == 0) {
@@ -88,4 +93,35 @@ function variable(lightbox, id, tipe) {
     default:
       console.log('ERROR 404');
   }
+}
+
+async function validasi(jenis) {
+  const iconError = `<i class='fas fa-times'></i>`;
+
+  switch (jenis) {
+    case 'username':
+      const username = document.getElementById('username').value;
+      const alertUsername = document.querySelector('#alert_username');
+      const jumlah = await getValidation(jenis, username);
+      if (jumlah == '1') {
+        alertUsername.innerHTML = iconError;
+      } else {
+        alertUsername.innerHTML = '';
+      }
+      break;
+    default:
+      console.log('ERROR 404');
+  }
+}
+
+function getValidation(jenis, data) {
+  return fetch(`../program_new/progress/validation.php`, {
+    method: 'POST',
+    body: `typevalidation=${jenis}&data=${data}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((response) => response.text())
+    .then((response) => response);
 }

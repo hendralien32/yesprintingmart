@@ -5,7 +5,6 @@ $tipe = $_POST['tipe'];
 ?>
 <div class='lineBlack'></div>
 <?php if($_POST['tipe'] == 'ConfirmBox_Hapus') : ?>
-    <div class='lineBlack'></div>
     <div class='content'>
         <div class='Title-Content'>
             <i class="fas fa-trash-alt"></i>

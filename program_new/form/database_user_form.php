@@ -4,6 +4,7 @@ $tipe = $_POST['tipe'];
 
 ?>
 <div class='lineBlack'></div>
+
 <?php if($tipe == 'Add_User') : ?>
     <div class='content'>
         <div class='Title-Content'>
@@ -138,14 +139,87 @@ $tipe = $_POST['tipe'];
         </div>
     </div>
     <?= die(); ?>
+<?php elseif($tipe == 'Form_hapusUser') : ?>
+    <div class='content'>
+        <div class='Title-Content'>
+            <i class="fas fa-trash-alt"></i>
+            <p>Hapus Akun</p>
+        </div>
+        <div class='Text-Content'>
+            Apabila anda Menghapus data maka data akan permanen terhapus dari database anda. Apa anda yakin ?. <br>
+            <b>Data yang sudah hapus tidak dapat dikembalikan.</b>
+        </div>
+        <div class='resultError'></div>
+        <div class="Btn-Content">
+            <button class="no-btn">Tidak, Tutup Form</button>
+            <button class="yes-btn">Iya, Hapus Data</button>
+        </div>
+    </div>
+    <?= die(); ?>
+<?php elseif($tipe == 'Form_resetPassword') : ?>
+    <div class='content'>
+        <div class='Title-Content'>
+            <i class="fas fa-trash-alt"></i>
+            <p>Mereset sandi Akun</p>
+        </div>
+        <div class='Text-Content'>
+            Apabila user melupakan sandinya dapat dilakukan dengan mereset sandi akun. Apa anda yakin ?. <br>
+            <b>Password yang sudah di reset, akun belum bisa diakses sampai password selesai di reset.</b>
+        </div>
+        <div class='resultError'></div>
+        <div class="Btn-Content">
+            <button class="no-btn">Tidak, Tutup Form</button>
+            <button class="yes-btn">Iya, Reset Sandi</button>
+        </div>
+    </div>
+    <?= die(); ?>
+<?php elseif($tipe == 'Form_EditProfile') : ?>
+    <div class='content'>
+        <div class='Title-Content'>
+            <i class='far fa-pen-square'></i>
+            <p>Edit Data Absensi</p>
+        </div>
+        <div class='Text-Content'>
+            <div class='input-left'>
+                <table>
+                    <tr>
+                        <td><b>Username</b></td>
+                        <td><input type="text" class='disabled' disabled readonly value='Hendra'></td>
+                    </tr>
+                    <tr>
+                        <td><b>Nama</b></td>
+                        <td><input type="text" value=''></td>
+                    </tr>
+                </table>
+            </div>
+            <div class='input-right'>
+                <table>
+                    <tr>
+                        <td><b>No. Telp</b></td>
+                        <td><input type='text' id='tanggal' value=''></td>
+                    </tr>
+                    <tr>
+                        <td><b>Gambar Profil</b></td>
+                        <td><input type='file' id='tanggal' value=''></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class='resultError'></div>
+        <div class="Btn-Content">
+            <button class="no-btn">Tutup Form</button>
+            <button class="yes-btn">Submit Data</button>
+        </div>
+    </div>
+    <?= die(); ?>
 <?php else : ?>
     <div class='content'>
         <div class='Title-Content'>
             <i class="far fa-exclamation-circle"></i>
-            <p>Data Not Found</p>
+            <p>Form tidak ditemukan</p>
         </div>
         <div class='Text-Content'>
-            Data tidak ditemukan coba kontak Web developer
+            Coba kontak Web developer
         </div>
         <div class='resultError'></div>
         <div class="Btn-Content">

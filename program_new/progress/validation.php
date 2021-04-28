@@ -15,11 +15,12 @@ if($typeValidation == 'username') :
             pm_user
         WHERE
             pm_user.username = '$_POST[data]'
+        LIMIT
+            1
     ";
 
-    $result = $conn_OOP->query($sql);
-    $jumlah = $result->num_rows;
-    echo "$jumlah";
+    $result = $conn_OOP->query($sql)->num_rows;
+    echo "$result";
 else :
     echo "ERROR";
 endif;

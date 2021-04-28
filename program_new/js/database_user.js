@@ -4,7 +4,7 @@ async function loadPage() {
   loading();
 
   const ajaxPage = document.querySelector('.left_title').innerHTML.toLowerCase().replace(' ', '_');
-  variable = ``;
+  const variable = ``;
 
   const data = await getContent(ajaxPage, variable);
   updateContent(data);
@@ -26,7 +26,6 @@ function variable(lightbox, id, tipe) {
     case 'Add_User':
       let variable = {};
       let error;
-
       const username = lightbox.querySelector('#username').value;
       const password = lightbox.querySelector('#password').value;
       const retypePassword = lightbox.querySelector('#retypePassword').value;
@@ -34,9 +33,7 @@ function variable(lightbox, id, tipe) {
       const tglMasuk = lightbox.querySelector('#tglMasuk').value;
       const tglKeluar = lightbox.querySelector('#tglKeluar').value;
       const page = lightbox.querySelectorAll('.pageName');
-
       const alertUsername = lightbox.querySelector('#alert_username');
-
       const listPage = [...page].map((obj) => obj.innerHTML.replace(/\s/g, '') + '|' + obj.dataset.pageid).join(',');
 
       [...page].map((obj) => {
@@ -47,14 +44,15 @@ function variable(lightbox, id, tipe) {
         });
       });
 
-      console.log(alertUsername);
-
       const iconError = `<i class='fas fa-times'></i>`;
       if ([...username].length == 0) {
         error = 'Username tidak boleh Kosong ';
         lightbox.querySelector('#alert_username').innerHTML = iconError;
-      } else if ([...username].length <= 4) {
-        error = 'Username harus melebihi 4 huruf';
+      } else if ([...username].length < 3) {
+        error = 'Username harus melebihi 3 huruf';
+        lightbox.querySelector('#alert_username').innerHTML = iconError;
+      } else if (alertUsername.innerHTML != '') {
+        error = 'Username Sudah Terdaftar';
         lightbox.querySelector('#alert_username').innerHTML = iconError;
       } else if (password == '') {
         error = 'password tidak boleh Kosong';
@@ -88,7 +86,21 @@ function variable(lightbox, id, tipe) {
         error: error,
         typeProgress: 'insert_user',
       });
+
       return JSON.stringify(variable);
+      break;
+    case 'Form_hapusUser':
+    case 'Form_resetPassword':
+    case 'Form_EditProfile':
+      let data = {};
+
+      Object.assign(data, {
+        idUser: id,
+        error: false,
+        typeProgress: 'Edit_Profile',
+      });
+
+      console.log(JSON.stringify(data));
       break;
     default:
       console.log('ERROR 404');
@@ -103,12 +115,18 @@ async function validasi(jenis) {
       const username = document.getElementById('username').value;
       const alertUsername = document.querySelector('#alert_username');
       const jumlah = await getValidation(jenis, username);
-      if (jumlah == '1') {
+
+      if ([...username].length < 3) {
+        console.log([...username].length);
+        alertUsername.innerHTML = iconError;
+      } else if (jumlah == '1') {
         alertUsername.innerHTML = iconError;
       } else {
         alertUsername.innerHTML = '';
       }
+
       break;
+
     default:
       console.log('ERROR 404');
   }

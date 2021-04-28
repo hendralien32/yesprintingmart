@@ -161,7 +161,7 @@ elseif($typeProgress == "Form_Absensi_Individu") : // Absensi Personal Insert Da
     $test .= ' Cuti sudah terdaftar';
     $New_Insert = implode(',', $insertAbsensi);
 
-    if($_POST['error']=="false") {
+    if($error=="false") {
         $sql =
             "INSERT INTO absensi 
                 (
@@ -314,6 +314,31 @@ elseif($typeProgress == "insert_user") :
                 user_id
             ) VALUE $New_Insert
     ";
+elseif($typeProgress == "delete_user") :
+    ($delete_Database_User == 'N') ? die("error") : true;
+    $sql =
+        "UPDATE
+            pm_user
+        SET
+            status = 'n',
+            tanggal_resign = '$date'
+        WHERE
+            uid = $decoded[idUser];
+    ";
+elseif($typeProgress == "reset_UserPassword") :
+    $val_number = substr(str_shuffle("0123456789"), 0, 4);
+
+    $sql =
+        "UPDATE
+            pm_user
+        SET
+            reset_password = 'Y',
+            password = '',
+            password_visible = '',
+            val_reset = '$val_number'
+        WHERE
+            uid = $decoded[idUser];
+    ";
 elseif($typeProgress == "xxx") :
 else :
 
@@ -325,11 +350,14 @@ $resultChecked =
     : $test;
 
 $resultError = 
-$error != "" && $error != "false"
-    ? "& $error"
-    : "";
+!empty($test)
+    ? "$test"
+    : ($error != "" && $error != "false"
+        ? "$error"
+        : ""
+);
 
-if($resultChecked === true && $resultError === '') {
+if($resultChecked === true && $resultError === '') :
     if ($conn_OOP->multi_query($sql) === TRUE) {
         echo "true";
     } else {
@@ -339,13 +367,13 @@ if($resultChecked === true && $resultError === '') {
             echo "false";
         }
     }
-} else {
+else :
     echo "
         <b style='color:red; font-size:0.7rem; font-weight:550; line-height:15px'>
-        ERROR : $resultChecked $resultError 
+        ERROR : $resultError
         </>
     ";
-}
+endif;
 
 // Close connection
 $conn->close();

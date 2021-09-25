@@ -86,9 +86,9 @@ if (!isset($_SESSION["login"])) {
                                     <ul>
                             ";
                             for ($i = 0; $i < count($listPageName); $i++) {
-                                if($listPageAccess[$i] == "Y") {
-                                    echo "<a href='?page=$listPageName[$i]'><li>$listPageName[$i]</li></a>";
-                                }
+                                if($listPageAccess[$i] == "Y") :
+                                    echo "<a href='?page=$listPageName[$i]'><li>$listPageName[$i] - $i</li></a>";
+                                endif;
                             }
                             echo "
                                 </ul>
@@ -131,6 +131,18 @@ if (!isset($_SESSION["login"])) {
                 else :
                     echo "$page";
                 endif;
+            ?>
+
+            <?php
+                echo "
+                $page_name <br>
+                $access_page <br>
+                $access_add <br>
+                $access_edit <br>
+                $access_delete <br>
+                $access_log <br>
+                $access_download <br>
+                $access_imagePreview";
             ?>
         </div>
     <div>

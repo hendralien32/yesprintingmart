@@ -78,10 +78,10 @@ if (isset($_POST["login"])) {
             ON
                 database_accessrole.page_id = database_page.page_id
             GROUP BY
-            database_page.page_type
+                database_page.page_type
             ) as database_accessrole
         ON
-            pm_user.uid = database_accessrole.user_id
+            database_accessrole.user_id = pm_user.uid
         WHERE
             (pm_user.username='$username' || pm_user.uid='$username') and
             pm_user.status = 'a'

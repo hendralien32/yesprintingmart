@@ -60,75 +60,94 @@ $tipe = $_POST['tipe'];
                 <th>Img Prev</th>
             </tr>
             <?php
-                for ($x = 0; $x < $countRow; $x++) {
-                    $nomor = $x + 1;
-                    $listPageId = explode("," , $pageId[$x]);
-                    $listPageName = explode("," , $pageName[$x]);
-                    $rowspan = count($listPageName) + 1;
-                    echo "
-                        <tbody>
-                        <tr>
-                            <td rowspan='". $rowspan ."'>$nomor</td>
-                            <td rowspan='". $rowspan ."'>$page[$x]</td>
-                        </tr>
-                    ";
-                    for ($i = 0; $i < count($listPageName); $i++) {
-                        $namePageName = str_replace(" ", "_", $listPageName[$i]);
+                $sqlMenu = 
+                "SELECT
+                    database_page.page_type,
+                    GROUP_CONCAT(database_page.page_id) as pageId,
+                    GROUP_CONCAT(database_page.page_name) as pageName
+                FROM
+                    database_page
+                WHERE
+                    database_page.page_delete = 'N'
+                GROUP BY
+                    database_page.page_type
+                ";
+
+                $result = $conn_OOP->query($sqlMenu);
+                $num_rows = $result->num_rows;
+                $no = 0;
+                if ($num_rows > 0) :
+                    while ($d = $result->fetch_assoc()) :
+                        $no++;
+                        $listPageId = explode("," , $d['pageId']);
+                        $listPageName = explode("," , $d['pageName']);
+
                         echo "
-                        <tr>
-                            <td>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 page_$namePageName' id='Page $namePageName' type='checkbox' onclick=test(\"$namePageName\")>
-                                    <label class='label-checkbox100 pageName' data-pageID='$listPageId[$i]' for='Page $namePageName'>$listPageName[$i]</label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 access_$namePageName $namePageName' id='Access $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='Access $namePageName'></label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 add_$namePageName $namePageName' id='Add $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='Add $namePageName'></label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 edit_$namePageName $namePageName' id='Edit $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='Edit $namePageName'></label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 delete_$namePageName $namePageName' id='Delete $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='Delete $namePageName'></label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 log_$namePageName $namePageName' id='Log $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='Log $namePageName'></label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 download_$namePageName $namePageName' id='Download $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='Download $namePageName'></label>
-                                </div>
-                            </td>
-                            <td class='center'>
-                                <div class='form-checkbox'>
-                                    <input class='input-checkbox100 imagePreview_$namePageName $namePageName' id='ImagePreview $namePageName' type='checkbox'>
-                                    <label class='label-checkbox100' for='ImagePreview $namePageName'></label>
-                                </div>
-                            </td>
-                        </tr>
+                            <tbody>
+                                <tr>
+                                     <td rowspan='". $num_rows ."'>$no</td>
+                                     <td rowspan='". $num_rows ."'>$d[page_type]</td>
+                                </tr>
                         ";
-                    }
-                    echo "</tbody>";
-                }
+                        
+                        for ($i = 0; $i < count($listPageName); $i++) {
+                            $namePageName = str_replace(" ", "_", $listPageName[$i]);
+                            echo "
+                                <tr>
+                                    <td>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 page_$namePageName' id='Page $namePageName' type='checkbox' onclick=test(\"$namePageName\")>
+                                            <label class='label-checkbox100 pageName' data-pageID='$listPageId[$i]' for='Page $namePageName'>$listPageName[$i]</label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 access_$namePageName $namePageName' id='Access $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='Access $namePageName'></label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 add_$namePageName $namePageName' id='Add $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='Add $namePageName'></label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 edit_$namePageName $namePageName' id='Edit $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='Edit $namePageName'></label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 delete_$namePageName $namePageName' id='Delete $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='Delete $namePageName'></label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 log_$namePageName $namePageName' id='Log $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='Log $namePageName'></label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 download_$namePageName $namePageName' id='Download $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='Download $namePageName'></label>
+                                        </div>
+                                    </td>
+                                    <td class='center'>
+                                        <div class='form-checkbox'>
+                                            <input class='input-checkbox100 imagePreview_$namePageName $namePageName' id='ImagePreview $namePageName' type='checkbox'>
+                                            <label class='label-checkbox100' for='ImagePreview $namePageName'></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ";
+                        }
+                        echo "</tbody>";
+                    endwhile;
+                endif; 
             ?>
         </table>
         </div>

@@ -30,25 +30,27 @@ if (isset($_POST["login"])) {
 
     $result = mysqli_query($conn, 
         "SELECT
-            pm_user.uid,
-            pm_user.nama,
-            pm_user.username,
-            pm_user.password,
-            pm_user.level,
-            GROUP_CONCAT(database_accessrole.page_type) as page_type,
-            GROUP_CONCAT(database_accessrole.page_id SEPARATOR '|') as page_id,
-            GROUP_CONCAT(database_accessrole.page_name SEPARATOR '|') as page_name,
-            GROUP_CONCAT(database_accessrole.access_page SEPARATOR '|') as access_page,
-            GROUP_CONCAT(database_accessrole.access_add SEPARATOR '|') as access_add,
-            GROUP_CONCAT(database_accessrole.access_edit SEPARATOR '|') as access_edit,
-            GROUP_CONCAT(database_accessrole.access_log SEPARATOR '|') as access_log,
-            GROUP_CONCAT(database_accessrole.access_delete SEPARATOR '|') as access_delete,
-            GROUP_CONCAT(database_accessrole.access_download SEPARATOR '|') as access_download,
-            GROUP_CONCAT(database_accessrole.access_imagePreview SEPARATOR '|') as access_imagePreview
-        FROM 
-            pm_user
-        LEFT JOIN
-            ( SELECT
+        pm_user.uid,
+        pm_user.nama,
+        pm_user.username,
+        pm_user.password,
+        pm_user.level,
+        GROUP_CONCAT(database_accessrole.page_type) as page_type,
+        GROUP_CONCAT(database_accessrole.page_id SEPARATOR '|') as page_id,
+        GROUP_CONCAT(database_accessrole.page_name SEPARATOR '|') as page_name,
+        GROUP_CONCAT(database_accessrole.access_page SEPARATOR '|') as access_page,
+        GROUP_CONCAT(database_accessrole.access_add SEPARATOR '|') as access_add,
+        GROUP_CONCAT(database_accessrole.access_edit SEPARATOR '|') as access_edit,
+        GROUP_CONCAT(database_accessrole.access_log SEPARATOR '|') as access_log,
+        GROUP_CONCAT(database_accessrole.access_delete SEPARATOR '|') as access_delete,
+        GROUP_CONCAT(database_accessrole.access_download SEPARATOR '|') as access_download,
+        GROUP_CONCAT(database_accessrole.access_imagePreview SEPARATOR '|') as access_imagePreview
+    FROM 
+        pm_user
+    LEFT JOIN
+        (
+            SELECT
+                database_accessrole.user_id,
                 database_page.page_type,
                 GROUP_CONCAT(database_page.page_id) as page_id,
                 GROUP_CONCAT(database_page.page_name) as page_name,
@@ -58,35 +60,47 @@ if (isset($_POST["login"])) {
                 GROUP_CONCAT(database_accessrole.access_delete) as access_delete,
                 GROUP_CONCAT(database_accessrole.access_log) as access_log,
                 GROUP_CONCAT(database_accessrole.access_download) as access_download,
-                GROUP_CONCAT(database_accessrole.access_imagePreview) as access_imagePreview,
-                database_accessrole.user_id
+                GROUP_CONCAT(database_accessrole.access_imagePreview) as access_imagePreview
             FROM
                 database_accessrole
             LEFT JOIN
-                (SELECT
-                    database_page.page_id,
-                    database_page.page_name,
-                    database_page.page_type,
-                    database_page.page_delete
-                FROM
-                    database_page
-                WHERE
-                    database_page.page_delete = 'N'
-                ORDER BY
-                    database_page.page_name
+                (
+                    SELECT
+                        database_page.page_id,
+                        database_page.page_name,
+                        database_page.page_type,
+                        database_page.page_delete
+                    FROM
+                        database_page
+                    WHERE
+                        database_page.page_delete = 'N'
+                    ORDER BY
+                        database_page.page_name
                 ) as database_page
             ON
                 database_accessrole.page_id = database_page.page_id
+            LEFT JOIN
+                (
+                    SELECT
+                        pm_user.uid,
+                        pm_user.username
+                    FROM
+                        pm_user
+                    WHERE
+                        pm_user.status = 'a'
+                ) as database_username
+            ON
+                database_accessrole.user_id = database_username.uid
+            WHERE
+                ( database_accessrole.user_id = '$username' || database_username.username = '$username' )
             GROUP BY
                 database_page.page_type
-            ) as database_accessrole
-        ON
-            database_accessrole.user_id = pm_user.uid
-        WHERE
-            (pm_user.username='$username' || pm_user.uid='$username') and
-            pm_user.status = 'a'
-        GROUP BY
-            pm_user.uid
+        ) as database_accessrole
+    ON
+        database_accessrole.user_id = pm_user.uid
+    WHERE
+        (pm_user.username='$username' || pm_user.uid='$username') and
+        pm_user.status = 'a'
     ");
 
     //check user
@@ -96,7 +110,7 @@ if (isset($_POST["login"])) {
         if ($password == $row["password"]) {
             // set Session 
             $_SESSION["login"]                  = true;
-            $_SESSION["uid"]                    = $row["uid"];
+            $_SESSION["nama"]                   = $row["nama"];
             $_SESSION["username"]               = $row["username"];
             $_SESSION["level"]                  = $row["level"];
 

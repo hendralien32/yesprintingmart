@@ -54,8 +54,8 @@ if (!isset($_SESSION["login"])) {
                     <i class="fas fa-bars"></i>
                 </div>
                 <div class="icon">
-                    <img src="../images/profile.jpg">
-                    <p><?= $_SESSION['username'] ?></p>
+                    <!-- <img src="../images/profile.jpg"> -->
+                    <p>Hello, <?= $_SESSION['nama'] ?></p>
                 </div>
                 <div class="icon">
                     <a href="logout.php"><i class="far fa-sign-out"></i></a>
@@ -87,7 +87,7 @@ if (!isset($_SESSION["login"])) {
                             ";
                             for ($i = 0; $i < count($listPageName); $i++) {
                                 if($listPageAccess[$i] == "Y") :
-                                    echo "<a href='?page=$listPageName[$i]'><li>$listPageName[$i] - $i</li></a>";
+                                    echo "<a href='?page=$listPageName[$i]'><li>$listPageName[$i]</li></a>";
                                 endif;
                             }
                             echo "
@@ -131,18 +131,16 @@ if (!isset($_SESSION["login"])) {
                 else :
                     echo "$page";
                 endif;
-            ?>
 
-            <?php
-                echo "
-                $page_name <br>
-                $access_page <br>
-                $access_add <br>
-                $access_edit <br>
-                $access_delete <br>
-                $access_log <br>
-                $access_download <br>
-                $access_imagePreview";
+                // echo "
+                // page_name : $page_name <br>
+                // access_page : $access_page <br>
+                // access_add : $access_add <br>
+                // access_edit : $access_edit <br>
+                // access_delete : $access_delete <br>
+                // access_log : $access_log <br>
+                // access_download : $access_download <br>
+                // access_imagePreview : $access_imagePreview";
             ?>
         </div>
     <div>
